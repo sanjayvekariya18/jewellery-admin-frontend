@@ -18,5 +18,6 @@ const apiConfig = {
   //lab
   lab: "lab",
 };
+console.log(appConfig.prefix,"a");
 
 export default apiConfig;

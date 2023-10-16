@@ -138,9 +138,9 @@ const Layout1Topbar = () => {
             menuButton={
               <UserMenu>
                 <Hidden xsDown>
-                  <Span>
+                  {/* <Span>
                     Hi <strong>{`${user.firstName} ${user.lastName}`}</strong>
-                  </Span>
+                  </Span> */}
                 </Hidden>
                 <Avatar src="./assets/images/face-6.jpg" sx={{ cursor: 'pointer' }} />
               </UserMenu>

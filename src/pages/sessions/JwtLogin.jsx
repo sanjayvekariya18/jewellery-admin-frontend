@@ -1,12 +1,12 @@
-import { LoadingButton } from "@mui/lab";
-import { Alert, Card, Checkbox, Grid, Snackbar, TextField } from "@mui/material";
+import { Alert, Card, Grid, Snackbar, Button, Checkbox } from "@mui/material";
 import { Box, styled, useTheme } from "@mui/material";
 import { Paragraph } from "../../components/Typography";
 import useAuth from "../../hooks/useAuth";
-import { Formik } from "formik";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
+import Textinput from "../../components/UI/TextInput";
+import Validators from "../../components/validations/Validator";
+import { HELPER } from "../../services";
 
 const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
 
@@ -39,38 +39,41 @@ const initialValues = {
 	remember: true,
 };
 
-// form field validation schema
-const validationSchema = Yup.object().shape({
-	password: Yup.string().min(6, "Password must be 6 character length").required("Password is required!"),
-	email: Yup.string().email("Invalid Email address").required("Email is required!"),
-});
-
 const JwtLogin = () => {
+	// -------formState-----
+
+	const [formState, setFormState] = useState({
+		...initialValues
+	});
+	//  -------------Validation --------------
+	const rules = {
+		password: "required|min:6",
+		email: "required",
+	};
 	const theme = useTheme();
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
-	const [open, setOpen] = useState(false);
 
 	const { login } = useAuth();
 
-	function handleClose(_, reason) {
-		if (reason === "clickaway") {
-			return;
-		}
-		setOpen(false);
-	}
-
-	const handleFormSubmit = async (values) => {
+	const handleSubmit = async (values) => {
 		setLoading(true);
 		try {
 			await login(values.email, values.password, values.remember);
+			HELPER.toaster.success("Login SuccessFully..");
 			navigate("/");
 		} catch (e) {
 			setLoading(false);
-			setOpen(true);
+			HELPER.toaster.error(e.errors.message);
+
 		}
 	};
-
+	const onChange = ({ target: { value, name } }) => {
+		setFormState((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+	};
 	return (
 		<JWTRoot>
 			<Card className="card">
@@ -83,74 +86,62 @@ const JwtLogin = () => {
 
 					<Grid item sm={6} xs={12}>
 						<ContentBox>
-							<Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={validationSchema}>
-								{({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-									<form onSubmit={handleSubmit}>
-										<TextField
-											fullWidth
-											size="small"
-											type="email"
-											name="email"
-											label="Email"
-											variant="outlined"
-											onBlur={handleBlur}
-											value={values.email}
-											onChange={handleChange}
-											helperText={touched.email && errors.email}
-											error={Boolean(errors.email && touched.email)}
-											sx={{ mb: 3 }}
-										/>
+							<Validators formData={formState} rules={rules}>
+								{({ onSubmit, errors }) => {
+									return (
+										<>
+											<Textinput
+												size="small"
+												type="email"
+												name="email"
+												label="Email"
+												value={formState.email}
+												onChange={onChange}
+												error={errors?.email}
+												sx={{ mb: 3 }}
+											/>
 
-										<TextField
-											fullWidth
-											size="small"
-											name="password"
-											type="password"
-											label="Password"
-											variant="outlined"
-											onBlur={handleBlur}
-											value={values.password}
-											onChange={handleChange}
-											helperText={touched.password && errors.password}
-											error={Boolean(errors.password && touched.password)}
-											sx={{ mb: 1.5 }}
-										/>
+											<Textinput
+												size="small"
+												type="password"
+												name="password"
+												label="password"
+												value={formState.password}
+												onChange={onChange}
+												error={errors?.password}
+												sx={{ mb: 1.5 }}
+											/>
+											<FlexBox justifyContent="space-between">
+												<FlexBox gap={1}>
+													<Checkbox size="small" name="remember" onChange={onChange} checked={formState.remember} sx={{ padding: 0 }} />
 
-										<FlexBox justifyContent="space-between">
-											<FlexBox gap={1}>
-												<Checkbox size="small" name="remember" onChange={handleChange} checked={values.remember} sx={{ padding: 0 }} />
+													<Paragraph>Remember Me</Paragraph>
+												</FlexBox>
 
-												<Paragraph>Remember Me</Paragraph>
+												<NavLink to="/session/forgot-password" style={{ color: theme.palette.primary.main }}>
+													Forgot password?
+												</NavLink>
 											</FlexBox>
 
-											<NavLink to="/session/forgot-password" style={{ color: theme.palette.primary.main }}>
-												Forgot password?
-											</NavLink>
-										</FlexBox>
+											<Button type="submit" color="primary" loading={loading} variant="contained" sx={{ my: 2 }} onClick={() => onSubmit(handleSubmit)}>
+												Login
+											</Button>
 
-										<LoadingButton type="submit" color="primary" loading={loading} variant="contained" sx={{ my: 2 }}>
-											Login
-										</LoadingButton>
-
-										<Paragraph>
-											Don't have an account?
-											<NavLink to="/session/signup" style={{ color: theme.palette.primary.main, marginLeft: 5 }}>
-												Register
-											</NavLink>
-										</Paragraph>
-									</form>
-								)}
-							</Formik>
+											<Paragraph>
+												Don't have an account?
+												<NavLink to="/session/signup" style={{ color: theme.palette.primary.main, marginLeft: 5 }}>
+													Register
+												</NavLink>
+											</Paragraph>
+										</>
+									)
+								}}
+							</Validators>
 						</ContentBox>
 					</Grid>
 				</Grid>
 			</Card>
-			<Snackbar open={open} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
-				<Alert onClose={handleClose} severity="error" sx={{ width: "100%" }} variant="filled">
-					Invalid Login Credentials!
-				</Alert>
-			</Snackbar>
-		</JWTRoot>
+		</JWTRoot >
 	);
 };
 
