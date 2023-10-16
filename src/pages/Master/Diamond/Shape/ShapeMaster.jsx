@@ -1,116 +1,232 @@
-import React, { useEffect, useState } from "react";
-import { Box, Icon, IconButton, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { Breadcrumb, Container, StyledAddButton, StyledTable } from "../../../../components";
-import { apiEndPoint, pageRoutes } from "../../../../constants/routesList";
+import React, { useMemo, useState } from "react";
+import { Box, Icon, IconButton, Tooltip } from "@mui/material";
+import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
+import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
+import PaginationTable, {
+  usePaginationTable,
+} from "../../../../components/UI/Pagination/PaginationTable";
+import { apiConfig, appConfig } from "./../../../../config";
+import _ from "lodash";
+import useDidMountEffect from "../../../../hooks/useDidMountEffect";
+import error400cover from "../../../../assets/no-data-found-page.png";
+import { toaster } from "../../../../services/helper";
+import Swal from "sweetalert2";
 import ShapeMasterDetails from "./ShapeMasterDetails";
-import * as CONFIG from "../../../../constants/config";
 
 const ShapeMaster = () => {
-	const [tableData, setTableData] = useState([]);
-	const [open, setOpen] = useState(false);
-	const [selectedShapeData, setSelectedShapeData] = useState(null);
-	const url = apiEndPoint.shape;
+  const [open, setOpen] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
+  const [selectedUserData, setSelectedUserData] = useState(null);
 
-	const getTableData = () => {
-		API.get(url).then((response) => {
-			setTableData(response);
-		});
-	};
+  /* Pagination code */
+  const COLUMNS = [
+    { title: "Rank" },
+    { title: "Shape" },
+    { title: "Description" },
+    { title: "Image" },
+    { title: "Action" },
+  ];
 
-	useEffect(() => {
-		getTableData();
-	}, []);
+  const { state, setState, changeState, ...otherTableActionProps } =
+    usePaginationTable({
+      searchTxt: "",
+      isActive: "",
+      order: "",
+      orderby: "",
+    });
 
-	const togglePopup = () => {
-		if (open) {
-			getTableData();
-			setSelectedShapeData(null);
-		}
-		setOpen(!open);
-	};
+  const paginate = (clear = false, isNewFilter = false) => {
+    changeState("loader", true);
+    let clearStates = {
+      searchTxt: "",
+      isActive: "",
+      ...appConfig.default_pagination_state,
+    };
 
-	const handleEdit = (lab) => {
-		setSelectedShapeData(lab);
-		togglePopup();
-	};
+    let filter = {
+      page: state.page,
+      searchTxt: state.searchTxt,
+      isActive: state.isActive,
+      rowsPerPage: state.rowsPerPage,
+      order: state.order,
+      orderBy: state.orderby,
+    };
 
-	const handleDelete = (labId) => {
-		HELPER.sweetAlert.delete().then(() => {
-			API.destroy(`${url}/${labId}`)
-				.then(() => {
-					HELPER.toaster.success("Record Deleted");
-					getTableData();
-				})
-				.catch((e) => HELPER.toaster.error("Error " + JSON.stringify(e)));
-		});
-	};
+    let newFilterState = { ...appConfig.default_pagination_state };
 
-	return (
-		<Container>
-			<Box className="breadcrumb">
-				<Breadcrumb
-					routeSegments={[
-						{ name: "Masters", path: pageRoutes.master.diamond.shape },
-						{ name: "Diamonds", path: pageRoutes.master.diamond.shape },
-						{ name: "Shape" },
-					]}
-				/>
-			</Box>
-			<Box width="100%" overflow="auto">
-				<StyledTable>
-					<TableHead>
-						<TableRow>
-							<TableCell align="center" width="50px">Rank</TableCell>
-							<TableCell align="left" width="30%">
-								Shape
-							</TableCell>
-							<TableCell align="left">Details</TableCell>
-							<TableCell align="center" width="100px">
-								Image
-							</TableCell>
-							<TableCell align="center" width="100px">
-								Action
-							</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{tableData.map((row, index) => (
-							<TableRow key={index}>
-								<TableCell align="center">{row.rankk}</TableCell>
-								<TableCell align="left">{row.shape}</TableCell>
-								<TableCell align="left">{row.description}</TableCell>
-								<TableCell align="center">
-									<Box
-										component="img"
-										sx={{
-											height: 50,
-											width: 50,
-											maxHeight: { xs: 25, md: 50 },
-											maxWidth: { xs: 25, md: 50 },
-										}}
-										src={CONFIG.API_BASE_URL_IMG + row.imgUrl}
-									/>
-								</TableCell>
-								<TableCell align="center">
-									<IconButton onClick={(e) => handleEdit(row)}>
-										<Icon color="primary">edit</Icon>
-									</IconButton>
-									<IconButton onClick={(e) => handleDelete(row.id)}>
-										<Icon color="error">close</Icon>
-									</IconButton>
-								</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</StyledTable>
-			</Box>
-			<StyledAddButton color="secondary" aria-label="Add" className="button" onClick={togglePopup}>
-				<Icon>add</Icon>
-			</StyledAddButton>
-			<ShapeMasterDetails open={open} togglePopup={togglePopup} shapeData={selectedShapeData} />
-		</Container>
-	);
+    if (clear) {
+      filter = _.merge(filter, clearStates);
+    } else if (isNewFilter) {
+      filter = _.merge(filter, newFilterState);
+    }
+
+    // ----------Get Blog Api------------
+    API.get(apiConfig.shape, filter)
+      .then((res) => {
+        setState({
+          ...state,
+          total_items: res.count,
+          data: res,
+          ...(clear && clearStates),
+          ...(isNewFilter && newFilterState),
+          loader: false,
+        });
+      })
+      .catch(() => {
+        setState({
+          ...state,
+          ...(clear && clearStates),
+          ...(isNewFilter && newFilterState),
+          loader: false,
+        });
+      })
+      .finally(() => {
+        if (openSearch == true) {
+          setOpenSearch(false);
+        }
+      });
+  };
+
+  useDidMountEffect(() => {
+    paginate();
+  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+
+  const rows = useMemo(() => {
+    return state.data.map((item) => {
+      return {
+        item: item,
+        columns: [
+          <span>{item.rankk}</span>,
+          <span>{item.shape}</span>,
+          <span>{item.description}</span>,
+          <span>
+            {item.imgUrl && item.imgUrl !== null && (
+              <Box
+                component="img"
+                sx={{
+                  height: 50,
+                  width: 50,
+                  maxHeight: { xs: 25, md: 50 },
+                  maxWidth: { xs: 25, md: 50 },
+                }}
+                src={HELPER.getImageUrl(item.imgUrl)}
+              />
+            )}
+          </span>,
+          <div>
+            <IconButton onClick={(e) => handleEdit(item)}>
+              <Icon color="primary">create</Icon>
+            </IconButton>
+            <IconButton onClick={(e) => onClickDelete(item.id)}>
+              <Icon color="error">delete</Icon>
+            </IconButton>
+          </div>,
+        ],
+      };
+    });
+  }, [state.data]);
+  /* Pagination code */
+
+  const togglePopup = () => {
+    if (open) {
+      setSelectedUserData(null);
+    }
+    setOpen(!open);
+  };
+
+  const togglePopupSearch = () => {
+    setOpenSearch(!openSearch);
+  };
+
+  const handleEdit = (data) => {
+    setSelectedUserData(data);
+    setOpen(true);
+  };
+  // ------------------------------- Delete Shape ---------------------------------
+  const onClickDelete = (shape_id) => {
+    Swal.fire({
+      title: "Are You Sure",
+      text: "Are you sure you want to remove this Shape ?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "green",
+      cancelButtonColor: "red",
+      cancelButtonText: "No",
+      confirmButtonText: "Yes",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        API.destroy(`${apiConfig.shape}/${shape_id}`)
+          .then((res) => {
+            toaster.success("Deleted Successfully");
+            paginate();
+          })
+          .catch(console.error);
+      }
+    });
+  };
+
+  return (
+    <Container>
+      <Box
+        className="breadcrumb"
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Breadcrumb
+          routeSegments={[
+            { name: "Masters", path: pageRoutes.master.user.user },
+            { name: "Shape" },
+          ]}
+        />
+        <Tooltip title="Filter">
+          <IconButton
+            color="inherit"
+            className="button"
+            aria-label="Filter"
+            onClick={togglePopupSearch}
+          >
+            <Icon>filter_list</Icon>
+          </IconButton>
+        </Tooltip>
+      </Box>
+
+      <PaginationTable
+        header={COLUMNS}
+        rows={rows}
+        totalItems={state.total_items || 0}
+        perPage={state.rowsPerPage}
+        activePage={state.page}
+        checkboxColumn={false}
+        selectedRows={state.selectedRows}
+        enableOrder={true}
+        isLoader={state.loader}
+        emptyTableImg={<img src={error400cover} width="350px" />}
+        {...otherTableActionProps}
+        orderBy={state.orderby}
+        order={state.order}
+      ></PaginationTable>
+      <Tooltip title="Create" placement="top">
+        <StyledAddButton
+          color="secondary"
+          aria-label="Add"
+          className="button"
+          onClick={togglePopup}
+        >
+          <Icon>add</Icon>
+        </StyledAddButton>
+      </Tooltip>
+
+      <ShapeMasterDetails
+        open={open}
+        togglePopup={() => {
+          togglePopup();
+          paginate();
+        }}
+        userData={selectedUserData}
+      />
+    </Container>
+  );
 };
 
 export default ShapeMaster;

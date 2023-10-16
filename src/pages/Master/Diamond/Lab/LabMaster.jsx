@@ -70,7 +70,7 @@ const LabMaster = () => {
       filter = _.merge(filter, newFilterState);
     }
 
-    // ----------Get Blog Api------------
+    // ----------Get Lab Api------------
     API.get(apiConfig.lab, filter)
       .then((res) => {
         setState({
@@ -97,7 +97,7 @@ const LabMaster = () => {
       });
   };
 
-  //------------ Delete Lab--------------
+  //------------ Delete Lab --------------
 
   const onClickDelete = (lab_id) => {
     Swal.fire({
@@ -172,7 +172,7 @@ const LabMaster = () => {
         <Breadcrumb
           routeSegments={[
             { name: "Masters", path: pageRoutes.master.user.user },
-            { name: "User" },
+            { name: "Lab" },
           ]}
         />
         <Tooltip title="Filter">

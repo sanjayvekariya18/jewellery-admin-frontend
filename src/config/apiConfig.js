@@ -17,7 +17,12 @@ const apiConfig = {
 
   //lab
   lab: "lab",
+
+  //shape
+  shape: "shape",
+
+  //permission
+  permission: "permission",
 };
-console.log(appConfig.prefix,"a");
 
 export default apiConfig;

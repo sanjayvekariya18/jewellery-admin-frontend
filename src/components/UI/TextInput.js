@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { TextField } from "@mui/material";
 import ValidationMessages from "../validations/ValidationMessages";
-import { HELPER } from "../../services";
 
 const Textinput = ({
   type,
@@ -45,7 +44,7 @@ const Textinput = ({
           }
         }}
         name={name}
-        invalid={error ? true : false}
+        // invalid={error ? true : false}
       />
 
       <ValidationMessages errors={error} label={label} />
