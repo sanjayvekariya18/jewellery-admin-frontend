@@ -32,6 +32,7 @@ import { appConfig } from "./../../../../config";
 import _ from "lodash";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
+import error400cover from "../../../../assets/no-data-found-page.png";
 
 const UserMaster = () => {
   const [open, setOpen] = useState(false);
@@ -317,7 +318,7 @@ const UserMaster = () => {
         selectedRows={state.selectedRows}
         enableOrder={true}
         isLoader={state.loader}
-        // emptyTableImg={<img src={error400cover} width="350px" />}
+        emptyTableImg={<img src={error400cover} width="350px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}
         order={state.order}
