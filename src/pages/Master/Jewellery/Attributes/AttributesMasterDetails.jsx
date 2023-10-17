@@ -7,29 +7,24 @@ import Textinput from "../../../../components/UI/TextInput";
 import Textarea from "../../../../components/UI/Pagination/Textarea";
 import { apiConfig, appConfig } from "../../../../config";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
-import ReactSelect from "../../../../components/UI/Pagination/ReactSelect";
+import Select from "react-select";
 
 const initialValues = {
   id: "",
-  categoryId: "",
   name: "",
+  details: "",
   imgUrl: "",
   logoUrl: "",
-  details: "",
+  options: [],
 };
 
-const SubcategoryMasterDetails = ({
-  open,
-  togglePopup,
-  userData,
-  callBack,
-}) => {
+const AttributesMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
-  const [categoryId, setCategoryId] = useState([]);
+  const [optionId, setOptionId] = useState([]);
 
   const rules = {
     name: "required",
-    categoryId: "required",
+    options: "required",
     imgUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
     logoUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
   };
@@ -41,8 +36,8 @@ const SubcategoryMasterDetails = ({
     }
     const apiUrl =
       data.id === ""
-        ? apiConfig.subCategory
-        : `${apiConfig.subCategory}/${data.id}`;
+        ? apiConfig.attributes
+        : `${apiConfig.attributes}/${data.id}`;
 
     API[data.id === "" ? "post" : "put"](apiUrl, fd)
       .then(() => {
@@ -65,8 +60,7 @@ const SubcategoryMasterDetails = ({
 
   useEffect(() => {
     if (open === true && userData !== null) {
-      userData.imgUrl = HELPER.getImageUrl(userData.imgUrl);
-      userData.logoUrl = HELPER.getImageUrl(userData.logoUrl);
+      userData.image = HELPER.getImageUrl(userData.imgUrl);
       setFormState(userData);
     } else {
       setFormState({ ...initialValues });
@@ -74,28 +68,32 @@ const SubcategoryMasterDetails = ({
   }, [open]);
 
   useEffect(() => {
-    API.get(apiConfig.category, {
+    API.get(apiConfig.options, {
       rowsPerPage: appConfig.defaultPerPage,
       page: 0,
     })
       .then((res) => {
-        setCategoryId(res.rows);
+        setOptionId(res.rows);
         callBack();
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
-  let _sortOptions = categoryId.map((option) => ({
+
+  let _sortOptions = optionId.map((option) => ({
     label: option.name,
     value: option.id,
+    // isDefault: true,
   }));
+
+  console.log(formState, "formState");
 
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
-          title={`${formState?.id === "" ? "Add" : "Edit"} SubCategory`}
+          title={`${formState?.id === "" ? "Add" : "Edit"} Attibutes`}
           isOpen={open}
           onClose={() => {
             togglePopup();
@@ -161,23 +159,14 @@ const SubcategoryMasterDetails = ({
             </div>
           }
         >
-          <ReactSelect
-            label={"Category Name"}
-            placeholder="Select Category Name"
-            options={_sortOptions}
-            value={formState.categoryId}
-            onChange={onChange}
-            name="categoryId"
-            error={errors?.categoryId}
-          />{" "}
+          {" "}
           <Textinput
             type="text"
             name="name"
-            label="Sub Category Name"
-            placeholder="Enter Option Name"
+            label="Attribute Name"
             value={formState.name}
-            error={errors?.name}
             onChange={onChange}
+            error={errors?.name}
             sx={{ mb: 2, mt: 1, width: "100%" }}
           />
           <Textarea
@@ -187,15 +176,35 @@ const SubcategoryMasterDetails = ({
             maxLength={255}
             minRows={3}
             maxRows={3}
-            placeholder="Option Details"
+            placeholder="Details"
             value={formState.details}
             onChange={onChange}
             sx={{ mb: 1.5 }}
           />
+          <div style={{ height: "200px" }}>
+            <Select
+              placeholder="Select Sub Category Name"
+              options={_sortOptions}
+              isMulti
+              // value={_sortOptions.filter((option) =>
+              //   formState.options.includes(option.value)
+              // )}
+              value={formState.options}
+              onChange={(selectedOptions) => {
+                setFormState((prevProps) => {
+                  return {
+                    ...prevProps,
+                    options: selectedOptions,
+                  };
+                });
+              }}
+              name="options"
+            />
+          </div>
         </ThemeDialog>
       )}
     </Validators>
   );
 };
 
-export default SubcategoryMasterDetails;
+export default AttributesMasterDetails;

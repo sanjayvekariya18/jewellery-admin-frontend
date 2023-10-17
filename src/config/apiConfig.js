@@ -38,6 +38,15 @@ const apiConfig = {
 
   //options
   options: "options",
+
+  //subCategory
+  subCategory: "subcategory",
+
+  //category
+  category: "category",
+
+  //attributes
+  attributes: "attributes",
 };
 
 export default apiConfig;

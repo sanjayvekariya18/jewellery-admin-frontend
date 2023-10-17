@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
-import { Box } from "@mui/material";
-import { Breadcrumb, Container } from "../../../../components";
+import { Box, Icon, Tooltip } from "@mui/material";
+import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API } from "../../../../services";
 import { apiConfig, appConfig } from "./../../../../config";
@@ -10,9 +10,12 @@ import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect";
+import PermissionMasterDetails from "./PermissionMasterDetails";
 
 const PermissionsMaster = () => {
   const [openSearch, setOpenSearch] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedUserData, setSelectedUserData] = useState(null);
 
   /* Pagination code */
   const COLUMNS = [{ title: "Permission" }, { title: "Group" }];
@@ -79,6 +82,13 @@ const PermissionsMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
+  const togglePopup = () => {
+    if (open) {
+      setSelectedUserData(null);
+    }
+    setOpen(!open);
+  };
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -115,6 +125,24 @@ const PermissionsMaster = () => {
         orderBy={state.orderby}
         order={state.order}
       ></PaginationTable>
+      <Tooltip title="Create" placement="top">
+        <StyledAddButton
+          color="secondary"
+          aria-label="Add"
+          className="button"
+          onClick={togglePopup}
+        >
+          <Icon>add</Icon>
+        </StyledAddButton>
+      </Tooltip>
+      <PermissionMasterDetails
+        open={open}
+        togglePopup={() => {
+          togglePopup();
+          paginate();
+        }}
+        userData={selectedUserData}
+      />
     </Container>
   );
 };

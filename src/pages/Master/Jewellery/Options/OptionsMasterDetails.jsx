@@ -66,7 +66,7 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
-          title={`${formState?.id === "" ? "Add" : "Edit"} Shape`}
+          title={`${formState?.id === "" ? "Add" : "Edit"} Options`}
           isOpen={open}
           onClose={() => {
             togglePopup();

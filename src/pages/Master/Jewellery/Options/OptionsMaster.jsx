@@ -138,6 +138,9 @@ const OptionMaster = () => {
             <IconButton onClick={(e) => onClickDelete(item.id)}>
               <Icon color="error">delete</Icon>
             </IconButton>
+            {/* <IconButton >
+              <Icon color="error">remove_red_eye</Icon>
+            </IconButton> */}
           </div>,
         ],
       };
