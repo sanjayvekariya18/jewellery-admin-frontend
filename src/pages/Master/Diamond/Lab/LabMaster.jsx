@@ -82,18 +82,23 @@ const LabMaster = () => {
           loader: false,
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403
+        ) {
+          toaster.error(err.errors.message);
+        } else {
+          console.error(err);
+        }
         setState({
           ...state,
           ...(clear && clearStates),
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
 
@@ -154,10 +159,6 @@ const LabMaster = () => {
     setOpen(!open);
   };
 
-  const togglePopupSearch = () => {
-    setOpenSearch(!openSearch);
-  };
-
   const handleEdit = (data) => {
     setSelectedUserData(data);
     setOpen(true);
@@ -175,16 +176,6 @@ const LabMaster = () => {
             { name: "Lab" },
           ]}
         />
-        <Tooltip title="Filter">
-          <IconButton
-            color="inherit"
-            className="button"
-            aria-label="Filter"
-            onClick={togglePopupSearch}
-          >
-            <Icon>filter_list</Icon>
-          </IconButton>
-        </Tooltip>
       </Box>
       <PaginationTable
         header={COLUMNS}
@@ -212,51 +203,6 @@ const LabMaster = () => {
           <Icon>add</Icon>
         </StyledAddButton>
       </Tooltip>
-
-      <SearchFilterDialog
-        isOpen={openSearch}
-        onClose={() => setOpenSearch(false)}
-        reset={() => paginate(true)}
-        search={() => paginate(false, true)}
-      >
-        <TextField
-          fullWidth={true}
-          size="small"
-          type="text"
-          name="searchTxt"
-          label="Search Text"
-          variant="outlined"
-          value={state?.searchTxt}
-          onChange={(e) => changeState("searchTxt", e.target.value)}
-          sx={{ mb: 2, mt: 1 }}
-        />
-        <RadioGroup
-          row
-          aria-label="position"
-          name="isActive"
-          value={state?.isActive}
-          onChange={(e) => changeState("isActive", e.target.value)}
-        >
-          <FormControlLabel
-            value=""
-            label="All"
-            labelPlacement="start"
-            control={<Radio color="default" />}
-          />
-          <FormControlLabel
-            value="1"
-            label="Active"
-            labelPlacement="start"
-            control={<Radio color="success" />}
-          />
-          <FormControlLabel
-            value="0"
-            label="Inactive"
-            labelPlacement="start"
-            control={<Radio color="error" />}
-          />
-        </RadioGroup>
-      </SearchFilterDialog>
 
       <LabMasterDetails
         open={open}

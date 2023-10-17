@@ -21,6 +21,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
 
   const rules = {
     shape: "required",
+    image: "mimes:png,jpg,jpeg|max_file_size:1048576",
   };
 
   const handleSubmit = (data) => {
@@ -41,28 +42,18 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
       .catch((e) => HELPER.toaster.error(e.errors.message));
   };
 
-  const onChange = ({ target: { value, name } }) => {
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const onChangeTextarea = useCallback(
-    (e) => {
-      setFormState((prevProps) => {
-        return {
-          ...prevProps,
-          [e.target.name]: e.target.value,
-        };
-      });
-    },
-    [formState]
-  );
+  const onChange = useCallback((e) => {
+    setFormState((prevProps) => {
+      return {
+        ...prevProps,
+        [e.target.name]: e.target.value,
+      };
+    });
+  }, []);
 
   useEffect(() => {
     if (open === true && userData !== null) {
-      userData.profile = HELPER.getImageUrl(userData.image);
+      userData.image = HELPER.getImageUrl(userData.imgUrl);
       setFormState(userData);
     } else {
       setFormState({ ...initialValues });
@@ -71,11 +62,14 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
 
   return (
     <Validators formData={formState} rules={rules}>
-      {({ onSubmit, errors }) => (
+      {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
           title={`${formState?.id === "" ? "Add" : "Edit"} Shape`}
           isOpen={open}
-          onClose={togglePopup}
+          onClose={() => {
+            togglePopup();
+            resetValidation();
+          }}
           actionBtns={
             <>
               <ImgUploadBoxInput
@@ -88,7 +82,10 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
                 <Button
                   variant="outlined"
                   color="secondary"
-                  onClick={togglePopup}
+                  onClick={() => {
+                    togglePopup();
+                    resetValidation();
+                  }}
                 >
                   Cancel
                 </Button>
@@ -130,7 +127,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
             maxRows={3}
             placeholder="Details"
             value={formState.description}
-            onChange={onChangeTextarea}
+            onChange={onChange}
             sx={{ mb: 1.5 }}
           />
         </ThemeDialog>

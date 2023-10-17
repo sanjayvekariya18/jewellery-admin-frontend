@@ -1,224 +1,286 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
-	Autocomplete,
-	Box,
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	Icon,
-	IconButton,
-	TableBody,
-	TableCell,
-	TableHead,
-	TablePagination,
-	TableRow,
-	TextField,
-	Tooltip,
+  Box,
+  FormControlLabel,
+  Icon,
+  IconButton,
+  Radio,
+  RadioGroup,
+  TextField,
+  Tooltip,
 } from "@mui/material";
-import { Breadcrumb, Container, StyledAddButton, StyledTable } from "../../../../components";
-import { apiEndPoint, pageRoutes } from "../../../../constants/routesList";
+import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
+import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
-import styled from "@emotion/styled";
+import PaginationTable, {
+  usePaginationTable,
+} from "../../../../components/UI/Pagination/PaginationTable";
+import { apiConfig, appConfig } from "./../../../../config";
+import _ from "lodash";
+import useDidMountEffect from "../../../../hooks/useDidMountEffect";
+import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
+import error400cover from "../../../../assets/no-data-found-page.png";
+import Swal from "sweetalert2";
+import { toaster } from "../../../../services/helper";
 import DetailsMasterDetails from "./DetailsMasterDetails";
-import * as CONFIG from "../../../../constants/config";
-
-const AutoComplete = styled(Autocomplete)(() => ({
-	width: 300,
-	marginBottom: 1,
-}));
+import ReactSelect from "../../../../components/UI/Pagination/ReactSelect";
 
 const DetailsMaster = () => {
-	const [page, setPage] = useState(0);
-	const [rowsPerPage, setRowsPerPage] = useState(8);
-	const [selectedGroup, setSelectedGroup] = useState(null);
-	const [tableDataCount, setTableDataCount] = useState(0);
-	const [tableData, setTableData] = useState([]);
-	const [productGroup, setProductGroup] = useState([]);
-	const [open, setOpen] = useState(false);
-	const [openSearch, setOpenSearch] = useState(false);
-	const [selectedDetailData, setSelectedDetailData] = useState(null);
-	const url = apiEndPoint.productDetails;
+  const [open, setOpen] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
+  const [selectedUserData, setSelectedUserData] = useState(null);
+  const [productDetailsGroupId, setProductDetailsGroupId] = useState([]);
+  /* Pagination code */
+  const COLUMNS = [
+    { title: "Detail Name" },
+    { title: "Group Name" },
+    { title: "Description" },
+    { title: "Logo" },
+    { title: "Action" },
+  ];
 
-	const handleChangePage = (_, newPage) => {
-		setPage(newPage);
-		getTableData(newPage);
-	};
+  const { state, setState, changeState, ...otherTableActionProps } =
+    usePaginationTable({
+      searchTxt: "",
+      isActive: "",
+      order: "",
+      orderby: "",
+    });
 
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(+event.target.value);
-		setPage(0);
-		getTableData(0, +event.target.value);
-	};
+  const paginate = (clear = false, isNewFilter = false) => {
+    changeState("loader", true);
+    let clearStates = {
+      searchTxt: "",
+      isActive: "",
+      detailsGroupId: "",
+      ...appConfig.default_pagination_state,
+    };
 
-	const getTableData = (pg = page, rpp = rowsPerPage) => {
-		API.get(url, { page: pg, rowsPerPage: rpp, detailsGroupId: selectedGroup?.value }).then((response) => {
-			setTableDataCount(response.count);
-			setTableData(response.rows);
-			setOpenSearch(false);
-		});
-	};
+    let filter = {
+      page: state.page,
+      searchTxt: state.searchTxt,
+      isActive: state.isActive,
+      rowsPerPage: state.rowsPerPage,
+      detailsGroupId: state.detailsGroupId,
+      order: state.order,
+      orderBy: state.orderby,
+    };
 
-	const getProductGroup = () => {
-		API.get(apiEndPoint.productDetailsGroup).then((response) => {
-			setProductGroup(HELPER.prepateSelectDropdown(response, "groupName", "id"));
-		});
-	};
+    let newFilterState = { ...appConfig.default_pagination_state };
 
-	// useEffect(() => {
-	// 	getTableData();
-	// }, [page, rowsPerPage]);
+    if (clear) {
+      filter = _.merge(filter, clearStates);
+    } else if (isNewFilter) {
+      filter = _.merge(filter, newFilterState);
+    }
 
-	useEffect(() => {
-        getTableData();
-		getProductGroup();
-	}, []);
+    // ----------Get Product Details Group Api------------
+    API.get(apiConfig.productDetails, filter)
+      .then((res) => {
+        setState({
+          ...state,
+          total_items: res.count,
+          data: res.rows,
+          ...(clear && clearStates),
+          ...(isNewFilter && newFilterState),
+          loader: false,
+        });
+      })
+      .catch(() => {
+        setState({
+          ...state,
+          ...(clear && clearStates),
+          ...(isNewFilter && newFilterState),
+          loader: false,
+        });
+      })
+      .finally(() => {
+        if (openSearch == true) {
+          setOpenSearch(false);
+        }
+      });
+  };
 
-	const search = () => {
-		setPage(0);
-		setRowsPerPage(8);
-		getTableData(0, 8);
-	};
+  //------------ Delete Lab --------------
 
-	const togglePopup = () => {
-		if (open) {
-			getTableData();
-			setSelectedDetailData(null);
-		}
-		setOpen(!open);
-	};
+  const onClickDelete = (id) => {
+    Swal.fire({
+      title: "Are You Sure",
+      text: "Are you sure you want to remove this Product Details ?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "green",
+      cancelButtonColor: "red",
+      cancelButtonText: "No",
+      confirmButtonText: "Yes",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        API.destroy(`${apiConfig.productDetails}/${id}`)
+          .then((res) => {
+            toaster.success("Deleted Successfully");
+            paginate();
+          })
+          .catch(console.error);
+      }
+    });
+  };
 
-	const togglePopupSearch = () => {
-		setOpenSearch(!openSearch);
-	};
+  useDidMountEffect(() => {
+    paginate();
+  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
-	const handleEdit = (data) => {
-		setSelectedDetailData(data);
-		togglePopup();
-	};
+  const rows = useMemo(() => {
+    return state.data.map((item) => {
+      return {
+        item: item,
+        columns: [
+          <span>{item.detailName}</span>,
+          <span>{item.groupName}</span>,
+          <span>{item.description}</span>,
+          <span>
+            {item.logoUrl && item.logoUrl !== null && (
+              <Box
+                component="img"
+                sx={{
+                  height: 50,
+                  width: 50,
+                  maxHeight: { xs: 25, md: 50 },
+                  maxWidth: { xs: 25, md: 50 },
+                }}
+                src={HELPER.getImageUrl(item.logoUrl)}
+              />
+            )}
+          </span>,
+          <div>
+            <IconButton onClick={(e) => handleEdit(item)}>
+              <Icon color="primary">create</Icon>
+            </IconButton>
+            <IconButton onClick={(e) => onClickDelete(item.id)}>
+              <Icon color="error">delete</Icon>
+            </IconButton>
+          </div>,
+        ],
+      };
+    });
+  }, [state.data]);
+  /* Pagination code */
 
-	const handleDelete = (id) => {
-		HELPER.sweetAlert.delete().then(() => {
-			API.destroy(`${url}/${id}`)
-				.then(() => {
-					HELPER.toaster.success("Record Deleted");
-					getTableData();
-				})
-				.catch((e) => HELPER.toaster.error("Error " + e));
-		});
-	};
+  const togglePopup = () => {
+    if (open) {
+      setSelectedUserData(null);
+    }
+    setOpen(!open);
+  };
 
-	return (
-		<Container>
-			<Box className="breadcrumb" sx={{ display: "flex", justifyContent: "space-between" }}>
-				<Breadcrumb
-					routeSegments={[
-						{ name: "Masters", path: pageRoutes.master.jewellery.details },
-						{ name: "Jewellery", path: pageRoutes.master.jewellery.details },
-						{ name: "Details" },
-					]}
-				/>
-				<Tooltip title="Filter">
-					<IconButton color="inherit" className="button" aria-label="Filter" onClick={togglePopupSearch}>
-						<Icon>filter_list</Icon>
-					</IconButton>
-				</Tooltip>
-			</Box>
-			<Box width="100%" overflow="auto">
-				<StyledTable>
-					<TableHead>
-						<TableRow>
-							<TableCell align="left" width="30%">
-								Details
-							</TableCell>
-							<TableCell align="left" width="30%">
-								Details Group
-							</TableCell>
-							<TableCell align="left">Description</TableCell>
-							<TableCell align="center" width="100px">
-								Image
-							</TableCell>
-							<TableCell align="center" width="100px">
-								Action
-							</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{tableData.map((row, index) => (
-							<TableRow key={index}>
-								<TableCell align="left">{row.detailName}</TableCell>
-								<TableCell align="left">{row.groupName}</TableCell>
-								<TableCell align="left">{row.description}</TableCell>
-								<TableCell align="center">
-									{row.logoUrl && row.logoUrl !== null && (
-										<Box
-											component="img"
-											sx={{
-												height: 50,
-												width: 50,
-												maxHeight: { xs: 25, md: 50 },
-												maxWidth: { xs: 25, md: 50 },
-											}}
-											src={CONFIG.API_BASE_URL_IMG + row.logoUrl}
-										/>
-									)}
-								</TableCell>
-								<TableCell align="center">
-									<IconButton onClick={(e) => handleEdit(row)}>
-										<Icon color="primary">edit</Icon>
-									</IconButton>
-									<IconButton onClick={(e) => handleDelete(row.id)}>
-										<Icon color="error">close</Icon>
-									</IconButton>
-								</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</StyledTable>
-				<TablePagination
-					sx={{ px: 2 }}
-					page={page}
-					component="div"
-					rowsPerPage={rowsPerPage}
-					count={tableDataCount}
-					onPageChange={handleChangePage}
-					rowsPerPageOptions={[5, 8, 10]}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-					nextIconButtonProps={{ "aria-label": "Next Page" }}
-					backIconButtonProps={{ "aria-label": "Previous Page" }}
-				/>
-			</Box>
-			<Tooltip title="Create" placement="top">
-				<StyledAddButton color="secondary" aria-label="Add" className="button" onClick={togglePopup}>
-					<Icon>add</Icon>
-				</StyledAddButton>
-			</Tooltip>
-			<Dialog open={openSearch} onClose={togglePopupSearch} aria-labelledby="form-dialog-title">
-				<DialogTitle id="form-dialog-title">Search Filter</DialogTitle>
-				<DialogContent sx={{ pb: 1 }}>
-					<AutoComplete
-						sx={{ mt: 1 }}
-						options={productGroup}
-						getOptionLabel={(option) => option.label}
-						autoComplete={true}
-						value={selectedGroup}
-						renderInput={(params) => <TextField {...params} label="Product Details Group" variant="outlined" fullWidth />}
-						onChange={(e, value) => setSelectedGroup(value || null)}
-					/>
-				</DialogContent>
-				<DialogActions sx={{ px: 3, pb: 2 }}>
-					<Button variant="outlined" color="secondary" onClick={togglePopupSearch}>
-						Cancel
-					</Button>
-					<Button type="submit" color="primary" onClick={search}>
-						Search
-					</Button>
-				</DialogActions>
-			</Dialog>
-			<DetailsMasterDetails open={open} togglePopup={togglePopup} detailsData={selectedDetailData} />
-		</Container>
-	);
+  const togglePopupSearch = () => {
+    setOpenSearch(!openSearch);
+  };
+
+  const handleEdit = (data) => {
+    setSelectedUserData(data);
+    setOpen(true);
+  };
+
+  useEffect(() => {
+    API.get(apiConfig.productDetailGroup, {
+      rowsPerPage: appConfig.defaultPerPage,
+      page: 0,
+    })
+      .then((res) => {
+        setProductDetailsGroupId(res);
+        paginate();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  let _sortOptions = productDetailsGroupId.map((option) => ({
+    label: option.groupName,
+    value: option.id,
+  }));
+  return (
+    <Container>
+      <Box
+        className="breadcrumb"
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Breadcrumb
+          routeSegments={[
+            { name: "Masters", path: pageRoutes.master.user.user },
+            { name: "Product Details" },
+          ]}
+        />
+        <Tooltip title="Filter">
+          <IconButton
+            color="inherit"
+            className="button"
+            aria-label="Filter"
+            onClick={togglePopupSearch}
+          >
+            <Icon>filter_list</Icon>
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <PaginationTable
+        header={COLUMNS}
+        rows={rows}
+        totalItems={state.total_items || 0}
+        perPage={state.rowsPerPage}
+        activePage={state.page}
+        checkboxColumn={false}
+        selectedRows={state.selectedRows}
+        enableOrder={true}
+        isLoader={state.loader}
+        emptyTableImg={<img src={error400cover} width="400px" />}
+        {...otherTableActionProps}
+        orderBy={state.orderby}
+        order={state.order}
+      ></PaginationTable>
+
+      <Tooltip title="Create" placement="top">
+        <StyledAddButton
+          color="secondary"
+          aria-label="Add"
+          className="button"
+          onClick={togglePopup}
+        >
+          <Icon>add</Icon>
+        </StyledAddButton>
+      </Tooltip>
+
+      <SearchFilterDialog
+        isOpen={openSearch}
+        onClose={() => setOpenSearch(false)}
+        reset={() => paginate(true)}
+        search={() => paginate(false, true)}
+      >
+        <div style={{ height: "200px" }}>
+          <ReactSelect
+            label={"Product Details Group Name"}
+            placeholder="Select Product Details Group Name"
+            options={_sortOptions}
+            onChange={(e) => {
+              changeState("detailsGroupId", e?.target.value || "");
+            }}
+            name="detailsGroupId"
+          />
+        </div>
+      </SearchFilterDialog>
+
+      <DetailsMasterDetails
+        open={open}
+        togglePopup={() => {
+          togglePopup();
+          paginate();
+        }}
+        callBack={() => paginate(true)}
+        userData={selectedUserData}
+        productDetailsGroupId={productDetailsGroupId}
+      />
+    </Container>
+  );
 };
 
 export default DetailsMaster;

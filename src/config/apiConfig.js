@@ -23,6 +23,12 @@ const apiConfig = {
 
   //permission
   permission: "permission",
+
+  //productDetailGroup
+  productDetailGroup: "productDetailsGroup",
+
+  //productDetails
+  productDetails: "productDetails",
 };
 
 export default apiConfig;

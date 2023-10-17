@@ -16,7 +16,6 @@ import ShapeMasterDetails from "./ShapeMasterDetails";
 
 const ShapeMaster = () => {
   const [open, setOpen] = useState(false);
-  const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
 
   /* Pagination code */
@@ -73,18 +72,23 @@ const ShapeMaster = () => {
           loader: false,
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403
+        ) {
+          toaster.error(err.errors.message);
+        } else {
+          console.error(err);
+        }
         setState({
           ...state,
           ...(clear && clearStates),
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
 
@@ -135,10 +139,6 @@ const ShapeMaster = () => {
     setOpen(!open);
   };
 
-  const togglePopupSearch = () => {
-    setOpenSearch(!openSearch);
-  };
-
   const handleEdit = (data) => {
     setSelectedUserData(data);
     setOpen(true);
@@ -179,16 +179,6 @@ const ShapeMaster = () => {
             { name: "Shape" },
           ]}
         />
-        <Tooltip title="Filter">
-          <IconButton
-            color="inherit"
-            className="button"
-            aria-label="Filter"
-            onClick={togglePopupSearch}
-          >
-            <Icon>filter_list</Icon>
-          </IconButton>
-        </Tooltip>
       </Box>
 
       <PaginationTable
