@@ -12,9 +12,11 @@ export default function ThemeDialog({
   children,
   title,
   actionBtns,
+  maxWidth = 'sm',
+  fullWidth = true
 }) {
   return (
-    <Dialog open={isOpen} onClose={onClose} aria-labelledby="form-dialog-title">
+    <Dialog fullWidth={fullWidth} maxWidth={maxWidth} open={isOpen} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>{actionBtns}</DialogActions>
