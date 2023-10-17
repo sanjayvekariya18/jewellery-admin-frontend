@@ -1,16 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
   Icon,
   IconButton,
-  Radio,
-  RadioGroup,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -18,11 +10,9 @@ import {
   Breadcrumb,
   Container,
   StyledAddButton,
-  StyledTable,
 } from "../../../../components";
 import { apiEndPoint, pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
-import * as CONFIG from "../../../../constants/config";
 import { useNavigate } from "react-router-dom";
 import UserMasterDetails from "./UserMasterDetails";
 import PaginationTable, {
@@ -34,6 +24,7 @@ import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ImgBoxShow from "../../../../components/UI/ImgBoxShow";
+import ThemeRadioGroup from "../../../../components/UI/ThemeRadioGroup";
 
 const UserMaster = () => {
   const [open, setOpen] = useState(false);
@@ -141,8 +132,7 @@ const UserMaster = () => {
             <IconButton
               onClick={(e) =>
                 navigate(
-                  `${pageRoutes.master.user.userPermissions.split(":")[0]}${
-                    item.id
+                  `${pageRoutes.master.user.userPermissions.split(":")[0]}${item.id
                   }`
                 )
               }
@@ -264,32 +254,30 @@ const UserMaster = () => {
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 2, mt: 1 }}
         />
-        <RadioGroup
-          row
-          aria-label="position"
+
+        <ThemeRadioGroup
           name="isActive"
           value={state?.isActive}
           onChange={(e) => changeState("isActive", e.target.value)}
-        >
-          <FormControlLabel
-            value=""
-            label="All"
-            labelPlacement="start"
-            control={<Radio color="default" />}
-          />
-          <FormControlLabel
-            value="1"
-            label="Active"
-            labelPlacement="start"
-            control={<Radio color="success" />}
-          />
-          <FormControlLabel
-            value="0"
-            label="Inactive"
-            labelPlacement="start"
-            control={<Radio color="error" />}
-          />
-        </RadioGroup>
+          options={[
+            {
+              label: "All",
+              value: "",
+              color: "default"
+            },
+            {
+              label: "Active",
+              value: "1",
+              color: "success"
+            },
+            {
+              label: "Inactive",
+              value: "0",
+              color: "error"
+            },
+          ]}
+        />
+
       </SearchFilterDialog>
 
       <UserMasterDetails
