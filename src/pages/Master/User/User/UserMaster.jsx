@@ -33,6 +33,7 @@ import _ from "lodash";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
+import ImgBoxShow from "../../../../components/UI/ImgBoxShow";
 
 const UserMaster = () => {
   const [open, setOpen] = useState(false);
@@ -134,18 +135,7 @@ const UserMaster = () => {
             </IconButton>
           </span>,
           <span>
-            {item.image && item.image !== null && (
-              <Box
-                component="img"
-                sx={{
-                  height: 50,
-                  width: 50,
-                  maxHeight: { xs: 25, md: 50 },
-                  maxWidth: { xs: 25, md: 50 },
-                }}
-                src={HELPER.getImageUrl(item.image)}
-              />
-            )}
+            <ImgBoxShow src={item.image} />
           </span>,
           <div>
             <IconButton
@@ -231,83 +221,6 @@ const UserMaster = () => {
           </IconButton>
         </Tooltip>
       </Box>
-      {/* <Box width="100%" overflow="auto">
-				<StyledTable>
-					<TableHead>
-						<TableRow>
-							<TableCell align="left" width="30%">
-								Name
-							</TableCell>
-							<TableCell align="left">Email</TableCell>
-							<TableCell align="left" width="50px">
-								Active
-							</TableCell>
-							<TableCell align="center" width="100px">
-								Image
-							</TableCell>
-							<TableCell align="center" width="150px">
-								Action
-							</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{tableData.map((row, index) => (
-							<TableRow key={index}>
-								<TableCell align="left">
-									{row.firstName} {row.lastName}
-								</TableCell>
-								<TableCell align="left" style={{ textTransform: "none" }}>
-									{row.email}
-								</TableCell>
-								<TableCell align="left">
-									<IconButton onClick={() => handleToggle(row.id)}>
-										<Icon color={row.isActive === true ? "success" : "error"} style={{ fontWeight: 700 }}>
-											power_settings_new
-										</Icon>
-									</IconButton>
-								</TableCell>
-								<TableCell align="center">
-									{row.image && row.image !== null && (
-										<Box
-											component="img"
-											sx={{
-												height: 50,
-												width: 50,
-												maxHeight: { xs: 25, md: 50 },
-												maxWidth: { xs: 25, md: 50 },
-											}}
-											src={CONFIG.API_BASE_URL_IMG + row.image}
-										/>
-									)}
-								</TableCell>
-								<TableCell align="center">
-									<IconButton onClick={(e) => navigate(`${pageRoutes.master.user.userPermissions.split(":")[0]}${row.id}`)}>
-										<Icon color="warning">fingerprint</Icon>
-									</IconButton>
-									<IconButton onClick={(e) => handleEdit(row)}>
-										<Icon color="primary">edit</Icon>
-									</IconButton>
-									<IconButton onClick={(e) => handleDelete(row.id)}>
-										<Icon color="error">close</Icon>
-									</IconButton>
-								</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</StyledTable>
-				<TablePagination
-					sx={{ px: 2 }}
-					page={page}
-					component="div"
-					rowsPerPage={rowsPerPage}
-					count={tableDataCount}
-					onPageChange={handleChangePage}
-					rowsPerPageOptions={[5, 8, 10]}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-					nextIconButtonProps={{ "aria-label": "Next Page" }}
-					backIconButtonProps={{ "aria-label": "Previous Page" }}
-				/>
-			</Box> */}
       <PaginationTable
         header={COLUMNS}
         rows={rows}

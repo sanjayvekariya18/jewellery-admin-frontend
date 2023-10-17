@@ -31,7 +31,7 @@ export default function ImgUploadBoxInput({error, name, onChange, value, label ,
                     aria-label="Upload picture"
                     disableRipple={true}
                 >
-                    {value && value !== null ? (
+                    {!HELPER.isEmpty(value) ? (
                         <Box
                             id={`image_${randomStr()}`}
                             component="img"
