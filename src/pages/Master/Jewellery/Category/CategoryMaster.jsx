@@ -1,169 +1,237 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Box,
   Icon,
   IconButton,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
   Tooltip,
 } from "@mui/material";
 import {
   Breadcrumb,
   Container,
   StyledAddButton,
-  StyledTable,
 } from "../../../../components";
-import { apiEndPoint, pageRoutes } from "../../../../constants/routesList";
+import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
-import * as CONFIG from "../../../../constants/config";
-import AddCategoryModal from "./AddCategory";
+import Swal from "sweetalert2";
+import _ from "lodash";
+import useDidMountEffect from "../../../../hooks/useDidMountEffect";
+import error400cover from "../../../../assets/no-data-found-page.png";
+import { toaster } from "../../../../services/helper";
+import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
+import { apiConfig, appConfig } from "./../../../../config";
+import CategoryMasterDetails from "./CategoryMasterDetails";
 
 const CategoryMaster = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(8);
-  const [tableDataCount, setTableDataCount] = useState(0);
-  const [tableData, setTableData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [selectedCategoryData, setSelectedCategoryData] = useState(null);
-  const url = apiEndPoint.category;
+  const [openSearch, setOpenSearch] = useState(false);
+  const [selectedUserData, setSelectedUserData] = useState(null);
+  const COLUMNS = [
+    { title: "Name" },
+    { title: "Details" },
+    { title: "Image" },
+    { title: "Logo Image" },
+    { title: "Action" },
+  ];
 
-  const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-    getTableData(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-    getTableData(0, +event.target.value);
-  };
-
-  const getTableData = (pg = page, rpp = rowsPerPage) => {
-    API.get(url, { page: pg, rowsPerPage: rpp }).then((response) => {
-      setTableDataCount(response.count);
-      setTableData(response.rows);
+  const { state, setState, changeState, ...otherTableActionProps } =
+    usePaginationTable({
+      searchTxt: "",
+      isActive: "",
+      order: "",
+      orderby: "",
     });
+
+  const paginate = (clear = false, isNewFilter = false) => {
+    changeState("loader", true);
+    let clearStates = {
+      searchTxt: "",
+      isActive: "",
+      ...appConfig.default_pagination_state,
+    };
+
+    let filter = {
+      page: state.page,
+      searchTxt: state.searchTxt,
+      isActive: state.isActive,
+      rowsPerPage: state.rowsPerPage,
+      order: state.order,
+      orderBy: state.orderby,
+    };
+
+    let newFilterState = { ...appConfig.default_pagination_state };
+
+    if (clear) {
+      filter = _.merge(filter, clearStates);
+    } else if (isNewFilter) {
+      filter = _.merge(filter, newFilterState);
+    }
+
+    // ----------Get Category Api------------
+
+    API.get(apiConfig.category, filter)
+      .then((res) => {
+        console.log(res, "res");
+        setState({
+          ...state,
+          total_items: res.count,
+          data: res.rows,
+          ...(clear && clearStates),
+          ...(isNewFilter && newFilterState),
+          loader: false,
+        });
+      })
+      .catch(() => {
+        setState({
+          ...state,
+          ...(clear && clearStates),
+          ...(isNewFilter && newFilterState),
+          loader: false,
+        });
+      })
+      .finally(() => {
+        if (openSearch == true) {
+          setOpenSearch(false);
+        }
+      });
   };
 
-  useEffect(() => {
-    getTableData();
-  }, []);
+  useDidMountEffect(() => {
+    paginate();
+  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+
+
+
+  const rows = useMemo(() => {
+    return state.data.map((item) => {
+      console.log(item, "item");
+      return {
+        item: item,
+        columns: [
+          <span>{item.name}</span>,
+          <span>{item.details}</span>,
+          <span>
+            {item.imgUrl && item.imgUrl !== null && (
+              <Box
+                component="img"
+                sx={{
+                  height: 50,
+                  width: 50,
+                  maxHeight: { xs: 25, md: 50 },
+                  maxWidth: { xs: 25, md: 50 },
+                }}
+                src={HELPER.getImageUrl(item.imgUrl)}
+              />
+            )}
+          </span>,
+          <span>
+            {item.logoUrl && item.logoUrl !== null && (
+              <Box
+                component="img"
+                sx={{
+                  height: 50,
+                  width: 50,
+                  maxHeight: { xs: 25, md: 50 },
+                  maxWidth: { xs: 25, md: 50 },
+                }}
+                src={HELPER.getImageUrl(item.logoUrl)}
+              />
+            )}
+          </span>,
+          <div>
+            <IconButton onClick={(e) => handleEdit(item)}>
+              <Icon color="primary">create</Icon>
+            </IconButton>
+            <IconButton onClick={(e) => onClickDelete(item.id)}>
+              <Icon color="error">delete</Icon>
+            </IconButton>
+          </div>,
+        ],
+      };
+    });
+  }, [state.data]);
+  /* Pagination code */
 
   const togglePopup = () => {
     if (open) {
-      getTableData();
-      setSelectedCategoryData(null);
+      setSelectedUserData(null);
     }
     setOpen(!open);
   };
 
-  const handleEdit = (data) => {
-    setSelectedCategoryData(data);
-    togglePopup();
+  const togglePopupSearch = () => {
+    setOpenSearch(!openSearch);
   };
 
-  const handleDelete = (id) => {
-    HELPER.sweetAlert.delete().then(() => {
-      API.destroy(`${url}/${id}`)
-        .then(() => {
-          HELPER.toaster.success("Record Deleted");
-          getTableData();
-        })
-        .catch((e) => HELPER.toaster.error("Error " + e));
+
+  const handleEdit = (data) => {
+    setSelectedUserData(data);
+    setOpen(true);
+  };
+  // ------------------------------- Delete Category ---------------------------------
+  const onClickDelete = (category_id) => {
+    Swal.fire({
+      title: "Are You Sure",
+      text: "Are you sure you want to remove this Shape ?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "green",
+      cancelButtonColor: "red",
+      cancelButtonText: "No",
+      confirmButtonText: "Yes",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        API.destroy(`${apiConfig.category}/${category_id}`)
+          .then((res) => {
+            toaster.success("Deleted Successfully");
+            paginate();
+          })
+          .catch(console.error);
+      }
     });
   };
 
+  console.log(selectedUserData,"selectedUserData");
   return (
     <Container>
-      <Box className="breadcrumb">
+      <Box
+        className="breadcrumb"
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
         <Breadcrumb
           routeSegments={[
-            { name: "Masters", path: pageRoutes.master.jewellery.category },
-            { name: "Jewellery", path: pageRoutes.master.jewellery.category },
-            { name: "Category" },
+            { name: "Masters", path: pageRoutes.master.user.user },
+            { name: "Shape" },
           ]}
         />
+        <Tooltip title="Filter">
+          <IconButton
+            color="inherit"
+            className="button"
+            aria-label="Filter"
+            onClick={togglePopupSearch}
+          >
+            <Icon>filter_list</Icon>
+          </IconButton>
+        </Tooltip>
       </Box>
-      <Box width="100%" overflow="auto">
-        <StyledTable>
-          <TableHead>
-            <TableRow>
-              <TableCell align="left" width="30%">
-                Name
-              </TableCell>
-              <TableCell align="left">Details</TableCell>
-              <TableCell align="center" width="100px">
-                Image
-              </TableCell>
-              <TableCell align="center" width="100px">
-                Logo
-              </TableCell>
-              <TableCell align="center" width="100px">
-                Action
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tableData.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="left">{row.details}</TableCell>
-                <TableCell align="center">
-                  {row.imgUrl && row.imgUrl !== null && (
-                    <Box
-                      component="img"
-                      sx={{
-                        height: 50,
-                        width: 50,
-                        maxHeight: { xs: 25, md: 50 },
-                        maxWidth: { xs: 25, md: 50 },
-                      }}
-                      src={CONFIG.API_BASE_URL_IMG + row.imgUrl}
-                    />
-                  )}
-                </TableCell>
-                <TableCell align="center">
-                  {row.logoUrl && row.logoUrl !== null && (
-                    <Box
-                      component="img"
-                      sx={{
-                        height: 50,
-                        width: 50,
-                        maxHeight: { xs: 25, md: 50 },
-                        maxWidth: { xs: 25, md: 50 },
-                      }}
-                      src={CONFIG.API_BASE_URL_IMG + row.logoUrl}
-                    />
-                  )}
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton onClick={(e) => handleEdit(row)}>
-                    <Icon color="primary">edit</Icon>
-                  </IconButton>
-                  <IconButton onClick={(e) => handleDelete(row.id)}>
-                    <Icon color="error">close</Icon>
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </StyledTable>
-        <TablePagination
-          sx={{ px: 2 }}
-          page={page}
-          component="div"
-          rowsPerPage={rowsPerPage}
-          count={tableDataCount}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 8, 10]}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          nextIconButtonProps={{ "aria-label": "Next Page" }}
-          backIconButtonProps={{ "aria-label": "Previous Page" }}
-        />
-      </Box>
+
+      {/* -------------------------- Pagination table display code  -----------------------------*/}
+      <PaginationTable
+        header={COLUMNS}
+        rows={rows}
+        totalItems={state.total_items || 0}
+        perPage={state.rowsPerPage}
+        activePage={state.page}
+        checkboxColumn={false}
+        selectedRows={state.selectedRows}
+        enableOrder={true}
+        isLoader={state.loader}
+        emptyTableImg={<img src={error400cover} width="350px" />}
+        {...otherTableActionProps}
+        orderBy={state.orderby}
+        order={state.order}
+      ></PaginationTable>
       <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"
@@ -174,10 +242,14 @@ const CategoryMaster = () => {
           <Icon>add</Icon>
         </StyledAddButton>
       </Tooltip>
-      <AddCategoryModal
+
+      <CategoryMasterDetails
         open={open}
-        togglePopup={togglePopup}
-        // labData={selectedLabData}
+        togglePopup={() => {
+          togglePopup();
+          paginate();
+        }}
+        userData={selectedUserData}
       />
     </Container>
   );

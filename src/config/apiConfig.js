@@ -15,11 +15,17 @@ const apiConfig = {
   // auth apis
   login: "login", // admin login
 
+  // Categories Api
+  category: "category",
+
   //lab
   lab: "lab",
 
   //shape
   shape: "shape",
+
+  // attributes
+  attributes: "attributes",
 
   //permission
   permission: "permission",
