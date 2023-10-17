@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-import Validators from "./../../../../components/validations/Validator";
+import Validators from "../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
 import Textarea from "../../../../components/UI/Pagination/Textarea";
 import { apiConfig } from "../../../../config";
@@ -10,18 +10,19 @@ import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 
 const initialValues = {
   id: "",
-  shape: "",
-  description: "",
-  image: "",
-  rankk: "",
+  name: "",
+  imgUrl: "",
+  logoUrl: "",
+  details: "",
 };
 
-const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
+const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
 
   const rules = {
-    shape: "required",
-    image: "mimes:png,jpg,jpeg|max_file_size:1048576",
+    name: "required",
+    imgUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
+    logoUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
   };
 
   const handleSubmit = (data) => {
@@ -30,7 +31,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
       fd.append(field, data[field]);
     }
     const apiUrl =
-      data.id === "" ? apiConfig.shape : `${apiConfig.shape}/${data.id}`;
+      data.id === "" ? apiConfig.options : `${apiConfig.options}/${data.id}`;
 
     API[data.id === "" ? "post" : "put"](apiUrl, fd)
       .then(() => {
@@ -53,7 +54,8 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
 
   useEffect(() => {
     if (open === true && userData !== null) {
-      userData.image = HELPER.getImageUrl(userData.imgUrl);
+      userData.imgUrl = HELPER.getImageUrl(userData.imgUrl);
+      userData.logoUrl = HELPER.getImageUrl(userData.logoUrl);
       setFormState(userData);
     } else {
       setFormState({ ...initialValues });
@@ -71,13 +73,43 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
             resetValidation();
           }}
           actionBtns={
-            <>
-              <ImgUploadBoxInput
-                name="image"
-                onChange={onChange}
-                value={formState?.image}
-                label={"Image"}
-              />
+            <div
+              style={{
+                display: "flex ",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex ",
+                  alignContent: "center",
+                }}
+              >
+                <div
+                  style={{
+                    marginRight: "20px",
+                  }}
+                >
+                  <label>Logo Image</label>
+                  <ImgUploadBoxInput
+                    name="logoUrl"
+                    onChange={onChange}
+                    value={formState?.logoUrl}
+                    label={"Logo Image"}
+                  />
+                </div>
+                <div>
+                  <label>Image</label>
+                  <ImgUploadBoxInput
+                    name="imgUrl"
+                    onChange={onChange}
+                    value={formState?.imgUrl}
+                    label={"Image"}
+                  />
+                </div>
+              </div>
               <Box>
                 <Button
                   variant="outlined"
@@ -97,36 +129,29 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
                   Save
                 </Button>
               </Box>
-            </>
+            </div>
           }
         >
           {" "}
           <Textinput
-            type="number"
-            name="rankk"
-            label="Rank"
-            value={formState.rankk}
-            onChange={onChange}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
-          />
-          <Textinput
             type="text"
-            name="shape"
-            label="Shap"
-            value={formState.shape}
+            name="name"
+            label="Option Name"
+            placeholder="Enter Option Name"
+            value={formState.name}
+            error={errors?.name}
             onChange={onChange}
-            error={errors?.shape}
             sx={{ mb: 2, mt: 1, width: "100%" }}
           />
           <Textarea
             size="small"
-            name="description"
+            name="details"
             type="text"
             maxLength={255}
             minRows={3}
             maxRows={3}
-            placeholder="Details"
-            value={formState.description}
+            placeholder="Option Details"
+            value={formState.details}
             onChange={onChange}
             sx={{ mb: 1.5 }}
           />
@@ -136,4 +161,4 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
   );
 };
 
-export default ShapeMasterDetails;
+export default OptionsMasterDetails;

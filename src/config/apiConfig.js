@@ -29,6 +29,9 @@ const apiConfig = {
 
   //productDetails
   productDetails: "productDetails",
+
+  //options
+  options: "options",
 };
 
 export default apiConfig;
