@@ -76,12 +76,15 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
 	return (
 		<>
 			<Validators formData={formState} rules={rules}>
-				{({ onSubmit, errors }) => {
+				{({ onSubmit, errors, resetValidation }) => {
 					return (
 						<ThemeDialog
 							title={`${formState?.id === "" ? "Add" : "Edit"} User`}
 							isOpen={open}
-							onClose={togglePopup}
+							onClose={() => {
+								togglePopup();
+								resetValidation()
+							}}
 							actionBtns={<>
 								<ImgUploadBoxInput 
 									name="profile"
@@ -91,7 +94,10 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
 									label={'Profile Image'}
 								/>
 								<Box>
-									<Button variant="outlined" color="secondary" onClick={togglePopup}>
+									<Button variant="outlined" color="secondary" onClick={() => {
+										togglePopup();
+										resetValidation()
+									}}>
 										Cancel
 									</Button>
 									<Button type="submit" color="primary" onClick={() => onSubmit(handleSubmit)}>

@@ -126,7 +126,7 @@ export default function Validators({
         setErrors({});
       }
     }
-  }, [_formData]);
+  }, [formData]);
 
   const [errors, setErrors] = useState(null);
 
@@ -148,6 +148,11 @@ export default function Validators({
     }
   };
 
+  const resetValidation = () => {
+    setErrors({})
+    setIsSubmitted(false);
+  }
+
   const isValidationFail = () => {
     Validator.setMessages("en", validationMessages);
 
@@ -166,5 +171,5 @@ export default function Validators({
     return false;
   };
 
-  return <>{children({ onSubmit, errors })}</>;
+  return <>{children({ onSubmit, errors, resetValidation })}</>;
 }
