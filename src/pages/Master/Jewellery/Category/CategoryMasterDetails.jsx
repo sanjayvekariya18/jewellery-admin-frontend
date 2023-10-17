@@ -1,9 +1,4 @@
-import {
-  Box,
-  Button,
-  Icon,
-  IconButton,
-} from "@mui/material";
+import { Box, Button, Icon, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { API, HELPER } from "../../../../services";
 import { apiConfig } from "../../../../config";
@@ -13,12 +8,18 @@ import Validators from "../../../../components/validations/Validator";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import { Table } from "reactstrap";
 
-const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidth }) => {
+const CategoryMasterDetails = ({
+  open,
+  togglePopup,
+  userData,
+  fullWidth,
+  maxWidth,
+}) => {
   const [selected, setSelected] = useState([]);
   const [selected2, setSelected2] = useState([]);
   const [productDetails, setProductDetails] = useState([]);
-  const [sortNo, setSortNo] = useState('');
-  const [sortNo2, setSortNo2] = useState('');
+  const [sortNo, setSortNo] = useState("");
+  const [sortNo2, setSortNo2] = useState("");
 
   const [options, setOptions] = useState([]);
   const [select, setSelect] = useState([]);
@@ -34,7 +35,7 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
     imgUrl: "",
     logoUrl: "",
     attributes: dataList,
-    productDetails: dataList2
+    productDetails: dataList2,
   };
 
   // console.log(dataList, "datalist");
@@ -49,10 +50,9 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
     name: "required",
     attributes: "required",
     productDetails: "required",
-
   };
   const handleSubmit = async (values) => {
-    console.log(values, "validate");
+    // console.log(values, "validate");
     const updatedFormState = {
       ...formState,
       attributes: JSON.stringify(dataList),
@@ -70,9 +70,8 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
       .catch((err) => {
         console.log(err, "err");
         HELPER.toaster.error(err.errors.message);
-      })
+      });
   };
-
 
   // const handleSubmit = async (data) => {
   //   console.log(data,"data");
@@ -100,7 +99,7 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
   //     .catch((e) => {
   //       HELPER.toaster.error(e.errors.message)
   //     });
-      
+
   // };
 
   // const handleSubmit = (data) => {
@@ -129,8 +128,6 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
     }
   }, [open, userData]);
 
-
-
   const onChange = ({ target: { value, name } }) => {
     setFormState((prev) => ({
       ...prev,
@@ -139,32 +136,29 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
   };
 
   useEffect(() => {
-    API.get(apiConfig.attributes)
-      .then((res) => {
-        const optionsFromApi = res.rows.map((row) => ({
-          label: row.name,
-          value: row.id
-        }));
-        setOptions(optionsFromApi);
-      });
+    API.get(apiConfig.attributes).then((res) => {
+      const optionsFromApi = res.rows.map((row) => ({
+        label: row.name,
+        value: row.id,
+      }));
+      setOptions(optionsFromApi);
+    });
   }, []);
 
   useEffect(() => {
-    API.get(apiConfig.productDetails)
-      .then((res) => {
-        setProductDetails(res.rows);
-      });
+    API.get(apiConfig.productDetails).then((res) => {
+      setProductDetails(res.rows);
+    });
   }, []);
 
   useEffect(() => {
-    API.get(apiConfig.productDetails)
-      .then((res) => {
-        const optionsFromApi = res.rows.map((row) => ({
-          label: row.detailName,
-          value: row.id
-        }));
-        setSelect(optionsFromApi);
-      });
+    API.get(apiConfig.productDetails).then((res) => {
+      const optionsFromApi = res.rows.map((row) => ({
+        label: row.detailName,
+        value: row.id,
+      }));
+      setSelect(optionsFromApi);
+    });
   }, []);
 
   const handleLogSelectedOption = () => {
@@ -207,10 +201,18 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
             actionBtns={
               <>
                 <Box>
-                  <Button variant="outlined" color="secondary" onClick={togglePopup}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={togglePopup}
+                  >
                     Cancel
                   </Button>
-                  <Button type="submit" color="primary" onClick={() => onSubmit(handleSubmit)}>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    onClick={() => onSubmit(handleSubmit)}
+                  >
                     Save
                   </Button>
                 </Box>
@@ -236,7 +238,13 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
                 onChange={onChange}
                 sx={{ mb: 2, mt: 1, ml: 0.5, width: "100%" }}
               />
-              <Box sx={{ display: "flex", alignContent: "center", flexWrap: "unset" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignContent: "center",
+                  flexWrap: "unset",
+                }}
+              >
                 <Box sx={{ marginRight: "30px" }}>
                   <p> Image</p>
                   <ImgUploadBoxInput
@@ -261,27 +269,37 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
                   <Table className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 whitespace-nowrap">
                     <thead className="" style={{ background: "#F3F3F9" }}>
                       <tr>
-
                         <th className="table-th">Attributes</th>
                         <th className="table-th">Sort No</th>
                         <th className="table-th">Save</th>
                         <th className="table-th">Delete</th>
                         <th className="table-th">+</th>
-
                       </tr>
                     </thead>
                     <tbody>
-                      {dataList && dataList.map((data, index) => (
-                        <tr key={index}>
-                          <td>{data.attributeId}</td>
-                          <td>{data.sortNo}</td>
-                        </tr>
-                      ))}
+                      {dataList &&
+                        dataList.map((data, index) => (
+                          <tr key={index}>
+                            <td>{data.attributeId}</td>
+                            <td>{data.sortNo}</td>
+                          </tr>
+                        ))}
                       <tr>
                         <td>
                           <select
-                            value={selected && selected.length > 0 ? selected[0].value : ""}
-                            onChange={(e) => setSelected([{ value: e.target.value, label: e.target.value }])}
+                            value={
+                              selected && selected.length > 0
+                                ? selected[0].value
+                                : ""
+                            }
+                            onChange={(e) =>
+                              setSelected([
+                                {
+                                  value: e.target.value,
+                                  label: e.target.value,
+                                },
+                              ])
+                            }
                           >
                             <option value="">Select an option</option>
                             {options.map((option) => (
@@ -290,7 +308,6 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
                               </option>
                             ))}
                           </select>
-
                         </td>
                         <td>
                           <Textinput
@@ -306,7 +323,12 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
                         </td>
                         <td>
                           <IconButton>
-                            <Icon color="success" onClick={handleLogSelectedOption}>save</Icon>
+                            <Icon
+                              color="success"
+                              onClick={handleLogSelectedOption}
+                            >
+                              save
+                            </Icon>
                           </IconButton>
                         </td>
                         <td>
@@ -316,13 +338,10 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
                         </td>
                       </tr>
                     </tbody>
-
-
                   </Table>
                   <Table className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 whitespace-nowrap">
                     <thead className="" style={{ background: "#F3F3F9" }}>
                       <tr>
-
                         <th className="table-th">Product Details</th>
                         <th className="table-th">Sort No</th>
                         <th className="table-th">Save</th>
@@ -333,8 +352,19 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
                       <tr>
                         <td>
                           <select
-                            value={selected2 && selected2.length > 0 ? selected2[0].value : ""}
-                            onChange={(e) => setSelected2([{ value: e.target.value, label: e.target.value }])}
+                            value={
+                              selected2 && selected2.length > 0
+                                ? selected2[0].value
+                                : ""
+                            }
+                            onChange={(e) =>
+                              setSelected2([
+                                {
+                                  value: e.target.value,
+                                  label: e.target.value,
+                                },
+                              ])
+                            }
                           >
                             <option value="">Select an option</option>
                             {select.map((option) => (
@@ -357,7 +387,12 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
                         </td>
                         <td>
                           <IconButton>
-                            <Icon color="success" onClick={handleLogSelectedOption2}>save</Icon>
+                            <Icon
+                              color="success"
+                              onClick={handleLogSelectedOption2}
+                            >
+                              save
+                            </Icon>
                           </IconButton>
                         </td>
                         <td>
@@ -368,19 +403,13 @@ const CategoryMasterDetails = ({ open, togglePopup, userData, fullWidth, maxWidt
                       </tr>
                     </tbody>
                   </Table>
-
                 </div>
-
               </div>
             </>
-
-
-          </ThemeDialog >
+          </ThemeDialog>
         );
       }}
-    </Validators >
-
-
+    </Validators>
   );
 };
 

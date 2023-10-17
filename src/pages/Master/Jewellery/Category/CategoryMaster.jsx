@@ -1,15 +1,6 @@
 import React, { useMemo, useState } from "react";
-import {
-  Box,
-  Icon,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
-import {
-  Breadcrumb,
-  Container,
-  StyledAddButton,
-} from "../../../../components";
+import { Box, Icon, IconButton, Tooltip } from "@mui/material";
+import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
 import Swal from "sweetalert2";
@@ -17,7 +8,9 @@ import _ from "lodash";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { toaster } from "../../../../services/helper";
-import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
+import PaginationTable, {
+  usePaginationTable,
+} from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "./../../../../config";
 import CategoryMasterDetails from "./CategoryMasterDetails";
 
@@ -70,7 +63,7 @@ const CategoryMaster = () => {
 
     API.get(apiConfig.category, filter)
       .then((res) => {
-        console.log(res, "res");
+        // console.log(res, "res");
         setState({
           ...state,
           total_items: res.count,
@@ -99,11 +92,9 @@ const CategoryMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
-
-
   const rows = useMemo(() => {
     return state.data.map((item) => {
-      console.log(item, "item");
+      // console.log(item, "item");
       return {
         item: item,
         columns: [
@@ -162,7 +153,6 @@ const CategoryMaster = () => {
     setOpenSearch(!openSearch);
   };
 
-
   const handleEdit = (data) => {
     setSelectedUserData(data);
     setOpen(true);
@@ -191,7 +181,7 @@ const CategoryMaster = () => {
     });
   };
 
-  console.log(selectedUserData,"selectedUserData");
+  // console.log(selectedUserData,"selectedUserData");
   return (
     <Container>
       <Box

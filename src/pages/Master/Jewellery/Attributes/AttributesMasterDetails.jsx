@@ -87,7 +87,7 @@ const AttributesMasterDetails = ({ open, togglePopup, userData, callBack }) => {
     // isDefault: true,
   }));
 
-  console.log(formState, "formState");
+  // console.log(formState, "formState");
 
   return (
     <Validators formData={formState} rules={rules}>
