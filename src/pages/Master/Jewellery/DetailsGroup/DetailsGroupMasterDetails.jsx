@@ -1,91 +1,117 @@
-import React, { useEffect } from "react";
-import * as Yup from "yup";
+import React, { useEffect, useState, useCallback } from "react";
+import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../../../services";
-import { apiEndPoint } from "../../../../constants/routesList";
-import { useFormik } from "formik";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Validators from "./../../../../components/validations/Validator";
+import Textinput from "../../../../components/UI/TextInput";
+import Textarea from "../../../../components/UI/Pagination/Textarea";
+import { apiConfig } from "../../../../config";
 
-// initial data
 const initialValues = {
-	id: "",
-	groupName: "",
+  id: "",
+  groupName: "",
 };
 
-// form field validation schema
-const validationSchema = Yup.object().shape({
-	groupName: Yup.string().required("Group name is required!"),
-});
+const DetailsGroupMasterDetails = ({ open, togglePopup, userData }) => {
+  const [formState, setFormState] = useState({ ...initialValues });
 
-const DetailsGroupMasterDetails = ({ open, togglePopup, groupData }) => {
-	const url = apiEndPoint.productDetailsGroup;
-	const handleFormSubmit = async (values) => {
-		if (values.id === "") {
-			API.post(url, values)
-				.then(() => {
-					HELPER.toaster.success("Record created");
-					togglePopup();
-				})
-				.catch((e) => HELPER.toaster.error(e.errors.message));
-		} else {
-			API.put(`${url}/${values.id}`, values)
-				.then(() => {
-					HELPER.toaster.success("Record saved");
-					togglePopup();
-				})
-				.catch((e) => {
-					HELPER.toaster.error(e.errors.message);
-				});
-		}
-	};
+  const rules = {
+    groupName: "required",
+  };
 
-	const formikProps = useFormik({
-		onSubmit: handleFormSubmit,
-		initialValues,
-		validationSchema,
-	});
+  const handleSubmit = (data) => {
+    const fd = new FormData();
+    for (const field in data) {
+      fd.append(field, data[field]);
+    }
+    const apiUrl =
+      data.id === ""
+        ? apiConfig.productDetailGroup
+        : `${apiConfig.productDetailGroup}/${data.id}`;
 
-	useEffect(() => {
-		if (open === true && groupData !== null) {
-			Object.keys(groupData).forEach((key) => {
-				formikProps.setFieldValue(key, groupData[key]);
-			});
-		} else {
-			formikProps.resetForm();
-		}
-	}, [open]);
+    API[data.id === "" ? "post" : "put"](apiUrl, fd)
+      .then(() => {
+        HELPER.toaster.success(
+          data.id === "" ? "Record created" : "Record saved"
+        );
+        togglePopup();
+      })
+      .catch((e) => HELPER.toaster.error(e.errors.message));
+  };
 
-	return (
-		<Dialog open={open} onClose={togglePopup} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">{formikProps.values.id === "" ? "Add" : "Edit"} Details Group</DialogTitle>
-			<DialogContent>
-				<form onSubmit={formikProps.handleSubmit}>
-					<TextField
-						fullWidth={true}
-						size="small"
-						type="text"
-						name="groupName"
-						label="Group Name"
-						variant="outlined"
-						onBlur={formikProps.handleBlur}
-						value={formikProps.values.groupName}
-						onChange={formikProps.handleChange}
-						helperText={formikProps.touched.groupName && formikProps.errors.groupName}
-						error={Boolean(formikProps.errors.groupName && formikProps.touched.groupName)}
-						sx={{ mb: 3, mt: 1 }}
-					/>
-					<DialogActions>
-						<Button variant="outlined" color="secondary" onClick={togglePopup}>
-							Cancel
-						</Button>
+  const onChange = ({ target: { value, name } }) => {
+    setFormState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-						<Button type="submit" color="primary">
-							Save
-						</Button>
-					</DialogActions>
-				</form>
-			</DialogContent>
-		</Dialog>
-	);
+  const onChangeTextarea = useCallback((e) => {
+    setFormState((prevProps) => {
+      return {
+        ...prevProps,
+        [e.target.name]: e.target.value,
+      };
+    });
+  }, []);
+
+  useEffect(() => {
+    if (open === true && userData !== null) {
+      setFormState(userData);
+    } else {
+      setFormState({ ...initialValues });
+    }
+  }, [open, userData]);
+
+  return (
+    <Validators formData={formState} rules={rules}>
+      {({ onSubmit, errors, resetValidation }) => (
+        <ThemeDialog
+          title={`${
+            formState?.id === "" ? "Add" : "Edit"
+          } Product Details Group`}
+          isOpen={open}
+          onClose={() => {
+            togglePopup();
+            resetValidation();
+          }}
+          actionBtns={
+            <Box>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => {
+                  togglePopup();
+                  resetValidation();
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                color="primary"
+                // onClick={() => handleSubmit(formState?.id)}
+                onClick={() => onSubmit(handleSubmit)}
+              >
+                Save
+              </Button>
+            </Box>
+          }
+        >
+          <Textinput
+            size="small"
+            type="text"
+            name="groupName"
+            label="Group Name"
+            value={formState.groupName}
+            onChange={onChange}
+            error={errors?.groupName}
+            sx={{ mb: 2, mt: 1, width: "100%" }}
+          />
+        </ThemeDialog>
+      )}
+    </Validators>
+  );
 };
 
 export default DetailsGroupMasterDetails;

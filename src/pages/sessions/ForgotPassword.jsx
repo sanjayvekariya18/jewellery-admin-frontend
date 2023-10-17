@@ -1,14 +1,14 @@
-import { Box, Button, Card, Grid, styled, TextField } from '@mui/material';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Card, Grid, styled, TextField } from "@mui/material";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FlexBox = styled(Box)(() => ({
-  display: 'flex',
-  alignItems: 'center',
+  display: "flex",
+  alignItems: "center",
 }));
 
 const JustifyBox = styled(FlexBox)(() => ({
-  justifyContent: 'center',
+  justifyContent: "center",
 }));
 
 const ContentBox = styled(Box)(({ theme }) => ({
@@ -17,18 +17,18 @@ const ContentBox = styled(Box)(({ theme }) => ({
 }));
 
 const ForgotPasswordRoot = styled(JustifyBox)(() => ({
-  background: '#1A2038',
-  minHeight: '100vh !important',
-  '& .card': {
+  background: "#1A2038",
+  minHeight: "100vh !important",
+  "& .card": {
     maxWidth: 800,
-    margin: '1rem',
+    margin: "1rem",
     borderRadius: 12,
   },
 }));
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('admin@example.com');
+  const [email, setEmail] = useState("admin@example.com");
 
   const handleFormSubmit = () => {
     console.log(email);
@@ -40,7 +40,11 @@ const ForgotPassword = () => {
         <Grid container>
           <Grid item xs={12}>
             <JustifyBox p={4}>
-              <img width="300" src="/assets/images/illustrations/dreamer.svg" alt="" />
+              <img
+                width="300"
+                src="/assets/images/illustrations/dreamer.svg"
+                alt=""
+              />
             </JustifyBox>
 
             <ContentBox>
@@ -53,10 +57,15 @@ const ForgotPassword = () => {
                   value={email}
                   variant="outlined"
                   onChange={(e) => setEmail(e.target.value)}
-                  sx={{ mb: 3, width: '100%' }}
+                  sx={{ mb: 3, width: "100%" }}
                 />
 
-                <Button fullWidth variant="contained" color="primary" type="submit">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
                   Reset Password
                 </Button>
 

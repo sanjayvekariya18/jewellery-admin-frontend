@@ -1,16 +1,6 @@
 import React, { useMemo, useState } from "react";
-import {
-  Box,
-  Icon,
-  IconButton,
-  TextField,
-  Tooltip,
-} from "@mui/material";
-import {
-  Breadcrumb,
-  Container,
-  StyledAddButton,
-} from "../../../../components";
+import { Box, Icon, IconButton, TextField, Tooltip } from "@mui/material";
+import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { apiEndPoint, pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +15,7 @@ import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDia
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ImgBoxShow from "../../../../components/UI/ImgBoxShow";
 import ThemeRadioGroup from "../../../../components/UI/ThemeRadioGroup";
+import { toaster } from "../../../../services/helper";
 
 const UserMaster = () => {
   const [open, setOpen] = useState(false);
@@ -87,18 +78,23 @@ const UserMaster = () => {
           loader: false,
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403
+        ) {
+          toaster.error(err.errors.message);
+        } else {
+          console.error(err);
+        }
         setState({
           ...state,
           ...(clear && clearStates),
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
 
@@ -132,7 +128,8 @@ const UserMaster = () => {
             <IconButton
               onClick={(e) =>
                 navigate(
-                  `${pageRoutes.master.user.userPermissions.split(":")[0]}${item.id
+                  `${pageRoutes.master.user.userPermissions.split(":")[0]}${
+                    item.id
                   }`
                 )
               }
@@ -263,21 +260,20 @@ const UserMaster = () => {
             {
               label: "All",
               value: "",
-              color: "default"
+              color: "default",
             },
             {
               label: "Active",
               value: "1",
-              color: "success"
+              color: "success",
             },
             {
               label: "Inactive",
               value: "0",
-              color: "error"
+              color: "error",
             },
           ]}
         />
-
       </SearchFilterDialog>
 
       <UserMasterDetails

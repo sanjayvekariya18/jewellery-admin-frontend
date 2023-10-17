@@ -20,6 +20,7 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
     labName: "required",
   };
 
+  // -------------------------------- handle Submit Lab Master ----------------------
   const handleSubmit = (data) => {
     const fd = new FormData();
     for (const field in data) {
@@ -38,47 +39,42 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
       .catch((e) => HELPER.toaster.error(e.errors.message));
   };
 
-  const onChange = ({ target: { value, name } }) => {
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const onChangeTextarea = useCallback(
-    (e) => {
-      setFormState((prevProps) => {
-        return {
-          ...prevProps,
-          [e.target.name]: e.target.value,
-        };
-      });
-    },
-    [formState]
-  );
+  const onChange = useCallback((e) => {
+    setFormState((prevProps) => {
+      return {
+        ...prevProps,
+        [e.target.name]: e.target.value,
+      };
+    });
+  }, []);
 
   useEffect(() => {
     if (open === true && userData !== null) {
-      userData.profile = HELPER.getImageUrl(userData.image);
       setFormState(userData);
     } else {
       setFormState({ ...initialValues });
     }
-  }, [open]);
+  }, [open, userData]);
 
   return (
     <Validators formData={formState} rules={rules}>
-      {({ onSubmit, errors }) => (
+      {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
           title={`${formState?.id === "" ? "Add" : "Edit"} Lab`}
           isOpen={open}
-          onClose={togglePopup}
+          onClose={() => {
+            togglePopup();
+            resetValidation();
+          }}
           actionBtns={
             <Box>
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={togglePopup}
+                onClick={() => {
+                  togglePopup();
+                  resetValidation();
+                }}
               >
                 Cancel
               </Button>
@@ -100,7 +96,7 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
             value={formState.labName}
             onChange={onChange}
             error={errors?.labName}
-            sx={{ mb: 2, mt: 1, width: "49%" }}
+            sx={{ mb: 2, mt: 1, width: "100%" }}
           />
           <Textarea
             size="small"
@@ -111,7 +107,7 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
             maxRows={3}
             placeholder="Details"
             value={formState.details}
-            onChange={onChangeTextarea}
+            onChange={onChange}
             sx={{ mb: 1.5 }}
           />
         </ThemeDialog>
