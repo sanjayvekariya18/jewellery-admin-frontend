@@ -1,7 +1,8 @@
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import React from 'react'
+import ValidationMessages from '../validations/ValidationMessages'
 
-export default function ThemeRadioGroup({ name, value, options, onChange }) {
+export default function ThemeRadioGroup({ name, value, options, onChange, error, label }) {
     return (
         <>
             <RadioGroup
@@ -21,6 +22,7 @@ export default function ThemeRadioGroup({ name, value, options, onChange }) {
                     />
                 ))}
             </RadioGroup>
+            <ValidationMessages errors={error} label={label} />
         </>
     )
 }
