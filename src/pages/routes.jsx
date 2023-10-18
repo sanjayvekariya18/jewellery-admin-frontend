@@ -17,6 +17,7 @@ const ForgotPassword = Loadable(lazy(() => import("./sessions/ForgotPassword")))
 const Diamonds = Loadable(lazy(() => import("./Diamonds/Diamonds")));
 const Jewellery = Loadable(lazy(() => import("./Jewellery/Jewellery")));
 const Customer = Loadable(lazy(() => import("./Customer/Customer")));
+const Discount = Loadable(lazy(() => import("./Discount/Discount")));
 const LabMaster = Loadable(lazy(() => import("./Master/Diamond/Lab/LabMaster")));
 const ShapeMaster = Loadable(lazy(() => import("./Master/Diamond/Shape/ShapeMaster")));
 const CategoryMaster = Loadable(lazy(() => import("./Master/Jewellery/Category/CategoryMaster")));
@@ -54,6 +55,7 @@ const routes = [
 			{ path: pageRoutes.diamond, element: <Diamonds /> },
 			{ path: pageRoutes.jewellery, element: <Jewellery /> },
 			{ path: pageRoutes.customer, element: <Customer /> },
+			{ path: pageRoutes.discount, element: <Discount />},
 			{ path: pageRoutes.master.diamond.lab, element: <LabMaster /> },
 			{ path: pageRoutes.master.diamond.shape, element: <ShapeMaster /> },
 			{ path: pageRoutes.master.jewellery.category, element: <CategoryMaster /> },
