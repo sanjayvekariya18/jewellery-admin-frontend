@@ -6,6 +6,7 @@ export const navigations = [
 	{ name: "Diamonds", path: pageRoutes.diamond, icon: "diamond" },
 	{ name: "Jewellery", path: pageRoutes.jewellery, icon: "diversity_2" },
 	{ name: "Customer", path: pageRoutes.customer, icon: "person" },
+	{ name: "Discount", path: pageRoutes.discount, icon: "diamond" },
 	{ label: "Masters", type: "label" },
 	{
 		name: "Diamond",

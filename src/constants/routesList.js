@@ -23,6 +23,7 @@ export const pageRoutes = {
   diamond: "/diamonds",
   jewellery: "/jewellery",
   customer: "/customer",
+  discount:"/discount",
   master: {
     diamond: {
       lab: "/master/diamond/lab",

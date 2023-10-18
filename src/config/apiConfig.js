@@ -44,6 +44,11 @@ const apiConfig = {
 
   //userPermission
   userPermission: "userPermission",
+
+  customer: "customer",
+  customerActive: "customer/active/:id",
+  diamondDiscount: "diamondDiscount",
 };
+
 
 export default apiConfig;

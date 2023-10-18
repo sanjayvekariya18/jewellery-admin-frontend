@@ -6,7 +6,7 @@ import Textinput from "../../../../components/UI/TextInput";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
-import { Table } from "reactstrap";
+import { Table } from "@mui/material";
 
 const CategoryMasterDetails = ({
   open,
