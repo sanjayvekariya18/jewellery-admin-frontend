@@ -16,6 +16,7 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 import ImgBoxShow from "../../../../components/UI/ImgBoxShow";
 import ThemeRadioGroup from "../../../../components/UI/ThemeRadioGroup";
 import { toaster } from "../../../../services/helper";
+import Textinput from "../../../../components/UI/TextInput";
 
 const UserMaster = () => {
   const [open, setOpen] = useState(false);
@@ -240,16 +241,14 @@ const UserMaster = () => {
         reset={() => paginate(true)}
         search={() => paginate(false, true)}
       >
-        <TextField
-          fullWidth={true}
+        <Textinput
           size="small"
           type="text"
           name="searchTxt"
           label="Search Text"
-          variant="outlined"
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}
-          sx={{ mb: 2, mt: 1 }}
+          sx={{ mb: 2, mt: 1, width: "100%" }}
         />
 
         <ThemeRadioGroup

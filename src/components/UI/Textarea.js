@@ -1,7 +1,7 @@
 import React from "react";
 import { TextareaAutosize } from "@mui/material";
 import styled from "@emotion/styled";
-import ValidationMessages from "../../validations/ValidationMessages";
+import ValidationMessages from "../validations/ValidationMessages";
 
 const StyledTextarea = styled(TextareaAutosize)(
   ({ theme }) => `

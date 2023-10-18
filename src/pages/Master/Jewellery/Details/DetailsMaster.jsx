@@ -1,14 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  Box,
-  FormControlLabel,
-  Icon,
-  IconButton,
-  Radio,
-  RadioGroup,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import { Box, Icon, IconButton, Tooltip } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
@@ -23,7 +14,7 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
 import DetailsMasterDetails from "./DetailsMasterDetails";
-import ReactSelect from "../../../../components/UI/Pagination/ReactSelect";
+import ReactSelect from "../../../../components/UI/ReactSelect";
 
 const DetailsMaster = () => {
   const [open, setOpen] = useState(false);

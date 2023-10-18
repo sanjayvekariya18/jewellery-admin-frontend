@@ -11,15 +11,21 @@ export default function ThemeDialog({
   onClose,
   children,
   title,
-  maxWidth = "lg",
+  maxWidth = "md",
   fullWidth = true,
   actionBtns,
 }) {
   return (
-    <Dialog open={isOpen} onClose={onClose} fullWidth={fullWidth} maxWidth={maxWidth} aria-labelledby="form-dialog-title"  >
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      fullWidth={fullWidth}
+      maxWidth={maxWidth}
+      aria-labelledby="form-dialog-title"
+    >
       <DialogTitle id="form-dialog-title">{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>{actionBtns}</DialogActions>
-    </Dialog >
+    </Dialog>
   );
 }

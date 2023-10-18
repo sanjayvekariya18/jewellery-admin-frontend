@@ -1,7 +1,6 @@
 import React from "react";
 import VirtualizedSelect from "react-select-virtualized";
-import { Label } from "reactstrap";
-import ValidationMessages from "../../validations/ValidationMessages";
+import ValidationMessages from "../validations/ValidationMessages";
 
 const ReactSelect = ({
   label,
@@ -30,9 +29,9 @@ const ReactSelect = ({
   return (
     <div className="mb-3">
       {label && (
-        <Label htmlFor={label} className="form-label">
+        <label htmlFor={label} className="form-label">
           {label}
-        </Label>
+        </label>
       )}
       <VirtualizedSelect
         className={error ? "select-border-handle" : ""}

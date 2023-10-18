@@ -4,10 +4,10 @@ import { API, HELPER } from "../../../../services";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "./../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
-import Textarea from "../../../../components/UI/Pagination/Textarea";
 import { apiConfig } from "../../../../config";
-import ReactSelect from "../../../../components/UI/Pagination/ReactSelect";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
+import Textarea from "../../../../components/UI/Textarea";
+import ReactSelect from "../../../../components/UI/ReactSelect";
 
 const initialValues = {
   id: "",
