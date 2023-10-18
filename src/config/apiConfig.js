@@ -42,12 +42,6 @@ const apiConfig = {
   //subCategory
   subCategory: "subcategory",
 
-  //category
-  category: "category",
-
-  //attributes
-  attributes: "attributes",
-
   //userPermission
   userPermission: "userPermission",
 };
