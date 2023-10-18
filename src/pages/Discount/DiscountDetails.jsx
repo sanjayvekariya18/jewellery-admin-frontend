@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../services";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
@@ -6,9 +6,8 @@ import Validators from "../../components/validations/Validator";
 import Textinput from "../../components/UI/TextInput";
 import { apiConfig } from "../../config";
 
-
 const initialValues = {
-  discount: ""
+  discount: "",
 };
 
 const DiscountDetails = ({ open, togglePopup, userData }) => {
@@ -24,7 +23,9 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
       fd.append(field, data[field]);
     }
     const apiUrl =
-      data.id === "" ? apiConfig.diamondDiscount : `${apiConfig.diamondDiscount}/${data.id}`;
+      data.id === ""
+        ? apiConfig.diamondDiscount
+        : `${apiConfig.diamondDiscount}/${data.id}`;
 
     API[data.id === "" ? "post" : "put"](apiUrl, fd)
       .then(() => {
@@ -42,8 +43,6 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
       [name]: value,
     }));
   };
-
-
 
   useEffect(() => {
     if (open === true && userData !== null) {
@@ -88,9 +87,8 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
             value={formState.discount}
             onChange={onChange}
             error={errors?.discount}
-            sx={{ mb: 2, mt: 1, width: "50%" }}
+            sx={{ mb: 2, mt: 1, width: "100%" }}
           />
-         
         </ThemeDialog>
       )}
     </Validators>

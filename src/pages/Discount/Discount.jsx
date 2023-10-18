@@ -1,15 +1,10 @@
 import React, { useMemo, useState } from "react";
-import {
-  Box,
-  Icon,
-  IconButton,
-
-} from "@mui/material";
+import { Box, Icon, IconButton } from "@mui/material";
 import { Breadcrumb, Container } from "../../components";
 import error400cover from "../../assets/no-data-found-page.png";
 import _ from "lodash";
 import PaginationTable, {
-  usePaginationTable
+  usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
 import { API } from "../../services";
 import { apiConfig, appConfig } from "../../config";
@@ -26,7 +21,6 @@ const Discount = () => {
     { title: "Discount" },
     { title: "Action" },
   ];
-
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
@@ -80,8 +74,7 @@ const Discount = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-
+      });
   };
 
   useDidMountEffect(() => {
@@ -114,13 +107,10 @@ const Discount = () => {
     setOpen(!open);
   };
 
-
   const handleEdit = (data) => {
     setSelectedUserData(data);
     setOpen(true);
   };
-
-
 
   return (
     <Container>
@@ -131,18 +121,17 @@ const Discount = () => {
         header={COLUMNS}
         rows={rows}
         totalItems={state.total_items || 0}
+        perPage={state.rowsPerPage}
+        activePage={state.page}
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
         isLoader={state.loader}
-        emptyTableImg={<img src={error400cover} width="400px" />}
+        emptyTableImg={<img src={error400cover} width="350px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}
         order={state.order}
-        page={parseInt(state.page)}
-        rowsPerPage={parseInt(state.rowsPerPage)}
       ></PaginationTable>
-
 
       <DiscountDetails
         open={open}
@@ -152,7 +141,6 @@ const Discount = () => {
         }}
         userData={selectedUserData}
       />
-
     </Container>
   );
 };
