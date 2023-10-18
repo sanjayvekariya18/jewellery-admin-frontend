@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { apiEndPoint } from "../../../../constants/routesList";
-import { API } from "../../../../services";
+import { API, HELPER } from "../../../../services";
 import {
 	Box,
 	Button,
 	Checkbox,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	FormControlLabel,
 	Icon,
 	IconButton,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableRow,
 	Tooltip,
 } from "@mui/material";
-import { Android12Switch, SimpleCard, StyledTable } from "../../../../components";
+import { SimpleCard } from "../../../../components";
+import { apiConfig } from "../../../../config";
+import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
+import SimpleTable from "../../../../components/UI/SimpleTable";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
 const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
 	const [userPermissions, setUserPermissions] = useState({});
-	const url = apiEndPoint.userPermission;
 
 	const getTableData = () => {
-		API.get(`${url}/${userId}/not`).then((response) => {
+		API.get(`${apiConfig.userPermission}/${userId}/not`).then((response) => {
 			const _userPermissions = {};
 			for (const group of Object.keys(response)) {
 				_userPermissions[group] = response[group].map((permissions) => {
@@ -84,87 +77,129 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
 		}
 	};
 
+	const addUserPermissions = () => {
+		let __userPermissions = Object.values({ ...userPermissions }).flat(1)
+
+		let payload = {
+			userId: userId,
+			permissionDetails: __userPermissions
+		}
+
+		API.post(apiConfig.userPermission, payload)
+			.then(() => {
+				HELPER.toaster.success('Permission added!')
+				refreshTable();
+			})
+
+	}
+
+	const userPermissionHeaderColumns = [
+		{
+			headerCell: ({ group }) => (
+				<Tooltip title="Add/Remove All">
+					<IconButton onClick={(e) => toggleGroupPermissions(group, e.target.checked)}>
+						<Icon color="error">add</Icon>
+					</IconButton>
+				</Tooltip>
+			),
+			align: "left",
+			width: "30%",
+			cell: ({ item, group }) => (
+				<Checkbox
+					color="secondary"
+					checked={item.create === true && item.edit === true && item.delete === true}
+					onChange={(e) => toggleAllPermissions(group, item.permissionMasterId, e.target.checked)}
+				/>
+			)
+		},
+		{
+			headerCell: "Permission",
+			align: "left",
+			width: "30%",
+			cell: ({ item }) => {
+				return item.permissionName
+			}
+		},
+		{
+			headerCell: "View",
+			align: "left",
+			width: "30%",
+			cell: ({ item }) => (
+				<ThemeSwitch disabled name="view" checked={item.view} />
+			)
+		},
+		{
+			headerCell: "Create",
+			align: "left",
+			width: "30%",
+			cell: ({ item, group }) => (
+				<ThemeSwitch
+					name="create"
+					checked={item.create}
+					color="success"
+					onChange={(e) => togglePermission(group, item.permissionMasterId, e.target.name, e.target.checked)}
+				/>
+			)
+		},
+		{
+			headerCell: "Edit",
+			align: "left",
+			width: "30%",
+			cell: ({ item, group }) => (
+				<ThemeSwitch
+					name="edit"
+					checked={item.edit}
+					color="warning"
+					onChange={(e) => togglePermission(group, item.permissionMasterId, e.target.name, e.target.checked)}
+				/>
+			)
+		},
+		{
+			headerCell: "Delete",
+			align: "left",
+			width: "30%",
+			cell: ({ item, group }) => (
+				<ThemeSwitch
+					name="delete"
+					checked={item.delete}
+					color="error"
+					onChange={(e) => togglePermission(group, item.permissionMasterId, e.target.name, e.target.checked)}
+				/>
+			)
+		},
+	];
+
 	return (
-		<Dialog open={open} onClose={togglePopup} aria-labelledby="form-dialog-title" maxWidth="lg">
-			<DialogTitle id="form-dialog-title">Add Permissions</DialogTitle>
-			<DialogContent sx={{ mt: 1 }}>
+		<>
+			<ThemeDialog
+				title={`Add Permissions`}
+				isOpen={open}
+				onClose={togglePopup}
+				maxWidth="lg"
+				actionBtns={
+					<>
+						<Box>
+							<Button variant="outlined" color="secondary" onClick={togglePopup}>
+								Cancel
+							</Button>
+							<Button type="submit" color="primary" onClick={() => addUserPermissions()}>
+								Save
+							</Button>
+						</Box>
+					</>
+				}
+			>
 				{Object.keys(userPermissions).map((group, i) => (
 					<SimpleCard key={i} title={group} sx={{ mb: 2 }}>
-						<StyledTable>
-							<TableHead>
-								<TableRow>
-									<TableCell align="left" width="50px">
-										<Tooltip title="Add/Remove All">
-											<IconButton onClick={(e) => toggleGroupPermissions(group, e.target.checked)}>
-												<Icon color="error">add</Icon>
-											</IconButton>
-										</Tooltip>
-									</TableCell>
-									<TableCell align="left" width="30%">
-										Permission
-									</TableCell>
-									<TableCell align="center">View</TableCell>
-									<TableCell align="center">Create</TableCell>
-									<TableCell align="center">Edit</TableCell>
-									<TableCell align="center">Delete</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{userPermissions[group].map((row, index) => (
-									<TableRow key={index}>
-										<TableCell align="center">
-											<Checkbox
-												color="secondary"
-												checked={row.create === true && row.edit === true && row.delete === true}
-												onChange={(e) => toggleAllPermissions(group, row.permissionMasterId, e.target.checked)}
-											/>
-										</TableCell>
-										<TableCell align="left">{row.permissionName}</TableCell>
-										<TableCell align="center">
-											<Android12Switch disabled name="view" checked={row.view} />
-										</TableCell>
-										<TableCell align="center">
-											<Android12Switch
-												name="create"
-												checked={row.create}
-												color="success"
-												onChange={(e) => togglePermission(group, row.permissionMasterId, e.target.name, e.target.checked)}
-											/>
-										</TableCell>
-										<TableCell align="center">
-											<Android12Switch
-												name="edit"
-												checked={row.edit}
-												color="warning"
-												onChange={(e) => togglePermission(group, row.permissionMasterId, e.target.name, e.target.checked)}
-											/>
-										</TableCell>
-										<TableCell align="center">
-											<Android12Switch
-												name="delete"
-												checked={row.delete}
-												color="error"
-												onChange={(e) => togglePermission(group, row.permissionMasterId, e.target.name, e.target.checked)}
-											/>
-										</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
-						</StyledTable>
+						<SimpleTable
+							data={userPermissions[group]}
+							headerColumns={userPermissionHeaderColumns}
+							extraData={{ group }}
+						/>
 					</SimpleCard>
 				))}
-			</DialogContent>
-			<DialogActions>
-				<Box>
-					<Button variant="outlined" color="secondary" onClick={togglePopup}>
-						Cancel
-					</Button>
-					<Button type="submit" color="primary">
-						Save
-					</Button>
-				</Box>
-			</DialogActions>
-		</Dialog>
+			</ThemeDialog>
+		</>
 	);
 };
 

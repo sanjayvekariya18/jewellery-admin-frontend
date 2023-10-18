@@ -1,19 +1,83 @@
 import React, { useEffect, useState } from "react";
-import { Box, Icon, IconButton, TableBody, TableCell, TableHead, TableRow, Tooltip } from "@mui/material";
-import { Android12Switch, Breadcrumb, Container, SimpleCard, StyledAddButton, StyledTable } from "../../../../components";
-import { apiEndPoint, pageRoutes } from "../../../../constants/routesList";
+import { Box, Icon, IconButton, Tooltip } from "@mui/material";
+import { Breadcrumb, Container, SimpleCard, StyledAddButton } from "../../../../components";
+import { pageRoutes } from "../../../../constants/routesList";
 import { useParams } from "react-router-dom";
 import { API, HELPER } from "../../../../services";
 import AddUserPermissions from "./AddUserPermissions";
+import SimpleTable from "../../../../components/UI/SimpleTable";
+import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
+import { apiConfig } from "../../../../config";
 
 const UserPermissionsMaster = () => {
 	const params = useParams();
 	const [userPermissions, setUserPermissions] = useState({});
 	const [open, setOpen] = useState(false);
-	const url = apiEndPoint.userPermission;
+
+	const userPermissionHeaderColumns = [
+		{
+			headerCell: "Permission",
+			align: "left",
+			width: "30%",
+			cell: ({ item }) => {
+				return item.permissionName
+			}
+		},
+		{
+			headerCell: "View",
+			align: "center",
+			cell: ({ item }) => {
+				return <ThemeSwitch disabled name="view" checked={item.view} />
+			}
+		},
+		{
+			headerCell: "Create",
+			align: "center",
+			cell: ({ item }) => (
+				<ThemeSwitch
+					name="create"
+					checked={item.create}
+					color="success"
+					onChange={(e) => handleToggle(item.id, e.target.name, e.target.checked)}
+				/>
+			)
+		},
+		{
+			headerCell: "Edit",
+			cell: ({ item }) => (
+				<ThemeSwitch
+					name="edit"
+					checked={item.edit}
+					color="warning"
+					onChange={(e) => handleToggle(item.id, e.target.name, e.target.checked)}
+				/>
+			)
+		},
+		{
+			headerCell: "Delete",
+			cell: ({ item }) => (
+				<ThemeSwitch
+					name="delete"
+					checked={item.delete}
+					color="error"
+					onChange={(e) => handleToggle(item.id, e.target.name, e.target.checked)}
+				/>
+			)
+		},
+		{
+			headerCell: "Action",
+			width: "75px",
+			cell: ({ item }) => (
+				<IconButton onClick={(e) => handleDelete(item.id)}>
+					<Icon color="error">close</Icon>
+				</IconButton>
+			)
+		},
+	];
 
 	const getTableData = () => {
-		API.get(`${url}/${params.id}`).then((response) => setUserPermissions(response));
+		API.get(`${apiConfig.userPermission}/${params.id}`)
+			.then((response) => setUserPermissions(response));
 	};
 
 	useEffect(() => {
@@ -24,7 +88,7 @@ const UserPermissionsMaster = () => {
 
 	const handleDelete = (id) => {
 		HELPER.sweetAlert.delete().then(() => {
-			API.destroy(`${url}/${id}`)
+			API.destroy(`${apiConfig.userPermission}/${id}`)
 				.then(() => {
 					HELPER.toaster.success("Record Deleted");
 					getTableData();
@@ -34,14 +98,11 @@ const UserPermissionsMaster = () => {
 	};
 
 	const togglePopup = () => {
-		// if (open) {
-		// 	getTableData();
-		// }
 		setOpen(!open);
 	};
 
 	const handleToggle = (id, name, value) => {
-		API.put(`${url}/${id}/toggle`, { [name]: value })
+		API.put(`${apiConfig.userPermission}/${id}/toggle`, { [name]: value })
 			.then((response) => {
 				HELPER.toaster.success(response.message);
 				getTableData();
@@ -61,62 +122,11 @@ const UserPermissionsMaster = () => {
 				/>
 			</Box>
 			{Object.keys(userPermissions).map((group, i) => (
-				<SimpleCard key={i} title={group} sx={{ mb: 2 }}>
-					<StyledTable>
-						<TableHead>
-							<TableRow>
-								<TableCell align="left" width="30%">
-									Permission
-								</TableCell>
-								<TableCell align="center">View</TableCell>
-								<TableCell align="center">Create</TableCell>
-								<TableCell align="center">Edit</TableCell>
-								<TableCell align="center">Delete</TableCell>
-								<TableCell align="center" width="75px">
-									Action
-								</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{userPermissions[group].map((row, index) => (
-								<TableRow key={index}>
-									<TableCell align="left">{row.permissionName}</TableCell>
-									<TableCell align="center">
-										<Android12Switch disabled name="view" checked={row.view}/>
-									</TableCell>
-									<TableCell align="center">
-										<Android12Switch
-											name="create"
-											checked={row.create}
-											color="success"
-											onChange={(e) => handleToggle(row.id, e.target.name, e.target.checked)}
-										/>
-									</TableCell>
-									<TableCell align="center">
-										<Android12Switch
-											name="edit"
-											checked={row.edit}
-											color="warning"
-											onChange={(e) => handleToggle(row.id, e.target.name, e.target.checked)}
-										/>
-									</TableCell>
-									<TableCell align="center">
-										<Android12Switch
-											name="delete"
-											checked={row.delete}
-											color="error"
-											onChange={(e) => handleToggle(row.id, e.target.name, e.target.checked)}
-										/>
-									</TableCell>
-									<TableCell align="center">
-										<IconButton onClick={(e) => handleDelete(row.id)}>
-											<Icon color="error">close</Icon>
-										</IconButton>
-									</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</StyledTable>
+				<SimpleCard key={`group_${i}`} title={group} sx={{ mb: 2 }}>
+					<SimpleTable
+						data={userPermissions[group]}
+						headerColumns={userPermissionHeaderColumns}
+					/>
 				</SimpleCard>
 			))}
 			<Tooltip title="Create" placement="top">
@@ -124,7 +134,10 @@ const UserPermissionsMaster = () => {
 					<Icon>add</Icon>
 				</StyledAddButton>
 			</Tooltip>
-            <AddUserPermissions open={open} togglePopup={togglePopup} userId={params.id} refreshTable={getTableData} />
+			<AddUserPermissions open={open} togglePopup={togglePopup} userId={params.id} refreshTable={() => {
+				getTableData()
+				togglePopup()
+			}} />
 		</Container>
 	);
 };

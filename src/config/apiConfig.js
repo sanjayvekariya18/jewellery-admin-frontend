@@ -47,6 +47,9 @@ const apiConfig = {
 
   //attributes
   attributes: "attributes",
+
+  //userPermission
+  userPermission: "userPermission",
 };
 
 export default apiConfig;
