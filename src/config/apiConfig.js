@@ -39,6 +39,9 @@ const apiConfig = {
   //options
   options: "options",
 
+  //optionsAttributes
+  optionsAttributes: "options/attribute/:name",
+
   //subCategory
   subCategory: "subcategory",
 
@@ -48,7 +51,8 @@ const apiConfig = {
   customer: "customer",
   customerActive: "customer/active/:id",
   diamondDiscount: "diamondDiscount",
+  //changePassword
+  changePassword: "user/password",
 };
-
 
 export default apiConfig;
