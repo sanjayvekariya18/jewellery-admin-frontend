@@ -34,7 +34,7 @@ const CategoryMasterDetails = ({
     attributes: [],
     productDetails: [],
   };
-  console.log(initialValues, "initialValues");
+  // console.log(initialValues, "initialValues");
 
   const url = apiConfig.category;
 
@@ -42,7 +42,7 @@ const CategoryMasterDetails = ({
     ...initialValues,
   });
 
-  console.log(formState, "form");
+  // console.log(formState, "form");
   const rules = {
     name: "required",
     attributes: "required",
@@ -188,7 +188,7 @@ const CategoryMasterDetails = ({
     }
   };
 
-  console.log(formState, "formState");
+  // console.log(formState, "formState");
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => {
