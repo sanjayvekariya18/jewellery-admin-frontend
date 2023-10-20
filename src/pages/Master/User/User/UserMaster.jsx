@@ -27,11 +27,13 @@ const UserMaster = () => {
 
   /* Pagination code */
   const COLUMNS = [
+    { title: "Profile" },
     { title: "Name" },
     { title: "Email" },
     { title: "Active" },
-    { title: "Image" },
     { title: "Action" },
+    { title: "Permission" },
+
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -109,6 +111,9 @@ const UserMaster = () => {
         item: item,
         columns: [
           <span>
+            <ImgBoxShow src={item.image} />
+          </span>,
+          <span>
             {item.firstName} {item.lastName}
           </span>,
           <span>{item.email}</span>,
@@ -122,21 +127,8 @@ const UserMaster = () => {
               </Icon>
             </IconButton>
           </span>,
-          <span>
-            <ImgBoxShow src={item.image} />
-          </span>,
+
           <div>
-            <IconButton
-              onClick={(e) =>
-                navigate(
-                  `${pageRoutes.master.user.userPermissions.split(":")[0]}${
-                    item.id
-                  }`
-                )
-              }
-            >
-              <Icon color="warning">fingerprint</Icon>
-            </IconButton>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">edit</Icon>
             </IconButton>
@@ -144,6 +136,17 @@ const UserMaster = () => {
               <Icon color="error">close</Icon>
             </IconButton> */}
           </div>,
+
+          <IconButton
+            onClick={(e) =>
+              navigate(
+                `${pageRoutes.master.user.userPermissions.split(":")[0]}${item.id
+                }`
+              )
+            }
+          >
+            <Icon color="warning">fingerprint</Icon>
+          </IconButton>
         ],
       };
     });

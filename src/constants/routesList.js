@@ -23,11 +23,16 @@ export const pageRoutes = {
   diamond: "/diamonds",
   jewellery: "/jewellery",
   customer: "/customer",
-  discount:"/discount",
+  discount: "/discount",
   master: {
     diamond: {
       lab: "/master/diamond/lab",
       shape: "/master/diamond/shape",
+    },
+    gemstone: {
+      gemstoneBulk: "/master/gemstone/gemstonesBulk",
+      gemstone: "/master/gemstone/gemstones",
+
     },
     jewellery: {
       category: "/master/jewellery/category",

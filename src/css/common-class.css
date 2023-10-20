@@ -1,6 +1,6 @@
 .three-dot-text {
     display: inline-block;
-    width: 130px;
+    width: 100px;
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;

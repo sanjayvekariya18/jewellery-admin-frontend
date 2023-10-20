@@ -85,11 +85,6 @@ const DetailsMaster = () => {
           loader: false,
         });
       })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
-      });
   };
 
   //------------ Delete Lab --------------

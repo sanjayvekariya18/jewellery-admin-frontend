@@ -53,6 +53,12 @@ const apiConfig = {
   diamondDiscount: "diamondDiscount",
   //changePassword
   changePassword: "user/password",
+  // gemstone,
+  gemstone: "gemstone",
+
+  visibility: "gemstone/visibility/:id", //gemstone visible toggle
+
+  gemstoneBulk: "gemstone/bulk_upload"
 };
 
 export default apiConfig;

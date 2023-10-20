@@ -34,18 +34,18 @@ const CategoryMasterDetails = ({
     details: "",
     imgUrl: "",
     logoUrl: "",
-    attributes: dataList,
-    productDetails: dataList2,
+    attributes: [...dataList],
+    productDetails: [...dataList2],
   };
+  console.log(initialValues, "initialValues");
 
-  // console.log(dataList, "datalist");
   const url = apiConfig.category;
 
   const [formState, setFormState] = useState({
     ...initialValues,
   });
-  // console.log(formState, "formState");
 
+  console.log(formState,"form");
   const rules = {
     name: "required",
     attributes: "required",
@@ -53,13 +53,16 @@ const CategoryMasterDetails = ({
   };
   const handleSubmit = async (values) => {
     // console.log(values, "validate");
-    const updatedFormState = {
-      ...formState,
+
+    setFormState((prev) => ({
+      ...prev,
+
       attributes: JSON.stringify(dataList),
       productDetails: JSON.stringify(dataList2),
-    };
+    }));
+    console.log(formState, "validate");
 
-    API.post(url, updatedFormState)
+    API.post(url)
       .then((res) => {
         HELPER.toaster.success("Record created");
         togglePopup();
@@ -72,7 +75,7 @@ const CategoryMasterDetails = ({
         HELPER.toaster.error(err.errors.message);
       });
   };
-
+  console.log(formState, "formState");
   // const handleSubmit = async (data) => {
   //   console.log(data,"data");
   //   const fd = new FormData();

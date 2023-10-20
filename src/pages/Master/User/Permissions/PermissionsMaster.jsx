@@ -18,7 +18,7 @@ const PermissionsMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
 
   /* Pagination code */
-  const COLUMNS = [{ title: "Permission" }, { title: "Group" }];
+  const COLUMNS = [{ title: "Permission Group" }, { title: "Permission Name" }];
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
       searchTxt: "",
@@ -94,8 +94,8 @@ const PermissionsMaster = () => {
       return {
         item: item,
         columns: [
-          <span>{item.permissionName} </span>,
           <span>{item.permissionGroup}</span>,
+          <span>{item.permissionName} </span>,
         ],
       };
     });

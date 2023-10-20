@@ -23,7 +23,6 @@ const ReactSelect = ({
     return option;
   });
 
-  // Find the selected option based on 'value'
   const selectedOption = options.find((option) => option.value === value);
 
   return (

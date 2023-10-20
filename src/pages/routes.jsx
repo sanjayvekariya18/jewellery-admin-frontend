@@ -5,6 +5,7 @@ import { authRoles } from "../auth/authRoles";
 import Loadable from "../components/Loadable";
 import MatxLayout from "../components/MatxLayout/MatxLayout";
 import { pageRoutes } from "../constants/routesList";
+import GemstoneMaster from "./Master/Gemstone/Gemstones/GemstoneMaster";
 // import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 
 // session pages
@@ -29,6 +30,8 @@ const DetailsMaster = Loadable(lazy(() => import("./Master/Jewellery/Details/Det
 const PermissionsMaster = Loadable(lazy(() => import("./Master/User/Permissions/PermissionsMaster")));
 const UserMaster = Loadable(lazy(() => import("./Master/User/User/UserMaster")));
 const UserPermissionsMaster = Loadable(lazy(() => import("./Master/User/User/UserPermissions")));
+const GemstoneBulkMaster = Loadable(lazy(() => import("./Master/Gemstone/GemstonesBulk/GemstoneBulkMaster")));
+
 
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
@@ -57,6 +60,8 @@ const routes = [
 			{ path: pageRoutes.customer, element: <Customer /> },
 			{ path: pageRoutes.discount, element: <Discount />},
 			{ path: pageRoutes.master.diamond.lab, element: <LabMaster /> },
+			{ path: pageRoutes.master.gemstone.gemstoneBulk, element: <GemstoneBulkMaster /> },
+			{ path: pageRoutes.master.gemstone.gemstone, element: <GemstoneMaster /> },
 			{ path: pageRoutes.master.diamond.shape, element: <ShapeMaster /> },
 			{ path: pageRoutes.master.jewellery.category, element: <CategoryMaster /> },
 			{ path: pageRoutes.master.jewellery.subcategory, element: <SubcategoryMaster /> },

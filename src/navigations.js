@@ -14,6 +14,16 @@ export const navigations = [
 		children: [
 			{ name: "Lab", iconText: "LB", path: pageRoutes.master.diamond.lab },
 			{ name: "Shape", iconText: "SP", path: pageRoutes.master.diamond.shape },
+			// { name: "Gemstone", path: pageRoutes.master.diamond.gemstone },
+		],
+	},
+	{
+		name: "Gemstone",
+		icon: "diamond",
+		children: [
+			{ name: "Gemstones Bulk", iconText: "LB", path: pageRoutes.master.gemstone.gemstoneBulk },
+			{ name: "Gemstone", iconText: "LB", path: pageRoutes.master.gemstone.gemstone },
+
 		],
 	},
 	{
