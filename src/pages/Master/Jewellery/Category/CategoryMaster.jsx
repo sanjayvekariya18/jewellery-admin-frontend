@@ -161,7 +161,7 @@ const CategoryMaster = () => {
   const onClickDelete = (category_id) => {
     Swal.fire({
       title: "Are You Sure",
-      text: "Are you sure you want to remove this Shape ?",
+      text: "Are you sure you want to remove this Category ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "green",
@@ -191,7 +191,7 @@ const CategoryMaster = () => {
         <Breadcrumb
           routeSegments={[
             { name: "Masters", path: pageRoutes.master.user.user },
-            { name: "Shape" },
+            { name: "Category" },
           ]}
         />
         <Tooltip title="Filter">

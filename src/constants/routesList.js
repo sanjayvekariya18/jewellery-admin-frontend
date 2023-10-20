@@ -23,16 +23,15 @@ export const pageRoutes = {
   diamond: "/diamonds",
   jewellery: "/jewellery",
   customer: "/customer",
-  discount: "/discount",
   master: {
     diamond: {
       lab: "/master/diamond/lab",
       shape: "/master/diamond/shape",
+      discount: "/master/diamond/discount",
     },
     gemstone: {
       gemstoneBulk: "/master/gemstone/gemstonesBulk",
       gemstone: "/master/gemstone/gemstones",
-
     },
     jewellery: {
       category: "/master/jewellery/category",
@@ -41,6 +40,7 @@ export const pageRoutes = {
       attributes: "/master/jewellery/attributes",
       detailsGroup: "/master/jewellery/details_group",
       details: "/master/jewellery/details",
+      metal: "/master/jewellery/metal",
     },
     user: {
       permissions: "/master/user/permissions",

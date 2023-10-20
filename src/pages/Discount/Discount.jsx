@@ -10,6 +10,7 @@ import { API } from "../../services";
 import { apiConfig, appConfig } from "../../config";
 import useDidMountEffect from "../../hooks/useDidMountEffect";
 import DiscountDetails from "./DiscountDetails";
+import { pageRoutes } from "../../constants/routesList";
 
 const Discount = () => {
   const [open, setOpen] = useState(false);
@@ -115,7 +116,12 @@ const Discount = () => {
   return (
     <Container>
       <Box className="breadcrumb">
-        <Breadcrumb routeSegments={[{ name: "Discount" }]} />
+        <Breadcrumb
+          routeSegments={[
+            { name: "Masters", path: pageRoutes.master.user.user },
+            { name: "Discount" },
+          ]}
+        />
       </Box>
       <PaginationTable
         header={COLUMNS}

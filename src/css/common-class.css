@@ -5,3 +5,7 @@
     overflow: hidden !important;
     text-overflow: ellipsis;
 }
+
+.css-1bwc6vp-MuiTable-root tbody tr td {
+    text-transform: none !important;
+}

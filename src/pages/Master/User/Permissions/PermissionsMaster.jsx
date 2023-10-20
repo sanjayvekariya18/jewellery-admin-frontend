@@ -125,7 +125,7 @@ const PermissionsMaster = () => {
         orderBy={state.orderby}
         order={state.order}
       ></PaginationTable>
-      <Tooltip title="Create" placement="top">
+      {/* <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"
           aria-label="Add"
@@ -134,7 +134,7 @@ const PermissionsMaster = () => {
         >
           <Icon>add</Icon>
         </StyledAddButton>
-      </Tooltip>
+      </Tooltip> */}
       <PermissionMasterDetails
         open={open}
         togglePopup={() => {

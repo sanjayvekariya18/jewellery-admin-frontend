@@ -13,10 +13,13 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 import { toaster } from "../../../../services/helper";
 import Swal from "sweetalert2";
 import OptionsMasterDetails from "./OptionsMasterDetails";
+import OptionsAttributeTable from "./OptionAttributeTable";
 
 const OptionMaster = () => {
   const [open, setOpen] = useState(false);
+  // const [openTable, setOpenTable] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
+  // const [selectAttributeData, setSelectAttributeData] = useState(null);
 
   /* Pagination code */
   const COLUMNS = [
@@ -96,6 +99,23 @@ const OptionMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
+  /* Pagination code */
+
+  const togglePopup = () => {
+    if (open) {
+      setSelectedUserData(null);
+    }
+    setOpen(!open);
+  };
+  // const togglePopupTable = (name) => {
+  //   setSelectAttributeData(name);
+  //   setOpenTable(!openTable);
+  // };
+
+  const handleEdit = (data) => {
+    setSelectedUserData(data);
+    setOpen(true);
+  };
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -138,7 +158,7 @@ const OptionMaster = () => {
             <IconButton onClick={(e) => onClickDelete(item.id)}>
               <Icon color="error">delete</Icon>
             </IconButton>
-            {/* <IconButton >
+            {/* <IconButton onClick={() => togglePopupTable(item.name)}>
               <Icon color="error">remove_red_eye</Icon>
             </IconButton> */}
           </div>,
@@ -146,19 +166,6 @@ const OptionMaster = () => {
       };
     });
   }, [state.data]);
-  /* Pagination code */
-
-  const togglePopup = () => {
-    if (open) {
-      setSelectedUserData(null);
-    }
-    setOpen(!open);
-  };
-
-  const handleEdit = (data) => {
-    setSelectedUserData(data);
-    setOpen(true);
-  };
   // ------------------------------- Delete Shape ---------------------------------
   const onClickDelete = (id) => {
     Swal.fire({
@@ -231,6 +238,14 @@ const OptionMaster = () => {
         }}
         userData={selectedUserData}
       />
+      {/* <OptionsAttributeTable
+        open={openTable}
+        togglePopup={() => {
+          togglePopupTable();
+          paginate();
+        }}
+        initialState={selectAttributeData}
+      /> */}
     </Container>
   );
 };

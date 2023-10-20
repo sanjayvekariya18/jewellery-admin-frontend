@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Icon, IconButton, Tooltip } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
@@ -17,6 +17,7 @@ import AttributesMasterDetails from "./AttributesMasterDetails";
 const AttributesMaster = () => {
   const [open, setOpen] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
+  const [editAttributeSingleData, setEditAttributeSingleData] = useState([]);
 
   /* Pagination code */
   const COLUMNS = [
@@ -104,20 +105,6 @@ const AttributesMaster = () => {
           <span>{item.name}</span>,
           <span className="three-dot-text">{item.details}</span>,
           <span>
-            {item.imgUrl && item.imgUrl !== null && (
-              <Box
-                component="img"
-                sx={{
-                  height: 50,
-                  width: 50,
-                  maxHeight: { xs: 25, md: 50 },
-                  maxWidth: { xs: 25, md: 50 },
-                }}
-                src={HELPER.getImageUrl(item.imgUrl)}
-              />
-            )}
-          </span>,
-          <span>
             {item.logoUrl && item.logoUrl !== null && (
               <Box
                 component="img"
@@ -128,6 +115,20 @@ const AttributesMaster = () => {
                   maxWidth: { xs: 25, md: 50 },
                 }}
                 src={HELPER.getImageUrl(item.logoUrl)}
+              />
+            )}
+          </span>,
+          <span>
+            {item.imgUrl && item.imgUrl !== null && (
+              <Box
+                component="img"
+                sx={{
+                  height: 50,
+                  width: 50,
+                  maxHeight: { xs: 25, md: 50 },
+                  maxWidth: { xs: 25, md: 50 },
+                }}
+                src={HELPER.getImageUrl(item.imgUrl)}
               />
             )}
           </span>,
@@ -156,6 +157,17 @@ const AttributesMaster = () => {
     setSelectedUserData(data);
     setOpen(true);
   };
+
+  useEffect(() => {
+    if (selectedUserData) {
+      // Check if selectedUserData is not null
+      API.get(apiConfig.attributesId.replace(":id", selectedUserData.id)).then(
+        (res) => {
+          setEditAttributeSingleData({ ...res });
+        }
+      );
+    }
+  }, [selectedUserData]);
   // ------------------------------- Delete Shape ---------------------------------
   const onClickDelete = (id) => {
     Swal.fire({
@@ -193,7 +205,6 @@ const AttributesMaster = () => {
           ]}
         />
       </Box>
-
       <PaginationTable
         header={COLUMNS}
         rows={rows}
@@ -219,7 +230,7 @@ const AttributesMaster = () => {
           <Icon>add</Icon>
         </StyledAddButton>
       </Tooltip>
-
+      {/* {open && ( */}
       <AttributesMasterDetails
         open={open}
         togglePopup={() => {
@@ -228,7 +239,9 @@ const AttributesMaster = () => {
         }}
         callBack={() => paginate(true)}
         userData={selectedUserData}
+        editAttributeSingleData={editAttributeSingleData}
       />
+      {/* )} */}
     </Container>
   );
 };

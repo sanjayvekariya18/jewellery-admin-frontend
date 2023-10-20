@@ -1,5 +1,5 @@
 import { Box, Button, Icon, IconButton } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { API, HELPER } from "../../../../services";
 import { apiConfig } from "../../../../config";
 import Textinput from "../../../../components/UI/TextInput";
@@ -24,9 +24,6 @@ const CategoryMasterDetails = ({
   const [options, setOptions] = useState([]);
   const [select, setSelect] = useState([]);
 
-  const [dataList, setDataList] = useState([]);
-  const [dataList2, setDataList2] = useState([]);
-
   // -------------intialization
   const initialValues = {
     id: "",
@@ -34,8 +31,8 @@ const CategoryMasterDetails = ({
     details: "",
     imgUrl: "",
     logoUrl: "",
-    attributes: [...dataList],
-    productDetails: [...dataList2],
+    attributes: [],
+    productDetails: [],
   };
   console.log(initialValues, "initialValues");
 
@@ -45,75 +42,48 @@ const CategoryMasterDetails = ({
     ...initialValues,
   });
 
-  console.log(formState,"form");
+  console.log(formState, "form");
   const rules = {
     name: "required",
     attributes: "required",
     productDetails: "required",
+    imgUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
+    logoUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
   };
+
   const handleSubmit = async (values) => {
-    // console.log(values, "validate");
+    const updatedFormState = {
+      ...formState,
+      attributes: JSON.stringify(formState.attributes),
+      productDetails: JSON.stringify(formState.productDetails),
+    };
 
-    setFormState((prev) => ({
-      ...prev,
-
-      attributes: JSON.stringify(dataList),
-      productDetails: JSON.stringify(dataList2),
-    }));
-    console.log(formState, "validate");
-
-    API.post(url)
+    API.post(url, updatedFormState)
       .then((res) => {
-        HELPER.toaster.success("Record created");
         togglePopup();
-        setFormState("");
-        setDataList("");
-        setDataList2("");
+        // setFormState(initialValues);
+        HELPER.toaster.success("Record created");
       })
       .catch((err) => {
         console.log(err, "err");
         HELPER.toaster.error(err.errors.message);
       });
   };
-  console.log(formState, "formState");
-  // const handleSubmit = async (data) => {
-  //   console.log(data,"data");
-  //   const fd = new FormData();
-  //   console.log(fd,"fd");
-  //   for (const field in data) {
-  //     fd.append(field, data[field]);
-  //   }
-  //   const apiUrl =
-  //     data.id === "" ? apiConfig.category : `${apiConfig.category}/${data.id}`;
-  //   const updatedFormState = {
-  //     ...formState,
-  //     attributes: JSON.stringify(dataList),
-  //     productDetails: JSON.stringify(dataList2),
-  //   };
-
-  //   API[data.id === "" ? "post" : "put"](apiUrl, fd, updatedFormState)
-  //     .then(() => {
-  //       HELPER.toaster.success(
-  //         data.id === "" ? "Record created" : "Record saved"
-  //       );
-  //       togglePopup();
-  //       setDataList('')
-  //     })
-  //     .catch((e) => {
-  //       HELPER.toaster.error(e.errors.message)
-  //     });
-
-  // };
 
   // const handleSubmit = (data) => {
   //   const fd = new FormData();
   //   for (const field in data) {
   //     fd.append(field, data[field]);
   //   }
+  //   const updatedFormState = {
+  //     ...formState,
+  //     attributes: JSON.stringify(formState.attributes),
+  //     productDetails: JSON.stringify(formState.productDetails),
+  //   };
   //   const apiUrl =
-  //     data.id === "" ? apiConfig.shape : `${apiConfig.shape}/${data.id}`;
+  //     data.id === "" ? apiConfig.category : `${apiConfig.category}/${data.id}`;
 
-  //   API[data.id === "" ? "post" : "put"](apiUrl, fd)
+  //   API[data.id === "" ? "post" : "put"](apiUrl, updatedFormState, fd)
   //     .then(() => {
   //       HELPER.toaster.success(
   //         data.id === "" ? "Record created" : "Record saved"
@@ -122,21 +92,32 @@ const CategoryMasterDetails = ({
   //     })
   //     .catch((e) => HELPER.toaster.error(e.errors.message));
   // };
+
   useEffect(() => {
     if (open === true && userData !== null) {
       userData.imgUrl = HELPER.getImageUrl(userData.imgUrl);
+      userData.logoUrl = HELPER.getImageUrl(userData.logoUrl);
       setFormState(userData);
     } else {
       setFormState({ ...initialValues });
     }
   }, [open, userData]);
 
-  const onChange = ({ target: { value, name } }) => {
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // const onChange = ({ target: { value, name } }) => {
+  //   setFormState((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
+
+  const onChange = useCallback((e) => {
+    setFormState((prevProps) => {
+      return {
+        ...prevProps,
+        [e.target.name]: e.target.value,
+      };
+    });
+  }, []);
 
   useEffect(() => {
     API.get(apiConfig.attributes).then((res) => {
@@ -145,12 +126,22 @@ const CategoryMasterDetails = ({
         value: row.id,
       }));
       setOptions(optionsFromApi);
+
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        attributes: optionsFromApi,
+      }));
     });
   }, []);
 
   useEffect(() => {
     API.get(apiConfig.productDetails).then((res) => {
       setProductDetails(res.rows);
+
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        productDetails: res.rows,
+      }));
     });
   }, []);
 
@@ -171,12 +162,16 @@ const CategoryMasterDetails = ({
         attributeId: selectedOption.value,
         sortNo: sortNo,
       };
-      setDataList((prevDataList) => {
-        const newDataList = [...prevDataList, combinedData];
-        return newDataList;
-      });
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        attributes: [...prevFormState.attributes, combinedData], // Add the new object to the attributes array
+      }));
+      // Reset the select and sortNo values
+      setSelected([]);
+      setSortNo("");
     }
   };
+
   const handleLogSelectedOption2 = () => {
     if (selected2.length > 0) {
       const selectedOption = selected2[0];
@@ -184,30 +179,75 @@ const CategoryMasterDetails = ({
         productDetailsId: selectedOption.value,
         sortNo: sortNo2,
       };
-      setDataList2((prevDataList) => {
-        const newDataList = [...prevDataList, combinedData];
-        return newDataList;
-      });
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        productDetails: [...prevFormState.productDetails, combinedData],
+      }));
+      setSelected2([]);
+      setSortNo2("");
     }
   };
 
+  console.log(formState, "formState");
   return (
     <Validators formData={formState} rules={rules}>
-      {({ onSubmit, errors }) => {
+      {({ onSubmit, errors, resetValidation }) => {
         return (
           <ThemeDialog
             title={`${formState?.id === "" ? "Add" : "Edit"} Category`}
             isOpen={open}
-            onClose={togglePopup}
+            onClose={() => {
+              togglePopup();
+              resetValidation();
+            }}
             fullWidth={fullWidth}
             maxWidth={maxWidth}
             actionBtns={
-              <>
+              <div
+                style={{
+                  display: "flex ",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex ",
+                    alignContent: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      marginRight: "20px",
+                    }}
+                  >
+                    <label>Logo Image</label>
+                    <ImgUploadBoxInput
+                      name="logoUrl"
+                      onChange={onChange}
+                      value={formState?.logoUrl}
+                      label={"Logo Image"}
+                    />
+                  </div>
+                  <div>
+                    <label>Image</label>
+                    <ImgUploadBoxInput
+                      name="imgUrl"
+                      onChange={onChange}
+                      value={formState?.imgUrl}
+                      label={"Image"}
+                    />
+                  </div>
+                </div>
                 <Box>
                   <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={togglePopup}
+                    onClick={() => {
+                      togglePopup();
+                      resetValidation();
+                    }}
                   >
                     Cancel
                   </Button>
@@ -219,7 +259,7 @@ const CategoryMasterDetails = ({
                     Save
                   </Button>
                 </Box>
-              </>
+              </div>
             }
           >
             <>
@@ -241,14 +281,14 @@ const CategoryMasterDetails = ({
                 onChange={onChange}
                 sx={{ mb: 2, mt: 1, ml: 0.5, width: "100%" }}
               />
-              <Box
+              {/* <Box
                 sx={{
                   display: "flex",
                   alignContent: "center",
                   flexWrap: "unset",
                 }}
-              >
-                <Box sx={{ marginRight: "30px" }}>
+              > */}
+              {/* <Box sx={{ marginRight: "30px" }}>
                   <p> Image</p>
                   <ImgUploadBoxInput
                     name="imgUrl"
@@ -265,8 +305,8 @@ const CategoryMasterDetails = ({
                     value={formState?.logoUrl}
                     label={"logoUrl"}
                   />
-                </Box>
-              </Box>
+                </Box> */}
+              {/* </Box> */}
               <div>
                 <div>
                   <Table className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 whitespace-nowrap">
@@ -280,13 +320,12 @@ const CategoryMasterDetails = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {dataList &&
-                        dataList.map((data, index) => (
-                          <tr key={index}>
-                            <td>{data.attributeId}</td>
-                            <td>{data.sortNo}</td>
-                          </tr>
-                        ))}
+                      {formState.attributes.map((data, index) => (
+                        <tr key={index}>
+                          <td>{data.attributeId}</td>
+                          <td>{data.sortNo}</td>
+                        </tr>
+                      ))}
                       <tr>
                         <td>
                           <select
@@ -352,6 +391,12 @@ const CategoryMasterDetails = ({
                       </tr>
                     </thead>
                     <tbody>
+                      {formState.productDetails.map((data, index) => (
+                        <tr key={index}>
+                          <td>{data.productDetailsId}</td>
+                          <td>{data.sortNo}</td>
+                        </tr>
+                      ))}
                       <tr>
                         <td>
                           <select
@@ -368,6 +413,7 @@ const CategoryMasterDetails = ({
                                 },
                               ])
                             }
+                            name="productDetails"
                           >
                             <option value="">Select an option</option>
                             {select.map((option) => (
@@ -386,6 +432,7 @@ const CategoryMasterDetails = ({
                             value={sortNo2}
                             onChange={(e) => setSortNo2(e.target.value)}
                             sx={{ mb: 2, mt: 1, width: "100%" }}
+                            required
                           />
                         </td>
                         <td>

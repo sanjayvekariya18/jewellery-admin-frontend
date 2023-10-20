@@ -26,6 +26,7 @@ const apiConfig = {
 
   // attributes
   attributes: "attributes",
+  attributesId: "attributes/:id",
 
   //permission
   permission: "permission",
@@ -48,17 +49,21 @@ const apiConfig = {
   //userPermission
   userPermission: "userPermission",
 
+  //customer
   customer: "customer",
   customerActive: "customer/active/:id",
   diamondDiscount: "diamondDiscount",
+
   //changePassword
   changePassword: "user/password",
+
   // gemstone,
   gemstone: "gemstone",
-
   visibility: "gemstone/visibility/:id", //gemstone visible toggle
+  gemstoneBulk: "gemstone/bulk_upload",
 
-  gemstoneBulk: "gemstone/bulk_upload"
+  //metalPrice
+  metalPrice: "metalprice",
 };
 
 export default apiConfig;

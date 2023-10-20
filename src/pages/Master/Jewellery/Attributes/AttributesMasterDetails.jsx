@@ -1,26 +1,33 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Icon, IconButton, Table } from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
-import { apiConfig, appConfig } from "../../../../config";
+import { apiConfig } from "../../../../config";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
-import Select from "react-select";
 import Textarea from "../../../../components/UI/Textarea";
 
-const initialValues = {
-  id: "",
-  name: "",
-  details: "",
-  imgUrl: "",
-  logoUrl: "",
-  options: [],
-};
+const AttributesMasterDetails = ({
+  open,
+  togglePopup,
+  userData,
+  editAttributeSingleData,
+}) => {
+  const [selected, setSelected] = useState([]);
+  const [sortNo, setSortNo] = useState("");
+  const [options, setOptions] = useState([]);
+  const [error, setError] = useState(null);
+  const [trueSelected, setTrueSelected] = useState(false);
 
-const AttributesMasterDetails = ({ open, togglePopup, userData, callBack }) => {
-  const [formState, setFormState] = useState({ ...initialValues });
-  const [optionId, setOptionId] = useState([]);
+  const [formState, setFormState] = useState({
+    id: "",
+    name: "",
+    details: "",
+    imgUrl: "",
+    logoUrl: "",
+    options: [],
+  });
 
   const rules = {
     name: "required",
@@ -31,16 +38,27 @@ const AttributesMasterDetails = ({ open, togglePopup, userData, callBack }) => {
 
   const handleSubmit = (data) => {
     const fd = new FormData();
+
     for (const field in data) {
-      fd.append(field, data[field]);
+      if (field !== "options") {
+        fd.append(field, data[field]);
+      }
     }
+
+    const optionsArray = data.options.map((option) => ({
+      optionId: option.optionId,
+      isDefault: option.isDefault,
+    }));
+
+    fd.append("options", JSON.stringify(optionsArray));
+
     const apiUrl =
       data.id === ""
         ? apiConfig.attributes
-        : `${apiConfig.attributes}/${data.id}`;
+        : apiConfig.attributesId.replace(":id", data.id);
 
     API[data.id === "" ? "post" : "put"](apiUrl, fd)
-      .then(() => {
+      .then((res) => {
         HELPER.toaster.success(
           data.id === "" ? "Record created" : "Record saved"
         );
@@ -59,41 +77,98 @@ const AttributesMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   }, []);
 
   useEffect(() => {
-    if (open === true && userData !== null) {
-      userData.image = HELPER.getImageUrl(userData.imgUrl);
-      setFormState(userData);
-    } else {
-      setFormState({ ...initialValues });
-    }
-  }, [open]);
+    API.get(apiConfig.options).then((res) => {
+      const optionsFromApi = res.rows.map((row) => ({
+        label: row.name,
+        value: row.id,
+      }));
+      setOptions(optionsFromApi);
 
-  useEffect(() => {
-    API.get(apiConfig.options, {
-      rowsPerPage: appConfig.defaultPerPage,
-      page: 0,
-    })
-      .then((res) => {
-        setOptionId(res.rows);
-        callBack();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        options: optionsFromApi,
+      }));
+    });
   }, []);
 
-  let _sortOptions = optionId.map((option) => ({
-    label: option.name,
-    value: option.id,
-    // isDefault: true,
-  }));
+  const handleLogSelectedOption = () => {
+    if (selected.length > 0) {
+      const selectedOption = selected[0];
 
-  // console.log(formState, "formState");
+      if (selectedOption.value === "true" && trueSelected) {
+        setError("Only one 'True' option is allowed.");
+      } else {
+        setError(null);
+        if (selectedOption.value === "true") {
+          setTrueSelected(true);
+        }
+        const combinedData = {
+          optionId: selectedOption.value,
+          isDefault: sortNo,
+        };
+        setFormState((prevFormState) => ({
+          ...prevFormState,
+          options: [...prevFormState.options, combinedData],
+        }));
+        setSelected([]);
+        setSortNo("");
+      }
+    }
+  };
+
+  const handleRemoveOption = (index) => {
+    if (formState.options[index].isDefault === "true") {
+      setTrueSelected(false);
+    }
+    setFormState((prevFormState) => ({
+      ...prevFormState,
+      options: prevFormState.options.filter((_, i) => i !== index),
+    }));
+  };
+
+  useEffect(() => {
+    if (open === true) {
+      if (userData !== null) {
+        // Handle image URLs for userData
+        // userData.imgUrl = HELPER.getImageUrl(userData.imgUrl);
+        // userData.logoUrl = HELPER.getImageUrl(userData.logoUrl);
+
+        const mappedOptions = (
+          editAttributeSingleData?.AttributesOptions || []
+        ).map((option) => ({
+          optionId: option.optionId,
+          isDefault: option.isDefault ? "true" : "false",
+        }));
+
+        const options = mappedOptions.map((mappedOption) => ({
+          optionId: mappedOption.optionId,
+          isDefault: mappedOption.isDefault,
+        }));
+
+        setFormState((prevFormState) => ({
+          ...prevFormState,
+          ...userData,
+          options: options,
+        }));
+      } else {
+        // Set default form state when userData is null
+        setFormState({
+          id: "",
+          name: "",
+          details: "",
+          imgUrl: "",
+          logoUrl: "",
+          options: [],
+        });
+      }
+    }
+  }, [open, userData, editAttributeSingleData]);
 
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
-          title={`${formState?.id === "" ? "Add" : "Edit"} Attibutes`}
+          title={`${formState?.id === "" ? "Add" : "Edit"} Attributes`}
           isOpen={open}
           onClose={() => {
             togglePopup();
@@ -159,7 +234,6 @@ const AttributesMasterDetails = ({ open, togglePopup, userData, callBack }) => {
             </div>
           }
         >
-          {" "}
           <Textinput
             type="text"
             name="name"
@@ -181,26 +255,78 @@ const AttributesMasterDetails = ({ open, togglePopup, userData, callBack }) => {
             onChange={onChange}
             sx={{ mb: 1.5 }}
           />
-          <div style={{ height: "200px" }}>
-            <Select
-              placeholder="Select Sub Category Name"
-              options={_sortOptions}
-              isMulti
-              // value={_sortOptions.filter((option) =>
-              //   formState.options.includes(option.value)
-              // )}
-              value={formState.options}
-              onChange={(selectedOptions) => {
-                setFormState((prevProps) => {
-                  return {
-                    ...prevProps,
-                    options: selectedOptions,
-                  };
-                });
-              }}
-              name="options"
-            />
-          </div>
+          <Table className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 whitespace-nowrap">
+            <thead className="" style={{ background: "#F3F3F9" }}>
+              <tr>
+                <th className="table-th">Options</th>
+                <th className="table-th">Is Default</th>
+                <th className="table-th">Close</th>
+              </tr>
+            </thead>
+            <tbody>
+              {formState.options &&
+                formState.options.map((data, index) => (
+                  <tr key={index}>
+                    <td>{data.optionId}</td>
+                    <td>{data.isDefault}</td>
+                    <td>
+                      <IconButton onClick={() => handleRemoveOption(index)}>
+                        <Icon color="error">close</Icon>
+                      </IconButton>
+                    </td>
+                  </tr>
+                ))}
+              <tr>
+                <td>
+                  <select
+                    value={
+                      selected && selected.length > 0 ? selected[0].value : ""
+                    }
+                    onChange={(e) =>
+                      setSelected([
+                        {
+                          value: e.target.value,
+                          label: e.target.value,
+                        },
+                      ])
+                    }
+                  >
+                    <option value="">Select an option</option>
+                    {options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td>
+                  <select
+                    name="sortNo"
+                    value={sortNo}
+                    onChange={(e) => setSortNo(e.target.value)}
+                    sx={{ mb: 2, mt: 1, width: "100%" }}
+                    required
+                  >
+                    <option value="">Select Is Default</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                  </select>
+                </td>
+                <td>
+                  <IconButton onClick={handleLogSelectedOption}>
+                    <Icon color="success">save</Icon>
+                  </IconButton>
+                </td>
+              </tr>
+              {error && (
+                <tr>
+                  <td colSpan="3" style={{ color: "red" }}>
+                    {error}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
         </ThemeDialog>
       )}
     </Validators>
