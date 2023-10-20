@@ -73,6 +73,11 @@ export const navigations = [
         iconText: "DG",
         path: pageRoutes.master.jewellery.details,
       },
+      {
+        name: "Metal Price",
+        iconText: "MP",
+        path: pageRoutes.master.jewellery.metal,
+      },
     ],
   },
   {

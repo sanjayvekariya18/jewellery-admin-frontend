@@ -1,3 +1,28 @@
+/* --------------------- custome scrollbar css ---------------------- */
+/* width */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #424d7917;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #424d7930;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #424d793a;
+}
+
+/* --------------------------------------  commncomponent css --------------- */
+
 .three-dot-text {
     display: inline-block;
     width: 100px;
@@ -6,6 +31,54 @@
     text-overflow: ellipsis;
 }
 
+.css-1bwc6vp-MuiTable-root {
+    border: 1px solid #80808036;
+}
+
 .css-1bwc6vp-MuiTable-root tbody tr td {
     text-transform: none !important;
+}
+
+.css-1bwc6vp-MuiTable-root thead tr {
+    background: #424d7924 !important;
+}
+
+.css-1bwc6vp-MuiTable-root thead tr th {
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+.css-1htgh2s-MuiTableCell-root {
+    padding: 4px 0px 4px 0px !important;
+}
+
+.main-modal-fix-tabel thead {
+    position: sticky;
+    top: 0px;
+    z-index: 999;
+}
+
+.text-error {
+    font-size: 11.375px;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #f06548;
+}
+
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+    border-bottom: 1px solid #8080803b !important;
+    margin-bottom: 20px !important;
+    font-size: 20px !important;
+    padding: 14px 0px 12px 30px !important;
+    background: #424d7916 !important;
+    color: #222a44 !important;
+}
+
+.css-o34k1g-MuiPaper-root-MuiDialog-paper {
+    border-radius: 0px !important;
+}
+
+.css-rgpb1g-MuiDialogActions-root {
+    border-top: 1px solid #8080802c !important;
+    padding-top: 18px;
 }

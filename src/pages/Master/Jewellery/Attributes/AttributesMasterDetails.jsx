@@ -102,6 +102,7 @@ const AttributesMasterDetails = ({
         if (selectedOption.value === "true") {
           setTrueSelected(true);
         }
+
         const combinedData = {
           optionId: selectedOption.value,
           isDefault: sortNo,
@@ -130,8 +131,8 @@ const AttributesMasterDetails = ({
     if (open === true) {
       if (userData !== null) {
         // Handle image URLs for userData
-        // userData.imgUrl = HELPER.getImageUrl(userData.imgUrl);
-        // userData.logoUrl = HELPER.getImageUrl(userData.logoUrl);
+        userData.imgUrl = HELPER.getImageUrl(userData.imgUrl);
+        userData.logoUrl = HELPER.getImageUrl(userData.logoUrl);
 
         const mappedOptions = (
           editAttributeSingleData?.AttributesOptions || []
@@ -163,6 +164,11 @@ const AttributesMasterDetails = ({
       }
     }
   }, [open, userData, editAttributeSingleData]);
+
+  const getSelectedOptionLabel = (optionId) => {
+    const selectedOption = options.find((option) => option.value === optionId);
+    return selectedOption ? selectedOption.label : "";
+  };
 
   return (
     <Validators formData={formState} rules={rules}>
@@ -267,7 +273,7 @@ const AttributesMasterDetails = ({
               {formState.options &&
                 formState.options.map((data, index) => (
                   <tr key={index}>
-                    <td>{data.optionId}</td>
+                    <td>{getSelectedOptionLabel(data.optionId)}</td>
                     <td>{data.isDefault}</td>
                     <td>
                       <IconButton onClick={() => handleRemoveOption(index)}>

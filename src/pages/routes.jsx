@@ -60,6 +60,9 @@ const GemstoneBulkMaster = Loadable(
 const GemstoneMaster = Loadable(
   lazy(() => import("./Master/Gemstone/Gemstones/GemstoneMaster"))
 );
+const MetalPriceMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/Metal/MetalPriceMaster"))
+);
 
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
@@ -123,6 +126,10 @@ const routes = [
       {
         path: pageRoutes.master.user.userPermissions,
         element: <UserPermissionsMaster />,
+      },
+      {
+        path: pageRoutes.master.jewellery.metal,
+        element: <MetalPriceMaster />,
       },
     ],
   },

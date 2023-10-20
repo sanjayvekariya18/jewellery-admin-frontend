@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Box, Icon, TextField, Tooltip } from "@mui/material";
+import { Box, DialogTitle, Icon, TextField, Tooltip } from "@mui/material";
 import { Breadcrumb, Container } from "../../components";
 import { apiConfig, appConfig } from "../../config";
 import _ from "lodash";
@@ -13,12 +13,18 @@ import error400cover from "../../assets/no-data-found-page.png";
 import useDidMountEffect from "../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
 import LabMasterDetails from "../Master/Diamond/Lab/LabMasterDetails";
+import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
+import Textarea from "../../components/UI/Textarea";
 
 const Customer = () => {
   const [open, setOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
-
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
   /* Pagination code */
   const TITLE = [
     { title: "Name" },
@@ -116,6 +122,13 @@ const Customer = () => {
       }
     });
   };
+  const showAddressInDialog = (item) => {
+    const address = `${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
+      item.addressLine3 || ""
+    }`;
+    setAddressText(address); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
 
   useDidMountEffect(() => {
     paginate();
@@ -132,7 +145,11 @@ const Customer = () => {
           <span>{item.state}</span>,
           <span>{item.city}</span>,
           <span>{item.pincode}</span>,
-          <span className="three-dot-text">
+          <span
+            className="three-dot-text"
+            style={{ fontWeight: "500", cursor: "pointer" }}
+            onClick={() => showAddressInDialog(item)}
+          >
             {`${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
               item.addressLine3 || ""
             }`}
@@ -238,6 +255,26 @@ const Customer = () => {
         }}
         userData={selectedUserData}
       />
+
+      {textModal && (
+        <ThemeDialog
+          id="showModal"
+          isOpen={textModal}
+          toggle={textModaltoggle}
+          centered
+          maxWidth="sm"
+        >
+          <div style={{ padding: "0px", margin: "0px" }}>
+            <Textarea
+              className="form-control"
+              rows="5"
+              value={addressText}
+              readOnly
+            ></Textarea>
+          </div>
+          <button onClick={textModaltoggle}>Close</button>
+        </ThemeDialog>
+      )}
     </Container>
   );
 };

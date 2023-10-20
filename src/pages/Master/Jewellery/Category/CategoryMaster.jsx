@@ -21,8 +21,8 @@ const CategoryMaster = () => {
   const COLUMNS = [
     { title: "Name" },
     { title: "Details" },
-    { title: "Image" },
     { title: "Logo Image" },
+    { title: "Image" },
     { title: "Action" },
   ];
 
@@ -101,20 +101,6 @@ const CategoryMaster = () => {
           <span>{item.name}</span>,
           <span>{item.details}</span>,
           <span>
-            {item.imgUrl && item.imgUrl !== null && (
-              <Box
-                component="img"
-                sx={{
-                  height: 50,
-                  width: 50,
-                  maxHeight: { xs: 25, md: 50 },
-                  maxWidth: { xs: 25, md: 50 },
-                }}
-                src={HELPER.getImageUrl(item.imgUrl)}
-              />
-            )}
-          </span>,
-          <span>
             {item.logoUrl && item.logoUrl !== null && (
               <Box
                 component="img"
@@ -128,6 +114,21 @@ const CategoryMaster = () => {
               />
             )}
           </span>,
+          <span>
+            {item.imgUrl && item.imgUrl !== null && (
+              <Box
+                component="img"
+                sx={{
+                  height: 50,
+                  width: 50,
+                  maxHeight: { xs: 25, md: 50 },
+                  maxWidth: { xs: 25, md: 50 },
+                }}
+                src={HELPER.getImageUrl(item.imgUrl)}
+              />
+            )}
+          </span>,
+
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>

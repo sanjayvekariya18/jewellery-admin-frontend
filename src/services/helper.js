@@ -142,7 +142,12 @@ export const getImageUrl = (url) => {
   if (isEmpty(url)) {
     return url;
   }
-  return `${apiConfig.publicURL}/${url}`;
+  const isAbsoluteUrl = /^(?:\w+:)\/\//.test(url);
+  if (isAbsoluteUrl) {
+    return url;
+  } else {
+    return `${appConfig.host}${url}`.replace(/([^:]\/)\/+/g, "$1");
+  }
 };
 
 export const GetFormatedAmount = (amount, withCrDr = false, abs = true) => {
