@@ -94,24 +94,27 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
             size="small"
             type="text"
             name="labName"
-            label="Enter Lab Name"
+            label="Lab Name"
+            placeholder="Enter Lab Name"
             value={formState.labName}
             onChange={onChange}
             error={errors?.labName}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
+            sx={{ mb: 0.5, mt: 1, width: "100%" }}
           />
-          <Textarea
-            size="small"
-            name="details"
-            type="text"
-            maxLength={255}
-            minRows={3}
-            maxRows={3}
-            placeholder="Details"
-            value={formState.details}
-            onChange={onChange}
-            sx={{ mb: 1.5 }}
-          />
+          <div className="text-input-top">
+            <Textarea
+              size="small"
+              name="details"
+              type="text"
+              maxLength={255}
+              minRows={3}
+              maxRows={3}
+              placeholder="Enter Lab Details"
+              value={formState.details}
+              onChange={onChange}
+              sx={{ mb: 1.5 }}
+            />
+          </div>
         </ThemeDialog>
       )}
     </Validators>

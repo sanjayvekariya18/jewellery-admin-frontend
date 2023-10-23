@@ -25,8 +25,8 @@ const DetailsMaster = () => {
   const COLUMNS = [
     { title: "Detail Name" },
     { title: "Group Name" },
-    { title: "Description" },
     { title: "Logo" },
+    { title: "Description" },
     { title: "Action" },
   ];
 
@@ -84,7 +84,7 @@ const DetailsMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
+      });
   };
 
   //------------ Delete Lab --------------
@@ -123,7 +123,6 @@ const DetailsMaster = () => {
         columns: [
           <span>{item.detailName}</span>,
           <span>{item.groupName}</span>,
-          <span>{item.description}</span>,
           <span>
             {item.logoUrl && item.logoUrl !== null && (
               <Box
@@ -138,6 +137,7 @@ const DetailsMaster = () => {
               />
             )}
           </span>,
+          <span>{item.description}</span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>

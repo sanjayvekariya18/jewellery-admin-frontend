@@ -22,8 +22,8 @@ const ShapeMaster = () => {
   const COLUMNS = [
     { title: "Rank" },
     { title: "Shape" },
-    { title: "Description" },
     { title: "Image" },
+    { title: "Description" },
     { title: "Action" },
   ];
 
@@ -103,7 +103,6 @@ const ShapeMaster = () => {
         columns: [
           <span>{item.rankk}</span>,
           <span>{item.shape}</span>,
-          <span>{item.description}</span>,
           <span>
             {item.imgUrl && item.imgUrl !== null && (
               <Box
@@ -118,6 +117,7 @@ const ShapeMaster = () => {
               />
             )}
           </span>,
+          <span>{item.description}</span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
@@ -195,6 +195,7 @@ const ShapeMaster = () => {
         {...otherTableActionProps}
         orderBy={state.orderby}
         order={state.order}
+        footerVisibility={false}
       ></PaginationTable>
       <Tooltip title="Create" placement="top">
         <StyledAddButton

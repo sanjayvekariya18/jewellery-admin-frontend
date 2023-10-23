@@ -95,7 +95,7 @@ const SubcategoryMasterDetails = ({
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
-          title={`${formState?.id === "" ? "Add" : "Edit"} SubCategory`}
+          title={`${formState?.id === "" ? "Add" : "Edit"} Sub Category`}
           isOpen={open}
           onClose={() => {
             togglePopup();
@@ -119,9 +119,12 @@ const SubcategoryMasterDetails = ({
                 <div
                   style={{
                     marginRight: "20px",
+                    display: "flex ",
+                    alignContent: "center",
+                    flexDirection: "column",
                   }}
                 >
-                  <label>Logo Image</label>
+                  <label className="label-class">Logo Image</label>
                   <ImgUploadBoxInput
                     name="logoUrl"
                     onChange={onChange}
@@ -130,7 +133,7 @@ const SubcategoryMasterDetails = ({
                   />
                 </div>
                 <div>
-                  <label>Image</label>
+                  <label className="label-class">Image</label>
                   <ImgUploadBoxInput
                     name="imgUrl"
                     onChange={onChange}
@@ -141,7 +144,7 @@ const SubcategoryMasterDetails = ({
               </div>
               <Box>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   color="secondary"
                   onClick={() => {
                     togglePopup();
@@ -151,8 +154,10 @@ const SubcategoryMasterDetails = ({
                   Cancel
                 </Button>
                 <Button
+                  style={{ marginLeft: "20px" }}
                   type="submit"
-                  color="primary"
+                  variant="contained"
+                  color="success"
                   onClick={() => onSubmit(handleSubmit)}
                 >
                   Save
@@ -162,7 +167,7 @@ const SubcategoryMasterDetails = ({
           }
         >
           <ReactSelect
-            label={"Category Name"}
+            label="Category Name"
             placeholder="Select Category Name"
             options={_sortOptions}
             value={formState.categoryId}
@@ -170,28 +175,32 @@ const SubcategoryMasterDetails = ({
             name="categoryId"
             error={errors?.categoryId}
           />{" "}
-          <Textinput
-            type="text"
-            name="name"
-            label="Sub Category Name"
-            placeholder="Enter Option Name"
-            value={formState.name}
-            error={errors?.name}
-            onChange={onChange}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
-          />
-          <Textarea
-            size="small"
-            name="details"
-            type="text"
-            maxLength={255}
-            minRows={3}
-            maxRows={3}
-            placeholder="Option Details"
-            value={formState.details}
-            onChange={onChange}
-            sx={{ mb: 1.5 }}
-          />
+          <div className="text-input-top">
+            <Textinput
+              type="text"
+              name="name"
+              label="Sub Category Name"
+              placeholder="Enter Option Name"
+              value={formState.name}
+              error={errors?.name}
+              onChange={onChange}
+              sx={{ mb: 0, width: "100%" }}
+            />
+          </div>
+          <div className="text-input-top">
+            <Textarea
+              size="small"
+              name="details"
+              type="text"
+              maxLength={255}
+              minRows={3}
+              maxRows={3}
+              placeholder="Enter Option Details"
+              value={formState.details}
+              onChange={onChange}
+              sx={{ mb: 1.5 }}
+            />
+          </div>
         </ThemeDialog>
       )}
     </Validators>

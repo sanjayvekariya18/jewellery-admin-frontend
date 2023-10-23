@@ -55,7 +55,7 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
 
   return (
     <Validators formData={formState} rules={rules}>
-      {({ onSubmit, errors }) => (
+      {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
           title={`Edit Discount`}
           isOpen={open}
@@ -63,15 +63,20 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
           actionBtns={
             <Box>
               <Button
-                variant="outlined"
+                variant="contained"
                 color="secondary"
-                onClick={togglePopup}
+                onClick={() => {
+                  togglePopup();
+                  resetValidation();
+                }}
               >
                 Cancel
               </Button>
               <Button
+                style={{ marginLeft: "20px" }}
                 type="submit"
-                color="primary"
+                variant="contained"
+                color="success"
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
@@ -83,11 +88,12 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
             size="small"
             type="text"
             name="discount"
-            label="discount"
+            label="Discount"
+            placeholder="Enter Discount"
             value={formState.discount}
             onChange={onChange}
             error={errors?.discount}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
+            sx={{ mb: 0, mt: 1, width: "100%" }}
           />
         </ThemeDialog>
       )}

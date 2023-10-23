@@ -17,8 +17,8 @@ const Discount = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
 
   const COLUMNS = [
-    { title: "HighSize" },
-    { title: "LowSize" },
+    { title: "High Size" },
+    { title: "Low Size" },
     { title: "Discount" },
     { title: "Action" },
   ];
@@ -137,6 +137,7 @@ const Discount = () => {
         {...otherTableActionProps}
         orderBy={state.orderby}
         order={state.order}
+        footerVisibility={false}
       ></PaginationTable>
 
       <DiscountDetails

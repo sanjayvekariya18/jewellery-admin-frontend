@@ -22,9 +22,9 @@ const SubcategoryMaster = () => {
   const COLUMNS = [
     { title: "Name" },
     { title: "Category Name" },
-    { title: "Details" },
     { title: "Logo Image" },
     { title: "Image" },
+    { title: "Details" },
     { title: "Action" },
   ];
 
@@ -104,7 +104,7 @@ const SubcategoryMaster = () => {
         columns: [
           <span>{item.name}</span>,
           <span>{item.categoryName}</span>,
-          <span className="three-dot-text">{item.details}</span>,
+
           <span>
             {item.logoUrl && item.logoUrl !== null && (
               <Box
@@ -133,6 +133,7 @@ const SubcategoryMaster = () => {
               />
             )}
           </span>,
+          <span className="three-dot-text">{item.details}</span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
@@ -191,7 +192,7 @@ const SubcategoryMaster = () => {
         <Breadcrumb
           routeSegments={[
             { name: "Masters", path: pageRoutes.master.user.user },
-            { name: "SubCategory" },
+            { name: "Sub Category" },
           ]}
         />
       </Box>

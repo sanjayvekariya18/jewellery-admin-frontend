@@ -43,8 +43,8 @@ export default function ImgUploadBoxInput({
                 id={`image_${randomStr()}`}
                 component="img"
                 sx={{
-                  height: 50,
-                  width: 50,
+                  height: 40,
+                  width: 40,
                   maxHeight: { xs: 25, md: 50 },
                   maxWidth: { xs: 25, md: 50 },
                   ...(Boolean(error) && {
@@ -59,7 +59,7 @@ export default function ImgUploadBoxInput({
                 }}
               />
             ) : (
-              <Icon>photo_camera</Icon>
+              <Icon style={{ fontSize: "40px" }}>photo_camera</Icon>
             )}
           </IconButton>
         </label>

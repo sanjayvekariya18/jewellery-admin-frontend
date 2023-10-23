@@ -26,11 +26,14 @@ const ReactSelect = ({
   const selectedOption = options.find((option) => option.value === value);
 
   return (
-    <div className="mb-3">
+    <div>
       {label && (
-        <label htmlFor={label} className="form-label">
-          {label}
-        </label>
+        <div style={{ marginBottom: "5px" }}>
+          {" "}
+          <label htmlFor={label} className="label-class">
+            {label}
+          </label>
+        </div>
       )}
       <VirtualizedSelect
         className={error ? "select-border-handle" : ""}

@@ -24,9 +24,9 @@ const OptionMaster = () => {
   /* Pagination code */
   const COLUMNS = [
     { title: "Name" },
-    { title: "Details" },
     { title: "Logo Image" },
     { title: "Image" },
+    { title: "Details" },
     { title: "Action" },
   ];
 
@@ -122,7 +122,6 @@ const OptionMaster = () => {
         item: item,
         columns: [
           <span>{item.name}</span>,
-          <span className="three-dot-text">{item.details}</span>,
           <span>
             {item.logoUrl && item.logoUrl !== null && (
               <Box
@@ -151,6 +150,7 @@ const OptionMaster = () => {
               />
             )}
           </span>,
+          <span className="three-dot-text">{item.details}</span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>

@@ -72,15 +72,24 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
           }}
           actionBtns={
             <>
-              <ImgUploadBoxInput
-                name="image"
-                onChange={onChange}
-                value={formState?.image}
-                label={"Image"}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                {/* <label className="label-class">Image</label> */}
+                <ImgUploadBoxInput
+                  name="image"
+                  onChange={onChange}
+                  value={formState?.image}
+                  label={"Image"}
+                />
+              </div>
               <Box>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   color="secondary"
                   onClick={() => {
                     togglePopup();
@@ -90,8 +99,10 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
                   Cancel
                 </Button>
                 <Button
+                  style={{ marginLeft: "20px" }}
                   type="submit"
-                  color="primary"
+                  variant="contained"
+                  color="success"
                   onClick={() => onSubmit(handleSubmit)}
                 >
                   Save
@@ -100,36 +111,40 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
             </>
           }
         >
-          {" "}
           <Textinput
             type="number"
             name="rankk"
             label="Rank"
+            placeholder="Enter Rank"
             value={formState.rankk}
             onChange={onChange}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
+            sx={{ mb: 0, mt: 1, width: "100%" }}
           />
-          <Textinput
-            type="text"
-            name="shape"
-            label="Shap"
-            value={formState.shape}
-            onChange={onChange}
-            error={errors?.shape}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
-          />
-          <Textarea
-            size="small"
-            name="description"
-            type="text"
-            maxLength={255}
-            minRows={3}
-            maxRows={3}
-            placeholder="Details"
-            value={formState.description}
-            onChange={onChange}
-            sx={{ mb: 1.5 }}
-          />
+          <div className="text-input-top">
+            <Textinput
+              type="text"
+              name="shape"
+              label="Shap"
+              placeholder="Enter Shap"
+              value={formState.shape}
+              onChange={onChange}
+              error={errors?.shape}
+              sx={{ mb: 0, width: "100%" }}
+            />
+          </div>
+          <div className="text-input-top">
+            <Textarea
+              size="small"
+              name="description"
+              type="text"
+              maxLength={255}
+              minRows={3}
+              maxRows={3}
+              placeholder="Enter Shape Details"
+              value={formState.description}
+              onChange={onChange}
+            />
+          </div>
         </ThemeDialog>
       )}
     </Validators>

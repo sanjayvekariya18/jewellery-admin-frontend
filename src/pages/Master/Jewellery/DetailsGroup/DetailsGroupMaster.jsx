@@ -194,6 +194,7 @@ const DetailsGroupMaster = () => {
         {...otherTableActionProps}
         orderBy={state.orderby}
         order={state.order}
+        footerVisibility={false}
       ></PaginationTable>
 
       <Tooltip title="Create" placement="top">

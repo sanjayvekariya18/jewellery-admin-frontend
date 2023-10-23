@@ -39,6 +39,7 @@ const apiConfig = {
 
   //options
   options: "options",
+  optionsList: "list/option",
 
   //optionsAttributes
   optionsAttributes: "options/attribute/:name",
@@ -61,14 +62,14 @@ const apiConfig = {
   gemstone: "gemstone",
   visibility: "gemstone/visibility/:id", //gemstone visible toggle
   gemstoneBulk: "gemstone/bulk_upload",
-
+  visibility_gemstone: "gemstone/visibility/:id",
   //metalPrice
   metalPrice: "metalprice",
 
   // diamond
-  diamonds:"diamonds",
+  diamonds: "diamonds",
   visibility: "diamonds/visibility/:id", //gemstone visible toggle
-  diamondsBulk:"diamonds/bulk_upload"
+  diamondsBulk: "diamonds/bulk_upload",
 };
 
 export default apiConfig;

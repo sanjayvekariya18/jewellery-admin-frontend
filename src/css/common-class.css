@@ -2,6 +2,7 @@
 /* width */
 ::-webkit-scrollbar {
     width: 4px;
+    height: 4px;
 }
 
 /* Track */
@@ -58,11 +59,21 @@
     z-index: 999;
 }
 
+
 .text-error {
-    font-size: 11.375px;
+    font-size: 12px;
     margin-top: 0.25rem;
     font-size: 0.875em;
-    color: #f06548;
+    color: #ff3d57;
+}
+
+.label-class {
+    font-size: 14px;
+    color: #5f5d5d;
+}
+
+.css-1nmdiq5-menu {
+    z-index: 999;
 }
 
 .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
@@ -81,4 +92,8 @@
 .css-rgpb1g-MuiDialogActions-root {
     border-top: 1px solid #8080802c !important;
     padding-top: 18px;
+}
+
+.text-input-top {
+    margin-top: 15px !important;
 }

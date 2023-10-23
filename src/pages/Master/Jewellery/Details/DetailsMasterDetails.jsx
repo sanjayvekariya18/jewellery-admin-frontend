@@ -94,7 +94,7 @@ const DetailsMasterDetails = ({
               />
               <Box>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   color="secondary"
                   onClick={() => {
                     togglePopup();
@@ -104,8 +104,10 @@ const DetailsMasterDetails = ({
                   Cancel
                 </Button>
                 <Button
+                  style={{ marginLeft: "20px" }}
                   type="submit"
-                  color="primary"
+                  variant="contained"
+                  color="success"
                   onClick={() => onSubmit(handleSubmit)}
                 >
                   Save
@@ -123,28 +125,33 @@ const DetailsMasterDetails = ({
             name="detailsGroupId"
             error={errors?.detailsGroupId}
           />
-          <Textinput
-            size="small"
-            type="text"
-            name="detailName"
-            label="Detail Name"
-            value={formState.detailName}
-            onChange={onChange}
-            error={errors?.detailName}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
-          />
-          <Textarea
-            size="small"
-            name="description"
-            type="text"
-            maxLength={255}
-            minRows={3}
-            maxRows={3}
-            placeholder="Details"
-            value={formState.description}
-            onChange={onChange}
-            sx={{ mb: 1.5 }}
-          />
+          <div className="text-input-top">
+            <Textinput
+              size="small"
+              type="text"
+              name="detailName"
+              label="Detail Name"
+              placeholder="Enter Detail Name"
+              value={formState.detailName}
+              onChange={onChange}
+              error={errors?.detailName}
+              sx={{ mb: 0, width: "100%" }}
+            />
+          </div>
+          <div className="text-input-top">
+            <Textarea
+              size="small"
+              name="description"
+              type="text"
+              maxLength={255}
+              minRows={3}
+              maxRows={3}
+              placeholder="Details"
+              value={formState.description}
+              onChange={onChange}
+              sx={{ mb: 1.5 }}
+            />
+          </div>
         </ThemeDialog>
       )}
     </Validators>

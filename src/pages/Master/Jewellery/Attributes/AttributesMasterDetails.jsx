@@ -77,8 +77,8 @@ const AttributesMasterDetails = ({
   }, []);
 
   useEffect(() => {
-    API.get(apiConfig.options).then((res) => {
-      const optionsFromApi = res.rows.map((row) => ({
+    API.get(apiConfig.optionsList, { is_public_url: true }).then((res) => {
+      const optionsFromApi = res.map((row) => ({
         label: row.name,
         value: row.id,
       }));

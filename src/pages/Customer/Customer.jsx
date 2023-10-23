@@ -1,5 +1,12 @@
 import React, { useMemo, useState } from "react";
-import { Box, DialogTitle, Icon, TextField, Tooltip } from "@mui/material";
+import {
+  Box,
+  DialogContent,
+  DialogTitle,
+  Icon,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { Breadcrumb, Container } from "../../components";
 import { apiConfig, appConfig } from "../../config";
 import _ from "lodash";
@@ -8,7 +15,7 @@ import { toaster } from "../../../src/services/helper";
 import PaginationTable from "../../components/UI/Pagination/PaginationTable";
 import { usePaginationTable } from "../../components/UI/Pagination/PaginationTable";
 import { API, HELPER } from "../../../src/services/index";
-import { IconButton } from "@mui/material";
+import { IconButton, Button } from "@mui/material";
 import error400cover from "../../assets/no-data-found-page.png";
 import useDidMountEffect from "../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
@@ -258,11 +265,21 @@ const Customer = () => {
 
       {textModal && (
         <ThemeDialog
+          title="Address"
           id="showModal"
           isOpen={textModal}
           toggle={textModaltoggle}
           centered
           maxWidth="sm"
+          actionBtns={
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={textModaltoggle}
+            >
+              Close
+            </Button>
+          }
         >
           <div style={{ padding: "0px", margin: "0px" }}>
             <Textarea
@@ -272,7 +289,6 @@ const Customer = () => {
               readOnly
             ></Textarea>
           </div>
-          <button onClick={textModaltoggle}>Close</button>
         </ThemeDialog>
       )}
     </Container>

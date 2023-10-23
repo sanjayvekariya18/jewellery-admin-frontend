@@ -68,7 +68,7 @@ const DetailsGroupMasterDetails = ({ open, togglePopup, userData }) => {
           actionBtns={
             <Box>
               <Button
-                variant="outlined"
+                variant="contained"
                 color="secondary"
                 onClick={() => {
                   togglePopup();
@@ -78,9 +78,10 @@ const DetailsGroupMasterDetails = ({ open, togglePopup, userData }) => {
                 Cancel
               </Button>
               <Button
+                style={{ marginLeft: "20px" }}
                 type="submit"
-                color="primary"
-                // onClick={() => handleSubmit(formState?.id)}
+                variant="contained"
+                color="success"
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
@@ -93,10 +94,11 @@ const DetailsGroupMasterDetails = ({ open, togglePopup, userData }) => {
             type="text"
             name="groupName"
             label="Group Name"
+            placeholder="Enter Group Name"
             value={formState.groupName}
             onChange={onChange}
             error={errors?.groupName}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
+            sx={{ mb: 0, mt: 1, width: "100%" }}
           />
         </ThemeDialog>
       )}

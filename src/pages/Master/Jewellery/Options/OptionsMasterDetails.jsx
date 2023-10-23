@@ -90,9 +90,12 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
                 <div
                   style={{
                     marginRight: "20px",
+                    display: "flex ",
+                    alignContent: "center",
+                    flexDirection: "column",
                   }}
                 >
-                  <label>Logo Image</label>
+                  <label className="label-class">Logo Image</label>
                   <ImgUploadBoxInput
                     name="logoUrl"
                     onChange={onChange}
@@ -100,8 +103,15 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
                     label={"Logo Image"}
                   />
                 </div>
-                <div>
-                  <label>Image</label>
+                <div
+                  style={{
+                    marginRight: "20px",
+                    display: "flex ",
+                    alignContent: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <label className="label-class">Image</label>
                   <ImgUploadBoxInput
                     name="imgUrl"
                     onChange={onChange}
@@ -112,7 +122,7 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
               </div>
               <Box>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   color="secondary"
                   onClick={() => {
                     togglePopup();
@@ -122,8 +132,10 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
                   Cancel
                 </Button>
                 <Button
+                  style={{ marginLeft: "20px" }}
                   type="submit"
-                  color="primary"
+                  variant="contained"
+                  color="success"
                   onClick={() => onSubmit(handleSubmit)}
                 >
                   Save
@@ -133,28 +145,32 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
           }
         >
           {" "}
-          <Textinput
-            type="text"
-            name="name"
-            label="Option Name"
-            placeholder="Enter Option Name"
-            value={formState.name}
-            error={errors?.name}
-            onChange={onChange}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
-          />
-          <Textarea
-            size="small"
-            name="details"
-            type="text"
-            maxLength={255}
-            minRows={3}
-            maxRows={3}
-            placeholder="Option Details"
-            value={formState.details}
-            onChange={onChange}
-            sx={{ mb: 1.5 }}
-          />
+          <div className="text-input-top">
+            <Textinput
+              type="text"
+              name="name"
+              label="Option Name"
+              placeholder="Enter Option Name"
+              value={formState.name}
+              error={errors?.name}
+              onChange={onChange}
+              sx={{ mb: 0, width: "100%" }}
+            />
+          </div>
+          <div className="text-input-top">
+            <Textarea
+              size="small"
+              name="details"
+              type="text"
+              maxLength={255}
+              minRows={3}
+              maxRows={3}
+              placeholder="Enter Option Details"
+              value={formState.details}
+              onChange={onChange}
+              sx={{ mb: 1.5 }}
+            />
+          </div>
         </ThemeDialog>
       )}
     </Validators>

@@ -206,20 +206,22 @@ export default function PaginationTable({
             </div>
           </>
         )}
-        <TablePagination
-          sx={{ px: 2 }}
-          page={activePage}
-          component="div"
-          rowsPerPage={perPage}
-          count={totalItems}
-          onPageChange={(_, pageNumber) => changeActivePage(pageNumber)}
-          rowsPerPageOptions={rowsPerPageOptions}
-          onRowsPerPageChange={(event) =>
-            changePerPage(Number(event.target.value))
-          }
-          nextIconButtonProps={{ "aria-label": "Next Page" }}
-          backIconButtonProps={{ "aria-label": "Previous Page" }}
-        />
+        {footerVisibility && (
+          <TablePagination
+            sx={{ px: 2 }}
+            page={activePage}
+            component="div"
+            rowsPerPage={perPage}
+            count={totalItems}
+            onPageChange={(_, pageNumber) => changeActivePage(pageNumber)}
+            rowsPerPageOptions={rowsPerPageOptions}
+            onRowsPerPageChange={(event) =>
+              changePerPage(Number(event.target.value))
+            }
+            nextIconButtonProps={{ "aria-label": "Next Page" }}
+            backIconButtonProps={{ "aria-label": "Previous Page" }}
+          />
+        )}
       </Box>
     </React.Fragment>
   );
