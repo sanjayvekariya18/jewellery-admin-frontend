@@ -7,22 +7,23 @@ import { apiConfig, appConfig } from '../../../../config';
 import _ from "lodash";
 import Swal from 'sweetalert2';
 import useDidMountEffect from '../../../../hooks/useDidMountEffect';
-import { Box, Icon, IconButton, Slider, Tooltip } from '@mui/material';
+import { Box, Button, Icon, IconButton, Slider, Tooltip } from '@mui/material';
 import error400cover from "../../../../assets/no-data-found-page.png";
 import SearchFilterDialog from '../../../../components/UI/Dialog/SearchFilterDialog';
 import ReactSelect from "../../../../components/UI/ReactSelect";
 import { Input, Label } from 'reactstrap';
 import Select from "react-select";
-import GemstoneBulkMasterDetails from '../GemstonesBulk/GemstoneBulkMasterDetails';
 import ThemeSwitch from '../../../../components/UI/ThemeSwitch';
 import GemstoneMasterDetails from './GemstoneMasterDetails';
-// import EditGemstone from './EditGemstone';
+import UploadButton from "../../../../components/UI/UploadButton";
+import GemstoneBulkMasterDetails from './GemstoneBulkMasterDetails';
 
 
 
 const GemstoneMaster = () => {
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [open, setOpen] = useState(false);
+    const [bulkOpen, setBulkOpen] = useState(false);
     const [openSearch, setOpenSearch] = useState(false);
     const [value, setValue] = useState([0, 10000]);
     const [value2, setValue2] = useState([0, 10]);
@@ -46,7 +47,7 @@ const GemstoneMaster = () => {
         { title: "Visible" },
         { title: "Action" },
     ];
-
+   
     const { state, setState, changeState, ...otherTableActionProps } =
         usePaginationTable({
             shape: "",
@@ -149,9 +150,9 @@ const GemstoneMaster = () => {
 
 
 
-    // ---------------Visiblility User Api----------------------
+    // ---------------Visiblility Gemstone Api----------------------
 
-    const activeDeactiveUser = (Id) => {
+    const hiddenVisibleGemstone = (Id) => {
         API.put(apiConfig.visibility.replace(":id", Id))
             .then((res) => {
                 HELPER.toaster.success(res.message)
@@ -234,7 +235,7 @@ const GemstoneMaster = () => {
     const sortOptionsGemstoneType = [
         { label: "Moissanite", value: "Moissanite" },
         { label: "Sapphire", value: "Sapphire" },
-        { label: "ColoredDiamond", value: "ColoredDiamond" },
+        { label: "COLORED_DIAMOND ", value: "ColoredDiamond " },
         { label: "Emerald", value: "Emerald" },
         { label: "Aquamarine", value: "Aquamarine" },
         { label: "Morganite", value: "Morganite" },
@@ -299,7 +300,7 @@ const GemstoneMaster = () => {
                             checked={item.isVisible}
                             color="warning"
                             onChange={() => {
-                                activeDeactiveUser(item.id);
+                                hiddenVisibleGemstone(item.id);
                             }}
                         />
                     </span>,
@@ -323,6 +324,12 @@ const GemstoneMaster = () => {
         setOpen(!open);
     };
 
+    const togglePopupBulk = () => {
+        // if (bulkOpen) {
+        //     setSelectedUserData(null);
+        // }
+        setBulkOpen(!bulkOpen);
+    }
     const togglePopupSearch = () => {
         setOpenSearch(!openSearch);
     };
@@ -347,16 +354,23 @@ const GemstoneMaster = () => {
                                 { name: "GemStone" },
                             ]}
                         />
-                        <Tooltip title="Filter">
-                            <IconButton
-                                color="inherit"
-                                className="button"
-                                aria-label="Filter"
-                                onClick={togglePopupSearch}
-                            >
-                                <Icon>filter_list</Icon>
-                            </IconButton>
-                        </Tooltip>
+                        <div>
+
+                            <div>
+                                <Button variant="contained" onClick={togglePopupBulk}>Add GemstoneBulk</Button>
+
+                                <Tooltip title="Filter">
+                                    <IconButton
+                                        color="inherit"
+                                        className="button"
+                                        aria-label="Filter"
+                                        onClick={togglePopupSearch}
+                                    >
+                                        <Icon>filter_list</Icon>
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                        </div>
                         <SearchFilterDialog
                             isOpen={openSearch}
                             onClose={() => setOpenSearch(false)}
@@ -570,6 +584,15 @@ const GemstoneMaster = () => {
                         }}
                         callBack={() => paginate(true)}
                         userData={selectedUserData}
+                    />
+                    <GemstoneBulkMasterDetails
+                        open={bulkOpen}
+                        togglePopup={() => {
+                            togglePopupBulk();
+                            paginate();
+                        }}
+                        callBack={() => paginate(true)}
+                    //   userData={selectedUserData}
                     />
                 </Container>
             </div>

@@ -64,6 +64,11 @@ const apiConfig = {
 
   //metalPrice
   metalPrice: "metalprice",
+
+  // diamond
+  diamonds:"diamonds",
+  visibility: "diamonds/visibility/:id", //gemstone visible toggle
+  diamondsBulk:"diamonds/bulk_upload"
 };
 
 export default apiConfig;

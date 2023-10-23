@@ -3,10 +3,13 @@ import { pageRoutes } from "./constants/routesList";
 export const navigations = [
   { name: "Dashboard", path: pageRoutes.dashboard, icon: "dashboard" },
   { label: "Inventory", type: "label" },
+  { name: "Gemstone", icon: "diamond", path: pageRoutes.master.gemstone.gemstone },
   { name: "Diamonds", path: pageRoutes.diamond, icon: "diamond" },
+  
   { name: "Jewellery", path: pageRoutes.jewellery, icon: "diversity_2" },
   { name: "Customer", path: pageRoutes.customer, icon: "person" },
   // { name: "Discount", path: pageRoutes.discount, icon: "diamond" },
+
   { label: "Masters", type: "label" },
   {
     name: "Diamond",
@@ -19,23 +22,6 @@ export const navigations = [
         path: pageRoutes.master.diamond.discount,
         iconText: "DD",
         // icon: "diamond",
-      },
-      // { name: "Gemstone", path: pageRoutes.master.diamond.gemstone },
-    ],
-  },
-  {
-    name: "Gemstone",
-    icon: "diamond",
-    children: [
-      {
-        name: "Gemstones Bulk",
-        iconText: "LB",
-        path: pageRoutes.master.gemstone.gemstoneBulk,
-      },
-      {
-        name: "Gemstone",
-        iconText: "LB",
-        path: pageRoutes.master.gemstone.gemstone,
       },
     ],
   },

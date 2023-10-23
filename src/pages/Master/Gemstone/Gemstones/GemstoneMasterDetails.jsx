@@ -88,7 +88,6 @@ const GemstoneMasterDetails = ({
     const sortOptionsGemstoneType = [
         { label: "Moissanite", value: "Moissanite" },
         { label: "Sapphire", value: "Sapphire" },
-        { label: "ColoredDiamond", value: "ColoredDiamond" },
         { label: "Emerald", value: "Emerald" },
         { label: "Aquamarine", value: "Aquamarine" },
         { label: "Morganite", value: "Morganite" },
@@ -175,7 +174,8 @@ const GemstoneMasterDetails = ({
                             <Button
                                 type="submit"
                                 color="primary"
-                                onClick={() => onSubmit(handleSubmit)}
+                                onClick={() => onSubmit(handleSubmit)
+                                }
                             >
                                 Save
                             </Button>

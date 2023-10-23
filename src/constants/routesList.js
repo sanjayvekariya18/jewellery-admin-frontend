@@ -20,7 +20,8 @@ export const pageRoutes = {
     error: "404",
   },
   dashboard: "/dashboard/default",
-  diamond: "/diamonds",
+  
+  diamond: "/diamonds/diamonds",
   jewellery: "/jewellery",
   customer: "/customer",
   master: {
@@ -30,7 +31,6 @@ export const pageRoutes = {
       discount: "/master/diamond/discount",
     },
     gemstone: {
-      gemstoneBulk: "/master/gemstone/gemstonesBulk",
       gemstone: "/master/gemstone/gemstones",
     },
     jewellery: {
