@@ -11,12 +11,10 @@ import { pageRoutes } from '../../../constants/routesList';
 import error400cover from "../../../assets/no-data-found-page.png";
 import _ from "lodash";
 import ReactSelect from '../../../components/UI/ReactSelect';
-import DiamondMasterDetails from './DiamondMasterDetails';
-import DiamondBulkMasterDetails from './DiamondBulkMasterDetails';
+import DiamondBulkMasterDetails from "./DiamondBulkMasterDetails";
 import SearchFilterDialog from '../../../components/UI/Dialog/SearchFilterDialog';
 import { Input, Label } from 'reactstrap';
-
-
+import DiamondMasterDetails from "./DiamondMasterDetails"
 
 
 const DiamondMaster = () => {
@@ -46,6 +44,8 @@ const DiamondMaster = () => {
     { title: "certificateNo" },
     { title: "price" },
     { title: "isVisible" },
+    { title: "Action" },
+
 
   ];
 
@@ -210,7 +210,7 @@ const DiamondMaster = () => {
   // ---------------Visiblility Diamond Api----------------------
 
   const hiddenVisibleDiamond = (Id) => {
-    API.put(apiConfig.visibility.replace(":id", Id))
+    API.put(apiConfig.visibility_diamond.replace(":id", Id))
       .then((res) => {
         HELPER.toaster.success(res.message)
         paginate();
@@ -257,6 +257,7 @@ const DiamondMaster = () => {
     changeState("toDimension", newValue[1]);
 
   };
+  
   let _sortOptionsShap = shapMaster.map((option) => ({
     label: option.shape,
     value: option.id,

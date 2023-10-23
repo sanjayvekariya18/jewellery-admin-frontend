@@ -1,11 +1,4 @@
-// import React, { useCallback, useEffect, useState } from 'react';
-// import Validators from '../../../../components/validations/Validator';
-// import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
-// import { Box, Button } from '@mui/material';
-// import Textinput from '../../../../components/UI/TextInput';
-// import { apiConfig, appConfig } from '../../../../config';
-// import { API, HELPER } from '../../../../services';
-// import ReactSelect from '../../../../components/UI/ReactSelect';
+
 
 import { useState, useCallback, useEffect } from "react";
 import { apiConfig } from "../../../config";
@@ -62,29 +55,21 @@ const DiamondMasterDetails = ({
     //     // ------------------Get Shap API --------------------------------
 
     useEffect(() => {
-        API.get(apiConfig.shape, {
-            // rowsPerPage: appConfig.defaultPerPage,
-            // page: 0,
-        })
+        API.get(apiConfig.shape)
             .then((res) => {
                 setShapMaster(res);
-                // paginate();
             })
             .catch((err) => {
                 console.error(err);
             });
     }, [])
 
-        //     // ------------------Get Lab API --------------------------------
+         // ------------------Get Lab API --------------------------------
 
     useEffect(() => {
-        API.get(apiConfig.lab, {
-            // rowsPerPage: appConfig.defaultPerPage,
-            // page: 0,
-        })
+        API.get(apiConfig.lab)
             .then((res) => {
                 setLabMaster(res);
-                // paginate();
             })
             .catch((err) => {
                 console.error(err);
@@ -96,7 +81,6 @@ const DiamondMasterDetails = ({
         formateFields.forEach(field => {
             _data[field] = parseFloat(_data[field]);
         });
-
         const apiUrl =
             data.id === "" ? apiConfig.diamonds : `${apiConfig.diamonds}/${data.id}`;
 
@@ -117,34 +101,132 @@ const DiamondMasterDetails = ({
             };
         });
     }, []);
+    const sortOptionDcolor = [
+        { label: "D", value: "0" },
+        { label: "E", value: "1" },
+        { label: "F", value: "2" },
+        { label: "G", value: "3" },
+        { label: "H", value: "4" },
+        { label: "I", value: "5" },
+        { label: "J", value: "6" },
+        { label: "K", value: "7" },
+        { label: "L", value: "8" },
+        { label: "MN", value: "9" },
+        { label: "OP", value: "10" },
+    ]
+    let _sortOptionsDcolor = sortOptionDcolor.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
 
-    //     const sortOptionsGemstoneType = [
-    //         { label: "Moissanite", value: "Moissanite" },
-    //         { label: "Sapphire", value: "Sapphire" },
-    //         { label: "Emerald", value: "Emerald" },
-    //         { label: "Aquamarine", value: "Aquamarine" },
-    //         { label: "Morganite", value: "Morganite" },
-    //         { label: "Alexandrite", value: "Alexandrite" },
-    //         { label: "Ruby", value: "Ruby" },
-    //         { label: "Tanzanite", value: "Tanzanite" },
-    //         { label: "Tourmaline", value: "Tourmaline" },
-    //         { label: "Amethyst", value: "Amethyst" },
-    //         { label: "Garnet", value: "Garnet" },
-    //         { label: "Spinel", value: "Spinel" },
-    //         { label: "Peridot", value: "Peridot" },
-    //         { label: "Citrine", value: "Citrine" },
-    //         { label: "Other", value: "Other" },
-    //     ];
+    const sortOptionDclarity = [
+        { label: "FL", value: "0" },
+        { label: "IF", value: "1" },
+        { label: "VVS1", value: "2" },
+        { label: "VVS2", value: "3" },
+        { label: "VS1", value: "4" },
+        { label: "VS2", value: "5" },
+        { label: "SI1", value: "6" },
+        { label: "SI2", value: "7" },
+        { label: "I1", value: "8" },
+        { label: "I2", value: "9" },
+        { label: "I3", value: "10" },
+    ]
 
-    //     let _sortOptionsGemstoneType = sortOptionsGemstoneType.map((option) => ({
-    //         label: option.label,
-    //         value: option.value,
-    //     }));
+    let _sortOptionsDclarity = sortOptionDclarity.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
+
+    const sortOptionsDcut = [
+        { label: "Super_Ideal", value: "0" },
+        { label: "Ideal", value: "1" },
+        { label: "Very_Good", value: "2" },
+        { label: "Good", value: "3" },
+        { label: "Fair", value: "4" },
+        { label: "Poor", value: "5" }
+    ];
+
+    let _sortOptionsDcut = sortOptionsDcut.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
+
+
+    const sortOptionsDsymmetry = [
+        { label: "Excellent", value: "0" },
+        { label: "Very_Good", value: "1" },
+        { label: "Good", value: "2" },
+    ];
+    let _sortOptionsDsymmetry = sortOptionsDsymmetry.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
+
+
+    const sortOptionsDfluorescence = [
+        { label: "None", value: "0" },
+        { label: "Faint", value: "1" },
+        { label: "Medium", value: "2" },
+        { label: "Stong", value: "3" },
+        { label: "Very_Strong", value: "4" },
+    ];
+
+    let _sortOptionsDfluorescence = sortOptionsDfluorescence.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
+
+
+
+
+    const sortOptionsDgirdle = [
+        { label: "Extremely thin", value: "EXTREMELY_THIN" },
+        { label: "Very thin", value: "VERY_THIN" },
+        { label: "Thin or Medium", value: "THIN_MEDIUM" },
+        { label: "Slightly thick or thick", value: "SLIGHTLY_THICK_THICK" },
+        { label: "Extremely thick", value: "EXTREMELY_THICK" },
+    ];
+
+    let _sortOptionsDgirdle = sortOptionsDgirdle.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
+
+    const sortOptionsDculet = [
+        { label: "None", value: "NONE" },
+        { label: "Very Small", value: "VERY_SMALL" },
+        { label: "Small", value: "SMALL" },
+        { label: "Medium", value: "MEDIUM" },
+        { label: "Slightly Large", value: "SLIGHTLY_LARGE" },
+        { label: "Large", value: "LARGE" },
+        { label: "Very Large", value: "VERY_LARGE" },
+        { label: "Extremely Large", value: "EXTREMELY_LARGE" },
+
+    ];
+    let _sortOptionsDculet = sortOptionsDculet.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
 
     const sortOptionsOrigin = [
         { label: "Lab", value: "Lab" },
         { label: "Natural", value: "Natural" }
     ];
+
+
+
+    const sortOptionsDpolish = [
+        { label: "Excellent", value: "0" },
+        { label: "Very_Good", value: "1" },
+        { label: "Good", value: "2" },
+    ]
+    let _sortOptionsDpolish = sortOptionsDpolish.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
+
+
 
     let _sortOptionsOrigin = sortOptionsOrigin.map((option) => ({
         label: option.label,
@@ -156,36 +238,19 @@ const DiamondMasterDetails = ({
         value: option.id,
     }));
 
-    
+
     let _sortOptionsLab = labMaster.map((option) => ({
         label: option.labName,
         value: option.id,
     }));
 
-    const sortOptionsColor = [
-        { label: "Blue", value: "Blue" },
-        { label: "White", value: "White" },
-        { label: "Green", value: "Green" },
-        { label: "Pink", value: "Pink" },
-        { label: "Teal", value: "Teal" },
-        { label: "Purple", value: "Purple" },
-        { label: "Peach", value: "Peach" },
-        { label: "Yellow", value: "Yellow" },
-        { label: "Orange", value: "Orange" },
-        { label: "Other", value: "Other" },
-    ];
-
-    let _sortOptionsColor = sortOptionsColor.map((option) => ({
-        label: option.label,
-        value: option.value,
-    }));
-    //     useEffect(() => {
-    //         if (open === true && userData !== null) {
-    //             setFormState(userData);
-    //         } else {
-    //             setFormState({ ...initialValues });
-    //         }
-    //     }, [open, userData]);
+    useEffect(() => {
+        if (open === true && userData !== null) {
+            setFormState(userData);
+        } else {
+            setFormState({ ...initialValues });
+        }
+    }, [open, userData]);
 
     return (
         <Validators formData={formState} rules={rules}>
@@ -253,32 +318,32 @@ const DiamondMasterDetails = ({
                     <ReactSelect
                         label={"Enter Color"}
                         placeholder="Select Color"
-                        options={_sortOptionsColor}
+                        options={_sortOptionsDcolor}
                         value={formState.color}
                         onChange={onChange}
                         name="color"
                         id="idStatus"
                         error={errors?.color}
                     />
-                    <Textinput
-                        size="small"
-                        type="text"
-                        name="clarity"
-                        label="clarity"
+                    <ReactSelect
+                        label={"Enter Clarity"}
+                        placeholder="Select Clarity"
+                        options={_sortOptionsDclarity}
                         value={formState.clarity}
                         onChange={onChange}
+                        name="clarity"
+                        id="idStatus"
                         error={errors?.clarity}
-                        sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
-                    <Textinput
-                        size="small"
-                        type="text"
-                        name="cut"
-                        label="cut"
+                    <ReactSelect
+                        label={"Enter Cut"}
+                        placeholder="Select Cut"
+                        options={_sortOptionsDcut}
                         value={formState.cut}
                         onChange={onChange}
+                        name="cut"
+                        id="idStatus"
                         error={errors?.cut}
-                        sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
                     <ReactSelect
                         label={"Enter Origin"}
@@ -290,15 +355,15 @@ const DiamondMasterDetails = ({
                         id="idStatus"
                         error={errors?.origin}
                     />
-                    <Textinput
-                        size="small"
-                        type="text"
-                        name="fluorescence"
-                        label="fluorescence"
+                    <ReactSelect
+                        label={"Enter Fluorescence"}
+                        placeholder="Select Fluorescence"
+                        options={_sortOptionsDfluorescence}
                         value={formState.fluorescence}
                         onChange={onChange}
+                        name="fluorescence"
+                        id="idStatus"
                         error={errors?.fluorescence}
-                        sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
 
                     <Textinput
@@ -354,48 +419,50 @@ const DiamondMasterDetails = ({
                         error={errors?.depth}
                         sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
-                      <Textinput
-                        size="small"
-                        type="text"
-                        name="symmetry"
-                        label="symmetry"
+                    <ReactSelect
+                        label={"Enter Symmetry"}
+                        placeholder="Select Symmetry"
+                        options={_sortOptionsDsymmetry}
                         value={formState.symmetry}
                         onChange={onChange}
+                        name="symmetry"
+                        id="idStatus"
                         error={errors?.symmetry}
-                        sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
-                        <Textinput
-                        size="small"
-                        type="text"
-                        name="polish"
-                        label="polish"
+
+                    <ReactSelect
+                        label={"Enter Polish"}
+                        placeholder="Select Polish"
+                        options={_sortOptionsDpolish}
                         value={formState.polish}
                         onChange={onChange}
+                        name="polish"
+                        id="idStatus"
                         error={errors?.polish}
-                        sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
-                     <Textinput
-                        size="small"
-                        type="text"
-                        name="girdle"
-                        label="girdle"
+                    <ReactSelect
+                        label={"Enter Girdle"}
+                        placeholder="Select Girdle"
+                        options={_sortOptionsDgirdle}
                         value={formState.girdle}
                         onChange={onChange}
+                        name="girdle"
+                        id="idStatus"
                         error={errors?.girdle}
-                        sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
-                    <Textinput
-                        size="small"
-                        type="text"
-                        name="culet"
-                        label="culet"
+
+                    <ReactSelect
+                        label={"Enter Cultet"}
+                        placeholder="Select Cultet"
+                        options={_sortOptionsDculet}
                         value={formState.culet}
                         onChange={onChange}
+                        name="culet"
+                        id="idStatus"
                         error={errors?.culet}
-                        sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
-                  
-                  <ReactSelect
+
+                    <ReactSelect
                         label={"Enter Lab"}
                         placeholder="Select Lab"
                         options={_sortOptionsLab}
@@ -406,34 +473,16 @@ const DiamondMasterDetails = ({
                         error={errors?.labId}
                     />
 
-                    {/* <ReactSelect
-                            label={"Enter Shape"}
-                            placeholder="Select Shape"
-                            // options={_sortOptionsShap}
-                            value={formState.shape}
-                            onChange={onChange}
-                            name="shape"
-                            id="idStatus"
-                            error={errors?.shape}
-                        /> */}
-
-
-
-
-
-
-
                     <Textinput
                         size="small"
                         type="text"
-                        name="price"
-                        label="Price"
-                        value={formState.price}
+                        name="certificateNo"
+                        label="certificateNo"
+                        value={formState.certificateNo}
                         onChange={onChange}
-                        error={errors?.price}
+                        error={errors?.certificateNo}
                         sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
-
                 </ThemeDialog>
             )}
         </Validators>

@@ -166,7 +166,7 @@ const GemstoneMaster = () => {
   // ---------------Visiblility Gemstone Api----------------------
 
   const hiddenVisibleGemstone = (Id) => {
-    API.put(apiConfig.visibility.replace(":id", Id)).then((res) => {
+    API.put(apiConfig.visibility_gemstone.replace(":id", Id)).then((res) => {
       HELPER.toaster.success(res.message);
       paginate();
     });

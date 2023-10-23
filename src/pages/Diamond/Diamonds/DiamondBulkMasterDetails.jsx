@@ -4,24 +4,18 @@ import { apiConfig } from "../../../config";
 import Validators from "../../../components/validations/Validator";
 import ThemeDialog from "../../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
-// import { Box, Button } from "@mui/material";
-// import { API, HELPER } from "../../../../services";
-// import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-// import Validators from "../../../../components/validations/Validator";
-// import { apiConfig } from "../../../../config";
-// import UploadButton from "../../../../components/UI/UploadButton";
 import UploadButton from "../../../components/UI/UploadButton";
-
 const initialValues = {
-  diamondData: ""
+  gemstoneData: "",
 };
 
+
 const DiamondBulkMasterDetails = ({
-  open,
-  togglePopup,
+  open, togglePopup,
 }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [errorModel, setErrorModel] = useState(false);
+  const [err, setErr] = useState();
   const [errorState, setErrorState] = useState({});
 
   const rules = {
@@ -38,22 +32,23 @@ const DiamondBulkMasterDetails = ({
     })
       .then((res) => {
         HELPER.toaster.success("Diamond Bulk added successfully");
-        togglePopup()
+        togglePopup();
       })
       .catch((error) => {
-        HELPER.toaster.error(error.errors.message);
         HELPER.toaster.error("Please Check your Excel sheet...");
-        if (error.errors && error.errors.message) {
+        if (error.errors && error.errors.message && typeof error.errors.message === 'object') {
           setErrorState(error.errors.message);
+          setErrorModel(true);
+        } else {
+          setErr(error.errors && error.errors.message ? error.errors.message : error)
           setErrorModel(true);
         }
       })
+
       .finally(() => {
         setIsLoader(false);
       });
   };
-  console.log(errorState, "error1");
-
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
@@ -65,43 +60,45 @@ const DiamondBulkMasterDetails = ({
             togglePopup();
             resetValidation();
           }}
-          actionBtns={
-            <>
-              <Box>
-                <UploadButton
-                  onChange={(selectedFile) => {
-                    setFormState((prevProps) => {
-                      return {
-                        ...prevProps,
-                        diamondData: selectedFile,
-                      };
-                    });
-                  }}
-                />
-                {errors?.diamondData && <p className="text-error">File field is required</p>}
-              </Box>
-              <Box>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => {
-                    togglePopup();
-                    resetValidation();
-                    setFormState("")
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  color="primary"
-                  onClick={() => onSubmit(handleSubmit)}
-                >
-                  Save
-                </Button>
-              </Box>
-
-              <ThemeDialog isOpen={errorModel} onClose={() => setErrorModel(false)} title="Error" maxWidth="sm" actionBtns={<Button
+          actionBtns={<>
+            <Box>
+              <UploadButton
+                onChange={(selectedFile) => {
+                  setFormState((prevProps) => {
+                    return {
+                      ...prevProps,
+                      diamondData: selectedFile,
+                    };
+                  });
+                }} />
+              {errors?.diamondData && <p className="text-error">File field is required</p>}
+            </Box>
+            <Box>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => {
+                  togglePopup();
+                  resetValidation();
+                  setFormState("");
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                color="primary"
+                onClick={() => onSubmit(handleSubmit)}
+              >
+                Save
+              </Button>
+            </Box>
+            <ThemeDialog
+              isOpen={errorModel}
+              onClose={() => setErrorModel(false)}
+              title="Error"
+              maxWidth="sm"
+              actionBtns={<Button
                 variant="outlined"
                 color="secondary"
                 onClick={() => {
@@ -110,14 +107,17 @@ const DiamondBulkMasterDetails = ({
                 }}
               >
                 Okay
-              </Button>}>
-                {/* <div>
-                  {Object.keys(errorState).length > 0 ? (
-                    Object.keys(errorState).map((errorCode, index) => (
-                      <div key={index}>
+              </Button>}
+            >
+              <div>
+                {Object.keys(errorState).length > 0 ? (
+                  Object.keys(errorState).map((errorCode, i) => {
+                    return (
+                      <div key={i}>
                         <h2>Stock No: {errorCode}</h2>
                         <ul>
-                          {errorState[errorCode].map((errorMessageObj, index) => (
+                          {errorState[errorCode].map((errorMessageObj, index) =>
+                          (
                             <li key={index}>
                               {Object.keys(errorMessageObj)[0]}   : <span>{Object.values(errorMessageObj)[0]}</span>
                             </li>
@@ -125,15 +125,19 @@ const DiamondBulkMasterDetails = ({
                           ))}
                         </ul>
                       </div>
-                    ))
-                  ) : (
-                    <p>No errors to display</p>
-                  )}
 
-                </div> */}
-              </ThemeDialog>
-            </>
-          }
+                    )
+                  })
+
+                ) : (
+                  <p>{err}</p>
+                )}
+
+              </div>
+            </ThemeDialog>
+
+
+          </>}
         >
         </ThemeDialog>
       )}
@@ -142,4 +146,3 @@ const DiamondBulkMasterDetails = ({
 };
 
 export default DiamondBulkMasterDetails;
-
