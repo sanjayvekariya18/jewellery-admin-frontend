@@ -29,6 +29,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
         })
             .then((res) => {
                 HELPER.toaster.success("GemStone Bulk added successfully");
+                togglePopup()
             })
             .catch((error) => {
                 HELPER.toaster.error("Please Check your Excel sheet...");
@@ -73,10 +74,11 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                             <Box>
                                 <Button
                                     variant="outlined"
-                                    color="secondary"
+                                    color="secondary"   
                                     onClick={() => {
                                         togglePopup();
                                         resetValidation();
+                                        setFormState("")
                                     }}
                                 >
                                     Cancel
@@ -101,6 +103,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                                         color="secondary"
                                         onClick={() => {
                                             setErrorModel(false);
+                                            togglePopup();
                                         }}
                                     >
                                         Okay
