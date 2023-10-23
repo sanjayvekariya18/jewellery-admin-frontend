@@ -69,7 +69,7 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
           actionBtns={
             <Box>
               <Button
-                variant="outlined"
+                variant="contained"
                 color="secondary"
                 onClick={() => {
                   togglePopup();
@@ -79,8 +79,10 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
                 Cancel
               </Button>
               <Button
+                style={{ marginLeft: "20px" }}
                 type="submit"
-                color="primary"
+                variant="contained"
+                color="success"
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
@@ -92,7 +94,7 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
             size="small"
             type="text"
             name="labName"
-            label="Lab Name"
+            label="Enter Lab Name"
             value={formState.labName}
             onChange={onChange}
             error={errors?.labName}

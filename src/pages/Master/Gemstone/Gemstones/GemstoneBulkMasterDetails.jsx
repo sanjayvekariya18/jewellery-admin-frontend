@@ -7,19 +7,16 @@ import { apiConfig } from "../../../../config";
 import UploadButton from "../../../../components/UI/UploadButton";
 
 const initialValues = {
-    gemstoneData: ""
+    gemstoneData: "",
 };
 
-const GemstoneBulkMasterDetails = ({
-    open,
-    togglePopup,
-}) => {
+const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
     const [formState, setFormState] = useState({ ...initialValues });
     const [errorModel, setErrorModel] = useState(false);
     const [errorState, setErrorState] = useState({});
 
     const rules = {
-        gemstoneData: "required"
+        gemstoneData: "required",
     };
     const [isLoader, setIsLoader] = useState(false);
 
@@ -32,7 +29,6 @@ const GemstoneBulkMasterDetails = ({
         })
             .then((res) => {
                 HELPER.toaster.success("GemStone Bulk added successfully");
-                togglePopup()
             })
             .catch((error) => {
                 HELPER.toaster.error("Please Check your Excel sheet...");
@@ -45,7 +41,6 @@ const GemstoneBulkMasterDetails = ({
                 setIsLoader(false);
             });
     };
-    console.log(errorState, "error1");
 
     return (
         <Validators formData={formState} rules={rules}>
@@ -71,7 +66,9 @@ const GemstoneBulkMasterDetails = ({
                                         });
                                     }}
                                 />
-                                {errors?.gemstoneData && <p className="text-error">File field is required</p>}
+                                {errors?.gemstoneData && (
+                                    <p className="text-error">File field is required</p>
+                                )}
                             </Box>
                             <Box>
                                 <Button
@@ -80,7 +77,6 @@ const GemstoneBulkMasterDetails = ({
                                     onClick={() => {
                                         togglePopup();
                                         resetValidation();
-                                        setFormState("")
                                     }}
                                 >
                                     Cancel
@@ -94,16 +90,23 @@ const GemstoneBulkMasterDetails = ({
                                 </Button>
                             </Box>
 
-                            <ThemeDialog isOpen={errorModel} onClose={() => setErrorModel(false)} title="Error" maxWidth="sm" actionBtns={<Button
-                                variant="outlined"
-                                color="secondary"
-                                onClick={() => {
-                                    setErrorModel(false);
-                                    togglePopup();
-                                }}
+                            <ThemeDialog
+                                isOpen={errorModel}
+                                onClose={() => setErrorModel(false)}
+                                title="Error"
+                                maxWidth="sm"
+                                actionBtns={
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() => {
+                                            setErrorModel(false);
+                                        }}
+                                    >
+                                        Okay
+                                    </Button>
+                                }
                             >
-                                Okay
-                            </Button>}>
                                 <div>
                                     {Object.keys(errorState).length > 0 ? (
                                         Object.keys(errorState).map((errorCode, index) => (
@@ -114,7 +117,7 @@ const GemstoneBulkMasterDetails = ({
                                                         <li key={index}>
                                                             {Object.keys(errorMessageObj)[0]}   : <span>{Object.values(errorMessageObj)[0]}</span>
                                                         </li>
-                                                    
+
                                                     ))}
                                                 </ul>
                                             </div>
@@ -127,12 +130,10 @@ const GemstoneBulkMasterDetails = ({
                             </ThemeDialog>
                         </>
                     }
-                >
-                </ThemeDialog>
+                ></ThemeDialog>
             )}
         </Validators>
     );
 };
 
 export default GemstoneBulkMasterDetails;
-
