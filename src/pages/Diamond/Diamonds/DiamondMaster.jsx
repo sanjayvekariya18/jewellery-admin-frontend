@@ -1,21 +1,22 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { apiConfig, appConfig } from '../../../config';
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { apiConfig, appConfig } from "../../../config";
 import { Breadcrumb, Container, StyledAddButton } from "../../../components";
-import useDidMountEffect from '../../../hooks/useDidMountEffect';
-import { Box, Button, Icon, IconButton, Slider, Tooltip } from '@mui/material';
-import ThemeSwitch from '../../../components/UI/ThemeSwitch';
-import PaginationTable, { usePaginationTable } from '../../../components/UI/Pagination/PaginationTable';
-import { API, HELPER } from '../../../services';
-import Swal from 'sweetalert2';
-import { pageRoutes } from '../../../constants/routesList';
+import useDidMountEffect from "../../../hooks/useDidMountEffect";
+import { Box, Button, Icon, IconButton, Slider, Tooltip } from "@mui/material";
+import ThemeSwitch from "../../../components/UI/ThemeSwitch";
+import PaginationTable, {
+  usePaginationTable,
+} from "../../../components/UI/Pagination/PaginationTable";
+import { API, HELPER } from "../../../services";
+import Swal from "sweetalert2";
+import { pageRoutes } from "../../../constants/routesList";
 import error400cover from "../../../assets/no-data-found-page.png";
 import _ from "lodash";
-import ReactSelect from '../../../components/UI/ReactSelect';
+import ReactSelect from "../../../components/UI/ReactSelect";
 import DiamondBulkMasterDetails from "./DiamondBulkMasterDetails";
-import SearchFilterDialog from '../../../components/UI/Dialog/SearchFilterDialog';
-import { Input, Label } from 'reactstrap';
-import DiamondMasterDetails from "./DiamondMasterDetails"
-
+import SearchFilterDialog from "../../../components/UI/Dialog/SearchFilterDialog";
+import { Input, Label } from "reactstrap";
+import DiamondMasterDetails from "./DiamondMasterDetails";
 
 const DiamondMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -45,8 +46,6 @@ const DiamondMaster = () => {
     { title: "price" },
     { title: "isVisible" },
     { title: "Action" },
-
-
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -205,16 +204,13 @@ const DiamondMaster = () => {
   //     });
   // }, [])
 
-
-
   // ---------------Visiblility Diamond Api----------------------
 
   const hiddenVisibleDiamond = (Id) => {
-    API.put(apiConfig.visibility_diamond.replace(":id", Id))
-      .then((res) => {
-        HELPER.toaster.success(res.message)
-        paginate();
-      })
+    API.put(apiConfig.visibility_diamond.replace(":id", Id)).then((res) => {
+      HELPER.toaster.success(res.message);
+      paginate();
+    });
   };
   //------------ Delete Diamond --------------
 
@@ -249,22 +245,20 @@ const DiamondMaster = () => {
     setValue(newValue);
     changeState("fromPrice", newValue[0]);
     changeState("toPrice", newValue[1]);
-
   };
   const handleChangeDimension = (event, newValue) => {
     setValue2(newValue);
     changeState("fromDimension", newValue[0]);
     changeState("toDimension", newValue[1]);
-
   };
-  
+
   let _sortOptionsShap = shapMaster.map((option) => ({
     label: option.shape,
     value: option.id,
   }));
   const sortOptionsOrigin = [
     { label: "Lab", value: "Lab" },
-    { label: "Natural", value: "Natural" }
+    { label: "Natural", value: "Natural" },
   ];
 
   let _sortOptionsOrigin = sortOptionsOrigin.map((option) => ({
@@ -326,7 +320,7 @@ const DiamondMaster = () => {
   // ----------Get Gemstone List Api-------------
   const rows = useMemo(() => {
     return state.data.map((item) => {
-      console.log(item,"ietem");
+      // console.log(item,"ietem");
       return {
         item: item,
         columns: [
@@ -379,7 +373,7 @@ const DiamondMaster = () => {
     //     setSelectedUserData(null);
     // }
     setBulkOpen(!bulkOpen);
-  }
+  };
   const togglePopupSearch = () => {
     setOpenSearch(!openSearch);
   };
@@ -393,21 +387,21 @@ const DiamondMaster = () => {
     <>
       <div>
         <Container>
-
           <Box
             className="breadcrumb"
             sx={{ display: "flex", justifyContent: "space-between" }}
           >
             <Breadcrumb
               routeSegments={[
-                { name: "Masters", path: pageRoutes.diamond},
+                { name: "Masters", path: pageRoutes.diamond },
                 { name: "Diamonds" },
               ]}
             />
             <div>
-
               <div>
-                <Button variant="contained" onClick={togglePopupBulk}>Add DiamondBulk</Button>
+                <Button variant="contained" onClick={togglePopupBulk}>
+                  Add DiamondBulk
+                </Button>
 
                 <Tooltip title="Filter">
                   <IconButton
@@ -427,13 +421,11 @@ const DiamondMaster = () => {
               reset={() => paginate(true)}
               search={() => paginate(false, true)}
             >
-
               <div style={{ height: "200px" }}>
                 <ReactSelect
                   label={"Select Sort by Price"}
                   placeholder="Select Sort by Price"
                   options={_sortOptionsSortBy}
-
                   onChange={(e) => {
                     changeState("sortBy", e?.target.value || "");
                   }}
@@ -442,10 +434,7 @@ const DiamondMaster = () => {
               </div>
 
               <div style={{ height: "200px" }}>
-                <Label
-                  className="form-label"
-                  htmlFor="product-price-input"
-                >
+                <Label className="form-label" htmlFor="product-price-input">
                   Price :
                 </Label>
                 <Slider
@@ -462,9 +451,7 @@ const DiamondMaster = () => {
                   value={state.fromPrice}
                   placeholder="Start Price"
                   name="fromPrice"
-                  onChange={(e) =>
-                    changeState("fromPrice", e.target.value)
-                  }
+                  onChange={(e) => changeState("fromPrice", e.target.value)}
                   readOnly
                 />
                 <span className="fw-semibold text-muted">to</span>
@@ -475,17 +462,12 @@ const DiamondMaster = () => {
                   value={state.toPrice}
                   placeholder="End Price"
                   name="toPrice"
-                  onChange={(e) =>
-                    changeState("toPrice", e.target.value)
-                  }
+                  onChange={(e) => changeState("toPrice", e.target.value)}
                   readOnly
                 />
               </div>
               <div style={{ height: "200px" }}>
-                <Label
-                  className="form-label"
-                  htmlFor="product-price-input"
-                >
+                <Label className="form-label" htmlFor="product-price-input">
                   Dimension :
                 </Label>
                 <Slider
@@ -503,9 +485,7 @@ const DiamondMaster = () => {
                   value={state.fromDimension}
                   placeholder="Start Dimension"
                   name="fromDimension"
-                  onChange={(e) =>
-                    changeState("fromDimension", e.target.value)
-                  }
+                  onChange={(e) => changeState("fromDimension", e.target.value)}
                   readOnly
                 />
                 <span className="fw-semibold text-muted">to</span>
@@ -517,9 +497,7 @@ const DiamondMaster = () => {
                   value={state.toDimension}
                   placeholder="End Dimension"
                   name="toDimension"
-                  onChange={(e) =>
-                    changeState("toDimension", e.target.value)
-                  }
+                  onChange={(e) => changeState("toDimension", e.target.value)}
                   readOnly
                 />
               </div>
@@ -598,7 +576,6 @@ const DiamondMaster = () => {
                   id="gemstoneType"
                 />
               </div> */}
-
             </SearchFilterDialog>
           </Box>
           <PaginationTable
@@ -642,12 +619,12 @@ const DiamondMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
         </Container>
       </div>
     </>
   );
-}
+};
 
 export default DiamondMaster;
