@@ -12,7 +12,6 @@ import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import { Box, Button, Icon, IconButton, Slider, Tooltip } from "@mui/material";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
-import ReactSelect from "../../../../components/UI/ReactSelect";
 import Select from "react-select";
 import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
 import GemstoneMasterDetails from "./GemstoneMasterDetails";
@@ -27,10 +26,7 @@ const GemstoneMaster = () => {
   const [open, setOpen] = useState(false);
   const [bulkOpen, setBulkOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
-  const [value, setValue] = useState([0, 10000]);
-  const [value2, setValue2] = useState([0, 10]);
   const [shapMaster, setShapMaster] = useState([]);
-
   const [findGemstone, setFindGemstone] = useState(false);
   const [gemStoneData, setGemstoneData] = useState(null);
 
@@ -65,10 +61,11 @@ const GemstoneMaster = () => {
       origin: "",
       gemstoneType: "",
       sortBy: "newest",
-      fromPrice: 1,
-      toPrice: 10000,
-      fromDimension: "",
-      toDimension: "",
+      fromPrice: 2,
+      toPrice: 11290,
+      fromDimension: 0.05,
+      toDimension: 10.00,
+
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -79,10 +76,10 @@ const GemstoneMaster = () => {
       origin: "",
       gemstoneType: "",
       sortBy: "newest",
-      fromPrice: "",
-      toPrice: "",
-      fromDimension: "",
-      toDimension: "",
+      fromPrice: 2,
+      toPrice: 11290,
+      fromDimension: 0.05,
+      toDimension: 10.00,
       ...appConfig.default_pagination_state,
     };
 
@@ -203,14 +200,12 @@ const GemstoneMaster = () => {
 
   // ------------price Filter------------------
   const handleChangePrice = (event, newValue) => {
-    setValue(newValue);
     changeState("fromPrice", newValue[0]);
     changeState("toPrice", newValue[1]);
   };
 
   // -------------Dimension Filter-----------------
   const handleChangeDimension = (event, newValue) => {
-    setValue2(newValue);
     changeState("fromDimension", newValue[0]);
     changeState("toDimension", newValue[1]);
   };
@@ -309,7 +304,7 @@ const GemstoneMaster = () => {
           <div className="three-dot-text-title">
             <span
               style={{ fontWeight: 500 }}
-              // onClick={() => showAddressInDialog(item)}
+            // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -418,14 +413,16 @@ const GemstoneMaster = () => {
             >
               <div style={{ height: "420px" }}>
                 <div style={{ marginBottom: "20px" }}>
-                  <ReactSelect
+                  <Select
                     label="Select Sort by Price"
                     placeholder="Sort by Price"
                     options={_sortOptionsSortBy}
-                    onChange={(e) => {
-                      changeState("sortBy", e?.target.value || "");
+                    value={_sortOptionsSortBy.find((option) => option.value === state.sortBy)}
+                    onChange={(selectedSort) => {
+                      const selectedId = selectedSort.value;
+                      changeState("sortBy", selectedId);
                     }}
-                    name="sortBy"
+                    name="choices-multi-default"
                   />
                 </div>
 
@@ -444,11 +441,11 @@ const GemstoneMaster = () => {
                       Price :
                     </label>
                     <Slider
-                      value={value}
+                      defaultValue={[2, 11290]}
                       onChange={handleChangePrice}
                       valueLabelDisplay="auto"
-                      min={0}
-                      max={10000}
+                      min={2}
+                      max={11290}
                     />
                     <div
                       style={{
@@ -497,11 +494,12 @@ const GemstoneMaster = () => {
                       Dimension :
                     </label>
                     <Slider
-                      value={value2}
+                      defaultValue={[0.05, 10.00]}
                       onChange={handleChangeDimension}
                       valueLabelDisplay="auto"
-                      min={0}
-                      max={10}
+                      min={0.05}
+                      max={10.00}
+                      step={0.01}
                     />
                     <div
                       style={{
@@ -684,7 +682,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}
