@@ -63,7 +63,6 @@ const CategoryMaster = () => {
 
     API.get(apiConfig.category, filter)
       .then((res) => {
-        // console.log(res, "res");
         setState({
           ...state,
           total_items: res.count,
@@ -94,7 +93,6 @@ const CategoryMaster = () => {
 
   const rows = useMemo(() => {
     return state.data.map((item) => {
-      // console.log(item, "item");
       return {
         item: item,
         columns: [
