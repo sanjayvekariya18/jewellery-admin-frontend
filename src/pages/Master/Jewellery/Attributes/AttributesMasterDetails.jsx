@@ -7,6 +7,7 @@ import Textinput from "../../../../components/UI/TextInput";
 import { apiConfig } from "../../../../config";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import Textarea from "../../../../components/UI/Textarea";
+import { Select } from "react-select-virtualized";
 
 const AttributesMasterDetails = ({
   open,
@@ -32,8 +33,8 @@ const AttributesMasterDetails = ({
   const rules = {
     name: "required",
     options: "required",
-    imgUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
-    logoUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
+    imgUrl: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
+    logoUrl: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
   };
 
   const handleSubmit = (data) => {
@@ -94,7 +95,6 @@ const AttributesMasterDetails = ({
   const handleLogSelectedOption = () => {
     if (selected.length > 0) {
       const selectedOption = selected[0];
-
       if (selectedOption.value === "true" && trueSelected) {
         setError("Only one 'True' option is allowed.");
       } else {
@@ -306,17 +306,17 @@ const AttributesMasterDetails = ({
                   </select>
                 </td>
                 <td>
-                  <select
-                    name="sortNo"
-                    value={sortNo}
-                    onChange={(e) => setSortNo(e.target.value)}
-                    sx={{ mb: 2, mt: 1, width: "100%" }}
-                    required
-                  >
-                    <option value="">Select Is Default</option>
-                    <option value="true">True</option>
-                    <option value="false">False</option>
-                  </select>
+                  <Select
+                    options={[
+                      { value: "true", label: "True" },
+                      { value: "false", label: "False" },
+                    ]}
+                    value={sortNo ? { value: sortNo, label: sortNo } : null}
+                    onChange={(selectedOption) =>
+                      setSortNo(selectedOption.value)
+                    }
+                    isSearchable={false}
+                  />
                 </td>
                 <td>
                   <IconButton onClick={handleLogSelectedOption}>

@@ -57,7 +57,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.id,
   }));
 
-
   // -----------------handle Submitted------------------------
   const handleSubmit = (data) => {
     let formateFields = ["carat", "mDepth", "mLength", "mWidth"];
@@ -122,7 +121,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.value,
   }));
 
-
   // -------------------Color Options ----------------
   const sortOptionsColor = [
     { label: "Blue", value: "Blue" },
@@ -141,7 +139,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     label: option.label,
     value: option.value,
   }));
-
 
   useEffect(() => {
     if (open === true && userData !== null) {
@@ -196,146 +193,191 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             error={errors?.stockId}
             sx={{ mb: 0, mt: 1, width: "100%" }}
           />
-          <div className="text-input-top">
-            <Textinput
-              size="small"
-              type="text"
-              name="title"
-              label="Title"
-              placeholder="Enter Title"
-              value={formState.title}
-              onChange={onChange}
-              error={errors?.title}
-              sx={{ mb: 0, width: "100%" }}
-            />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr ",
+              alignItems: "end",
+              gap: "12px",
+            }}
+          >
+            <div className="text-input-top">
+              <Textinput
+                size="small"
+                type="text"
+                name="title"
+                label="Title"
+                placeholder="Enter Title"
+                value={formState.title}
+                onChange={onChange}
+                error={errors?.title}
+                sx={{ mb: 0, width: "100%" }}
+              />
+            </div>
+            <div className="text-input-top">
+              <Textinput
+                size="small"
+                type="number"
+                name="carat"
+                label="Carat"
+                placeholder="Enter Carat"
+                value={formState.carat}
+                onChange={onChange}
+                error={errors?.carat}
+                sx={{ mb: 0, width: "100%" }}
+              />
+            </div>
           </div>
-          <div className="text-input-top">
-            <ReactSelect
-              label={"Select Gemstone Type"}
-              placeholder="Gemstone Type"
-              options={_sortOptionsGemstoneType}
-              value={formState.gemstoneType}
-              onChange={onChange}
-              name="gemstoneType"
-              id="idStatus"
-              error={errors?.gemstoneType}
-            />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr ",
+              alignItems: "end",
+              gap: "12px",
+            }}
+          >
+            <div className="text-input-top">
+              <ReactSelect
+                label={"Select Gemstone Type"}
+                placeholder="Gemstone Type"
+                options={_sortOptionsGemstoneType}
+                value={formState.gemstoneType}
+                onChange={onChange}
+                name="gemstoneType"
+                id="idStatus"
+                error={errors?.gemstoneType}
+              />
+            </div>
+            <div className="text-input-top">
+              <ReactSelect
+                label={"Select Shape Name"}
+                placeholder="Shape Name"
+                options={_sortOptionsShap}
+                value={formState.shape}
+                onChange={onChange}
+                name="shape"
+                id="idStatus"
+                error={errors?.shape}
+              />
+            </div>
           </div>
-          <div className="text-input-top">
-            <Textinput
-              size="small"
-              type="number"
-              name="carat"
-              label="Carat"
-              placeholder="Enter Carat"
-              value={formState.carat}
-              onChange={onChange}
-              error={errors?.carat}
-              sx={{ mb: 0, width: "100%" }}
-            />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr ",
+              alignItems: "end",
+              gap: "12px",
+            }}
+          >
+            <div className="text-input-top">
+              <ReactSelect
+                label={"Select Color"}
+                placeholder="Color Name"
+                options={_sortOptionsColor}
+                value={formState.color}
+                onChange={onChange}
+                name="color"
+                id="idStatus"
+                error={errors?.color}
+              />
+            </div>
+
+            <div className="text-input-top">
+              <ReactSelect
+                label={"Select Origin"}
+                placeholder="Origin name"
+                options={_sortOptionsOrigin}
+                value={formState.origin}
+                onChange={onChange}
+                name="origin"
+                id="idStatus"
+                error={errors?.origin}
+              />
+            </div>
           </div>
-          <div className="text-input-top">
-            <ReactSelect
-              label={"Select Shape Name"}
-              placeholder="Shape Name"
-              options={_sortOptionsShap}
-              value={formState.shape}
-              onChange={onChange}
-              name="shape"
-              id="idStatus"
-              error={errors?.shape}
-            />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr ",
+              alignItems: "end",
+              gap: "12px",
+            }}
+          >
+            <div className="text-input-top">
+              <Textinput
+                size="small"
+                type="text"
+                name="clarity"
+                label="Clarity"
+                placeholder="Enter Clarity"
+                value={formState.clarity}
+                onChange={onChange}
+                error={errors?.clarity}
+                sx={{ mb: 0, width: "100%" }}
+              />
+            </div>
+            <div className="text-input-top">
+              <Textinput
+                size="small"
+                type="text"
+                name="price"
+                label="Price"
+                placeholder="Enter Price"
+                value={formState.price}
+                onChange={onChange}
+                error={errors?.price}
+                sx={{ mb: 0, width: "100%" }}
+              />
+            </div>
           </div>
-          <div className="text-input-top">
-            <ReactSelect
-              label={"Select Color"}
-              placeholder="Color Name"
-              options={_sortOptionsColor}
-              value={formState.color}
-              onChange={onChange}
-              name="color"
-              id="idStatus"
-              error={errors?.color}
-            />
-          </div>
-          <div className="text-input-top">
-            <Textinput
-              size="small"
-              type="text"
-              name="clarity"
-              label="Clarity"
-              placeholder="Enter Clarity"
-              value={formState.clarity}
-              onChange={onChange}
-              error={errors?.clarity}
-              sx={{ mb: 0, width: "100%" }}
-            />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr ",
+              gap: "12px",
+            }}
+          >
+            <div className="text-input-top">
+              <Textinput
+                size="small"
+                type="text"
+                name="mLength"
+                label="Maximum Length"
+                placeholder="Enter Maximum Length"
+                value={formState.mLength}
+                onChange={onChange}
+                error={errors?.mLength}
+                sx={{ mb: 0, width: "100%" }}
+              />
+            </div>
+            <div className="text-input-top">
+              <Textinput
+                size="small"
+                type="text"
+                name="mWidth"
+                label="Maximum Width"
+                placeholder="Enter Maximum Width"
+                value={formState.mWidth}
+                onChange={onChange}
+                error={errors?.mWidth}
+                sx={{ mb: 0, width: "100%" }}
+              />
+            </div>
+            <div className="text-input-top">
+              <Textinput
+                size="small"
+                type="text"
+                name="mDepth"
+                label="Maximum Depth"
+                placeholder="Enter Maximum Depth"
+                value={formState.mDepth}
+                onChange={onChange}
+                error={errors?.mDepth}
+                sx={{ mb: 0, width: "100%" }}
+              />
+            </div>
           </div>
 
-          <div className="text-input-top">
-            <ReactSelect
-              label={"Select Origin"}
-              placeholder="Origin name"
-              options={_sortOptionsOrigin}
-              value={formState.origin}
-              onChange={onChange}
-              name="origin"
-              id="idStatus"
-              error={errors?.origin}
-            />
-          </div>
-          <div className="text-input-top">
-            <Textinput
-              size="small"
-              type="text"
-              name="mLength"
-              label="Maximum Length"
-              placeholder="Enter Maximum Length"
-              value={formState.mLength}
-              onChange={onChange}
-              error={errors?.mLength}
-              sx={{ mb: 0, width: "100%" }}
-            />
-          </div>
-          <div className="text-input-top">
-            <Textinput
-              size="small"
-              type="text"
-              name="mWidth"
-              label="Maximum Width"
-              placeholder="Enter Maximum Width"
-              value={formState.mWidth}
-              onChange={onChange}
-              error={errors?.mWidth}
-              sx={{ mb: 0, width: "100%" }}
-            />
-          </div>
-          <div className="text-input-top">
-            <Textinput
-              size="small"
-              type="text"
-              name="mDepth"
-              label="Maximum Depth"
-              placeholder="Enter Maximum Depth"
-              value={formState.mDepth}
-              onChange={onChange}
-              error={errors?.mDepth}
-              sx={{ mb: 0, width: "100%" }}
-            />
-          </div>
-          <div className="text-input-top">
-            <Textinput
-              size="small"
-              type="number"
-              name="price"
-              label="Price"
-              placeholder="Enter Price"
-              value={formState.price}
-              onChange={onChange}
-              error={errors?.price}
-              sx={{ mb: 0, width: "100%" }}
-            />
-          </div>
           <div className="text-input-top">
             <Textarea
               size="small"

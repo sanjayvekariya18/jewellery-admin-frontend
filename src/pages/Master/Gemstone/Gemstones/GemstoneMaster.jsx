@@ -9,14 +9,7 @@ import { apiConfig, appConfig } from "../../../../config";
 import _ from "lodash";
 import Swal from "sweetalert2";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect";
-import {
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  Slider,
-  Tooltip,
-} from "@mui/material";
+import { Box, Button, Icon, IconButton, Slider, Tooltip } from "@mui/material";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import ReactSelect from "../../../../components/UI/ReactSelect";
@@ -27,6 +20,7 @@ import GemstoneBulkMasterDetails from "./GemstoneBulkMasterDetails";
 import Textinput from "../../../../components/UI/TextInput";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Textarea from "../../../../components/UI/Textarea";
+import FindGemstoneModal from "./findGemstoneModal";
 
 const GemstoneMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -36,26 +30,30 @@ const GemstoneMaster = () => {
   const [value, setValue] = useState([0, 10000]);
   const [value2, setValue2] = useState([0, 10]);
   const [shapMaster, setShapMaster] = useState([]);
-  const [textModal, setTextModal] = useState(false);
-  const [addressText, setAddressText] = useState("");
-  const textModaltoggle = () => {
-    setTextModal(!textModal);
-  };
+
+  const [findGemstone, setFindGemstone] = useState(false);
+  const [gemStoneData, setGemstoneData] = useState(null);
+
+  //   const [textModal, setTextModal] = useState(false);
+  //   const [addressText, setAddressText] = useState("");
+  //   const textModaltoggle = () => {
+  //     setTextModal(!textModal);
+  //   };
   // ----Pagination code------
   const COLUMNS = [
     { title: "Stock Id" },
     { title: "Title" },
     { title: "Type" },
-    { title: "Carat" },
     { title: "Shape Name" },
+    { title: "Carat" },
     { title: "Color" },
     { title: "Clarity" },
     { title: "Origin" },
-    { title: "M-Length" },
-    { title: "M-Width" },
-    { title: "M-Depth" },
     { title: "Price" },
-    { title: "Description" },
+    // { title: "M-Length" },
+    // { title: "M-Width" },
+    // { title: "M-Depth" },
+    // { title: "Description" },
     { title: "Visible" },
     { title: "Action" },
   ];
@@ -203,7 +201,6 @@ const GemstoneMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
-
   // ------------price Filter------------------
   const handleChangePrice = (event, newValue) => {
     setValue(newValue);
@@ -248,7 +245,6 @@ const GemstoneMaster = () => {
     value: option.value,
   }));
 
-
   // -------------------GemstonesType Filter --------------------------------
   const sortOptionsGemstoneType = [
     { label: "Moissanite", value: "Moissanite" },
@@ -283,13 +279,26 @@ const GemstoneMaster = () => {
     label: option.label,
     value: option.value,
   }));
-
-  const showAddressInDialog = (item) => {
-    const title = `${item.title}}`;
-    setAddressText(title);
-    textModaltoggle();
+  const toggleGemstonePopup = () => {
+    if (findGemstone) {
+      setGemstoneData(null); // Reset gemStoneData when closing the modal
+    }
+    setFindGemstone(!findGemstone); // Toggle modal visibility
   };
-  
+
+  const getDataGemstone = (id) => {
+    API.get(apiConfig.findGemstone.replace(":id", id)).then((res) => {
+      setGemstoneData(res); // Update gemStoneData when fetching data
+      setFindGemstone(true); // Open the modal when data is received
+    });
+  };
+
+  //   const showAddressInDialog = (item) => {
+  //     const title = `${item.title}}`;
+
+  //     setAddressText(title); // Set the address text
+  //     textModaltoggle(); // Show the dialog
+  //   };
   // ----------Get Gemstone List Api-------------
   const rows = useMemo(() => {
     return state.data.map((item) => {
@@ -297,27 +306,27 @@ const GemstoneMaster = () => {
         item: item,
         columns: [
           <span>{item.stockId}</span>,
+          // <div className="three-dot-text-title">
           <span
-            className="three-dot-text"
             style={{ fontWeight: 500 }}
-            onClick={() => showAddressInDialog(item)}
+            // onClick={() => showAddressInDialog(item)}
           >
             {item.title}
           </span>,
+          // </div>,
           <span>{item.gemstoneType}</span>,
-
-          <span>{item.carat}</span>,
           <span>{item.shapeName}</span>,
+          <span>{item.carat}</span>,
           <span>{item.color}</span>,
           <span>{item.clarity}</span>,
           <span>{item.origin}</span>,
-          <span>{item.mLength}</span>,
-          <span>{item.mWidth}</span>,
-          <span>{item.mDepth}</span>,
           <span>{item.price}</span>,
-          <span className="three-dot-text" style={{ fontWeight: 500 }}>
-            {item.description}
-          </span>,
+          //   <span>{item.mLength}</span>,
+          //   <span>{item.mWidth}</span>,
+          //   <span>{item.mDepth}</span>,
+          //   <span className="three-dot-text" style={{ fontWeight: 500 }}>
+          //     {item.description}
+          //   </span>,
           <span>
             <ThemeSwitch
               checked={item.isVisible}
@@ -328,6 +337,9 @@ const GemstoneMaster = () => {
             />
           </span>,
           <div>
+            <IconButton onClick={(e) => getDataGemstone(item.id)}>
+              <Icon color="error">remove_red_eye</Icon>
+            </IconButton>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
             </IconButton>
@@ -403,195 +415,230 @@ const GemstoneMaster = () => {
               reset={() => paginate(true)}
               search={() => paginate(false, true)}
             >
-              <div style={{ marginBottom: "20px" }}>
-                <ReactSelect
-                  label="Select Sort by Price"
-                  placeholder="Sort by Price"
-                  options={_sortOptionsSortBy}
-                  onChange={(e) => {
-                    changeState("sortBy", e?.target.value || "");
-                  }}
-                  name="sortBy"
-                />
-              </div>
-
-              <div>
-                <label className="label-class" htmlFor="product-price-input">
-                  Price :
-                </label>
-                <Slider
-                  value={value}
-                  onChange={handleChangePrice}
-                  valueLabelDisplay="auto"
-                  min={0}
-                  max={10000}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                  }}
-                >
-                  <Textinput
-                    className="form-control"
-                    type="text"
-                    id="minCost"
-                    value={state.fromPrice}
-                    placeholder="Start Price"
-                    name="fromPrice"
-                    onChange={(e) => changeState("fromPrice", e.target.value)}
-                    readOnly
-                    style={{ width: "350px" }}
-                  />
-                  <span
-                    style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}
-                  >
-                    To
-                  </span>
-
-                  <Textinput
-                    className="form-control "
-                    type="text"
-                    id="maxCost"
-                    value={state.toPrice}
-                    placeholder="End Price"
-                    name="toPrice"
-                    onChange={(e) => changeState("toPrice", e.target.value)}
-                    readOnly
-                    style={{ width: "350px" }}
+              <div style={{ height: "420px" }}>
+                <div style={{ marginBottom: "20px" }}>
+                  <ReactSelect
+                    label="Select Sort by Price"
+                    placeholder="Sort by Price"
+                    options={_sortOptionsSortBy}
+                    onChange={(e) => {
+                      changeState("sortBy", e?.target.value || "");
+                    }}
+                    name="sortBy"
                   />
                 </div>
-              </div>
-              <div>
-                <label className="label-class" htmlFor="product-price-input">
-                  Dimension :
-                </label>
-                <Slider
-                  value={value2}
-                  onChange={handleChangeDimension}
-                  valueLabelDisplay="auto"
-                  min={0}
-                  max={10}
-                />
+
                 <div
                   style={{
-                    display: "flex",
-                    width: "100%",
-                    alignItems: "center",
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    gap: "12px 25px",
                   }}
                 >
-                  <Textinput
-                    defaultValue="1"
-                    className="form-control"
-                    type="text"
-                    id="minCost"
-                    value={state.fromDimension}
-                    placeholder="Start Dimension"
-                    name="fromDimension"
-                    onChange={(e) =>
-                      changeState("fromDimension", e.target.value)
-                    }
-                    readOnly
-                    style={{ width: "350px" }}
-                  />
-                  <span
-                    style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}
-                  >
-                    To
-                  </span>
-                  <Textinput
-                    className="form-control "
-                    type="text"
-                    id="maxCost"
-                    defaultValue="10"
-                    value={state.toDimension}
-                    placeholder="End Dimension"
-                    name="toDimension"
-                    onChange={(e) => changeState("toDimension", e.target.value)}
-                    readOnly
-                    style={{ width: "350px" }}
-                  />
+                  <div>
+                    <label
+                      className="label-class"
+                      htmlFor="product-price-input"
+                    >
+                      Price :
+                    </label>
+                    <Slider
+                      value={value}
+                      onChange={handleChangePrice}
+                      valueLabelDisplay="auto"
+                      min={0}
+                      max={10000}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Textinput
+                        className="form-control"
+                        type="text"
+                        id="minCost"
+                        value={state.fromPrice}
+                        placeholder="Start Price"
+                        name="fromPrice"
+                        onChange={(e) =>
+                          changeState("fromPrice", e.target.value)
+                        }
+                        readOnly
+                        style={{ width: "140px" }}
+                      />
+                      <span
+                        style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
+                      >
+                        To
+                      </span>
+
+                      <Textinput
+                        className="form-control "
+                        type="text"
+                        id="maxCost"
+                        value={state.toPrice}
+                        placeholder="End Price"
+                        name="toPrice"
+                        onChange={(e) => changeState("toPrice", e.target.value)}
+                        readOnly
+                        style={{ width: "140px" }}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      className="label-class"
+                      htmlFor="product-price-input"
+                    >
+                      Dimension :
+                    </label>
+                    <Slider
+                      value={value2}
+                      onChange={handleChangeDimension}
+                      valueLabelDisplay="auto"
+                      min={0}
+                      max={10}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Textinput
+                        defaultValue="1"
+                        className="form-control"
+                        type="text"
+                        id="minCost"
+                        value={state.fromDimension}
+                        placeholder="Start Dimension"
+                        name="fromDimension"
+                        onChange={(e) =>
+                          changeState("fromDimension", e.target.value)
+                        }
+                        readOnly
+                        style={{ width: "140px" }}
+                      />
+                      <span
+                        style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
+                      >
+                        To
+                      </span>
+                      <Textinput
+                        // className="form-control "
+                        type="text"
+                        id="maxCost"
+                        defaultValue="10"
+                        value={state.toDimension}
+                        placeholder="End Dimension"
+                        name="toDimension"
+                        onChange={(e) =>
+                          changeState("toDimension", e.target.value)
+                        }
+                        readOnly
+                        style={{ width: "140px" }}
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="text-input-top">
-                <Select
-                  label="Select Shap Name"
-                  placeholder="Select Shap Name"
-                  options={_sortOptionsShap}
-                  isMulti
-                  value={_sortOptionsShap.filter((option) =>
-                    state.shape.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("shape", selectedIds);
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    gap: "12px",
                   }}
-                  name="choices-multi-default"
-                  id="shape"
-                />
-              </div>
+                >
+                  <div className="text-input-top">
+                    <Select
+                      label="Select Shap Name"
+                      placeholder="Select Shap Name"
+                      options={_sortOptionsShap}
+                      isMulti
+                      value={_sortOptionsShap.filter((option) =>
+                        state.shape.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("shape", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="shape"
+                    />
+                  </div>
+                  <div className="text-input-top">
+                    <Select
+                      label="Select Origin"
+                      placeholder="Select Origin Name"
+                      options={_sortOptionsOrigin}
+                      isMulti
+                      value={_sortOptionsOrigin.filter((option) =>
+                        state.origin.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("origin", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="origin"
+                    />
+                  </div>
+                </div>
 
-              <div className="text-input-top">
-                <Select
-                  label="Select Origin"
-                  placeholder="Select Origin Name"
-                  options={_sortOptionsOrigin}
-                  isMulti
-                  value={_sortOptionsOrigin.filter((option) =>
-                    state.origin.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("origin", selectedIds);
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    gap: "12px",
                   }}
-                  name="choices-multi-default"
-                  id="origin"
-                />
-              </div>
+                >
+                  <div className="text-input-top">
+                    <Select
+                      label="Select Color"
+                      placeholder="Select Color name"
+                      options={_sortOptionsColor}
+                      isMulti
+                      value={_sortOptionsColor.filter((option) =>
+                        state.color.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("color", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="color"
+                    />
+                  </div>
 
-              <div className="text-input-top">
-                <Select
-                  label="Select Color"
-                  placeholder="Select Color name"
-                  options={_sortOptionsColor}
-                  isMulti
-                  value={_sortOptionsColor.filter((option) =>
-                    state.color.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("color", selectedIds);
-                  }}
-                  name="choices-multi-default"
-                  id="color"
-                />
-              </div>
-
-              <div className="text-input-top">
-                <Select
-                  label="Select GemstoneType"
-                  placeholder="Select GemstoneType"
-                  options={_sortOptionsGemstoneType}
-                  isMulti
-                  value={_sortOptionsGemstoneType.filter((option) =>
-                    state.gemstoneType.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("gemstoneType", selectedIds);
-                  }}
-                  name="choices-multi-default"
-                  id="gemstoneType"
-                />
+                  <div className="text-input-top">
+                    <Select
+                      label="Select GemstoneType"
+                      placeholder="Select GemstoneType"
+                      options={_sortOptionsGemstoneType}
+                      isMulti
+                      value={_sortOptionsGemstoneType.filter((option) =>
+                        state.gemstoneType.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("gemstoneType", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="gemstoneType"
+                    />
+                  </div>
+                </div>
               </div>
             </SearchFilterDialog>
           </Box>
@@ -636,10 +683,17 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
-
-          {textModal && (
+          <FindGemstoneModal
+            open={findGemstone}
+            togglePopup={() => {
+              toggleGemstonePopup();
+              paginate();
+            }}
+            gemStoneData={gemStoneData}
+          />
+          {/* {textModal && (
             <ThemeDialog
               title="Address"
               id="showModal"
@@ -666,7 +720,7 @@ const GemstoneMaster = () => {
                 ></Textarea>
               </div>
             </ThemeDialog>
-          )}
+          )} */}
         </Container>
       </div>
     </>

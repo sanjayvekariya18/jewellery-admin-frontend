@@ -31,11 +31,10 @@ const DiamondMaster = () => {
   const [polish, setPolish] = useState([0, 2]);
   const [price, setPrice] = useState([20, 665840]);
   const [carat, setCarat] = useState([0.05, 7.01]);
-  const [depth, setDepth] = useState([0.26, 62.40]);
-  const [table, setTable] = useState([50.00, 78.00]);
+  const [depth, setDepth] = useState([0.26, 62.4]);
+  const [table, setTable] = useState([50.0, 78.0]);
   const [shapMaster, setShapMaster] = useState([]);
   const [labMaster, setLabMaster] = useState([]);
-
 
   // ----Pagination code------
   const COLUMNS = [
@@ -57,9 +56,7 @@ const DiamondMaster = () => {
     { title: "isVisible" },
     { title: "Action" },
   ];
-  console.log('====================================');
-  console.log(price);
-  console.log('====================================');
+
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
       shape: "",
@@ -68,10 +65,10 @@ const DiamondMaster = () => {
       toPrice: 665840,
       fromCts: 0.05,
       toCts: 7.01,
-      fromTable: 50.00,
-      toTable: 78.00,
+      fromTable: 50.0,
+      toTable: 78.0,
       fromDepth: 0.26,
-      toDepth: 62.40,
+      toDepth: 62.4,
       sortByShape: "ASC",
       sortByPrice: "ASC",
       sortByCarat: "ASC",
@@ -83,16 +80,15 @@ const DiamondMaster = () => {
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-
       shape: "",
       fromPrice: 20,
       toPrice: 665840,
       fromCts: 0.05,
       toCts: 7.01,
-      fromTable: 50.00,
-      toTable: 78.00,
+      fromTable: 50.0,
+      toTable: 78.0,
       fromDepth: 0.26,
-      toDepth: 62.40,
+      toDepth: 62.4,
       sortByShape: "ASC",
       sortByPrice: "ASC",
       sortByCarat: "ASC",
@@ -191,14 +187,13 @@ const DiamondMaster = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, [])
+  }, []);
 
   // --------------------Shap Filter----------------------------
   let _sortOptionsShap = shapMaster.map((option) => ({
     label: option.shape,
     value: option.id,
   }));
-
 
   // ------------------Get Lab API --------------------------------
 
@@ -210,7 +205,7 @@ const DiamondMaster = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, [])
+  }, []);
 
   // ------------------ Lab Filter --------------------------------
 
@@ -256,20 +251,19 @@ const DiamondMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
-
   // ---------------color Filter----------------------
   const marksColor = [
-    { value: 0, label: 'D' },
-    { value: 1, label: 'E' },
-    { value: 2, label: 'F' },
-    { value: 3, label: 'G' },
-    { value: 4, label: 'H' },
-    { value: 5, label: 'I' },
-    { value: 6, label: 'K' },
-    { value: 7, label: 'L' },
-    { value: 8, label: 'MN' },
-    { value: 9, label: 'OP' }
-  ]
+    { value: 0, label: "D" },
+    { value: 1, label: "E" },
+    { value: 2, label: "F" },
+    { value: 3, label: "G" },
+    { value: 4, label: "H" },
+    { value: 5, label: "I" },
+    { value: 6, label: "K" },
+    { value: 7, label: "L" },
+    { value: 8, label: "MN" },
+    { value: 9, label: "OP" },
+  ];
   const handleChangeColor = (event, newValue) => {
     setColor(newValue);
     changeState("fromColor", marksColor[newValue[0]].value);
@@ -278,19 +272,18 @@ const DiamondMaster = () => {
 
   // ---------------Clarity Filter----------------------
   const marksClarity = [
-    { value: 0, label: 'FL' },
-    { value: 1, label: 'IF' },
-    { value: 2, label: 'VVS1' },
-    { value: 3, label: 'VVS2' },
-    { value: 4, label: 'VS1' },
-    { value: 5, label: 'VS2' },
-    { value: 6, label: 'SI1' },
-    { value: 7, label: 'SI2' },
-    { value: 8, label: 'I1' },
-    { value: 9, label: 'I2' },
-    { value: 10, label: 'I3' },
-
-  ]
+    { value: 0, label: "FL" },
+    { value: 1, label: "IF" },
+    { value: 2, label: "VVS1" },
+    { value: 3, label: "VVS2" },
+    { value: 4, label: "VS1" },
+    { value: 5, label: "VS2" },
+    { value: 6, label: "SI1" },
+    { value: 7, label: "SI2" },
+    { value: 8, label: "I1" },
+    { value: 9, label: "I2" },
+    { value: 10, label: "I3" },
+  ];
   const handleChangeClarity = (event, newValue) => {
     setClarity(newValue);
     changeState("fromClarity", marksClarity[newValue[0]].value);
@@ -299,13 +292,13 @@ const DiamondMaster = () => {
 
   // ---------------Cut Filter----------------------
   const marksCut = [
-    { value: 0, label: 'Super Ideal ' },
-    { value: 1, label: 'Ideal' },
-    { value: 2, label: 'Very_Good ' },
-    { value: 3, label: 'Good' },
-    { value: 4, label: 'Fair' },
-    { value: 5, label: 'Poor' },
-  ]
+    { value: 0, label: "Super Ideal " },
+    { value: 1, label: "Ideal" },
+    { value: 2, label: "Very_Good " },
+    { value: 3, label: "Good" },
+    { value: 4, label: "Fair" },
+    { value: 5, label: "Poor" },
+  ];
 
   const handleChangeCut = (event, newValue) => {
     setCut(newValue);
@@ -315,12 +308,12 @@ const DiamondMaster = () => {
 
   // ---------------Fluorescence Filter----------------------
   const marksFluorescence = [
-    { value: 0, label: 'None' },
-    { value: 1, label: 'Faint ' },
-    { value: 2, label: 'Medium  ' },
-    { value: 3, label: 'Stong ' },
-    { value: 4, label: 'Very Strong ' },
-  ]
+    { value: 0, label: "None" },
+    { value: 1, label: "Faint " },
+    { value: 2, label: "Medium  " },
+    { value: 3, label: "Stong " },
+    { value: 4, label: "Very Strong " },
+  ];
 
   const handleChangeFluorescence = (event, newValue) => {
     setFluorescence(newValue);
@@ -330,10 +323,10 @@ const DiamondMaster = () => {
 
   // ---------------Symmetry Filter----------------------
   const marksSymmetry = [
-    { value: 0, label: 'Excellent' },
-    { value: 1, label: 'Very Good' },
-    { value: 2, label: 'Good' },
-  ]
+    { value: 0, label: "Excellent" },
+    { value: 1, label: "Very Good" },
+    { value: 2, label: "Good" },
+  ];
 
   const handleChangeSymmetry = (event, newValue) => {
     setSymmetry(newValue);
@@ -343,10 +336,10 @@ const DiamondMaster = () => {
   // ---------------Polish Filter----------------------
 
   const marksPolish = [
-    { value: 0, label: 'Excellent' },
-    { value: 1, label: 'Very Good' },
-    { value: 2, label: 'Good' },
-  ]
+    { value: 0, label: "Excellent" },
+    { value: 1, label: "Very Good" },
+    { value: 2, label: "Good" },
+  ];
 
   const handleChangePolish = (event, newValue) => {
     setPolish(newValue);
@@ -540,8 +533,7 @@ const DiamondMaster = () => {
                 />
               </div>
               <div>
-                <p>
-                  Fluorescence</p>
+                <p>Fluorescence</p>
                 <Slider
                   value={fluorescence}
                   onChange={handleChangeFluorescence}
@@ -553,8 +545,7 @@ const DiamondMaster = () => {
                 />
               </div>
               <div>
-                <p>
-                  Symmetry</p>
+                <p>Symmetry</p>
                 <Slider
                   value={symmetry}
                   onChange={handleChangeSymmetry}
@@ -566,8 +557,7 @@ const DiamondMaster = () => {
                 />
               </div>
               <div>
-                <p>
-                  Polish</p>
+                <p>Polish</p>
                 <Slider
                   value={polish}
                   onChange={handleChangePolish}
@@ -617,9 +607,7 @@ const DiamondMaster = () => {
                   readOnly
                   style={{ width: "350px" }}
                 />
-                <span
-                  style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}
-                >
+                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
                   To
                 </span>
 
@@ -653,11 +641,15 @@ const DiamondMaster = () => {
                   value={state.fromCts}
                   placeholder="Start Carat"
                   name="fromCts"
-                  onChange={(e) => changeState("fromCts", parseFloat(e.target.value))}
+                  onChange={(e) =>
+                    changeState("fromCts", parseFloat(e.target.value))
+                  }
                   readOnly
                   style={{ width: "350px" }}
                 />
-                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>To</span>
+                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
+                  To
+                </span>
                 <Textinput
                   className="form-control "
                   type="text"
@@ -665,7 +657,9 @@ const DiamondMaster = () => {
                   value={state.toCts}
                   placeholder="End Carat"
                   name="toCts"
-                  onChange={(e) => changeState("toCts", parseFloat(e.target.value))}
+                  onChange={(e) =>
+                    changeState("toCts", parseFloat(e.target.value))
+                  }
                   readOnly
                   style={{ width: "350px" }}
                 />
@@ -674,11 +668,11 @@ const DiamondMaster = () => {
               <div>
                 <p>Depth</p>
                 <Slider
-                  defaultValue={[0.26, 62.40]}
+                  defaultValue={[0.26, 62.4]}
                   onChange={handleChangeDepth}
                   valueLabelDisplay="auto"
                   min={0.26}
-                  max={62.40}
+                  max={62.4}
                   step={0.01}
                 />
                 <Textinput
@@ -688,11 +682,15 @@ const DiamondMaster = () => {
                   value={state.fromDepth}
                   placeholder="Start Depth"
                   name="fromDepth"
-                  onChange={(e) => changeState("fromDepth", parseFloat(e.target.value))}
+                  onChange={(e) =>
+                    changeState("fromDepth", parseFloat(e.target.value))
+                  }
                   readOnly
                   style={{ width: "350px" }}
                 />
-                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>To</span>
+                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
+                  To
+                </span>
                 <Textinput
                   className="form-control "
                   type="text"
@@ -700,7 +698,9 @@ const DiamondMaster = () => {
                   value={state.toDepth}
                   placeholder="End Depth"
                   name="toDepth"
-                  onChange={(e) => changeState("toDepth", parseFloat(e.target.value))}
+                  onChange={(e) =>
+                    changeState("toDepth", parseFloat(e.target.value))
+                  }
                   readOnly
                   style={{ width: "350px" }}
                 />
@@ -709,11 +709,11 @@ const DiamondMaster = () => {
               <div>
                 <p>Table</p>
                 <Slider
-                  defaultValue={[50.00, 78.00]}
+                  defaultValue={[50.0, 78.0]}
                   onChange={handleChangeTable}
                   valueLabelDisplay="auto"
-                  min={50.00}
-                  max={78.00}
+                  min={50.0}
+                  max={78.0}
                   step={0.01}
                 />
                 <Textinput
@@ -723,11 +723,15 @@ const DiamondMaster = () => {
                   value={state.fromTable}
                   placeholder="Start Table"
                   name="fromTable"
-                  onChange={(e) => changeState("fromTable", parseFloat(e.target.value))}
+                  onChange={(e) =>
+                    changeState("fromTable", parseFloat(e.target.value))
+                  }
                   readOnly
                   style={{ width: "350px" }}
                 />
-                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>To</span>
+                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
+                  To
+                </span>
                 <Textinput
                   className="form-control "
                   type="text"
@@ -735,14 +739,13 @@ const DiamondMaster = () => {
                   value={state.toTable}
                   placeholder="End Table"
                   name="toTable"
-                  onChange={(e) => changeState("toTable", parseFloat(e.target.value))}
+                  onChange={(e) =>
+                    changeState("toTable", parseFloat(e.target.value))
+                  }
                   readOnly
                   style={{ width: "350px" }}
                 />
               </div>
-
-
-
             </SearchFilterDialog>
           </Box>
           <PaginationTable
@@ -786,7 +789,7 @@ const DiamondMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
         </Container>
       </div>

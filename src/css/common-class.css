@@ -32,12 +32,36 @@
     text-overflow: ellipsis;
 }
 
+.three-dot-text-title {
+    display: inline-block;
+    width: 130px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
 .css-1bwc6vp-MuiTable-root {
     border: 1px solid #80808036;
 }
 
 .css-1bwc6vp-MuiTable-root tbody tr td {
     text-transform: none !important;
+    padding-left: 0px !important;
+}
+
+.css-1bwc6vp-MuiTable-root tbody tr td:first-child {
+    text-transform: none;
+    padding-left: 20px !important;
+}
+
+.css-1bwc6vp-MuiTable-root thead tr th {
+    text-transform: none !important;
+    padding-left: 0px !important;
+}
+
+.css-1bwc6vp-MuiTable-root thead tr th:first-child {
+    text-transform: none !important;
+    padding-left: 20px !important;
 }
 
 .css-1bwc6vp-MuiTable-root thead tr {
@@ -51,6 +75,13 @@
 
 .css-1htgh2s-MuiTableCell-root {
     padding: 4px 0px 4px 0px !important;
+    text-align: start;
+    vertical-align: middle;
+}
+
+.css-1o83ncy-MuiTableCell-root {
+    text-align: start;
+    vertical-align: middle;
 }
 
 .main-modal-fix-tabel thead {
@@ -73,7 +104,7 @@
 }
 
 .css-1nmdiq5-menu {
-    z-index: 999;
+    z-index: 999 !important;
 }
 
 .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
@@ -96,4 +127,23 @@
 
 .text-input-top {
     margin-top: 15px !important;
+}
+
+.css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+    padding-left: 2px;
+    padding-right: 10px;
+}
+
+.css-78trlr-MuiButtonBase-root-MuiIconButton-root:hover {
+    background-color: transparent !important;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

@@ -30,8 +30,8 @@ const SubcategoryMasterDetails = ({
   const rules = {
     name: "required",
     categoryId: "required",
-    imgUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
-    logoUrl: "mimes:png,jpg,jpeg|max_file_size:1048576",
+    imgUrl: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
+    logoUrl: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
   };
 
   const handleSubmit = (data) => {

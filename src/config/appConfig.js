@@ -17,7 +17,7 @@ const appConfig = {
 
   default_pagination_state: {
     page: 0,
-    rowsPerPage: 5,
+    rowsPerPage: 10,
   },
 };
 

@@ -15,7 +15,7 @@ import {
 import StyledTable from "../../StyledTable";
 import { visuallyHidden } from "@mui/utils";
 
-const rowsPerPageOptions = [5, 10, 25, 50];
+const rowsPerPageOptions = [10, 25, 50, 100];
 
 export const usePaginationTable = (initialState = {}) => {
   const [state, setState] = useState({

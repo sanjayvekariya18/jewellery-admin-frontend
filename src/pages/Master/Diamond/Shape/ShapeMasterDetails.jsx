@@ -21,7 +21,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
 
   const rules = {
     shape: "required",
-    image: "mimes:png,jpg,jpeg|max_file_size:1048576",
+    image: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
   };
 
   const handleSubmit = (data) => {
