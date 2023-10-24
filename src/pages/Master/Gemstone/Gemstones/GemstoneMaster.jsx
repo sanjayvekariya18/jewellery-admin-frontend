@@ -306,14 +306,15 @@ const GemstoneMaster = () => {
         item: item,
         columns: [
           <span>{item.stockId}</span>,
-          // <div className="three-dot-text-title">
-          <span
-            style={{ fontWeight: 500 }}
-            // onClick={() => showAddressInDialog(item)}
-          >
-            {item.title}
-          </span>,
-          // </div>,
+          <div className="three-dot-text-title">
+            <span
+              style={{ fontWeight: 500 }}
+              // onClick={() => showAddressInDialog(item)}
+            >
+              {item.title}
+            </span>
+            ,
+          </div>,
           <span>{item.gemstoneType}</span>,
           <span>{item.shapeName}</span>,
           <span>{item.carat}</span>,
