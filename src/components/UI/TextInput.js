@@ -30,6 +30,7 @@ const Textinput = ({
         readOnly={readonly}
         value={value ? value : ""}
         disabled={disabled}
+        inputProps={{ min: "0" }}
         id={id}
         onChange={(event) => {
           if (type == "file") {
