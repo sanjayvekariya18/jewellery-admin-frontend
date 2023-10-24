@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import PaginationTable, {
@@ -16,16 +16,13 @@ import {
   IconButton,
   Slider,
   Tooltip,
-  Input,
 } from "@mui/material";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import ReactSelect from "../../../../components/UI/ReactSelect";
-// import { Input, Label } from "reactstrap";
 import Select from "react-select";
 import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
 import GemstoneMasterDetails from "./GemstoneMasterDetails";
-import UploadButton from "../../../../components/UI/UploadButton";
 import GemstoneBulkMasterDetails from "./GemstoneBulkMasterDetails";
 import Textinput from "../../../../components/UI/TextInput";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
@@ -154,7 +151,7 @@ const GemstoneMaster = () => {
   // ------------------Get Shap API --------------------------------
 
   useEffect(() => {
-    API.get(apiConfig.shape)
+    API.get(apiConfig.shapeList, { is_public_url: true })
       .then((res) => {
         setShapMaster(res);
       })
@@ -162,6 +159,12 @@ const GemstoneMaster = () => {
         console.error(err);
       });
   }, []);
+
+  // ------------Shap List--------------------------------
+  let _sortOptionsShap = shapMaster.map((option) => ({
+    label: option.shape,
+    value: option.id,
+  }));
 
   // ---------------Visiblility Gemstone Api----------------------
 
@@ -200,20 +203,22 @@ const GemstoneMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
+
+  // ------------price Filter------------------
   const handleChangePrice = (event, newValue) => {
     setValue(newValue);
     changeState("fromPrice", newValue[0]);
     changeState("toPrice", newValue[1]);
   };
+
+  // -------------Dimension Filter-----------------
   const handleChangeDimension = (event, newValue) => {
     setValue2(newValue);
     changeState("fromDimension", newValue[0]);
     changeState("toDimension", newValue[1]);
   };
-  let _sortOptionsShap = shapMaster.map((option) => ({
-    label: option.shape,
-    value: option.id,
-  }));
+
+  // ----------------Origin Filter----------------
   const sortOptionsOrigin = [
     { label: "Lab", value: "Lab" },
     { label: "Natural", value: "Natural" },
@@ -224,6 +229,7 @@ const GemstoneMaster = () => {
     value: option.value,
   }));
 
+  // ---------------------Color Filter----------------
   const sortOptionsColor = [
     { label: "Blue", value: "Blue" },
     { label: "White", value: "White" },
@@ -242,10 +248,11 @@ const GemstoneMaster = () => {
     value: option.value,
   }));
 
+
+  // -------------------GemstonesType Filter --------------------------------
   const sortOptionsGemstoneType = [
     { label: "Moissanite", value: "Moissanite" },
     { label: "Sapphire", value: "Sapphire" },
-    { label: "COLORED_DIAMOND ", value: "ColoredDiamond " },
     { label: "Emerald", value: "Emerald" },
     { label: "Aquamarine", value: "Aquamarine" },
     { label: "Morganite", value: "Morganite" },
@@ -266,6 +273,7 @@ const GemstoneMaster = () => {
     value: option.value,
   }));
 
+  // -----------------SortBy Filter----------------
   const sortOptionsSortBy = [
     { label: "Newest", value: "newest" },
     { label: "Lowest Price", value: "lPrice" },
@@ -278,10 +286,10 @@ const GemstoneMaster = () => {
 
   const showAddressInDialog = (item) => {
     const title = `${item.title}}`;
-
-    setAddressText(title); // Set the address text
-    textModaltoggle(); // Show the dialog
+    setAddressText(title);
+    textModaltoggle();
   };
+  
   // ----------Get Gemstone List Api-------------
   const rows = useMemo(() => {
     return state.data.map((item) => {
@@ -628,7 +636,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
 
           {textModal && (

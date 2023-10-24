@@ -39,21 +39,26 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     price: "required",
   };
 
-  // ------------------Get Shap API --------------------------------
+  // ------------------Get Shape API --------------------------------
 
   useEffect(() => {
-    API.get(apiConfig.shape, {
-      // rowsPerPage: appConfig.defaultPerPage,
-      // page: 0,
-    })
+    API.get(apiConfig.shapeList, { is_public_url: true })
       .then((res) => {
         setShapMaster(res);
-        // paginate();
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
+
+  // ------------------------Shape Options --------------------------------
+  let _sortOptionsShap = shapMaster.map((option) => ({
+    label: option.shape,
+    value: option.id,
+  }));
+
+
+  // -----------------handle Submitted------------------------
   const handleSubmit = (data) => {
     let formateFields = ["carat", "mDepth", "mLength", "mWidth"];
     let _data = { ...data };
@@ -82,6 +87,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     });
   }, []);
 
+  // -----------------Gemstonetype Options ----------------
   const sortOptionsGemstoneType = [
     { label: "Moissanite", value: "Moissanite" },
     { label: "Sapphire", value: "Sapphire" },
@@ -105,6 +111,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.value,
   }));
 
+  // ---------------------Origin Options --------------------
   const sortOptionsOrigin = [
     { label: "Lab", value: "Lab" },
     { label: "Natural", value: "Natural" },
@@ -115,11 +122,8 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.value,
   }));
 
-  let _sortOptionsShap = shapMaster.map((option) => ({
-    label: option.shape,
-    value: option.id,
-  }));
 
+  // -------------------Color Options ----------------
   const sortOptionsColor = [
     { label: "Blue", value: "Blue" },
     { label: "White", value: "White" },
@@ -137,6 +141,8 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     label: option.label,
     value: option.value,
   }));
+
+
   useEffect(() => {
     if (open === true && userData !== null) {
       setFormState(userData);
@@ -320,7 +326,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
           <div className="text-input-top">
             <Textinput
               size="small"
-              type="text"
+              type="number"
               name="price"
               label="Price"
               placeholder="Enter Price"

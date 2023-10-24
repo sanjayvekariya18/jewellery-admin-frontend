@@ -20,9 +20,11 @@ const apiConfig = {
 
   //lab
   lab: "lab",
+  labList: "list/lab",
 
   //shape
   shape: "shape",
+  shapeList: "list/shape",
 
   // attributes
   attributes: "attributes",
@@ -69,6 +71,8 @@ const apiConfig = {
   diamonds: "diamonds",
   visibility_diamond: "diamonds/visibility/:id", //diamond visible toggle
   diamondsBulk: "diamonds/bulk_upload",
+
+
 
 };
 

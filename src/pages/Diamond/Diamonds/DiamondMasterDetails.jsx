@@ -52,10 +52,10 @@ const DiamondMasterDetails = ({
         origin: "required",
     };
 
-    //     // ------------------Get Shap API --------------------------------
+    // ------------------Get Shap API --------------------------------
 
     useEffect(() => {
-        API.get(apiConfig.shape)
+        API.get(apiConfig.shapeList, { is_public_url: true })
             .then((res) => {
                 setShapMaster(res);
             })
@@ -64,10 +64,16 @@ const DiamondMasterDetails = ({
             });
     }, [])
 
-         // ------------------Get Lab API --------------------------------
+    // -------------------Shap options --------------------------------
+    let _sortOptionsShap = shapMaster.map((option) => ({
+        label: option.shape,
+        value: option.id,
+    }));
+
+    // ------------------Get Lab API --------------------------------
 
     useEffect(() => {
-        API.get(apiConfig.lab)
+        API.get(apiConfig.labList, { is_public_url: true })
             .then((res) => {
                 setLabMaster(res);
             })
@@ -75,6 +81,15 @@ const DiamondMasterDetails = ({
                 console.error(err);
             });
     }, [])
+
+    // -------------------Lab options --------------------------------
+    let _sortOptionsLab = labMaster.map((option) => ({
+        label: option.labName,
+        value: option.id,
+    }));
+
+
+    // -------- handleSubmit-------------
     const handleSubmit = (data) => {
         let formateFields = ['carat', 'mDepth', 'mLength', 'mWidth'];
         let _data = { ...data }
@@ -101,6 +116,8 @@ const DiamondMasterDetails = ({
             };
         });
     }, []);
+
+    // ------------------Option Color---------------
     const sortOptionDcolor = [
         { label: "D", value: "0" },
         { label: "E", value: "1" },
@@ -118,6 +135,9 @@ const DiamondMasterDetails = ({
         label: option.label,
         value: option.value,
     }));
+
+
+    // ------------------Option clarity---------------
 
     const sortOptionDclarity = [
         { label: "FL", value: "0" },
@@ -138,6 +158,8 @@ const DiamondMasterDetails = ({
         value: option.value,
     }));
 
+
+    // ------------------Option Cut---------------
     const sortOptionsDcut = [
         { label: "Super_Ideal", value: "0" },
         { label: "Ideal", value: "1" },
@@ -153,6 +175,7 @@ const DiamondMasterDetails = ({
     }));
 
 
+    // ------------------Option Symmetry---------------
     const sortOptionsDsymmetry = [
         { label: "Excellent", value: "0" },
         { label: "Very_Good", value: "1" },
@@ -163,6 +186,8 @@ const DiamondMasterDetails = ({
         value: option.value,
     }));
 
+
+    // ------------------Option Fluoresecence---------------
 
     const sortOptionsDfluorescence = [
         { label: "None", value: "0" },
@@ -177,9 +202,7 @@ const DiamondMasterDetails = ({
         value: option.value,
     }));
 
-
-
-
+    // ------------------Option Girdle---------------
     const sortOptionsDgirdle = [
         { label: "Extremely thin", value: "EXTREMELY_THIN" },
         { label: "Very thin", value: "VERY_THIN" },
@@ -192,6 +215,7 @@ const DiamondMasterDetails = ({
         label: option.label,
         value: option.value,
     }));
+    // ------------------Option Culet---------------
 
     const sortOptionsDculet = [
         { label: "None", value: "NONE" },
@@ -209,13 +233,17 @@ const DiamondMasterDetails = ({
         value: option.value,
     }));
 
+    // ------------------Option Origin---------------
     const sortOptionsOrigin = [
         { label: "Lab", value: "Lab" },
         { label: "Natural", value: "Natural" }
     ];
 
-
-
+    let _sortOptionsOrigin = sortOptionsOrigin.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
+    // ------------------Option Polish---------------
     const sortOptionsDpolish = [
         { label: "Excellent", value: "0" },
         { label: "Very_Good", value: "1" },
@@ -226,23 +254,6 @@ const DiamondMasterDetails = ({
         value: option.value,
     }));
 
-
-
-    let _sortOptionsOrigin = sortOptionsOrigin.map((option) => ({
-        label: option.label,
-        value: option.value,
-    }));
-
-    let _sortOptionsShap = shapMaster.map((option) => ({
-        label: option.shape,
-        value: option.id,
-    }));
-
-
-    let _sortOptionsLab = labMaster.map((option) => ({
-        label: option.labName,
-        value: option.id,
-    }));
 
     useEffect(() => {
         if (open === true && userData !== null) {
