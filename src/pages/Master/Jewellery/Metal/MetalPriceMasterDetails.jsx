@@ -65,6 +65,7 @@ const MetalPriceMasterDetails = ({ open, togglePopup, userData }) => {
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
           title={"Edit Metal Price"}
+          maxWidth="sm"
           isOpen={open}
           onClose={() => {
             togglePopup();
@@ -73,7 +74,7 @@ const MetalPriceMasterDetails = ({ open, togglePopup, userData }) => {
           actionBtns={
             <Box>
               <Button
-                variant="outlined"
+                variant="contained"
                 color="secondary"
                 onClick={() => {
                   togglePopup();
@@ -83,7 +84,9 @@ const MetalPriceMasterDetails = ({ open, togglePopup, userData }) => {
                 Cancel
               </Button>
               <Button
+                style={{ marginLeft: "20px" }}
                 type="submit"
+                variant="contained"
                 color="primary"
                 onClick={() => onSubmit(handleSubmit)}
               >

@@ -34,7 +34,7 @@
 
 .three-dot-text-title {
     display: inline-block;
-    width: 130px;
+    width: 140px;
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
@@ -47,11 +47,17 @@
 .css-1bwc6vp-MuiTable-root tbody tr td {
     text-transform: none !important;
     padding-left: 0px !important;
+    /* padding-top: 10px !important;
+    padding-bottom: 10px !important; */
 }
+
+
 
 .css-1bwc6vp-MuiTable-root tbody tr td:first-child {
     text-transform: none;
     padding-left: 20px !important;
+    /* padding-top: 10px !important; */
+    /* padding-bottom: 10px !important; */
 }
 
 .css-1bwc6vp-MuiTable-root thead tr th {
@@ -134,6 +140,11 @@
     padding-right: 10px;
 }
 
+.css-12r29k6-MuiSlider-markLabel {
+    /* color: rgb(58 50 115 / 97%) !important; */
+    font-size: 13px !important;
+}
+
 .css-78trlr-MuiButtonBase-root-MuiIconButton-root:hover {
     background-color: transparent !important;
 }
@@ -146,4 +157,9 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.span-permision {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
 }

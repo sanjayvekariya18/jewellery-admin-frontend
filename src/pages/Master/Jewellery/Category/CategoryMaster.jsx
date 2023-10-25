@@ -193,7 +193,7 @@ const CategoryMaster = () => {
             { name: "Category" },
           ]}
         />
-        <Tooltip title="Filter">
+        {/* <Tooltip title="Filter">
           <IconButton
             color="inherit"
             className="button"
@@ -202,7 +202,7 @@ const CategoryMaster = () => {
           >
             <Icon>filter_list</Icon>
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
       </Box>
 
       {/* -------------------------- Pagination table display code  -----------------------------*/}

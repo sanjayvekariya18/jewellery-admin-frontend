@@ -94,8 +94,12 @@ const PermissionsMaster = () => {
       return {
         item: item,
         columns: [
-          <span>{item.permissionGroup}</span>,
-          <span>{item.permissionName} </span>,
+          <div className="span-permision">
+            <span>{item.permissionGroup}</span>
+          </div>,
+          <div className="span-permision">
+            <span className="span-permision">{item.permissionName} </span>
+          </div>,
         ],
       };
     });

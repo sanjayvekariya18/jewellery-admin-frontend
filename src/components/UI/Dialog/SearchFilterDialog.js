@@ -8,6 +8,7 @@ export default function SearchFilterDialog({
   children,
   search,
   reset,
+  maxWidth = "md",
 }) {
   return (
     <>
@@ -15,12 +16,18 @@ export default function SearchFilterDialog({
         title={"Search Filter"}
         isOpen={isOpen}
         onClose={onClose}
+        maxWidth={maxWidth}
         actionBtns={
           <>
-            <Button variant="outlined" color="secondary" onClick={reset}>
+            <Button variant="contained" color="secondary" onClick={reset}>
               Reset
             </Button>
-            <Button type="submit" color="primary" onClick={search}>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              onClick={search}
+            >
               Search
             </Button>
           </>

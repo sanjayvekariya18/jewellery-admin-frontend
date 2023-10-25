@@ -60,6 +60,7 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
+          maxWidth="sm"
           title={`${formState?.id === "" ? "Add" : "Edit"} Lab`}
           isOpen={open}
           onClose={() => {

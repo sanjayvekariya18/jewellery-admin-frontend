@@ -20,6 +20,7 @@ import Textinput from "../../../../components/UI/TextInput";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Textarea from "../../../../components/UI/Textarea";
 import FindGemstoneModal from "./findGemstoneModal";
+import ReactSelect from "../../../../components/UI/ReactSelect";
 
 const GemstoneMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -37,7 +38,7 @@ const GemstoneMaster = () => {
   //   };
   // ----Pagination code------
   const COLUMNS = [
-    { title: "Stock Id" },
+    { title: "Stock No" },
     { title: "Title" },
     { title: "Type" },
     { title: "Shape Name" },
@@ -64,8 +65,7 @@ const GemstoneMaster = () => {
       fromPrice: 2,
       toPrice: 11290,
       fromDimension: 0.05,
-      toDimension: 10.00,
-
+      toDimension: 10.0,
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -79,7 +79,7 @@ const GemstoneMaster = () => {
       fromPrice: 2,
       toPrice: 11290,
       fromDimension: 0.05,
-      toDimension: 10.00,
+      toDimension: 10.0,
       ...appConfig.default_pagination_state,
     };
 
@@ -304,7 +304,7 @@ const GemstoneMaster = () => {
           <div className="three-dot-text-title">
             <span
               style={{ fontWeight: 500 }}
-            // onClick={() => showAddressInDialog(item)}
+              // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -401,7 +401,7 @@ const GemstoneMaster = () => {
                   onClick={togglePopupBulk}
                   style={{ marginLeft: "20px" }}
                 >
-                  Add GemstoneBulk
+                  Add GemStone Bulk
                 </Button>
               </div>
             </div>
@@ -413,11 +413,13 @@ const GemstoneMaster = () => {
             >
               <div style={{ height: "420px" }}>
                 <div style={{ marginBottom: "20px" }}>
-                  <Select
-                    label="Select Sort by Price"
+                  <ReactSelect
+                    // label="Select Sort by Price"
                     placeholder="Sort by Price"
                     options={_sortOptionsSortBy}
-                    value={_sortOptionsSortBy.find((option) => option.value === state.sortBy)}
+                    value={_sortOptionsSortBy.find(
+                      (option) => option.value === state.sortBy
+                    )}
                     onChange={(selectedSort) => {
                       const selectedId = selectedSort.value;
                       changeState("sortBy", selectedId);
@@ -494,11 +496,11 @@ const GemstoneMaster = () => {
                       Dimension :
                     </label>
                     <Slider
-                      defaultValue={[0.05, 10.00]}
+                      defaultValue={[0.05, 10.0]}
                       onChange={handleChangeDimension}
                       valueLabelDisplay="auto"
                       min={0.05}
-                      max={10.00}
+                      max={10.0}
                       step={0.01}
                     />
                     <div
@@ -682,7 +684,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}

@@ -54,7 +54,7 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
                     key={info.key}
                     style={{
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: "baseline",
                       justifyContent: "flex-start",
                       border: "1px solid #3736363b",
                     }}
@@ -67,6 +67,7 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
                           color: "#373636de",
                           padding: "9px 0px 9px 8px",
                           margin: 0,
+                          maxWidth: "140px",
                         }}
                       >
                         {info.label}

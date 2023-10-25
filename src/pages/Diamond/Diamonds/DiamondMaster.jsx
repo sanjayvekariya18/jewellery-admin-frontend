@@ -17,6 +17,7 @@ import DiamondBulkMasterDetails from "./DiamondBulkMasterDetails";
 import SearchFilterDialog from "../../../components/UI/Dialog/SearchFilterDialog";
 import DiamondMasterDetails from "./DiamondMasterDetails";
 import Textinput from "../../../components/UI/TextInput";
+import FindDiamondModal from "./findDiamondMoal";
 
 const DiamondMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -31,27 +32,42 @@ const DiamondMaster = () => {
   const [polish, setPolish] = useState([0, 2]);
   const [shapMaster, setShapMaster] = useState([]);
   const [labMaster, setLabMaster] = useState([]);
+  const [findDiamond, setFindDiamond] = useState(false);
+  const [gemDiamondData, setDiamondData] = useState(null);
 
   // ----Pagination code------
   const COLUMNS = [
-    { title: "stock Id" },
-    { title: "carat" },
-    { title: "ShapeName" },
-    { title: "Description" },
-    { title: "color" },
-    { title: "clarity" },
-    { title: "cut" },
-    { title: "symmetry" },
-    { title: "polish" },
-    { title: "girdle" },
-    { title: "culet" },
-    { title: "origin" },
-    { title: "labName" },
-    { title: "certificateNo" },
-    { title: "price" },
-    { title: "isVisible" },
+    { title: "Stock No" },
+    { title: "Shape" },
+    { title: "Carat" },
+    { title: "Cut" },
+    { title: "Color" },
+    { title: "Clarity" },
+    // { title: "Fluorescence" },
+    { title: "Polish" },
+    { title: "Symmetry" },
+    // { title: "Girdle" },
+    // { title: "Culet" },
+    { title: "Origin" },
+    { title: "Lab" },
+    // { title: "Certificate No" },
+    { title: "Price" },
+    { title: "Is Visible" },
     { title: "Action" },
   ];
+
+  const toggleGemstonePopup = () => {
+    if (findDiamond) {
+      setDiamondData(null); // Reset gemStoneData when closing the modal
+    }
+    setFindDiamond(!findDiamond); // Toggle modal visibility
+  };
+  const getDataDiamond = (id) => {
+    API.get(apiConfig.findDiamond.replace(":id", id)).then((res) => {
+      setDiamondData(res); // Update gemStoneData when fetching data
+      setFindDiamond(true); // Open the modal when data is received
+    });
+  };
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
@@ -371,21 +387,18 @@ const DiamondMaster = () => {
     return state.data.map((item) => {
       return {
         item: item,
+
         columns: [
           <span>{item.stockId}</span>,
-          <span>{item.carat}</span>,
           <span>{item.shapeName}</span>,
-          <span>{item.color}</span>,
-          <span>{item.clarity}</span>,
-          <span>{item.cut}</span>,
-          <span>{item.fluorescence}</span>,
-          <span>{item.symmetry}</span>,
-          <span>{item.polish}</span>,
-          <span>{item.girdle}</span>,
-          <span>{item.culet}</span>,
+          <span>{item.carat}</span>,
+          <span>{appConfig.D_Cut[item.cut]}</span>,
+          <span>{appConfig.D_Color[item.color]}</span>,
+          <span>{appConfig.D_Clarity[item.clarity]}</span>,
+          <span>{appConfig.D_Polish[item.polish]}</span>,
+          <span>{appConfig.D_Symmetry[item.symmetry]}</span>,
           <span>{item.origin}</span>,
           <span>{item.labName}</span>,
-          <span>{item.certificateNo}</span>,
           <span>{item.price}</span>,
           <span>
             <ThemeSwitch
@@ -397,6 +410,9 @@ const DiamondMaster = () => {
             />
           </span>,
           <div>
+            <IconButton onClick={(e) => getDataDiamond(item.id)}>
+              <Icon color="error">remove_red_eye</Icon>
+            </IconButton>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
             </IconButton>
@@ -447,10 +463,6 @@ const DiamondMaster = () => {
             />
             <div>
               <div>
-                <Button variant="contained" onClick={togglePopupBulk}>
-                  Add  DiamondBulk
-                </Button>
-
                 <Tooltip title="Filter">
                   <IconButton
                     color="inherit"
@@ -461,6 +473,13 @@ const DiamondMaster = () => {
                     <Icon>filter_list</Icon>
                   </IconButton>
                 </Tooltip>
+                <Button
+                  variant="contained"
+                  onClick={togglePopupBulk}
+                  style={{ marginLeft: "20px" }}
+                >
+                  Add Diamond Bulk
+                </Button>
               </div>
             </div>
             <SearchFilterDialog
@@ -470,7 +489,6 @@ const DiamondMaster = () => {
               search={() => paginate(false, true)}
             >
               <div>
-                <p>Shape</p>
                 <Select
                   placeholder="Select Shap Name"
                   options={_sortOptionsShap}
@@ -488,80 +506,7 @@ const DiamondMaster = () => {
                   id="shape"
                 />
               </div>
-              <div>
-                <p>Color</p>
-                <Slider
-                  value={color}
-                  onChange={handleChangeColor}
-                  aria-labelledby="track-inverted-slider"
-                  marks={marksColor}
-                  min={0}
-                  max={10}
-                  valueLabelDisplay="off"
-                />
-              </div>
-              <div>
-                <p>Clarity</p>
-                <Slider
-                  value={clarity}
-                  onChange={handleChangeClarity}
-                  aria-labelledby="track-inverted-slider"
-                  marks={marksClarity}
-                  min={0}
-                  max={10}
-                  valueLabelDisplay="off"
-                />
-              </div>
-              <div>
-                <p>Cut</p>
-                <Slider
-                  value={cut}
-                  onChange={handleChangeCut}
-                  aria-labelledby="track-inverted-slider"
-                  marks={marksCut}
-                  min={0}
-                  max={5}
-                  valueLabelDisplay="off"
-                />
-              </div>
-              <div>
-                <p>Fluorescence</p>
-                <Slider
-                  value={fluorescence}
-                  onChange={handleChangeFluorescence}
-                  aria-labelledby="track-inverted-slider"
-                  marks={marksFluorescence}
-                  min={0}
-                  max={4}
-                  valueLabelDisplay="off"
-                />
-              </div>
-              <div>
-                <p>Symmetry</p>
-                <Slider
-                  value={symmetry}
-                  onChange={handleChangeSymmetry}
-                  aria-labelledby="track-inverted-slider"
-                  marks={marksSymmetry}
-                  min={0}
-                  max={2}
-                  valueLabelDisplay="off"
-                />
-              </div>
-              <div>
-                <p>Polish</p>
-                <Slider
-                  value={polish}
-                  onChange={handleChangePolish}
-                  aria-labelledby="track-inverted-slider"
-                  marks={marksPolish}
-                  min={0}
-                  max={2}
-                  valueLabelDisplay="off"
-                />
-              </div>
-              <div>
-                <p>Lab</p>
+              <div className="text-input-top">
                 <Select
                   placeholder="Select Lab Name"
                   options={_sortOptionsLab}
@@ -579,164 +524,298 @@ const DiamondMaster = () => {
                   id="lab"
                 />
               </div>
-              <div>
-                <p>price</p>
+              <div className="text-input-top" style={{ padding: "0px 18px" }}>
+                <label className="label-class">Color :</label>
                 <Slider
-                  defaultValue={[20, 665840]}
-                  onChange={handleChangePrice}
-                  valueLabelDisplay="auto"
-                  min={20}
-                  max={665840}
+                  value={color}
+                  onChange={handleChangeColor}
+                  aria-labelledby="track-inverted-slider"
+                  marks={marksColor}
+                  min={0}
+                  max={10}
+                  valueLabelDisplay="off"
                 />
-                <Textinput
-                  className="form-control"
-                  type="text"
-                  id="minCost"
-                  value={state.fromPrice}
-                  placeholder="Start Price"
-                  name="fromPrice"
-                  onChange={(e) => changeState("fromPrice", e.target.value)}
-                  readOnly
-                  style={{ width: "350px" }}
+              </div>
+              <div className="text-input-top" style={{ padding: "0px 18px" }}>
+                <label className="label-class">Clarity :</label>
+                <Slider
+                  value={clarity}
+                  onChange={handleChangeClarity}
+                  aria-labelledby="track-inverted-slider"
+                  marks={marksClarity}
+                  min={0}
+                  max={10}
+                  valueLabelDisplay="off"
                 />
-                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
-                  To
-                </span>
-
-                <Textinput
-                  className="form-control "
-                  type="text"
-                  id="maxCost"
-                  value={state.toPrice}
-                  placeholder="End Price"
-                  name="toPrice"
-                  onChange={(e) => changeState("toPrice", e.target.value)}
-                  readOnly
-                  style={{ width: "350px" }}
+              </div>
+              <div className="text-input-top" style={{ padding: "0px 18px" }}>
+                <label className="label-class">Cut :</label>
+                <Slider
+                  value={cut}
+                  onChange={handleChangeCut}
+                  aria-labelledby="track-inverted-slider"
+                  marks={marksCut}
+                  min={0}
+                  max={5}
+                  valueLabelDisplay="off"
+                />
+              </div>
+              <div className="text-input-top" style={{ padding: "0px 18px" }}>
+                <label className="label-class">Fluorescence :</label>
+                <Slider
+                  value={fluorescence}
+                  onChange={handleChangeFluorescence}
+                  aria-labelledby="track-inverted-slider"
+                  marks={marksFluorescence}
+                  min={0}
+                  max={4}
+                  valueLabelDisplay="off"
+                />
+              </div>
+              <div className="text-input-top" style={{ padding: "0px 18px" }}>
+                <label className="label-class">Symmetry :</label>
+                <Slider
+                  value={symmetry}
+                  onChange={handleChangeSymmetry}
+                  aria-labelledby="track-inverted-slider"
+                  marks={marksSymmetry}
+                  min={0}
+                  max={2}
+                  valueLabelDisplay="off"
+                />
+              </div>
+              <div className="text-input-top" style={{ padding: "0px 18px" }}>
+                <label className="label-class">Polish :</label>
+                <Slider
+                  value={polish}
+                  onChange={handleChangePolish}
+                  aria-labelledby="track-inverted-slider"
+                  marks={marksPolish}
+                  min={0}
+                  max={2}
+                  valueLabelDisplay="off"
                 />
               </div>
 
-              <div>
-                <p>Carat</p>
-                <Slider
-                  defaultValue={[0.1, 7.01]}
-                  onChange={handleChangeCarat}
-                  valueLabelDisplay="auto"
-                  min={0.1}
-                  max={7.01}
-                  step={0.01}
-                />
-                <Textinput
-                  className="form-control"
-                  type="text"
-                  id="minCost"
-                  value={state.fromCts}
-                  placeholder="Start Carat"
-                  name="fromCts"
-                  onChange={(e) =>
-                    changeState("fromCts", parseFloat(e.target.value))
-                  }
-                  readOnly
-                  style={{ width: "350px" }}
-                />
-                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
-                  To
-                </span>
-                <Textinput
-                  className="form-control "
-                  type="text"
-                  id="maxCost"
-                  value={state.toCts}
-                  placeholder="End Carat"
-                  name="toCts"
-                  onChange={(e) =>
-                    changeState("toCts", parseFloat(e.target.value))
-                  }
-                  readOnly
-                  style={{ width: "350px" }}
-                />
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr ",
+                  alignItems: "center",
+                  gap: "12px 25px",
+                }}
+                className="text-input-top"
+              >
+                <div>
+                  <label className="label-class">Price :</label>
+                  <Slider
+                    defaultValue={[20, 665840]}
+                    onChange={handleChangePrice}
+                    valueLabelDisplay="auto"
+                    min={20}
+                    max={665840}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Textinput
+                      className="form-control"
+                      type="text"
+                      id="minCost"
+                      value={state.fromPrice}
+                      placeholder="Start Price"
+                      name="fromPrice"
+                      onChange={(e) => changeState("fromPrice", e.target.value)}
+                      readOnly
+                      style={{ width: "140px" }}
+                    />
+                    <span
+                      style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
+                    >
+                      To
+                    </span>
+
+                    <Textinput
+                      className="form-control "
+                      type="text"
+                      id="maxCost"
+                      value={state.toPrice}
+                      placeholder="End Price"
+                      name="toPrice"
+                      onChange={(e) => changeState("toPrice", e.target.value)}
+                      readOnly
+                      style={{ width: "140px" }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="label-class">Carat :</label>
+
+                  <Slider
+                    defaultValue={[0.1, 7.01]}
+                    onChange={handleChangeCarat}
+                    valueLabelDisplay="auto"
+                    min={0.1}
+                    max={7.01}
+                    step={0.01}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Textinput
+                      className="form-control"
+                      type="text"
+                      id="minCost"
+                      value={state.fromCts}
+                      placeholder="Start Carat"
+                      name="fromCts"
+                      onChange={(e) =>
+                        changeState("fromCts", parseFloat(e.target.value))
+                      }
+                      readOnly
+                      style={{ width: "140px" }}
+                    />
+                    <span
+                      style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
+                    >
+                      To
+                    </span>
+                    <Textinput
+                      className="form-control "
+                      type="text"
+                      id="maxCost"
+                      value={state.toCts}
+                      placeholder="End Carat"
+                      name="toCts"
+                      onChange={(e) =>
+                        changeState("toCts", parseFloat(e.target.value))
+                      }
+                      readOnly
+                      style={{ width: "140px" }}
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <p>Depth</p>
-                <Slider
-                  defaultValue={[0.26, 62.4]}
-                  onChange={handleChangeDepth}
-                  valueLabelDisplay="auto"
-                  min={0.26}
-                  max={62.4}
-                  step={0.01}
-                />
-                <Textinput
-                  className="form-control"
-                  type="text"
-                  id="minCost"
-                  value={state.fromDepth}
-                  placeholder="Start Depth"
-                  name="fromDepth"
-                  onChange={(e) =>
-                    changeState("fromDepth", parseFloat(e.target.value))
-                  }
-                  readOnly
-                  style={{ width: "350px" }}
-                />
-                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
-                  To
-                </span>
-                <Textinput
-                  className="form-control "
-                  type="text"
-                  id="maxCost"
-                  value={state.toDepth}
-                  placeholder="End Depth"
-                  name="toDepth"
-                  onChange={(e) =>
-                    changeState("toDepth", parseFloat(e.target.value))
-                  }
-                  readOnly
-                  style={{ width: "350px" }}
-                />
-              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr ",
+                  alignItems: "center",
+                  gap: "12px 25px",
+                }}
+                className="text-input-top"
+              >
+                <div>
+                  <label className="label-class">Depth :</label>
+                  <Slider
+                    defaultValue={[0.26, 62.4]}
+                    onChange={handleChangeDepth}
+                    valueLabelDisplay="auto"
+                    min={0.26}
+                    max={62.4}
+                    step={0.01}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Textinput
+                      className="form-control"
+                      type="text"
+                      id="minCost"
+                      value={state.fromDepth}
+                      placeholder="Start Depth"
+                      name="fromDepth"
+                      onChange={(e) =>
+                        changeState("fromDepth", parseFloat(e.target.value))
+                      }
+                      readOnly
+                      style={{ width: "140px" }}
+                    />
+                    <span
+                      style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}
+                    >
+                      To
+                    </span>
+                    <Textinput
+                      className="form-control "
+                      type="text"
+                      id="maxCost"
+                      value={state.toDepth}
+                      placeholder="End Depth"
+                      name="toDepth"
+                      onChange={(e) =>
+                        changeState("toDepth", parseFloat(e.target.value))
+                      }
+                      readOnly
+                      style={{ width: "140px" }}
+                    />
+                  </div>
+                </div>
 
-              <div>
-                <p>Table</p>
-                <Slider
-                  defaultValue={[50.0, 78.0]}
-                  onChange={handleChangeTable}
-                  valueLabelDisplay="auto"
-                  min={50.0}
-                  max={78.0}
-                  step={0.01}
-                />
-                <Textinput
-                  className="form-control"
-                  type="text"
-                  id="minCost"
-                  value={state.fromTable}
-                  placeholder="Start Table"
-                  name="fromTable"
-                  onChange={(e) =>
-                    changeState("fromTable", parseFloat(e.target.value))
-                  }
-                  readOnly
-                  style={{ width: "350px" }}
-                />
-                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
-                  To
-                </span>
-                <Textinput
-                  className="form-control "
-                  type="text"
-                  id="maxCost"
-                  value={state.toTable}
-                  placeholder="End Table"
-                  name="toTable"
-                  onChange={(e) =>
-                    changeState("toTable", parseFloat(e.target.value))
-                  }
-                  readOnly
-                  style={{ width: "350px" }}
-                />
+                <div>
+                  <label className="label-class">Table :</label>
+                  <Slider
+                    defaultValue={[50.0, 78.0]}
+                    onChange={handleChangeTable}
+                    valueLabelDisplay="auto"
+                    min={50.0}
+                    max={78.0}
+                    step={0.01}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Textinput
+                      className="form-control"
+                      type="text"
+                      id="minCost"
+                      value={state.fromTable}
+                      placeholder="Start Table"
+                      name="fromTable"
+                      onChange={(e) =>
+                        changeState("fromTable", parseFloat(e.target.value))
+                      }
+                      readOnly
+                      style={{ width: "140px" }}
+                    />
+                    <span
+                      style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}
+                    >
+                      To
+                    </span>
+                    <Textinput
+                      className="form-control "
+                      type="text"
+                      id="maxCost"
+                      value={state.toTable}
+                      placeholder="End Table"
+                      name="toTable"
+                      onChange={(e) =>
+                        changeState("toTable", parseFloat(e.target.value))
+                      }
+                      readOnly
+                      style={{ width: "140px" }}
+                    />
+                  </div>
+                </div>
               </div>
             </SearchFilterDialog>
           </Box>
@@ -765,14 +844,24 @@ const DiamondMaster = () => {
               <Icon>add</Icon>
             </StyledAddButton>
           </Tooltip>
-          <DiamondMasterDetails
-            open={open}
+          {open && (
+            <DiamondMasterDetails
+              open={open}
+              togglePopup={() => {
+                togglePopup();
+                paginate();
+              }}
+              callBack={() => paginate(true)}
+              userData={selectedUserData}
+            />
+          )}
+          <FindDiamondModal
+            open={findDiamond}
             togglePopup={() => {
-              togglePopup();
+              toggleGemstonePopup();
               paginate();
             }}
-            callBack={() => paginate(true)}
-            userData={selectedUserData}
+            gemDiamondData={gemDiamondData}
           />
           <DiamondBulkMasterDetails
             open={bulkOpen}

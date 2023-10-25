@@ -57,6 +57,7 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
+          maxWidth="sm"
           title={`Edit Discount`}
           isOpen={open}
           onClose={togglePopup}

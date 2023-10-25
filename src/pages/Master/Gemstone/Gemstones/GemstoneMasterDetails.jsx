@@ -197,7 +197,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr ",
-              alignItems: "end",
+              alignItems: "baseline",
               gap: "12px",
             }}
           >
@@ -232,7 +232,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr ",
-              alignItems: "end",
+              alignItems: "baseline",
               gap: "12px",
             }}
           >
@@ -265,7 +265,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr ",
-              alignItems: "end",
+              alignItems: "baseline",
               gap: "12px",
             }}
           >
@@ -299,7 +299,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr ",
-              alignItems: "end",
+              alignItems: "baseline",
               gap: "12px",
             }}
           >

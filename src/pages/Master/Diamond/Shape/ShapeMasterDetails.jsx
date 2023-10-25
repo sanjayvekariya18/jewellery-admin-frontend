@@ -64,6 +64,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
+          maxWidth="sm"
           title={`${formState?.id === "" ? "Add" : "Edit"} Shape`}
           isOpen={open}
           onClose={() => {

@@ -75,6 +75,7 @@ const apiConfig = {
 
   // diamond
   diamonds: "diamonds",
+  findDiamond: "diamonds/:id",
   visibility_diamond: "diamonds/visibility/:id", //diamond visible toggle
   diamondsBulk: "diamonds/bulk_upload",
 

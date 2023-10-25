@@ -22,6 +22,7 @@ import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
 import LabMasterDetails from "../Master/Diamond/Lab/LabMasterDetails";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import Textarea from "../../components/UI/Textarea";
+import Textinput from "../../components/UI/TextInput";
 
 const Customer = () => {
   const [open, setOpen] = useState(false);
@@ -237,12 +238,12 @@ const Customer = () => {
 
       <SearchFilterDialog
         isOpen={openSearch}
+        maxWidth="sm"
         onClose={() => setOpenSearch(false)}
         reset={() => paginate(true)}
         search={() => paginate(false, true)}
       >
-        <TextField
-          fullWidth={true}
+        <Textinput
           size="small"
           type="text"
           name="searchTxt"
@@ -250,7 +251,7 @@ const Customer = () => {
           variant="outlined"
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}
-          sx={{ mb: 2, mt: 1 }}
+          sx={{ mb: 0, mt: 1, width: "100%" }}
         />
       </SearchFilterDialog>
 

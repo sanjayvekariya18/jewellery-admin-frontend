@@ -145,7 +145,7 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
           }
         >
           {" "}
-          <div className="text-input-top">
+          <div>
             <Textinput
               type="text"
               name="name"
@@ -154,7 +154,7 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
               value={formState.name}
               error={errors?.name}
               onChange={onChange}
-              sx={{ mb: 0, width: "100%" }}
+              sx={{ mb: 0, mt: 1, width: "100%" }}
             />
           </div>
           <div className="text-input-top">

@@ -65,6 +65,7 @@ const DetailsGroupMasterDetails = ({ open, togglePopup, userData }) => {
             togglePopup();
             resetValidation();
           }}
+          maxWidth="sm"
           actionBtns={
             <Box>
               <Button

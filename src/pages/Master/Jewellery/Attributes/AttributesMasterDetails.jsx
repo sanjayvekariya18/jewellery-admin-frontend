@@ -1,5 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Box, Button, Icon, IconButton, Table } from "@mui/material";
+import {
+  Box,
+  Button,
+  Icon,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
@@ -8,6 +20,7 @@ import { apiConfig } from "../../../../config";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import Textarea from "../../../../components/UI/Textarea";
 import { Select } from "react-select-virtualized";
+import error400cover from "../../../../assets/no-data-found-page.png";
 
 const AttributesMasterDetails = ({
   open,
@@ -93,25 +106,25 @@ const AttributesMasterDetails = ({
   }, []);
 
   const handleLogSelectedOption = () => {
-    if (selected.length > 0) {
-      const selectedOption = selected[0];
-      if (selectedOption.value === "true" && trueSelected) {
+    if (selected) {
+      const selectedValue = selected.value;
+      if (selectedValue === "true" && trueSelected) {
         setError("Only one 'True' option is allowed.");
       } else {
         setError(null);
-        if (selectedOption.value === "true") {
+        if (selectedValue === "true") {
           setTrueSelected(true);
         }
 
         const combinedData = {
-          optionId: selectedOption.value,
+          optionId: selectedValue,
           isDefault: sortNo,
         };
         setFormState((prevFormState) => ({
           ...prevFormState,
           options: [...prevFormState.options, combinedData],
         }));
-        setSelected([]);
+        setSelected(null);
         setSortNo("");
       }
     }
@@ -169,11 +182,12 @@ const AttributesMasterDetails = ({
     const selectedOption = options.find((option) => option.value === optionId);
     return selectedOption ? selectedOption.label : "";
   };
-
+  // console.log(formState);
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
+          maxWidth="md"
           title={`${formState?.id === "" ? "Add" : "Edit"} Attributes`}
           isOpen={open}
           onClose={() => {
@@ -198,9 +212,12 @@ const AttributesMasterDetails = ({
                 <div
                   style={{
                     marginRight: "20px",
+                    display: "flex ",
+                    alignContent: "center",
+                    flexDirection: "column",
                   }}
                 >
-                  <label>Logo Image</label>
+                  <label className="label-class">Logo Image</label>
                   <ImgUploadBoxInput
                     name="logoUrl"
                     onChange={onChange}
@@ -208,8 +225,15 @@ const AttributesMasterDetails = ({
                     label={"Logo Image"}
                   />
                 </div>
-                <div>
-                  <label>Image</label>
+                <div
+                  style={{
+                    marginRight: "20px",
+                    display: "flex ",
+                    alignContent: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <label className="label-class">Image</label>
                   <ImgUploadBoxInput
                     name="imgUrl"
                     onChange={onChange}
@@ -220,7 +244,7 @@ const AttributesMasterDetails = ({
               </div>
               <Box>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   color="secondary"
                   onClick={() => {
                     togglePopup();
@@ -230,7 +254,9 @@ const AttributesMasterDetails = ({
                   Cancel
                 </Button>
                 <Button
+                  style={{ marginLeft: "20px" }}
                   type="submit"
+                  variant="contained"
                   color="primary"
                   onClick={() => onSubmit(handleSubmit)}
                 >
@@ -247,92 +273,150 @@ const AttributesMasterDetails = ({
             value={formState.name}
             onChange={onChange}
             error={errors?.name}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
+            sx={{ mb: 0, mt: 1, width: "100%" }}
           />
-          <Textarea
-            size="small"
-            name="details"
-            type="text"
-            maxLength={255}
-            minRows={3}
-            maxRows={3}
-            placeholder="Details"
-            value={formState.details}
-            onChange={onChange}
-            sx={{ mb: 1.5 }}
-          />
-          <Table className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 whitespace-nowrap">
-            <thead className="" style={{ background: "#F3F3F9" }}>
-              <tr>
-                <th className="table-th">Options</th>
-                <th className="table-th">Is Default</th>
-                <th className="table-th">Close</th>
-              </tr>
-            </thead>
-            <tbody>
-              {formState.options &&
-                formState.options.map((data, index) => (
-                  <tr key={index}>
-                    <td>{getSelectedOptionLabel(data.optionId)}</td>
-                    <td>{data.isDefault}</td>
-                    <td>
-                      <IconButton onClick={() => handleRemoveOption(index)}>
-                        <Icon color="error">close</Icon>
-                      </IconButton>
-                    </td>
-                  </tr>
-                ))}
-              <tr>
-                <td>
-                  <select
-                    value={
-                      selected && selected.length > 0 ? selected[0].value : ""
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr auto",
+              gap: "12px",
+              alignItems: "center",
+            }}
+            className="text-input-top"
+          >
+            <div>
+              <Select
+                value={selected}
+                options={options}
+                // options={options.filter(
+                //   (option) => option.value != (selected && selected.value)
+                // )}
+                onChange={(selectedOption) => setSelected(selectedOption)}
+                isSearchable={true}
+                placeholder="Select  Option"
+              />
+            </div>
+            <div>
+              <div>
+                <Select
+                  options={[
+                    { value: "true", label: "True" },
+                    { value: "false", label: "False" },
+                  ]}
+                  placeholder="Select Is Default"
+                  value={sortNo ? { value: sortNo, label: sortNo } : null}
+                  onChange={(selectedOption) => {
+                    if (
+                      selectedOption.value === "true" &&
+                      formState.options.some(
+                        (option) => option.isDefault === "true"
+                      )
+                    ) {
+                      HELPER.toaster.error(
+                        "Only one 'True' option is allowed."
+                      );
+                    } else {
+                      setError(null);
+                      setSortNo(selectedOption.value);
                     }
-                    onChange={(e) =>
-                      setSelected([
-                        {
-                          value: e.target.value,
-                          label: e.target.value,
-                        },
-                      ])
-                    }
-                  >
-                    <option value="">Select an option</option>
-                    {options.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td>
-                  <Select
-                    options={[
-                      { value: "true", label: "True" },
-                      { value: "false", label: "False" },
-                    ]}
-                    value={sortNo ? { value: sortNo, label: sortNo } : null}
-                    onChange={(selectedOption) =>
-                      setSortNo(selectedOption.value)
-                    }
-                    isSearchable={false}
-                  />
-                </td>
-                <td>
-                  <IconButton onClick={handleLogSelectedOption}>
-                    <Icon color="success">save</Icon>
-                  </IconButton>
-                </td>
-              </tr>
-              {error && (
-                <tr>
-                  <td colSpan="3" style={{ color: "red" }}>
-                    {error}
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
+                  }}
+                  isSearchable={false}
+                />
+              </div>
+            </div>
+            <div
+              style={{
+                border: "1px solid #cccccc",
+                // paddingLeft: "5px",
+                padding: "0px 0px 4px 4px ",
+                borderRadius: "5px",
+                width: "39px",
+                height: "39px",
+              }}
+            >
+              <IconButton onClick={handleLogSelectedOption}>
+                <Icon color="success">save</Icon>
+              </IconButton>
+            </div>
+          </div>
+          <div>
+            <TableContainer
+              component={Paper}
+              className="text-input-top"
+              style={{ maxHeight: "230px", overflow: "auto" }}
+            >
+              <Table className="min-w-full">
+                <TableHead
+                  style={{
+                    background: "#e0e2e8",
+                    position: "sticky",
+                    top: "0",
+                    zIndex: 99,
+                  }}
+                >
+                  <TableRow>
+                    <TableCell
+                      style={{ paddingLeft: "20px", fontSize: "14px" }}
+                    >
+                      Options
+                    </TableCell>
+                    <TableCell style={{ fontSize: "14px" }}>
+                      Is Default
+                    </TableCell>
+                    <TableCell style={{ fontSize: "14px" }}>Delete</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {formState.options && formState.options.length > 0 ? (
+                    formState.options.map((data, index) => (
+                      <TableRow key={index}>
+                        <TableCell style={{ paddingLeft: "20px" }}>
+                          {getSelectedOptionLabel(data.optionId)}
+                        </TableCell>
+                        <TableCell>{data.isDefault}</TableCell>
+                        <TableCell style={{ padding: "0px" }}>
+                          <IconButton onClick={() => handleRemoveOption(index)}>
+                            <Icon color="error">delete</Icon>
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={3}
+                        style={{ textAlign: "center", color: "red" }}
+                      >
+                        <img src={error400cover} width="150px" />
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {error && (
+                    <TableRow>
+                      <TableCell colSpan={3} style={{ color: "red" }}>
+                        {error}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+
+          <div className="text-input-top">
+            <Textarea
+              size="small"
+              name="details"
+              type="text"
+              maxLength={255}
+              minRows={3}
+              maxRows={3}
+              placeholder="Enter Attributes Details"
+              value={formState.details}
+              onChange={onChange}
+              sx={{ mb: 1.5 }}
+            />
+          </div>
         </ThemeDialog>
       )}
     </Validators>
