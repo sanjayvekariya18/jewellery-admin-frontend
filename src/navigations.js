@@ -3,6 +3,7 @@ import { pageRoutes } from "./constants/routesList";
 export const navigations = [
   { name: "Dashboard", path: pageRoutes.dashboard, icon: "dashboard" },
   { label: "Inventory", type: "label" },
+  { name: "Product", path: pageRoutes.product, icon: "diamond" },
   {
     name: "GemStone",
     icon: "diamond",

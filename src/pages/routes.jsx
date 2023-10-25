@@ -5,6 +5,7 @@ import { authRoles } from "../auth/authRoles";
 import Loadable from "../components/Loadable";
 import MatxLayout from "../components/MatxLayout/MatxLayout";
 import { pageRoutes } from "../constants/routesList";
+// import ProductMaster from "./Product/ProductMaster";
 // import ColorDiamondMaster from "./ColorDiamond/ColorDiamondMaster";
 // import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 
@@ -62,6 +63,9 @@ const MetalPriceMaster = Loadable(
 const ColorDiamondMaster = Loadable(
   lazy(() => import("./ColorDiamond/ColorDiamondMaster"))
 );
+const ProductMaster = Loadable(
+  lazy(() => import("./Product/ProductMaster"))
+);
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
 
@@ -69,21 +73,21 @@ const ColorDiamondMaster = Loadable(
 const Analytics = Loadable(lazy(() => import("./dashboard/Analytics")));
 
 const routes = [
-	{
-		element: (
-			<AuthGuard>
-				<MatxLayout />
-			</AuthGuard>
-		),
-		children: [
-			//   ...materialRoutes,
-			// dashboard route
-			{
-				path: pageRoutes.dashboard,
-				element: <Analytics />,
-				auth: authRoles.admin,
-			},
-
+  {
+    element: (
+      <AuthGuard>
+        <MatxLayout />
+      </AuthGuard>
+    ),
+    children: [
+      //   ...materialRoutes,
+      // dashboard route
+      {
+        path: pageRoutes.dashboard,
+        element: <Analytics />,
+        auth: authRoles.admin,
+      },
+      { path: pageRoutes.product, element: <ProductMaster /> },
       { path: pageRoutes.diamond, element: <DiamondMaster /> },
       { path: pageRoutes.colorDiamond, element: <ColorDiamondMaster /> },
       { path: pageRoutes.jewellery, element: <Jewellery /> },
@@ -129,14 +133,14 @@ const routes = [
     ],
   },
 
-	// session pages route
-	{ path: pageRoutes.general.error, element: <NotFound /> },
-	{ path: pageRoutes.general.login, element: <JwtLogin /> },
-	{ path: pageRoutes.general.signup, element: <JwtRegister /> },
-	{ path: pageRoutes.general.forgotPassword, element: <ForgotPassword /> },
+  // session pages route
+  { path: pageRoutes.general.error, element: <NotFound /> },
+  { path: pageRoutes.general.login, element: <JwtLogin /> },
+  { path: pageRoutes.general.signup, element: <JwtRegister /> },
+  { path: pageRoutes.general.forgotPassword, element: <ForgotPassword /> },
 
-	{ path: "/", element: <Navigate to={pageRoutes.dashboard} /> },
-	{ path: "*", element: <NotFound /> },
+  { path: "/", element: <Navigate to={pageRoutes.dashboard} /> },
+  { path: "*", element: <NotFound /> },
 ];
 
 export default routes;

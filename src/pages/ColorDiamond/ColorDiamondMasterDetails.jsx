@@ -109,6 +109,43 @@ const ColorDiamondMasterDetails = ({
         label: option.label,
         value: option.value,
     }));
+    // ------------------Option Intensity---------------
+    const sortOptionsIntensity = [
+        { label: "Faint", value: "Faint" },
+        { label: "Very Light", value: "Very Light" },
+        { label: "Light", value: "Light" },
+        { label: "Fancy", value: "Fancy" },
+        { label: "Intense", value: "Intense" },
+        { label: "Vivid", value: "Vivid" },
+        { label: "Deep", value: "Deep" },
+        { label: "Dark", value: "Dark" },
+    ];
+
+    let _sortOptionsIntensity = sortOptionsIntensity.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
+    // ------------------Option clarity---------------
+
+    const sortOptionDclarity = [
+        { label: "FL", value: "0" },
+        { label: "IF", value: "1" },
+        { label: "VVS1", value: "2" },
+        { label: "VVS2", value: "3" },
+        { label: "VS1", value: "4" },
+        { label: "VS2", value: "5" },
+        { label: "SI1", value: "6" },
+        { label: "SI2", value: "7" },
+        { label: "I1", value: "8" },
+        { label: "I2", value: "9" },
+        { label: "I3", value: "10" },
+    ];
+
+    let _sortOptionsDclarity = sortOptionDclarity.map((option) => ({
+        label: option.label,
+        value: option.value,
+    }));
+
 
     // ------------------Option Origin---------------
     const sortOptionsOrigin = [
@@ -240,26 +277,25 @@ const ColorDiamondMasterDetails = ({
                         error={errors?.colorName}
                         sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
-                    <Textinput
-                        size="small"
-                        type="text"
-                        name="intensity"
-                        label="intensity"
+                    <ReactSelect
+                        label={"Enter Intensity"}
+                        placeholder="Select Intensity"
+                        options={_sortOptionsIntensity}
                         value={formState.intensity}
                         onChange={onChange}
+                        name="intensity"
+                        id="idStatus"
                         error={errors?.intensity}
-                        sx={{ mb: 2, mt: 1, width: "100%" }}
                     />
-                    <Textinput
-                        size="small"
-                        type="text"
-                        name="clarity"
-                        label="clarity"
+                    <ReactSelect
+                        label={"Clarity"}
+                        placeholder="Select Clarity"
+                        options={_sortOptionsDclarity}
                         value={formState.clarity}
                         onChange={onChange}
+                        name="clarity"
+                        id="idStatus"
                         error={errors?.clarity}
-                        sx={{ mb: 2, mt: 1, width: "100%" }}
-
                     />
                     <Textinput
                         size="small"
