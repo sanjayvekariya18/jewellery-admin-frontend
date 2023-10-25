@@ -17,8 +17,6 @@ import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
 import GemstoneMasterDetails from "./GemstoneMasterDetails";
 import GemstoneBulkMasterDetails from "./GemstoneBulkMasterDetails";
 import Textinput from "../../../../components/UI/TextInput";
-import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-import Textarea from "../../../../components/UI/Textarea";
 import FindGemstoneModal from "./findGemstoneModal";
 import ReactSelect from "../../../../components/UI/ReactSelect";
 
@@ -31,6 +29,7 @@ const GemstoneMaster = () => {
   const [findGemstone, setFindGemstone] = useState(false);
   const [gemStoneData, setGemstoneData] = useState(null);
   const [price, setPrice] = useState([]);
+
 
 
   //   const [textModal, setTextModal] = useState(false);
@@ -88,7 +87,7 @@ const GemstoneMaster = () => {
       rowsPerPage: state.rowsPerPage,
       shape: clear ? clearStates.shape : state.shape,
       color: clear ? clearStates.color : state.color,
-      sortBy: clear ? clearStates.sortBy : state.sortBy,
+      sortBy: state.sortBy,
       origin: clear ? clearStates.origin : state.origin,
       gemstoneType: clear ? clearStates.gemstoneType : state.gemstoneType,
       fromPrice: clear ? clearStates.fromPrice : state.fromPrice,
@@ -431,7 +430,7 @@ const GemstoneMaster = () => {
                       (option) => option.value === state.sortBy
                     )}
                     onChange={(selectedSort) => {
-                      const selectedId = selectedSort.value;
+                      const selectedId = selectedSort.target.value;
                       changeState("sortBy", selectedId);
                     }}
                     name="choices-multi-default"

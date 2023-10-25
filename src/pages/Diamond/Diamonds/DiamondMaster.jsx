@@ -85,6 +85,8 @@ const DiamondMaster = () => {
       toTable: table.maxTable,
       fromDepth: depth.minDepth,
       toDepth: depth.maxDepth,
+      // fromColor: "",
+      // toColor: "",
       sortByShape: "ASC",
       sortByPrice: "ASC",
       sortByCarat: "ASC",
@@ -97,6 +99,17 @@ const DiamondMaster = () => {
     changeState("loader", true);
     let clearStates = {
       shape: "",
+      fromPrice: price.minPrice,
+      toPrice: price.maxPrice,
+      fromCts: carat.minCarat,
+      toCts: carat.maxCarat,
+      fromTable: table.minTable,
+      toTable: table.maxTable,
+      fromDepth: depth.minDepth,
+      toDepth: depth.maxDepth,
+      lab:"",
+      // fromColor: "",
+      // toColor: "",
       sortByShape: "ASC",
       sortByPrice: "ASC",
       sortByCarat: "ASC",
@@ -112,8 +125,8 @@ const DiamondMaster = () => {
       fromCts: state.fromCts,
       toCts: state.toCts,
       shape: state.shape,
-      fromColor: state.fromColor,
-      toColor: state.toColor,
+      fromColor: clear ? clearStates.fromColor : state.fromColor,
+      toColor: clear ? clearStates.toColor : state.toColor,
       fromClarity: state.fromClarity,
       toClarity: state.toClarity,
       fromCut: state.fromCut,
@@ -561,7 +574,7 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Color :</label>
                 <Slider
-                  value={color}
+                  defaultValue={[0,1]}
                   onChange={handleChangeColor}
                   aria-labelledby="track-inverted-slider"
                   marks={marksColor}
