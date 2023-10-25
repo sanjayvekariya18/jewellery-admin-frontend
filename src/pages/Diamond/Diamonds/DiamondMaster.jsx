@@ -32,6 +32,10 @@ const DiamondMaster = () => {
   const [polish, setPolish] = useState([0, 2]);
   const [shapMaster, setShapMaster] = useState([]);
   const [labMaster, setLabMaster] = useState([]);
+  const [carat, setCarat] = useState([]);
+  const [price, setPrice] = useState([]);
+  const [table, setTable] = useState([]);
+  const [depth, setDepth] = useState([]);
   const [findDiamond, setFindDiamond] = useState(false);
   const [gemDiamondData, setDiamondData] = useState(null);
 
@@ -73,14 +77,14 @@ const DiamondMaster = () => {
     usePaginationTable({
       shape: "",
       lab: "",
-      fromPrice: 20,
-      toPrice: 665840,
-      fromCts: 0.05,
-      toCts: 7.01,
-      fromTable: 50.0,
-      toTable: 78.0,
-      fromDepth: 0.26,
-      toDepth: 62.4,
+      fromPrice: price.minPrice,
+      toPrice: price.maxPrice,
+      fromCts: carat.minCarat,
+      toCts: carat.maxCarat,
+      fromTable: table.minTable,
+      toTable: table.maxTable,
+      fromDepth: depth.minDepth,
+      toDepth: depth.maxDepth,
       sortByShape: "ASC",
       sortByPrice: "ASC",
       sortByCarat: "ASC",
@@ -93,14 +97,6 @@ const DiamondMaster = () => {
     changeState("loader", true);
     let clearStates = {
       shape: "",
-      fromPrice: 20,
-      toPrice: 665840,
-      fromCts: 0.05,
-      toCts: 7.01,
-      fromTable: 50.0,
-      toTable: 78.0,
-      fromDepth: 0.26,
-      toDepth: 62.4,
       sortByShape: "ASC",
       sortByPrice: "ASC",
       sortByCarat: "ASC",
@@ -359,30 +355,68 @@ const DiamondMaster = () => {
     changeState("toPolish", marksPolish[newValue[1]].value);
   };
 
-  // ---------------Price Filter----------------------
-  const handleChangePrice = (event, newValue) => {
-    changeState("fromPrice", newValue[0]);
-    changeState("toPrice", newValue[1]);
-  };
 
+  // -------------------Get Carat---------------------------------
+  useEffect(() => {
+    API.get(apiConfig.diamondCaratRange, { is_public_url: true })
+      .then((res) => {
+        setCarat(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   // ---------------Carat Filter----------------------
   const handleChangeCarat = (event, newValue) => {
     changeState("fromCts", newValue[0]);
     changeState("toCts", newValue[1]);
   };
 
+  // -------------------Get Price---------------------------------
+  useEffect(() => {
+    API.get(apiConfig.diamondPriceRange, { is_public_url: true })
+      .then((res) => {
+        setPrice(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  // ---------------Price Filter----------------------
+  const handleChangePrice = (event, newValue) => {
+    changeState("fromPrice", newValue[0]);
+    changeState("toPrice", newValue[1]);
+  };
   // ---------------Depth Filter----------------------
+  useEffect(() => {
+    API.get(apiConfig.diamondDepthRange, { is_public_url: true })
+      .then((res) => {
+        setDepth(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   const handleChangeDepth = (event, newValue) => {
     changeState("fromDepth", newValue[0]);
     changeState("toDepth", newValue[1]);
   };
 
   // ---------------Table Filter----------------------
+  useEffect(() => {
+    API.get(apiConfig.diamondTableRange, { is_public_url: true })
+      .then((res) => {
+        setTable(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   const handleChangeTable = (event, newValue) => {
     changeState("fromTable", newValue[0]);
     changeState("toTable", newValue[1]);
   };
-
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -532,7 +566,7 @@ const DiamondMaster = () => {
                   aria-labelledby="track-inverted-slider"
                   marks={marksColor}
                   min={0}
-                  max={10}
+                  max={9}
                   valueLabelDisplay="off"
                 />
               </div>
@@ -609,11 +643,11 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Price :</label>
                   <Slider
-                    defaultValue={[20, 665840]}
+                    defaultValue={[price.minPrice, price.maxPrice]}
                     onChange={handleChangePrice}
                     valueLabelDisplay="auto"
-                    min={20}
-                    max={665840}
+                    min={price.minPrice}
+                    max={price.maxPrice}
                   />
                   <div
                     style={{
@@ -626,7 +660,11 @@ const DiamondMaster = () => {
                       className="form-control"
                       type="text"
                       id="minCost"
-                      value={state.fromPrice}
+                      value={
+                        state.fromPrice === undefined
+                          ? price.minPrice
+                          : state.fromPrice
+                      }
                       placeholder="Start Price"
                       name="fromPrice"
                       onChange={(e) => changeState("fromPrice", e.target.value)}
@@ -643,7 +681,9 @@ const DiamondMaster = () => {
                       className="form-control "
                       type="text"
                       id="maxCost"
-                      value={state.toPrice}
+                      value={
+                        state.toPrice === undefined ? price.maxPrice : state.toPrice
+                      }
                       placeholder="End Price"
                       name="toPrice"
                       onChange={(e) => changeState("toPrice", e.target.value)}
@@ -652,16 +692,14 @@ const DiamondMaster = () => {
                     />
                   </div>
                 </div>
-
                 <div>
                   <label className="label-class">Carat :</label>
-
                   <Slider
-                    defaultValue={[0.1, 7.01]}
+                    defaultValue={[carat.minCarat, carat.maxCarat]}
                     onChange={handleChangeCarat}
                     valueLabelDisplay="auto"
-                    min={0.1}
-                    max={7.01}
+                    min={carat.minCarat}
+                    max={carat.maxCarat}
                     step={0.01}
                   />
                   <div
@@ -675,7 +713,9 @@ const DiamondMaster = () => {
                       className="form-control"
                       type="text"
                       id="minCost"
-                      value={state.fromCts}
+                      value={
+                        state.fromCts === undefined ? carat.minCarat : state.fromCts
+                      }
                       placeholder="Start Carat"
                       name="fromCts"
                       onChange={(e) =>
@@ -693,7 +733,9 @@ const DiamondMaster = () => {
                       className="form-control "
                       type="text"
                       id="maxCost"
-                      value={state.toCts}
+                      value={
+                        state.toCts === undefined ? carat.maxCarat : state.toCts
+                      }
                       placeholder="End Carat"
                       name="toCts"
                       onChange={(e) =>
@@ -718,11 +760,11 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Depth :</label>
                   <Slider
-                    defaultValue={[0.26, 62.4]}
+                    defaultValue={[depth.minDepth, depth.maxDepth]}
                     onChange={handleChangeDepth}
                     valueLabelDisplay="auto"
-                    min={0.26}
-                    max={62.4}
+                    min={depth.minDepth}
+                    max={depth.maxDepth}
                     step={0.01}
                   />
                   <div
@@ -736,7 +778,9 @@ const DiamondMaster = () => {
                       className="form-control"
                       type="text"
                       id="minCost"
-                      value={state.fromDepth}
+                      value={
+                        state.fromDepth === undefined ? depth.minDepth : state.fromDepth
+                      }
                       placeholder="Start Depth"
                       name="fromDepth"
                       onChange={(e) =>
@@ -754,7 +798,9 @@ const DiamondMaster = () => {
                       className="form-control "
                       type="text"
                       id="maxCost"
-                      value={state.toDepth}
+                      value={
+                        state.toDepth === undefined ? depth.maxDepth : state.toDepth
+                      }
                       placeholder="End Depth"
                       name="toDepth"
                       onChange={(e) =>
@@ -769,12 +815,11 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Table :</label>
                   <Slider
-                    defaultValue={[50.0, 78.0]}
+                    defaultValue={[table.minTable, table.maxTable]}
                     onChange={handleChangeTable}
                     valueLabelDisplay="auto"
-                    min={50.0}
-                    max={78.0}
-                    step={0.01}
+                    min={table.minTable}
+                    max={table.maxTable}
                   />
                   <div
                     style={{
@@ -787,7 +832,9 @@ const DiamondMaster = () => {
                       className="form-control"
                       type="text"
                       id="minCost"
-                      value={state.fromTable}
+                      value={
+                        state.fromTable === undefined ? table.minTable : state.fromTable
+                      }
                       placeholder="Start Table"
                       name="fromTable"
                       onChange={(e) =>
@@ -805,7 +852,9 @@ const DiamondMaster = () => {
                       className="form-control "
                       type="text"
                       id="maxCost"
-                      value={state.toTable}
+                      value={
+                        state.toTable === undefined ? table.maxTable : state.toTable
+                      }
                       placeholder="End Table"
                       name="toTable"
                       onChange={(e) =>
@@ -870,7 +919,7 @@ const DiamondMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
         </Container>
       </div>

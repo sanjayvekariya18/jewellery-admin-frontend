@@ -30,6 +30,8 @@ const GemstoneMaster = () => {
   const [shapMaster, setShapMaster] = useState([]);
   const [findGemstone, setFindGemstone] = useState(false);
   const [gemStoneData, setGemstoneData] = useState(null);
+  const [price, setPrice] = useState([]);
+
 
   //   const [textModal, setTextModal] = useState(false);
   //   const [addressText, setAddressText] = useState("");
@@ -62,8 +64,8 @@ const GemstoneMaster = () => {
       origin: "",
       gemstoneType: "",
       sortBy: "newest",
-      fromPrice: 2,
-      toPrice: 11290,
+      fromPrice: price.minPrice,
+      toPrice: price.maxPrice,
       fromDimension: 0.05,
       toDimension: 10.0,
     });
@@ -76,8 +78,6 @@ const GemstoneMaster = () => {
       origin: "",
       gemstoneType: "",
       sortBy: "newest",
-      fromPrice: 2,
-      toPrice: 11290,
       fromDimension: 0.05,
       toDimension: 10.0,
       ...appConfig.default_pagination_state,
@@ -198,12 +198,22 @@ const GemstoneMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
-  // ------------price Filter------------------
+  // -------------------Get Price---------------------------------
+  useEffect(() => {
+    API.get(apiConfig.gemstonePriceRange, { is_public_url: true })
+      .then((res) => {
+        setPrice(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  // ---------------Price Filter----------------------
   const handleChangePrice = (event, newValue) => {
     changeState("fromPrice", newValue[0]);
     changeState("toPrice", newValue[1]);
   };
-
   // -------------Dimension Filter-----------------
   const handleChangeDimension = (event, newValue) => {
     changeState("fromDimension", newValue[0]);
@@ -304,7 +314,7 @@ const GemstoneMaster = () => {
           <div className="three-dot-text-title">
             <span
               style={{ fontWeight: 500 }}
-              // onClick={() => showAddressInDialog(item)}
+            // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -436,18 +446,13 @@ const GemstoneMaster = () => {
                   }}
                 >
                   <div>
-                    <label
-                      className="label-class"
-                      htmlFor="product-price-input"
-                    >
-                      Price :
-                    </label>
+                    <label className="label-class">Price :</label>
                     <Slider
-                      defaultValue={[2, 11290]}
+                      defaultValue={[price.minPrice, price.maxPrice]}
                       onChange={handleChangePrice}
                       valueLabelDisplay="auto"
-                      min={2}
-                      max={11290}
+                      min={price.minPrice}
+                      max={price.maxPrice}
                     />
                     <div
                       style={{
@@ -460,12 +465,14 @@ const GemstoneMaster = () => {
                         className="form-control"
                         type="text"
                         id="minCost"
-                        value={state.fromPrice}
+                        value={
+                          state.fromPrice === undefined
+                            ? price.minPrice
+                            : state.fromPrice
+                        }
                         placeholder="Start Price"
                         name="fromPrice"
-                        onChange={(e) =>
-                          changeState("fromPrice", e.target.value)
-                        }
+                        onChange={(e) => changeState("fromPrice", e.target.value)}
                         readOnly
                         style={{ width: "140px" }}
                       />
@@ -479,7 +486,9 @@ const GemstoneMaster = () => {
                         className="form-control "
                         type="text"
                         id="maxCost"
-                        value={state.toPrice}
+                        value={
+                          state.toPrice === undefined ? price.maxPrice : state.toPrice
+                        }
                         placeholder="End Price"
                         name="toPrice"
                         onChange={(e) => changeState("toPrice", e.target.value)}
@@ -684,7 +693,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}
