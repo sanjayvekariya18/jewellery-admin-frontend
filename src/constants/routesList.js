@@ -22,6 +22,7 @@ export const pageRoutes = {
   dashboard: "/dashboard/default",
   
   diamond: "/diamonds/diamonds",
+  colorDiamond:"/colorDiamond",
   jewellery: "/jewellery",
   customer: "/customer",
   master: {

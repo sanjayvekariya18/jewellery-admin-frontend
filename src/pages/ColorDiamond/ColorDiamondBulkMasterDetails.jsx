@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import { API, HELPER } from "../../../services";
-import { apiConfig } from "../../../config";
-import Validators from "../../../components/validations/Validator";
-import ThemeDialog from "../../../components/UI/Dialog/ThemeDialog";
+import React, { useState } from 'react';
+import Validators from '../../components/validations/Validator';
+import ThemeDialog from '../../components/UI/Dialog/ThemeDialog';
 import { Box, Button } from "@mui/material";
-import UploadButton from "../../../components/UI/UploadButton";
+import UploadButton from "../../components/UI/UploadButton";
+import { API, HELPER } from '../../services';
+import { apiConfig } from '../../config';
+
 const initialValues = {
-  gemstoneData: "",
+  colorDiamond: "",
 };
 
-const DiamondBulkMasterDetails = ({
+
+const ColorDiamondBulkMasterDetails = ({
   open, togglePopup,
 }) => {
   const [formState, setFormState] = useState({ ...initialValues });
@@ -18,19 +20,19 @@ const DiamondBulkMasterDetails = ({
   const [errorState, setErrorState] = useState({});
 
   const rules = {
-    diamondData: "required"
+    colorDiamond: "required"
   };
   const [isLoader, setIsLoader] = useState(false);
 
   const handleSubmit = (data) => {
     setIsLoader(true);
-    API.post(apiConfig.diamondsBulk, data, {
+    API.post(apiConfig.ColoredBulk, data, {
       headers: {
         "Content-Type": `multipart/form-data;`,
       },
     })
       .then((res) => {
-        HELPER.toaster.success("Diamond Bulk added successfully");
+        HELPER.toaster.success("Colored Diamond Bulk added successfully");
         togglePopup();
       })
       .catch((error) => {
@@ -52,7 +54,7 @@ const DiamondBulkMasterDetails = ({
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
-          title="Add Diamond Bulk"
+          title="Add Colored Diamond Bulk"
           isOpen={open}
           maxWidth="xs"
           onClose={() => {
@@ -66,11 +68,11 @@ const DiamondBulkMasterDetails = ({
                   setFormState((prevProps) => {
                     return {
                       ...prevProps,
-                      diamondData: selectedFile,
+                      colorDiamond: selectedFile,
                     };
                   });
                 }} />
-              {errors?.diamondData && <p className="text-error">File field is required</p>}
+              {errors?.colorDiamond && <p className="text-error">File field is required</p>}
             </Box>
             <Box>
               <Button
@@ -142,6 +144,6 @@ const DiamondBulkMasterDetails = ({
       )}
     </Validators>
   );
-};
+}
 
-export default DiamondBulkMasterDetails;
+export default ColorDiamondBulkMasterDetails;

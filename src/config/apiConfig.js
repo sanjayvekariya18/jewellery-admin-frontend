@@ -65,6 +65,11 @@ const apiConfig = {
   findGemstone: "gemstone/:id",
   visibility_gemstone: "gemstone/visibility/:id", //gemstone visible toggle
   gemstoneBulk: "gemstone/bulk_upload",
+
+  // colored Diamond
+  ColoredBulk: "coloredDiamond/bulk_upload",
+  coloredDiamond: "coloredDiamond",
+
   //metalPrice
   metalPrice: "metalprice",
 
@@ -72,6 +77,13 @@ const apiConfig = {
   diamonds: "diamonds",
   visibility_diamond: "diamonds/visibility/:id", //diamond visible toggle
   diamondsBulk: "diamonds/bulk_upload",
+
+  // coloredDiamond
+  coloredDiamond: "coloredDiamond",
+  priceRange: "coloredDiamond/priceRange",  //price Range Filter
+  caratRange: "coloredDiamond/caratRange", // carat Range Filter
+  intensityRange:"coloredDiamond/intensityRange", // intensity Range Filter
+  colorRange:"coloredDiamond/colorRange" // color Range Filter
 };
 
 export default apiConfig;

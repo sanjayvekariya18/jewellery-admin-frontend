@@ -5,6 +5,7 @@ import { authRoles } from "../auth/authRoles";
 import Loadable from "../components/Loadable";
 import MatxLayout from "../components/MatxLayout/MatxLayout";
 import { pageRoutes } from "../constants/routesList";
+// import ColorDiamondMaster from "./ColorDiamond/ColorDiamondMaster";
 // import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 
 // session pages
@@ -58,7 +59,9 @@ const GemstoneMaster = Loadable(
 const MetalPriceMaster = Loadable(
   lazy(() => import("./Master/Jewellery/Metal/MetalPriceMaster"))
 );
-
+const ColorDiamondMaster = Loadable(
+  lazy(() => import("./ColorDiamond/ColorDiamondMaster"))
+);
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
 
@@ -82,6 +85,7 @@ const routes = [
 			},
 
       { path: pageRoutes.diamond, element: <DiamondMaster /> },
+      { path: pageRoutes.colorDiamond, element: <ColorDiamondMaster /> },
       { path: pageRoutes.jewellery, element: <Jewellery /> },
       { path: pageRoutes.customer, element: <Customer /> },
       { path: pageRoutes.master.diamond.discount, element: <Discount /> },

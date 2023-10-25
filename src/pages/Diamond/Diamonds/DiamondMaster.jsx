@@ -29,10 +29,6 @@ const DiamondMaster = () => {
   const [fluorescence, setFluorescence] = useState([0, 4]);
   const [symmetry, setSymmetry] = useState([0, 2]);
   const [polish, setPolish] = useState([0, 2]);
-  const [price, setPrice] = useState([20, 665840]);
-  const [carat, setCarat] = useState([0.05, 7.01]);
-  const [depth, setDepth] = useState([0.26, 62.4]);
-  const [table, setTable] = useState([50.0, 78.0]);
   const [shapMaster, setShapMaster] = useState([]);
   const [labMaster, setLabMaster] = useState([]);
 
@@ -349,28 +345,24 @@ const DiamondMaster = () => {
 
   // ---------------Price Filter----------------------
   const handleChangePrice = (event, newValue) => {
-    setPrice(newValue);
     changeState("fromPrice", newValue[0]);
     changeState("toPrice", newValue[1]);
   };
 
   // ---------------Carat Filter----------------------
   const handleChangeCarat = (event, newValue) => {
-    setCarat(newValue);
     changeState("fromCts", newValue[0]);
     changeState("toCts", newValue[1]);
   };
 
   // ---------------Depth Filter----------------------
   const handleChangeDepth = (event, newValue) => {
-    setDepth(newValue);
     changeState("fromDepth", newValue[0]);
     changeState("toDepth", newValue[1]);
   };
 
   // ---------------Table Filter----------------------
   const handleChangeTable = (event, newValue) => {
-    setTable(newValue);
     changeState("fromTable", newValue[0]);
     changeState("toTable", newValue[1]);
   };
@@ -456,7 +448,7 @@ const DiamondMaster = () => {
             <div>
               <div>
                 <Button variant="contained" onClick={togglePopupBulk}>
-                  Add DiamondBulk
+                  Add  DiamondBulk
                 </Button>
 
                 <Tooltip title="Filter">
