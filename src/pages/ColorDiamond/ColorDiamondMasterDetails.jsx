@@ -221,8 +221,8 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               gridTemplateColumns: "1fr 1fr ",
               alignItems: "baseline",
               gap: "12px",
+              marginTop: "10px",
             }}
-            className="text-input-top"
           >
             <Textinput
               size="small"
@@ -270,7 +270,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
             className="text-input-top"
           >
             <ReactSelect
-              label={"Enter Shape"}
+              label={"Shape"}
               placeholder="Select Shape"
               options={_sortOptionsShap}
               value={formState.shape}
@@ -280,7 +280,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               error={errors?.shape}
             />
             <ReactSelect
-              label={"Enter Color"}
+              label={"Color"}
               placeholder="Select Color"
               options={_sortOptionsColor}
               value={formState.color}
@@ -290,7 +290,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               error={errors?.color}
             />
             <ReactSelect
-              label={"Enter Origin"}
+              label={"Origin"}
               placeholder="Select Origin"
               options={_sortOptionsOrigin}
               value={formState.origin}
@@ -309,7 +309,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
             className="text-input-top"
           >
             <ReactSelect
-              label={"Enter Intensity"}
+              label={"Intensity"}
               placeholder="Select Intensity"
               options={_sortOptionsIntensity}
               value={formState.intensity}
