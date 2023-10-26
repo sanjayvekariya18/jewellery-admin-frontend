@@ -106,7 +106,7 @@ const ColorDiamondMaster = () => {
   // ----Pagination code------
   const COLUMNS = [
     { title: "Stock No" },
-    { title: "Title" },
+    { title: "Title", classNameWidth: "thead-second-width-title" },
     // { title: "Description" },
     { title: "Shape" },
     { title: "Carat" },
@@ -275,26 +275,15 @@ const ColorDiamondMaster = () => {
         item: item,
         columns: [
           <span>{item.stockId}</span>,
-          // <span>{item.title}</span>,
-          <div className="three-dot-text">
-            <span
-              style={{ fontWeight: 500 }}
-              // onClick={() => showAddressInDialog(item)}
-            >
-              {item.title}
-            </span>
-            ,
+          <div className="common-thead-second-width-title">
+            <span>{item.title}</span>
           </div>,
-          // <span>{item.description}</span>,
           <span>{item.shapeName}</span>,
           <span>{item.carat}</span>,
           <span>{item.color}</span>,
           <span>{appConfig.D_Clarity[item.clarity]}</span>,
           <span>{item.origin}</span>,
           <span>{item.intensity}</span>,
-          // <span>{item.mLength}</span>,
-          // <span>{item.mWidth}</span>,
-          // <span>{item.mDepth}</span>,
           <span>{item.price}</span>,
           <span>
             <ThemeSwitch

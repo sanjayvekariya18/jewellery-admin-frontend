@@ -163,3 +163,31 @@ input::-webkit-inner-spin-button {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }
+
+.common-width-apply-th {
+    width: 235px !important;
+}
+
+.thead-second-width {
+    width: 150px !important;
+}
+
+.thead-second-width-title {
+    width: 400px !important;
+}
+
+.common-thead-second-width-title {
+    display: inline-block;
+    width: 395px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.common-width-three-dot-text {
+    display: inline-block;
+    width: 230px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}

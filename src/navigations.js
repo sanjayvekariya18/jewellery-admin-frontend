@@ -3,7 +3,7 @@ import { pageRoutes } from "./constants/routesList";
 export const navigations = [
   { name: "Dashboard", path: pageRoutes.dashboard, icon: "dashboard" },
   { label: "Inventory", type: "label" },
-  { name: "Product", path: pageRoutes.product, icon: "diamond" },
+
   {
     name: "GemStone",
     icon: "diamond",
@@ -11,7 +11,7 @@ export const navigations = [
   },
   { name: "Diamonds", path: pageRoutes.diamond, icon: "diamond" },
   { name: "Colored Diamond", path: pageRoutes.colorDiamond, icon: "diamond" },
-
+  { name: "Product", path: pageRoutes.product, icon: "shopping_cart" },
   // { name: "Jewellery", path: pageRoutes.jewellery, icon: "diversity_2" },
   { name: "Customer", path: pageRoutes.customer, icon: "person" },
   // { name: "Discount", path: pageRoutes.discount, icon: "diamond" },

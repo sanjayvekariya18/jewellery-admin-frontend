@@ -1,129 +1,181 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Button } from "@mui/material";
-import ThemeDialog from '../../components/UI/Dialog/ThemeDialog';
+import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import error400cover from "../../assets/no-data-found-page.png";
-import PaginationTable, { usePaginationTable } from '../../components/UI/Pagination/PaginationTable';
-import useDidMountEffect from '../../hooks/useDidMountEffect';
-import { API, HELPER } from '../../services';
-import { apiConfig, appConfig } from '../../config';
+import PaginationTable, {
+  usePaginationTable,
+} from "../../components/UI/Pagination/PaginationTable";
+import useDidMountEffect from "../../hooks/useDidMountEffect";
+import { API, HELPER } from "../../services";
+import { apiConfig, appConfig } from "../../config";
 import _ from "lodash";
-
+import Textarea from "../../components/UI/Textarea";
 
 const FindProductModel = ({ open, togglePopup, productData }) => {
-    const COLUMNS = [
-        { title: "Index" },
-        { title: "Title" },
-        { title: "Description" },
-        { title: "Metal Weight" },
-        { title: "Total Carat" },
-        { title: "Making Price" },
-        { title: "Metal Price" },
-        { title: "Diamond Price" },
-        { title: "Total Price" },
-    ];
-    const { state, setState, changeState, ...otherTableActionProps } = usePaginationTable();
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
+  const showAddressInDialog = (item) => {
+    const title = `${item.description}}`;
 
-    const paginate = () => {
-        let filter = {
-            page: state.page,
-            rowsPerPage: state.rowsPerPage,
-        };
+    setAddressText(title); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
+  const COLUMNS = [
+    { title: "Index" },
+    { title: "Title", classNameWidth: "common-width-apply-th" },
+    { title: "Total Carat" },
+    { title: "Metal Weight" },
+    { title: "Metal Price" },
+    { title: "Making Price" },
+    { title: "Diamond Price" },
+    { title: "Total Price" },
+    { title: "Description" },
+  ];
+  const { state, setState, changeState, ...otherTableActionProps } =
+    usePaginationTable();
 
-        // ----------Get Product Api------------
-        API.get(apiConfig.findProduct.replace(":productId", productData), filter)
-            .then((res) => {
-                setState({
-                    ...state,
-                    total_items: res.count,
-                    data: res.rows,
-                    loader: false,
-                });
-            })
-            .catch((err) => {
-                if (
-                    err.status === 400 ||
-                    err.status === 401 ||
-                    err.status === 409 ||
-                    err.status === 403
-                ) {
-                    HELPER.toaster.error(err.errors.message);
-                } else {
-                    console.error(err);
-                }
-                setState({
-                    ...state,
-                    loader: false,
-                });
-            })
+  const paginate = () => {
+    let filter = {
+      page: state.page,
+      rowsPerPage: state.rowsPerPage,
     };
-    useDidMountEffect(() => {
-        if (productData) {
-            paginate();
-        }
-    }, [state.page, state.rowsPerPage, productData]);
 
-    // useEffect(() => {
-    //     // if (productData) {
-    //     //     paginate();
-    //     // }
-    // }, [productData]);
-    const rows = useMemo(() => {
-        return state.data.map((item, i) => {
-            return {
-                item: item,
-                columns: [
-                    <span>{i + 1}</span>,
-                    <span>{item.title}</span>,
-                    <span>{item.description}</span>,
-                    <span>{item.metalWeight}</span>,
-                    <span>{item.totalCarat}</span>,
-                    <span>{item.makingPrice}</span>,
-                    <span>{item.metalPrice}</span>,
-                    <span>{item.diamondPrice}</span>,
-                    <span>{item.totalPrice}</span>,
-                ],
-            };
+    // ----------Get Product Api------------
+    API.get(apiConfig.findProduct.replace(":productId", productData), filter)
+      .then((res) => {
+        setState({
+          ...state,
+          total_items: res.count,
+          data: res.rows,
+          loader: false,
         });
-    }, [state.data]);
-    return (
-        <ThemeDialog
-            title={`Product Details : ${productData !== null && productData.productId
-                }`}
-            isOpen={open}
-            onClose={() => {
-                togglePopup();
+      })
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403
+        ) {
+          HELPER.toaster.error(err.errors.message);
+        } else {
+          console.error(err);
+        }
+        setState({
+          ...state,
+          loader: false,
+        });
+      });
+  };
+  useDidMountEffect(() => {
+    if (productData) {
+      paginate();
+    }
+  }, [state.page, state.rowsPerPage, productData]);
+
+  // useEffect(() => {
+  //     // if (productData) {
+  //     //     paginate();
+  //     // }
+  // }, [productData]);
+  const rows = useMemo(() => {
+    return state.data.map((item, i) => {
+      return {
+        item: item,
+        columns: [
+          <span>{i + 1}</span>,
+          <div className="common-width-three-dot-text span-permision">
+            <span>{item.title}</span>
+          </div>,
+          <span>{item.totalCarat}</span>,
+          <span>{item.makingPrice}</span>,
+          <span>{item.metalWeight}</span>,
+          <span>{item.metalPrice}</span>,
+          <span>{item.diamondPrice}</span>,
+          <span>{item.totalPrice}</span>,
+          <div className="three-dot-text span-permision">
+            <span
+              style={{ fontWeight: "500", cursor: "pointer" }}
+              onClick={() => showAddressInDialog(item)}
+            >
+              {item.description}
+            </span>
+          </div>,
+        ],
+      };
+    });
+  }, [state.data]);
+  return (
+    <ThemeDialog
+      title={`Product Variant Details`}
+      maxWidth="lg"
+      isOpen={open}
+      onClose={() => {
+        togglePopup();
+      }}
+      actionBtns={
+        <Box>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              togglePopup();
             }}
-            actionBtns={
-                <Box>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => {
-                            togglePopup();
-                        }}
-                    >
-                        Close
-                    </Button>
-                </Box>
-            }
+          >
+            Close
+          </Button>
+        </Box>
+      }
+    >
+      <PaginationTable
+        header={COLUMNS}
+        rows={rows}
+        totalItems={state.total_items || 0}
+        perPage={state.rowsPerPage}
+        activePage={state.page}
+        checkboxColumn={false}
+        selectedRows={state.selectedRows}
+        enableOrder={true}
+        isLoader={state.loader}
+        emptyTableImg={<img src={error400cover} width="400px" />}
+        {...otherTableActionProps}
+        orderBy={state.orderby}
+        order={state.order}
+      ></PaginationTable>
+
+      {textModal && (
+        <ThemeDialog
+          title="Description"
+          id="showModal"
+          isOpen={textModal}
+          toggle={textModaltoggle}
+          centered
+          maxWidth="sm"
+          actionBtns={
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={textModaltoggle}
+            >
+              Close
+            </Button>
+          }
         >
-            <PaginationTable
-                header={COLUMNS}
-                rows={rows}
-                totalItems={state.total_items || 0}
-                perPage={state.rowsPerPage}
-                activePage={state.page}
-                checkboxColumn={false}
-                selectedRows={state.selectedRows}
-                enableOrder={true}
-                isLoader={state.loader}
-                emptyTableImg={<img src={error400cover} width="400px" />}
-                {...otherTableActionProps}
-                orderBy={state.orderby}
-                order={state.order}
-            ></PaginationTable>
+          <div style={{ padding: "0px", margin: "0px" }}>
+            <Textarea
+              className="form-control"
+              rows="5"
+              value={addressText}
+              readOnly
+            ></Textarea>
+          </div>
         </ThemeDialog>
-    );
-}
+      )}
+    </ThemeDialog>
+  );
+};
 
 export default FindProductModel;

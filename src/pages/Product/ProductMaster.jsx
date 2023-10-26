@@ -4,7 +4,9 @@ import error400cover from "../../assets/no-data-found-page.png";
 import _ from "lodash";
 import { API, HELPER } from "../../services";
 import { apiConfig, appConfig } from "../../config";
-import PaginationTable, { usePaginationTable } from "../../components/UI/Pagination/PaginationTable";
+import PaginationTable, {
+  usePaginationTable,
+} from "../../components/UI/Pagination/PaginationTable";
 import useDidMountEffect from "../../hooks/useDidMountEffect";
 import { Breadcrumb, Container, StyledAddButton } from "../../components";
 import { pageRoutes } from "../../constants/routesList";
@@ -20,8 +22,8 @@ const ProductMaster = () => {
   // ----Pagination code------
   const COLUMNS = [
     { title: "Stock No" },
-    { title: "ProductName" },
-    { title: "SubCategory Name" },
+    { title: "Product Name", classNameWidth: "common-width-apply-th " },
+    { title: "SubCategory", classNameWidth: "thead-second-width" },
     { title: "Gender" },
     { title: "Design Price" },
     { title: "Box Price" },
@@ -45,8 +47,8 @@ const ProductMaster = () => {
     setFindProduct(true); // Open the modal when data is received
   };
 
-
-  const { state, setState, changeState, ...otherTableActionProps } = usePaginationTable();
+  const { state, setState, changeState, ...otherTableActionProps } =
+    usePaginationTable();
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -105,7 +107,6 @@ const ProductMaster = () => {
       });
   };
 
-
   useDidMountEffect(() => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
@@ -117,8 +118,12 @@ const ProductMaster = () => {
 
         columns: [
           <span>{item.stockId}</span>,
-          <span>{item.productName}</span>,
-          <span>{item.subCategoryName}</span>,
+          <div className="common-width-three-dot-text">
+            <span>{item.productName}</span>
+          </div>,
+          <div className="three-dot-text-title">
+            <span>{item.subCategoryName}</span>
+          </div>,
           <span>{item.gender}</span>,
           <span>{item.designPrice}</span>,
           <span>{item.boxPrice}</span>,
@@ -145,7 +150,6 @@ const ProductMaster = () => {
     setBulkOpen(!bulkOpen);
   };
 
-
   return (
     <>
       <div>
@@ -157,11 +161,10 @@ const ProductMaster = () => {
             <Breadcrumb
               routeSegments={[
                 { name: "Masters", path: pageRoutes.product },
-                { name: "Diamonds" },
+                { name: "Product" },
               ]}
             />
             <div>
-
               <Button
                 variant="contained"
                 onClick={togglePopupBulk}
@@ -169,9 +172,7 @@ const ProductMaster = () => {
               >
                 Add Product Bulk
               </Button>
-
             </div>
-
           </Box>
           <PaginationTable
             header={COLUMNS}
@@ -188,7 +189,7 @@ const ProductMaster = () => {
             orderBy={state.orderby}
             order={state.order}
           ></PaginationTable>
-          {findProduct &&
+          {findProduct && (
             <FindProductModel
               open={findProduct}
               togglePopup={() => {
@@ -196,7 +197,7 @@ const ProductMaster = () => {
               }}
               productData={ProductData}
             />
-          }
+          )}
           <ProductBulkMasterDetails
             open={bulkOpen}
             togglePopup={() => {
@@ -204,7 +205,7 @@ const ProductMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
         </Container>
       </div>

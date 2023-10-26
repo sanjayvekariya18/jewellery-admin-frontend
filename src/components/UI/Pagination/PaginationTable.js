@@ -146,7 +146,16 @@ export default function PaginationTable({
             <TableRow>
               {header.map((headerItem, headerIndex) => {
                 return (
-                  <TableCell align="center" key={`tr_${headerIndex}`}>
+                  <TableCell
+                    align="center"
+                    key={`tr_${headerIndex}`}
+                    // className={`${
+                    //   headerItem.title === "Product Name"
+                    //     ? "width-apply-th"
+                    //     : ""
+                    // }`}
+                    className={headerItem.classNameWidth || ""}
+                  >
                     {enableOrder && headerItem?.order ? (
                       <TableSortLabel
                         active={headerItem.field == orderBy}

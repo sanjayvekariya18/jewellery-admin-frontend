@@ -38,7 +38,7 @@ const GemstoneMaster = () => {
   // ----Pagination code------
   const COLUMNS = [
     { title: "Stock No" },
-    { title: "Title" },
+    { title: "Title", classNameWidth: "thead-second-width-title" },
     { title: "Type" },
     { title: "Shape" },
     { title: "Carat" },
@@ -308,7 +308,7 @@ const GemstoneMaster = () => {
         item: item,
         columns: [
           <span>{item.stockId}</span>,
-          <div className="three-dot-text-title">
+          <div className="common-thead-second-width-title">
             <span
               style={{ fontWeight: 500 }}
               // onClick={() => showAddressInDialog(item)}
