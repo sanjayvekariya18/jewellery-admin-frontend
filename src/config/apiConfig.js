@@ -86,7 +86,13 @@ const apiConfig = {
   priceRange: "coloredDiamond/priceRange",  //price Range Filter
   caratRange: "coloredDiamond/caratRange", // carat Range Filter
   intensityRange:"coloredDiamond/intensityRange", // intensity Range Filter
-  colorRange:"coloredDiamond/colorRange" // color Range Filter
+  colorRange:"coloredDiamond/colorRange", // color Range Filter
+
+
+  // Product Details
+  product: "product",
+  productBulk:"product/bulk",
+  findProduct:"product/productVariant/:productId"
 };
 
 export default apiConfig;
