@@ -681,7 +681,7 @@ const DiamondMaster = () => {
                       placeholder="Start Price"
                       name="fromPrice"
                       onChange={(e) => changeState("fromPrice", e.target.value)}
-                      readOnly
+                      disabled={true}
                       style={{ width: "140px" }}
                     />
                     <span
@@ -700,7 +700,7 @@ const DiamondMaster = () => {
                       placeholder="End Price"
                       name="toPrice"
                       onChange={(e) => changeState("toPrice", e.target.value)}
-                      readOnly
+                      disabled={true}
                       style={{ width: "140px" }}
                     />
                   </div>
@@ -734,7 +734,7 @@ const DiamondMaster = () => {
                       onChange={(e) =>
                         changeState("fromCts", parseFloat(e.target.value))
                       }
-                      readOnly
+                      disabled={true}
                       style={{ width: "140px" }}
                     />
                     <span
@@ -754,7 +754,7 @@ const DiamondMaster = () => {
                       onChange={(e) =>
                         changeState("toCts", parseFloat(e.target.value))
                       }
-                      readOnly
+                      disabled={true}
                       style={{ width: "140px" }}
                     />
                   </div>
@@ -799,7 +799,7 @@ const DiamondMaster = () => {
                       onChange={(e) =>
                         changeState("fromDepth", parseFloat(e.target.value))
                       }
-                      readOnly
+                      disabled={true}
                       style={{ width: "140px" }}
                     />
                     <span
@@ -819,7 +819,7 @@ const DiamondMaster = () => {
                       onChange={(e) =>
                         changeState("toDepth", parseFloat(e.target.value))
                       }
-                      readOnly
+                      disabled={true}
                       style={{ width: "140px" }}
                     />
                   </div>
@@ -853,7 +853,7 @@ const DiamondMaster = () => {
                       onChange={(e) =>
                         changeState("fromTable", parseFloat(e.target.value))
                       }
-                      readOnly
+                      disabled={true}
                       style={{ width: "140px" }}
                     />
                     <span
@@ -873,7 +873,7 @@ const DiamondMaster = () => {
                       onChange={(e) =>
                         changeState("toTable", parseFloat(e.target.value))
                       }
-                      readOnly
+                      disabled={true}
                       style={{ width: "140px" }}
                     />
                   </div>

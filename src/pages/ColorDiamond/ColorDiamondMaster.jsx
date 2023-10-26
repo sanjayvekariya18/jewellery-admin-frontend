@@ -17,6 +17,7 @@ import useDidMountEffect from "../../hooks/useDidMountEffect";
 import { Breadcrumb, Container, StyledAddButton } from "../../components";
 import ColorDiamondBulkMasterDetails from "./ColorDiamondBulkMasterDetails";
 import ColorDiamondMasterDetails from "./ColorDiamondMasterDetails";
+import FindColoredModal from "./findColoredDiamondModal";
 
 const ColorDiamondMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -28,6 +29,8 @@ const ColorDiamondMaster = () => {
   const [carat, setCarat] = useState([]);
   const [intensity, setIntensity] = useState([]);
   const [color, setColor] = useState([]);
+  const [gemStoneData, setGemstoneData] = useState(null);
+  const [findGemstone, setFindGemstone] = useState(false);
 
   // -------------------Get Price---------------------------------
   useEffect(() => {
@@ -102,20 +105,20 @@ const ColorDiamondMaster = () => {
   }));
   // ----Pagination code------
   const COLUMNS = [
-    { title: "stock No" },
+    { title: "Stock No" },
     { title: "Title" },
-    { title: "Description" },
-    { title: "Carat" },
+    // { title: "Description" },
     { title: "Shape" },
+    { title: "Carat" },
     { title: "Color" },
     { title: "Clarity" },
     { title: "Origin" },
     { title: "Intensity" },
-    { title: "MLength" },
-    { title: "MWidth" },
-    { title: "MDepth" },
-    { title: "price" },
-    { title: "isVisible" },
+    // { title: "MLength" },
+    // { title: "MWidth" },
+    // { title: "MDepth" },
+    { title: "Price" },
+    { title: "Is Visible" },
     { title: "Action" },
   ];
 
@@ -255,6 +258,13 @@ const ColorDiamondMaster = () => {
     });
   };
 
+  const getDataGemstone = (id) => {
+    API.get(apiConfig.findGemstone.replace(":id", id)).then((res) => {
+      setGemstoneData(res); // Update gemStoneData when fetching data
+      setFindGemstone(true); // Open the modal when data is received
+    });
+  };
+
   useDidMountEffect(() => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
@@ -265,17 +275,26 @@ const ColorDiamondMaster = () => {
         item: item,
         columns: [
           <span>{item.stockId}</span>,
-          <span>{item.title}</span>,
-          <span>{item.description}</span>,
-          <span>{item.carat}</span>,
+          // <span>{item.title}</span>,
+          <div className="three-dot-text">
+            <span
+              style={{ fontWeight: 500 }}
+              // onClick={() => showAddressInDialog(item)}
+            >
+              {item.title}
+            </span>
+            ,
+          </div>,
+          // <span>{item.description}</span>,
           <span>{item.shapeName}</span>,
+          <span>{item.carat}</span>,
           <span>{item.color}</span>,
-          <span>{item.clarity}</span>,
+          <span>{appConfig.D_Clarity[item.clarity]}</span>,
           <span>{item.origin}</span>,
           <span>{item.intensity}</span>,
-          <span>{item.mLength}</span>,
-          <span>{item.mWidth}</span>,
-          <span>{item.mDepth}</span>,
+          // <span>{item.mLength}</span>,
+          // <span>{item.mWidth}</span>,
+          // <span>{item.mDepth}</span>,
           <span>{item.price}</span>,
           <span>
             <ThemeSwitch
@@ -287,6 +306,9 @@ const ColorDiamondMaster = () => {
             />
           </span>,
           <div>
+            <IconButton onClick={(e) => getDataGemstone(item.id)}>
+              <Icon color="error">remove_red_eye</Icon>
+            </IconButton>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
             </IconButton>
@@ -321,6 +343,13 @@ const ColorDiamondMaster = () => {
     setOpen(true);
   };
 
+  const toggleGemstonePopup = () => {
+    if (findGemstone) {
+      setGemstoneData(null); // Reset gemStoneData when closing the modal
+    }
+    setFindGemstone(!findGemstone); // Toggle modal visibility
+  };
+
   return (
     <>
       <div>
@@ -337,10 +366,6 @@ const ColorDiamondMaster = () => {
             />
             <div>
               <div>
-                <Button variant="contained" onClick={togglePopupBulk}>
-                  Add colored DiamondBulk
-                </Button>
-
                 <Tooltip title="Filter">
                   <IconButton
                     color="inherit"
@@ -351,6 +376,13 @@ const ColorDiamondMaster = () => {
                     <Icon>filter_list</Icon>
                   </IconButton>
                 </Tooltip>
+                <Button
+                  variant="contained"
+                  onClick={togglePopupBulk}
+                  style={{ marginLeft: "20px" }}
+                >
+                  Add Colored Diamond Bulk
+                </Button>
               </div>
             </div>
             <SearchFilterDialog
@@ -359,168 +391,224 @@ const ColorDiamondMaster = () => {
               reset={() => paginate(true)}
               search={() => paginate(false, true)}
             >
-              <div>
-                <p>price</p>
-                <Slider
-                  defaultValue={[price.minPrice, price.maxPrice]}
-                  onChange={handleChangePrice}
-                  valueLabelDisplay="auto"
-                  min={price.minPrice}
-                  max={price.maxPrice}
-                />
-                <Textinput
-                  className="form-control"
-                  type="text"
-                  id="minCost"
-                  value={
-                    state.fromPrice === undefined
-                      ? price.minPrice
-                      : state.fromPrice
-                  }
-                  placeholder="Start Price"
-                  name="fromPrice"
-                  onChange={(e) => changeState("fromPrice", e.target.value)}
-                  readOnly
-                  style={{ width: "350px" }}
-                />
-                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
-                  To
-                </span>
+              <div style={{ height: "350px" }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    alignItems: "center",
+                    gap: "12px",
+                  }}
+                >
+                  <div>
+                    <Select
+                      placeholder="Select Shap Name"
+                      options={_sortOptionsShap}
+                      isMulti
+                      value={_sortOptionsShap.filter((option) =>
+                        state.shape.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("shape", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="shape"
+                    />
+                  </div>
+                  <div>
+                    <Select
+                      label="Select Color"
+                      placeholder="Select Color name"
+                      options={_colorOptions}
+                      isMulti
+                      value={_colorOptions.filter((option) =>
+                        state.color.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("color", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="color"
+                    />
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    alignItems: "center",
+                    gap: "12px",
+                  }}
+                  className="text-input-top"
+                >
+                  <div>
+                    <Select
+                      label="Select Origin"
+                      placeholder="Select Origin Name"
+                      options={_sortOptionsOrigin}
+                      isMulti
+                      value={_sortOptionsOrigin.filter((option) =>
+                        state.origin.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("origin", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="origin"
+                    />
+                  </div>
+                  <div>
+                    <Select
+                      placeholder="Select Intensity Name"
+                      options={_intensityOptions}
+                      isMulti
+                      value={_intensityOptions.filter((option) =>
+                        state.intensity.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("intensity", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="intensity"
+                    />
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    alignItems: "center",
+                    gap: "12px 25px",
+                  }}
+                  className="text-input-top"
+                >
+                  <div>
+                    <label className="label-class">Price :</label>
+                    <Slider
+                      defaultValue={[price.minPrice, price.maxPrice]}
+                      onChange={handleChangePrice}
+                      valueLabelDisplay="auto"
+                      min={price.minPrice}
+                      max={price.maxPrice}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Textinput
+                        className="form-control"
+                        type="text"
+                        id="minCost"
+                        value={
+                          state.fromPrice === undefined
+                            ? price.minPrice
+                            : state.fromPrice
+                        }
+                        placeholder="Start Price"
+                        name="fromPrice"
+                        onChange={(e) =>
+                          changeState("fromPrice", e.target.value)
+                        }
+                        disabled={true}
+                        style={{ width: "140px" }}
+                      />
+                      <span
+                        style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}
+                      >
+                        To
+                      </span>
 
-                <Textinput
-                  className="form-control "
-                  type="text"
-                  id="maxCost"
-                  value={
-                    state.toPrice === undefined ? price.maxPrice : state.toPrice
-                  }
-                  placeholder="End Price"
-                  name="toPrice"
-                  onChange={(e) => changeState("toPrice", e.target.value)}
-                  readOnly
-                  style={{ width: "350px" }}
-                />
-              </div>
-              <div>
-                <p>Carat</p>
-                <Slider
-                  defaultValue={[carat.minCarat, carat.maxCarat]}
-                  onChange={handleChangeCarat}
-                  valueLabelDisplay="auto"
-                  min={carat.minCarat}
-                  max={carat.maxCarat}
-                  step={0.01}
-                />
-                <Textinput
-                  className="form-control"
-                  type="text"
-                  id="minCost"
-                  value={
-                    state.fromCts === undefined ? carat.minCarat : state.fromCts
-                  }
-                  placeholder="Start Carat"
-                  name="fromCts"
-                  onChange={(e) =>
-                    changeState("fromCts", parseFloat(e.target.value))
-                  }
-                  readOnly
-                  style={{ width: "350px" }}
-                />
-                <span style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}>
-                  To
-                </span>
-                <Textinput
-                  className="form-control "
-                  type="text"
-                  id="maxCost"
-                  value={
-                    state.toCts === undefined ? carat.maxCarat : state.toCts
-                  }
-                  placeholder="End Carat"
-                  name="toCts"
-                  onChange={(e) =>
-                    changeState("toCts", parseFloat(e.target.value))
-                  }
-                  readOnly
-                  style={{ width: "350px" }}
-                />
-              </div>
-
-              <div>
-                <p>Shape</p>
-                <Select
-                  placeholder="Select Shap Name"
-                  options={_sortOptionsShap}
-                  isMulti
-                  value={_sortOptionsShap.filter((option) =>
-                    state.shape.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("shape", selectedIds);
-                  }}
-                  name="choices-multi-default"
-                  id="shape"
-                />
-              </div>
-              <div className="text-input-top">
-                <Select
-                  label="Select Color"
-                  placeholder="Select Color name"
-                  options={_colorOptions}
-                  isMulti
-                  value={_colorOptions.filter((option) =>
-                    state.color.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("color", selectedIds);
-                  }}
-                  name="choices-multi-default"
-                  id="color"
-                />
-              </div>
-              <div className="text-input-top">
-                <Select
-                  label="Select Origin"
-                  placeholder="Select Origin Name"
-                  options={_sortOptionsOrigin}
-                  isMulti
-                  value={_sortOptionsOrigin.filter((option) =>
-                    state.origin.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("origin", selectedIds);
-                  }}
-                  name="choices-multi-default"
-                  id="origin"
-                />
-              </div>
-              <div>
-                <p>Intensity</p>
-                <Select
-                  placeholder="Select Intensity Name"
-                  options={_intensityOptions}
-                  isMulti
-                  value={_intensityOptions.filter((option) =>
-                    state.intensity.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("intensity", selectedIds);
-                  }}
-                  name="choices-multi-default"
-                  id="intensity"
-                />
+                      <Textinput
+                        className="form-control "
+                        type="text"
+                        id="maxCost"
+                        value={
+                          state.toPrice === undefined
+                            ? price.maxPrice
+                            : state.toPrice
+                        }
+                        placeholder="End Price"
+                        name="toPrice"
+                        onChange={(e) => changeState("toPrice", e.target.value)}
+                        disabled={true}
+                        style={{ width: "140px" }}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="label-class">Carat :</label>
+                    <Slider
+                      defaultValue={[carat.minCarat, carat.maxCarat]}
+                      onChange={handleChangeCarat}
+                      valueLabelDisplay="auto"
+                      min={carat.minCarat}
+                      max={carat.maxCarat}
+                      step={0.01}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Textinput
+                        className="form-control"
+                        type="text"
+                        id="minCost"
+                        value={
+                          state.fromCts === undefined
+                            ? carat.minCarat
+                            : state.fromCts
+                        }
+                        placeholder="Start Carat"
+                        name="fromCts"
+                        onChange={(e) =>
+                          changeState("fromCts", parseFloat(e.target.value))
+                        }
+                        disabled={true}
+                        style={{ width: "140px" }}
+                      />
+                      <span
+                        style={{ margin: "0px 20px 0 20px", fontWeight: "500" }}
+                      >
+                        To
+                      </span>
+                      <Textinput
+                        className="form-control "
+                        type="text"
+                        id="maxCost"
+                        value={
+                          state.toCts === undefined
+                            ? carat.maxCarat
+                            : state.toCts
+                        }
+                        placeholder="End Carat"
+                        name="toCts"
+                        onChange={(e) =>
+                          changeState("toCts", parseFloat(e.target.value))
+                        }
+                        disabled={true}
+                        style={{ width: "140px" }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </SearchFilterDialog>
           </Box>
@@ -566,6 +654,15 @@ const ColorDiamondMaster = () => {
             }}
             callBack={() => paginate(true)}
             //   userData={selectedUserData}
+          />
+
+          <FindColoredModal
+            open={findGemstone}
+            togglePopup={() => {
+              toggleGemstonePopup();
+              paginate();
+            }}
+            gemStoneData={gemStoneData}
           />
         </Container>
       </div>

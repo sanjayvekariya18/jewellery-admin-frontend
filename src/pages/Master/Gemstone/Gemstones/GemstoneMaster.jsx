@@ -30,8 +30,6 @@ const GemstoneMaster = () => {
   const [gemStoneData, setGemstoneData] = useState(null);
   const [price, setPrice] = useState([]);
 
-
-
   //   const [textModal, setTextModal] = useState(false);
   //   const [addressText, setAddressText] = useState("");
   //   const textModaltoggle = () => {
@@ -42,7 +40,7 @@ const GemstoneMaster = () => {
     { title: "Stock No" },
     { title: "Title" },
     { title: "Type" },
-    { title: "Shape Name" },
+    { title: "Shape" },
     { title: "Carat" },
     { title: "Color" },
     { title: "Clarity" },
@@ -313,7 +311,7 @@ const GemstoneMaster = () => {
           <div className="three-dot-text-title">
             <span
               style={{ fontWeight: 500 }}
-            // onClick={() => showAddressInDialog(item)}
+              // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -420,8 +418,8 @@ const GemstoneMaster = () => {
               reset={() => paginate(true)}
               search={() => paginate(false, true)}
             >
-              <div style={{ height: "420px" }}>
-                <div style={{ marginBottom: "20px" }}>
+              <div style={{ height: "350px" }}>
+                <div>
                   <ReactSelect
                     // label="Select Sort by Price"
                     placeholder="Sort by Price"
@@ -436,132 +434,15 @@ const GemstoneMaster = () => {
                     name="choices-multi-default"
                   />
                 </div>
-
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr ",
-                    gap: "12px 25px",
-                  }}
-                >
-                  <div>
-                    <label className="label-class">Price :</label>
-                    <Slider
-                      defaultValue={[price.minPrice, price.maxPrice]}
-                      onChange={handleChangePrice}
-                      valueLabelDisplay="auto"
-                      min={price.minPrice}
-                      max={price.maxPrice}
-                    />
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Textinput
-                        className="form-control"
-                        type="text"
-                        id="minCost"
-                        value={
-                          state.fromPrice === undefined
-                            ? price.minPrice
-                            : state.fromPrice
-                        }
-                        placeholder="Start Price"
-                        name="fromPrice"
-                        onChange={(e) => changeState("fromPrice", e.target.value)}
-                        readOnly
-                        style={{ width: "140px" }}
-                      />
-                      <span
-                        style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
-                      >
-                        To
-                      </span>
-
-                      <Textinput
-                        className="form-control "
-                        type="text"
-                        id="maxCost"
-                        value={
-                          state.toPrice === undefined ? price.maxPrice : state.toPrice
-                        }
-                        placeholder="End Price"
-                        name="toPrice"
-                        onChange={(e) => changeState("toPrice", e.target.value)}
-                        readOnly
-                        style={{ width: "140px" }}
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label
-                      className="label-class"
-                      htmlFor="product-price-input"
-                    >
-                      Dimension :
-                    </label>
-                    <Slider
-                      defaultValue={[0.05, 10.0]}
-                      onChange={handleChangeDimension}
-                      valueLabelDisplay="auto"
-                      min={0.05}
-                      max={10.0}
-                      step={0.01}
-                    />
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Textinput
-                        defaultValue="1"
-                        className="form-control"
-                        type="text"
-                        id="minCost"
-                        value={state.fromDimension}
-                        placeholder="Start Dimension"
-                        name="fromDimension"
-                        onChange={(e) =>
-                          changeState("fromDimension", e.target.value)
-                        }
-                        readOnly
-                        style={{ width: "140px" }}
-                      />
-                      <span
-                        style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
-                      >
-                        To
-                      </span>
-                      <Textinput
-                        // className="form-control "
-                        type="text"
-                        id="maxCost"
-                        defaultValue="10"
-                        value={state.toDimension}
-                        placeholder="End Dimension"
-                        name="toDimension"
-                        onChange={(e) =>
-                          changeState("toDimension", e.target.value)
-                        }
-                        readOnly
-                        style={{ width: "140px" }}
-                      />
-                    </div>
-                  </div>
-                </div>
                 <div
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr 1fr ",
                     gap: "12px",
                   }}
+                  className="text-input-top"
                 >
-                  <div className="text-input-top">
+                  <div>
                     <Select
                       label="Select Shap Name"
                       placeholder="Select Shap Name"
@@ -580,7 +461,7 @@ const GemstoneMaster = () => {
                       id="shape"
                     />
                   </div>
-                  <div className="text-input-top">
+                  <div>
                     <Select
                       label="Select Origin"
                       placeholder="Select Origin Name"
@@ -648,6 +529,127 @@ const GemstoneMaster = () => {
                     />
                   </div>
                 </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    gap: "12px 25px",
+                  }}
+                  className="text-input-top"
+                >
+                  <div>
+                    <label className="label-class">Price :</label>
+                    <Slider
+                      defaultValue={[price.minPrice, price.maxPrice]}
+                      onChange={handleChangePrice}
+                      valueLabelDisplay="auto"
+                      min={price.minPrice}
+                      max={price.maxPrice}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Textinput
+                        type="number"
+                        id="minCost"
+                        value={
+                          state.fromPrice === undefined
+                            ? price.minPrice
+                            : state.fromPrice
+                        }
+                        placeholder="Start Price"
+                        name="fromPrice"
+                        onChange={(e) =>
+                          changeState("fromPrice", e.target.value)
+                        }
+                        disabled={true}
+                        style={{ width: "140px" }}
+                      />
+
+                      <span
+                        style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
+                      >
+                        To
+                      </span>
+
+                      <Textinput
+                        type="number"
+                        id="maxCost"
+                        value={
+                          state.toPrice === undefined
+                            ? price.maxPrice
+                            : state.toPrice
+                        }
+                        placeholder="End Price"
+                        name="toPrice"
+                        onChange={(e) => changeState("toPrice", e.target.value)}
+                        disabled={true}
+                        style={{ width: "140px" }}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      className="label-class"
+                      htmlFor="product-price-input"
+                    >
+                      Dimension :
+                    </label>
+                    <Slider
+                      defaultValue={[0.05, 10.0]}
+                      onChange={handleChangeDimension}
+                      valueLabelDisplay="auto"
+                      min={0.05}
+                      max={10.0}
+                      step={0.01}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Textinput
+                        defaultValue="1"
+                        className="form-control"
+                        type="text"
+                        id="minCost"
+                        value={state.fromDimension}
+                        placeholder="Start Dimension"
+                        name="fromDimension"
+                        onChange={(e) =>
+                          changeState("fromDimension", e.target.value)
+                        }
+                        disabled={true}
+                        style={{ width: "140px" }}
+                      />
+                      <span
+                        style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
+                      >
+                        To
+                      </span>
+                      <Textinput
+                        // className="form-control "
+                        type="text"
+                        id="maxCost"
+                        defaultValue="10"
+                        value={state.toDimension}
+                        placeholder="End Dimension"
+                        name="toDimension"
+                        onChange={(e) =>
+                          changeState("toDimension", e.target.value)
+                        }
+                        disabled={true}
+                        style={{ width: "140px" }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </SearchFilterDialog>
           </Box>
@@ -692,7 +694,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}

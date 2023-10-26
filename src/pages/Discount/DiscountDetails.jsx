@@ -52,7 +52,7 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
       setFormState({ ...initialValues });
     }
   }, [open]);
-
+  console.log(formState, "-formState");
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
@@ -87,7 +87,6 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
         >
           <Textinput
             size="small"
-            type="text"
             name="discount"
             label="Discount"
             placeholder="Enter Discount"

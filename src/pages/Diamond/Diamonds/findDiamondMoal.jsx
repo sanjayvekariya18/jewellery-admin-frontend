@@ -10,8 +10,8 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
   };
 
   const gemstoneInfo = [
-    { label: "Shape: ", key: "shapeName" },
-    { label: "Carat: ", key: "carat" },
+    { label: "Shape: ", key: gemDiamondData ? gemDiamondData.shapeName : "" },
+    { label: "Carat: ", key: gemDiamondData ? gemDiamondData.carat : "" },
     {
       label: "Cut: ",
       key: gemDiamondData
@@ -58,11 +58,11 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
           )
         : "",
     },
-    { label: "mLength : ", key: "mLength" },
-    { label: "mWidth : ", key: "mWidth" },
-    { label: "mDepth : ", key: "mDepth" },
-    { label: "Table : ", key: "table" },
-    { label: "Depth : ", key: "depth" },
+    { label: "M-Length : ", key: gemDiamondData ? gemDiamondData.mLength : "" },
+    { label: "M-Width : ", key: gemDiamondData ? gemDiamondData.mWidth : "" },
+    { label: "M-Depth : ", key: gemDiamondData ? gemDiamondData.mDepth : "" },
+    { label: "Table : ", key: gemDiamondData ? gemDiamondData.table : "" },
+    { label: "Depth : ", key: gemDiamondData ? gemDiamondData.depth : "" },
     {
       label: "Girdle: ",
       key: gemDiamondData

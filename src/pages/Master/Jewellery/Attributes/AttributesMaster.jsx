@@ -22,9 +22,9 @@ const AttributesMaster = () => {
   /* Pagination code */
   const COLUMNS = [
     { title: "Name" },
-    { title: "details" },
     { title: "Logo Image" },
     { title: "Image" },
+    { title: "Details" },
     { title: "Action" },
   ];
 
@@ -103,14 +103,14 @@ const AttributesMaster = () => {
         item: item,
         columns: [
           <span>{item.name}</span>,
-          <span className="three-dot-text">{item.details}</span>,
+
           <span>
             {item.logoUrl && item.logoUrl !== null && (
               <Box
                 component="img"
                 sx={{
-                  height: 50,
-                  width: 50,
+                  height: 40,
+                  width: 40,
                   maxHeight: { xs: 25, md: 50 },
                   maxWidth: { xs: 25, md: 50 },
                 }}
@@ -123,8 +123,8 @@ const AttributesMaster = () => {
               <Box
                 component="img"
                 sx={{
-                  height: 50,
-                  width: 50,
+                  height: 40,
+                  width: 40,
                   maxHeight: { xs: 25, md: 50 },
                   maxWidth: { xs: 25, md: 50 },
                 }}
@@ -132,13 +132,14 @@ const AttributesMaster = () => {
               />
             )}
           </span>,
+          <span className="three-dot-text">{item.details}</span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
             </IconButton>
-            <IconButton onClick={(e) => onClickDelete(item.id)}>
+            {/* <IconButton onClick={(e) => onClickDelete(item.id)}>
               <Icon color="error">delete</Icon>
-            </IconButton>
+            </IconButton> */}
           </div>,
         ],
       };
@@ -161,11 +162,23 @@ const AttributesMaster = () => {
   useEffect(() => {
     if (selectedUserData) {
       // Check if selectedUserData is not null
-      API.get(apiConfig.attributesId.replace(":id", selectedUserData.id)).then(
-        (res) => {
+      API.get(apiConfig.attributesId.replace(":id", selectedUserData.id))
+        .then((res) => {
           setEditAttributeSingleData({ ...res });
-        }
-      );
+        })
+        .catch((err) => {
+          if (
+            err.status === 400 ||
+            err.status === 401 ||
+            err.status === 409 ||
+            err.status === 422 ||
+            err.status === 403
+          ) {
+            HELPER.toaster.error(err.errors.message);
+          } else {
+            console.error(err);
+          }
+        });
     }
   }, [selectedUserData]);
   // ------------------------------- Delete Shape ---------------------------------
@@ -182,7 +195,7 @@ const AttributesMaster = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        API.destroy(`${apiConfig.attributes}/${id}`)
+        API.destroy(apiConfig.attributesId.replace(":id", id))
           .then((res) => {
             toaster.success("Deleted Successfully");
             paginate();

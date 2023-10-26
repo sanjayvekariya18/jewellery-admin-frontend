@@ -41,7 +41,7 @@ export const navigations = [
         path: pageRoutes.master.jewellery.category,
       },
       {
-        name: "Subcategory",
+        name: "SubCategory",
         iconText: "SC",
         path: pageRoutes.master.jewellery.subcategory,
       },

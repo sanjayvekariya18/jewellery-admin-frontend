@@ -10,6 +10,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Checkbox,
   Paper,
 } from "@mui/material";
 import { API, HELPER } from "../../../../services";
@@ -29,10 +30,8 @@ const AttributesMasterDetails = ({
   editAttributeSingleData,
 }) => {
   const [selected, setSelected] = useState([]);
-  const [sortNo, setSortNo] = useState("");
+  const [sortNo, setSortNo] = useState("false");
   const [options, setOptions] = useState([]);
-  const [error, setError] = useState(null);
-  const [trueSelected, setTrueSelected] = useState(false);
 
   const [formState, setFormState] = useState({
     id: "",
@@ -78,7 +77,20 @@ const AttributesMasterDetails = ({
         );
         togglePopup();
       })
-      .catch((e) => HELPER.toaster.error(e.errors.message));
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 422 ||
+          err.status === 403
+        ) {
+          HELPER.toaster.error(err.errors.message);
+        } else {
+          console.error(err);
+        }
+      });
+    // .catch((e) => HELPER.toaster.error(e.errors.message));
   };
 
   const onChange = useCallback((e) => {
@@ -105,34 +117,93 @@ const AttributesMasterDetails = ({
     });
   }, []);
 
+  // const handleLogSelectedOption = () => {
+  //   if (selected) {
+  //     const selectedValue = selected.value;
+  //     const combinedData = {
+  //       optionId: selectedValue,
+  //       isDefault: sortNo,
+  //     };
+  //     setFormState((prevFormState) => ({
+  //       ...prevFormState,
+  //       options: [...prevFormState.options, combinedData],
+  //     }));
+  //     setSelected(null);
+  //     setSortNo("false"); // Reset the Select to "False" after adding the option
+  //   }
+  // };
+
+  // const handleLogSelectedOption = () => {
+  //   if (selected) {
+  //     const selectedValue = selected.value;
+
+  //     // Check if the selected option is "true"
+  //     const isTrueOption = sortNo === "true";
+
+  //     // Check if a "True" option already exists in the entire array
+  //     const trueOptionExists = formState.options.some(
+  //       (option) => option.isDefault === "true"
+  //     );
+
+  //     if (isTrueOption && trueOptionExists) {
+  //       HELPER.toaster.error("Only one 'true' option is allowed!");
+  //     } else {
+  //       const combinedData = {
+  //         optionId: selectedValue,
+  //         isDefault: sortNo,
+  //       };
+
+  //       setFormState((prevFormState) => ({
+  //         ...prevFormState,
+  //         options: [...prevFormState.options, combinedData],
+  //       }));
+
+  //       setSelected(null);
+  //       setSortNo("false"); // Reset the Select to "False" after adding the option
+  //     }
+  //   }
+  // };
+
   const handleLogSelectedOption = () => {
     if (selected) {
       const selectedValue = selected.value;
-      if (selectedValue === "true" && trueSelected) {
-        setError("Only one 'True' option is allowed.");
-      } else {
-        setError(null);
-        if (selectedValue === "true") {
-          setTrueSelected(true);
-        }
 
-        const combinedData = {
-          optionId: selectedValue,
-          isDefault: sortNo,
-        };
-        setFormState((prevFormState) => ({
-          ...prevFormState,
-          options: [...prevFormState.options, combinedData],
-        }));
-        setSelected(null);
-        setSortNo("");
+      // Check if the selected option is "true"
+      const isTrueOption = sortNo === "true";
+
+      // Check if a "True" option already exists in the entire array
+      const trueOptionExists = formState.options.some(
+        (option) => option.isDefault === "true"
+      );
+
+      if (isTrueOption) {
+        // If the selected option is "true"
+        if (trueOptionExists) {
+          // Change any existing "true" option to "false"
+          formState.options = formState.options.map((option) => ({
+            ...option,
+            isDefault: "false",
+          }));
+        }
       }
+
+      const combinedData = {
+        optionId: selectedValue,
+        isDefault: sortNo,
+      };
+
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        options: [...prevFormState.options, combinedData],
+      }));
+
+      setSelected(null);
+      setSortNo("false"); // Reset the Select to "False" after adding the option
     }
   };
-
   const handleRemoveOption = (index) => {
     if (formState.options[index].isDefault === "true") {
-      setTrueSelected(false);
+      setSortNo("false"); // Reset the Select to "False" when removing a "True" option
     }
     setFormState((prevFormState) => ({
       ...prevFormState,
@@ -182,7 +253,7 @@ const AttributesMasterDetails = ({
     const selectedOption = options.find((option) => option.value === optionId);
     return selectedOption ? selectedOption.label : "";
   };
-  // console.log(formState);
+
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
@@ -197,7 +268,7 @@ const AttributesMasterDetails = ({
           actionBtns={
             <div
               style={{
-                display: "flex ",
+                display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 width: "100%",
@@ -205,14 +276,14 @@ const AttributesMasterDetails = ({
             >
               <div
                 style={{
-                  display: "flex ",
+                  display: "flex",
                   alignContent: "center",
                 }}
               >
                 <div
                   style={{
                     marginRight: "20px",
-                    display: "flex ",
+                    display: "flex",
                     alignContent: "center",
                     flexDirection: "column",
                   }}
@@ -228,7 +299,7 @@ const AttributesMasterDetails = ({
                 <div
                   style={{
                     marginRight: "20px",
-                    display: "flex ",
+                    display: "flex",
                     alignContent: "center",
                     flexDirection: "column",
                   }}
@@ -288,47 +359,37 @@ const AttributesMasterDetails = ({
               <Select
                 value={selected}
                 options={options}
-                // options={options.filter(
-                //   (option) => option.value != (selected && selected.value)
-                // )}
                 onChange={(selectedOption) => setSelected(selectedOption)}
                 isSearchable={true}
-                placeholder="Select  Option"
+                placeholder="Select Option"
               />
             </div>
-            <div>
-              <div>
-                <Select
-                  options={[
-                    { value: "true", label: "True" },
-                    { value: "false", label: "False" },
-                  ]}
-                  placeholder="Select Is Default"
-                  value={sortNo ? { value: sortNo, label: sortNo } : null}
-                  onChange={(selectedOption) => {
-                    if (
-                      selectedOption.value === "true" &&
-                      formState.options.some(
-                        (option) => option.isDefault === "true"
-                      )
-                    ) {
-                      HELPER.toaster.error(
-                        "Only one 'True' option is allowed."
-                      );
-                    } else {
-                      setError(null);
-                      setSortNo(selectedOption.value);
-                    }
-                  }}
-                  isSearchable={false}
-                />
-              </div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Checkbox
+                checked={sortNo === "true"}
+                onChange={(e) => {
+                  setSortNo(e.target.checked ? "true" : "false");
+                }}
+                color="primary"
+                id="isDefault-label"
+              />
+              <label
+                className="label-class"
+                htmlFor="isDefault-label"
+                style={{
+                  cursor: "pointer",
+                  fontWeight: "400",
+                  fontSize: "16px",
+                }}
+              >
+                {" "}
+                Is Default
+              </label>
             </div>
             <div
               style={{
                 border: "1px solid #cccccc",
-                // paddingLeft: "5px",
-                padding: "0px 0px 4px 4px ",
+                padding: "0px 0px 4px 4px",
                 borderRadius: "5px",
                 width: "39px",
                 height: "39px",
@@ -373,7 +434,19 @@ const AttributesMasterDetails = ({
                         <TableCell style={{ paddingLeft: "20px" }}>
                           {getSelectedOptionLabel(data.optionId)}
                         </TableCell>
-                        <TableCell>{data.isDefault}</TableCell>
+                        <TableCell style={{ padding: "0px" }}>
+                          <IconButton>
+                            <Icon
+                              color={
+                                data.isDefault === "true" ? "success" : "error"
+                              }
+                            >
+                              {data.isDefault === "true"
+                                ? "check_circle"
+                                : "cancel"}
+                            </Icon>
+                          </IconButton>
+                        </TableCell>
                         <TableCell style={{ padding: "0px" }}>
                           <IconButton onClick={() => handleRemoveOption(index)}>
                             <Icon color="error">delete</Icon>
@@ -387,14 +460,11 @@ const AttributesMasterDetails = ({
                         colSpan={3}
                         style={{ textAlign: "center", color: "red" }}
                       >
-                        <img src={error400cover} width="150px" />
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  {error && (
-                    <TableRow>
-                      <TableCell colSpan={3} style={{ color: "red" }}>
-                        {error}
+                        <img
+                          src={error400cover}
+                          width="150px"
+                          alt="No data found"
+                        />
                       </TableCell>
                     </TableRow>
                   )}

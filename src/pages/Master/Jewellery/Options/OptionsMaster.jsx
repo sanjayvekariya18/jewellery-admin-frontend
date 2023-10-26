@@ -127,8 +127,8 @@ const OptionMaster = () => {
               <Box
                 component="img"
                 sx={{
-                  height: 50,
-                  width: 50,
+                  height: 40,
+                  width: 40,
                   maxHeight: { xs: 25, md: 50 },
                   maxWidth: { xs: 25, md: 50 },
                 }}
@@ -141,8 +141,8 @@ const OptionMaster = () => {
               <Box
                 component="img"
                 sx={{
-                  height: 50,
-                  width: 50,
+                  height: 40,
+                  width: 40,
                   maxHeight: { xs: 25, md: 50 },
                   maxWidth: { xs: 25, md: 50 },
                 }}

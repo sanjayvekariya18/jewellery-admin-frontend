@@ -1,26 +1,23 @@
-import React, { useState } from 'react';
-import Validators from '../../components/validations/Validator';
-import ThemeDialog from '../../components/UI/Dialog/ThemeDialog';
+import React, { useState } from "react";
+import Validators from "../../components/validations/Validator";
+import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
 import UploadButton from "../../components/UI/UploadButton";
-import { API, HELPER } from '../../services';
-import { apiConfig } from '../../config';
+import { API, HELPER } from "../../services";
+import { apiConfig } from "../../config";
 
 const initialValues = {
   colorDiamond: "",
 };
 
-
-const ColorDiamondBulkMasterDetails = ({
-  open, togglePopup,
-}) => {
+const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [errorModel, setErrorModel] = useState(false);
   const [err, setErr] = useState();
   const [errorState, setErrorState] = useState({});
 
   const rules = {
-    colorDiamond: "required"
+    colorDiamond: "required",
   };
   const [isLoader, setIsLoader] = useState(false);
 
@@ -37,11 +34,17 @@ const ColorDiamondBulkMasterDetails = ({
       })
       .catch((error) => {
         HELPER.toaster.error("Please Check your Excel sheet...");
-        if (error.errors && error.errors.message && typeof error.errors.message === 'object') {
+        if (
+          error.errors &&
+          error.errors.message &&
+          typeof error.errors.message === "object"
+        ) {
           setErrorState(error.errors.message);
           setErrorModel(true);
         } else {
-          setErr(error.errors && error.errors.message ? error.errors.message : error)
+          setErr(
+            error.errors && error.errors.message ? error.errors.message : error
+          );
           setErrorModel(true);
         }
       })
@@ -61,89 +64,103 @@ const ColorDiamondBulkMasterDetails = ({
             togglePopup();
             resetValidation();
           }}
-          actionBtns={<>
-            <Box>
-              <UploadButton
-                onChange={(selectedFile) => {
-                  setFormState((prevProps) => {
-                    return {
-                      ...prevProps,
-                      colorDiamond: selectedFile,
-                    };
-                  });
-                }} />
-              {errors?.colorDiamond && <p className="text-error">File field is required</p>}
-            </Box>
-            <Box>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  togglePopup();
-                  resetValidation();
-                  setFormState("");
-                }}
+          actionBtns={
+            <>
+              <Box>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => {
+                    togglePopup();
+                    resetValidation();
+                    setFormState("");
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  style={{ marginLeft: "20px" }}
+                  type="submit"
+                  variant="contained"
+                  color="success"
+                  onClick={() => onSubmit(handleSubmit)}
+                >
+                  Save
+                </Button>
+              </Box>
+              <ThemeDialog
+                isOpen={errorModel}
+                onClose={() => setErrorModel(false)}
+                title="Error"
+                maxWidth="sm"
+                actionBtns={
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setErrorModel(false);
+                      togglePopup();
+                    }}
+                  >
+                    Okay
+                  </Button>
+                }
               >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                color="primary"
-                onClick={() => onSubmit(handleSubmit)}
-              >
-                Save
-              </Button>
-            </Box>
-            <ThemeDialog
-              isOpen={errorModel}
-              onClose={() => setErrorModel(false)}
-              title="Error"
-              maxWidth="sm"
-              actionBtns={<Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  setErrorModel(false);
-                  togglePopup();
-                }}
-              >
-                Okay
-              </Button>}
-            >
-              <div>
-                {Object.keys(errorState).length > 0 ? (
-                  Object.keys(errorState).map((errorCode, i) => {
-                    return (
-                      <div key={i}>
-                        <h2>Stock No: {errorCode}</h2>
-                        <ul>
-                          {errorState[errorCode].map((errorMessageObj, index) =>
-                          (
-                            <li key={index}>
-                              {Object.keys(errorMessageObj)[0]}   : <span>{Object.values(errorMessageObj)[0]}</span>
-                            </li>
-
-                          ))}
-                        </ul>
-                      </div>
-
-                    )
-                  })
-
-                ) : (
-                  <p>{err}</p>
-                )}
-
-              </div>
-            </ThemeDialog>
-
-
-          </>}
+                <div>
+                  {Object.keys(errorState).length > 0 ? (
+                    Object.keys(errorState).map((errorCode, i) => {
+                      return (
+                        <div key={i}>
+                          <h2>Stock No: {errorCode}</h2>
+                          <ul>
+                            {errorState[errorCode].map(
+                              (errorMessageObj, index) => (
+                                <li key={index}>
+                                  {Object.keys(errorMessageObj)[0]} :{" "}
+                                  <span>
+                                    {Object.values(errorMessageObj)[0]}
+                                  </span>
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p>{err}</p>
+                  )}
+                </div>
+              </ThemeDialog>
+            </>
+          }
         >
+          <UploadButton
+            onChange={(selectedFile) => {
+              setFormState((prevProps) => {
+                return {
+                  ...prevProps,
+                  colorDiamond: selectedFile,
+                };
+              });
+            }}
+          />
+          {errors?.colorDiamond && (
+            <p
+              className="text-error"
+              style={{
+                fontSize: "14px",
+                marginTop: "10px",
+                textAlign: "center",
+              }}
+            >
+              File field is required
+            </p>
+          )}
         </ThemeDialog>
       )}
     </Validators>
   );
-}
+};
 
 export default ColorDiamondBulkMasterDetails;

@@ -20,9 +20,9 @@ const CategoryMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const COLUMNS = [
     { title: "Name" },
-    { title: "Details" },
     { title: "Logo Image" },
     { title: "Image" },
+    { title: "Details" },
     { title: "Action" },
   ];
 
@@ -97,14 +97,14 @@ const CategoryMaster = () => {
         item: item,
         columns: [
           <span>{item.name}</span>,
-          <span>{item.details}</span>,
+
           <span>
             {item.logoUrl && item.logoUrl !== null && (
               <Box
                 component="img"
                 sx={{
-                  height: 50,
-                  width: 50,
+                  height: 40,
+                  width: 40,
                   maxHeight: { xs: 25, md: 50 },
                   maxWidth: { xs: 25, md: 50 },
                 }}
@@ -117,8 +117,8 @@ const CategoryMaster = () => {
               <Box
                 component="img"
                 sx={{
-                  height: 50,
-                  width: 50,
+                  height: 40,
+                  width: 40,
                   maxHeight: { xs: 25, md: 50 },
                   maxWidth: { xs: 25, md: 50 },
                 }}
@@ -126,7 +126,7 @@ const CategoryMaster = () => {
               />
             )}
           </span>,
-
+          <span>{item.details}</span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>

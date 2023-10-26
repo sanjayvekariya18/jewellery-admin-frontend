@@ -96,7 +96,7 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                   />
                   <Box>
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       color="secondary"
                       onClick={() => {
                         togglePopup();
@@ -106,7 +106,9 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                       Cancel
                     </Button>
                     <Button
+                      style={{ marginLeft: "20px" }}
                       type="submit"
+                      variant="contained"
                       color="primary"
                       onClick={() => onSubmit(handleSubmit)}
                     >
@@ -122,6 +124,7 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                   type="text"
                   name="firstName"
                   label="First Name"
+                  placeholder="Enter First Name"
                   value={formState.firstName}
                   onChange={onChange}
                   error={errors?.firstName}
@@ -131,6 +134,7 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                   type="text"
                   name="lastName"
                   label="Last Name"
+                  placeholder="Enter Last Name"
                   value={formState.lastName}
                   onChange={onChange}
                   error={errors?.lastName}
@@ -142,6 +146,7 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                   type="email"
                   name="email"
                   label="Email"
+                  placeholder="Enter Email"
                   value={formState.email}
                   onChange={onChange}
                   error={errors?.email}
