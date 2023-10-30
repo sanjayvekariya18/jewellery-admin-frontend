@@ -81,9 +81,7 @@ const MetalPriceMaster = Loadable(
 const ColorDiamondMaster = Loadable(
   lazy(() => import("./ColorDiamond/ColorDiamondMaster"))
 );
-const ProductMaster = Loadable(
-  lazy(() => import("./Product/ProductMaster"))
-);
+const ProductMaster = Loadable(lazy(() => import("./Product/ProductMaster")));
 const FindProductVariantMoreDetail = Loadable(
   lazy(() => import("./Product/FindProductVariantMoreDetail"))
 );

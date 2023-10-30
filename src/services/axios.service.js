@@ -1,6 +1,5 @@
 import axios from "axios";
 import AuthStorage from "../utils/authStorage";
-import * as CONFIG from "../constants/config";
 import { apiConfig } from "../config";
 import { HELPER } from ".";
 
@@ -16,7 +15,7 @@ const excelInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  responseType: 'blob',
+  responseType: "blob",
 });
 
 // Prepare request
@@ -102,7 +101,7 @@ const get = (url, params) =>
   instance.get(url, {
     params,
   });
-  
+
 const getExcel = (url, params) =>
   excelInstance.get(url, {
     params,

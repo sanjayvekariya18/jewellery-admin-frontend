@@ -1,4 +1,4 @@
-import React, {  useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Box, Button, Icon, IconButton } from "@mui/material";
 import error400cover from "../../assets/no-data-found-page.png";
 import _ from "lodash";
@@ -41,8 +41,6 @@ const ProductMaster = () => {
   const handleButtonClick = (id) => {
     navigate(`${pageRoutes.variantProductId}/${id}`);
   };
-
-
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -141,8 +139,6 @@ const ProductMaster = () => {
     setBulkOpen(!bulkOpen);
   };
 
-
-
   return (
     <>
       <div>
@@ -182,8 +178,7 @@ const ProductMaster = () => {
             orderBy={state.orderby}
             order={state.order}
           ></PaginationTable>
-           <div>
-      </div>
+          <div></div>
 
           <ProductBulkMasterDetails
             open={bulkOpen}

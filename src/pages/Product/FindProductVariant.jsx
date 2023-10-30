@@ -13,10 +13,10 @@ import { Box, IconButton, Icon } from "@mui/material";
 import { pageRoutes } from "../../constants/routesList";
 import { useNavigate } from "react-router-dom/dist";
 
-
-const FindProductVariant = ({ data }) => {
-  const { productId } = useParams()
-  const { state, setState, changeState, ...otherTableActionProps } = usePaginationTable();
+const FindProductVariant = () => {
+  const { productId } = useParams();
+  const { state, setState, changeState, ...otherTableActionProps } =
+    usePaginationTable();
   const navigate = useNavigate();
 
   let filter = {
@@ -63,7 +63,6 @@ const FindProductVariant = ({ data }) => {
     { title: "Total Price" },
     { title: "Action" },
   ];
-
 
   const rows = useMemo(() => {
     return state.data.map((item, i) => {
@@ -126,7 +125,6 @@ const FindProductVariant = ({ data }) => {
           orderBy={state.orderby}
           order={state.order}
         ></PaginationTable>
-
       </Container>
     </div>
   );

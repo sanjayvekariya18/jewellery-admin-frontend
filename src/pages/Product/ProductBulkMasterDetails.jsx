@@ -19,7 +19,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
   const [formState, setFormState] = useState({ productData: null });
   const [selectedFile, setSelectedFile] = useState(null);
 
-// category wise select
+  // category wise select
   useEffect(() => {
     API.get(apiConfig.category).then((res) => {
       setCategory(res.rows);
@@ -57,7 +57,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
     }
   };
 
-// file download handle change
+  // file download handle change
   const handleFileChange = (files) => {
     setSelectedFile(files[0]);
   };
@@ -163,15 +163,18 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                             <h2>{key}</h2>
                             {Object.keys(value).map((errorKey, index) => (
                               <ul key={index}>
-                                {Array.isArray(value[errorKey]) &&
-                                  <li 
-                                  className="text-error"
-                                  style={{ fontSize: "18px", fontWeight: "500" }}
+                                {Array.isArray(value[errorKey]) && (
+                                  <li
+                                    className="text-error"
+                                    style={{
+                                      fontSize: "18px",
+                                      fontWeight: "500",
+                                    }}
                                   >
                                     <b>Row No:- {errorKey}</b>
                                   </li>
-                                }
-                                {Array.isArray(value[errorKey]) ?
+                                )}
+                                {Array.isArray(value[errorKey]) ? (
                                   <ul>
                                     {value[errorKey].map((error, i) =>
                                       Object.entries(error).map(([k, v]) => (
@@ -181,24 +184,25 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                                       ))
                                     )}
                                   </ul>
-                                  :
+                                ) : (
                                   <li> {value[errorKey]}</li>
-                                }
+                                )}
                               </ul>
                             ))}
                           </li>
-
                         );
                       } else {
                         return null;
                       }
-                    })
-                    }
+                    })}
                   </ul>
-                 <p
-                  className="text-error"
-                  style={{ fontSize: "18px", fontWeight: "500" }}
-                 > {err}</p>
+                  <p
+                    className="text-error"
+                    style={{ fontSize: "18px", fontWeight: "500" }}
+                  >
+                    {" "}
+                    {err}
+                  </p>
                 </div>
               </ThemeDialog>
             </>
