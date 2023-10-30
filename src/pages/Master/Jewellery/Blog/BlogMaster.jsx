@@ -1,38 +1,68 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  FormControlLabel,
+  Icon,
+  IconButton,
+  Radio,
+  RadioGroup,
+  Button,
+  Tooltip,
+} from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
-import { apiConfig, appConfig } from "./../../../../config";
+import { apiConfig, appConfig } from "../../../../config";
 import _ from "lodash";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
-import DetailsMasterDetails from "./DetailsMasterDetails";
+import Textinput from "../../../../components/UI/TextInput";
+import BlogMasterDetails from "./BlogMasterDetails";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Textarea from "../../../../components/UI/Textarea";
+import moment from "moment";
 import ReactSelect from "../../../../components/UI/ReactSelect";
+import Flatpickr from "react-flatpickr";
+import momentTimezone from "moment-timezone";
+import "flatpickr/dist/themes/material_blue.css";
+import "flatpickr/dist/themes/airbnb.css";
 
-const DetailsMaster = () => {
+const BlogMaster = () => {
   const [open, setOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
-  const [productDetailsGroupId, setProductDetailsGroupId] = useState([]);
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const [dateRange, setDateRange] = useState([null, null]);
+
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
+  const [blogCategoryData, setBlogCategoryData] = useState([]);
+
   /* Pagination code */
   const COLUMNS = [
-    { title: "Detail Name" },
-    { title: "Group Name" },
-    { title: "Logo" },
-    { title: "Description" },
+    { title: "Title", classNameWidth: "thead-second-width-title-blog" },
+    { title: "Category Name" },
+    { title: "Image" },
+    { title: "Date" },
     { title: "Action" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
       searchTxt: "",
+      date: {
+        from_date: "",
+        to_date: "",
+      },
+      category_id: "",
       isActive: "",
       order: "",
       orderby: "",
@@ -42,17 +72,39 @@ const DetailsMaster = () => {
     changeState("loader", true);
     let clearStates = {
       searchTxt: "",
+      date: {
+        from_date: "",
+        to_date: "",
+      },
+      category_id: "",
       isActive: "",
-      detailsGroupId: "",
       ...appConfig.default_pagination_state,
     };
 
     let filter = {
       page: state.page,
       searchTxt: state.searchTxt,
+      from_date:
+        !clear && dateRange[0]
+          ? momentTimezone
+              .tz(
+                dateRange[0],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
+          : null,
+      to_date:
+        !clear && dateRange[1]
+          ? momentTimezone
+              .tz(
+                dateRange[1],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
+          : null,
+      category_id: state.category_id,
       isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
-      detailsGroupId: state.detailsGroupId,
       order: state.order,
       orderBy: state.orderby,
     };
@@ -61,12 +113,13 @@ const DetailsMaster = () => {
 
     if (clear) {
       filter = _.merge(filter, clearStates);
+      setDateRange([null, null]);
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
 
     // ----------Get Product Details Group Api------------
-    API.get(apiConfig.productDetails, filter)
+    API.get(apiConfig.blog, filter)
       .then((res) => {
         setState({
           ...state,
@@ -97,7 +150,7 @@ const DetailsMaster = () => {
   const onClickDelete = (id) => {
     Swal.fire({
       title: "Are You Sure",
-      text: "Are you sure you want to remove this Product Details ?",
+      text: "Are you sure you want to remove this Blog ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "green",
@@ -107,7 +160,7 @@ const DetailsMaster = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        API.destroy(`${apiConfig.productDetails}/${id}`)
+        API.destroy(`${apiConfig.blog}/${id}`)
           .then((res) => {
             toaster.success("Deleted Successfully");
             paginate();
@@ -121,15 +174,34 @@ const DetailsMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
+  const showAddressInDialog = (item) => {
+    const description = item.description;
+    setAddressText(description); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
+
+  useEffect(() => {
+    API.get(apiConfig.listblogCategory, { is_public_url: true })
+      .then((res) => {
+        setBlogCategoryData(res);
+        paginate();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
         item: item,
         columns: [
-          <span>{item.detailName}</span>,
-          <span>{item.groupName}</span>,
+          <div className="common-thead-second-width-title-blog">
+            <span>{item.title}</span>
+          </div>,
+          <span>{item.category_name}</span>,
           <span>
-            {item.logoUrl && item.logoUrl !== null && (
+            {item.featured_image && item.featured_image !== null && (
               <Box
                 component="img"
                 sx={{
@@ -138,16 +210,18 @@ const DetailsMaster = () => {
                   maxHeight: { xs: 25, md: 50 },
                   maxWidth: { xs: 25, md: 50 },
                 }}
-                src={HELPER.getImageUrl(item.logoUrl)}
+                src={HELPER.getImageUrl(item.featured_image)}
               />
             )}
           </span>,
-          <span>{item.description}</span>,
+          <span>
+            {moment(item.publish_date).format(appConfig.dateDisplayFormat)}
+          </span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
             </IconButton>
-            <IconButton onClick={(e) => onClickDelete(item.id)}>
+            <IconButton onClick={(e) => onClickDelete(item.blog_id)}>
               <Icon color="error">delete</Icon>
             </IconButton>
           </div>,
@@ -173,21 +247,11 @@ const DetailsMaster = () => {
     setOpen(true);
   };
 
-  useEffect(() => {
-    API.get(apiConfig.listProductDetailGroup, { is_public_url: true })
-      .then((res) => {
-        setProductDetailsGroupId(res);
-        paginate();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
-  let _sortOptions = productDetailsGroupId.map((option) => ({
-    label: option.groupName,
-    value: option.id,
+  let _sortOptions = blogCategoryData.map((option) => ({
+    label: option.category_name,
+    value: option.category_id,
   }));
+
   return (
     <Container>
       <Box
@@ -197,7 +261,7 @@ const DetailsMaster = () => {
         <Breadcrumb
           routeSegments={[
             { name: "Masters", path: pageRoutes.master.user.user },
-            { name: "Product Details" },
+            { name: "Blog" },
           ]}
         />
         <Tooltip title="Filter">
@@ -227,6 +291,48 @@ const DetailsMaster = () => {
         order={state.order}
       ></PaginationTable>
 
+      <SearchFilterDialog
+        isOpen={openSearch}
+        maxWidth="sm"
+        onClose={() => setOpenSearch(false)}
+        reset={() => paginate(true)}
+        search={() => paginate(false, true)}
+      >
+        <Textinput
+          size="small"
+          type="text"
+          name="searchTxt"
+          label="Search Text"
+          variant="outlined"
+          value={state?.searchTxt}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
+          sx={{ mb: 0, mt: 1, width: "100%" }}
+        />
+        <div className="text-input-top">
+          <Flatpickr
+            className="flatpickr-input"
+            placeholder="Select Date Range"
+            onChange={(date) => setDateRange(date)}
+            value={dateRange}
+            options={{
+              mode: "range",
+              dateFormat: "Y-m-d",
+            }}
+          />
+        </div>
+        <div style={{ height: "200px" }} className="text-input-top">
+          <ReactSelect
+            label={"Category Name"}
+            placeholder="Select Category Name"
+            options={_sortOptions}
+            onChange={(e) => {
+              changeState("category_id", e?.target.value || "");
+            }}
+            name="category_id"
+          />
+        </div>
+      </SearchFilterDialog>
+
       <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"
@@ -238,38 +344,46 @@ const DetailsMaster = () => {
         </StyledAddButton>
       </Tooltip>
 
-      <SearchFilterDialog
-        isOpen={openSearch}
-        maxWidth="sm"
-        onClose={() => setOpenSearch(false)}
-        reset={() => paginate(true)}
-        search={() => paginate(false, true)}
-      >
-        <div style={{ height: "200px" }}>
-          <ReactSelect
-            label={"Product Details Group Name"}
-            placeholder="Select Product Details Group Name"
-            options={_sortOptions}
-            onChange={(e) => {
-              changeState("detailsGroupId", e?.target.value || "");
-            }}
-            name="detailsGroupId"
-          />
-        </div>
-      </SearchFilterDialog>
-
-      <DetailsMasterDetails
+      <BlogMasterDetails
         open={open}
         togglePopup={() => {
           togglePopup();
           paginate();
         }}
-        callBack={() => paginate(true)}
         userData={selectedUserData}
-        productDetailsGroupId={productDetailsGroupId}
+        blogCategoryData={blogCategoryData}
       />
+
+      {textModal && (
+        <ThemeDialog
+          title="Description"
+          id="showModal"
+          isOpen={textModal}
+          toggle={textModaltoggle}
+          centered
+          maxWidth="sm"
+          actionBtns={
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={textModaltoggle}
+            >
+              Close
+            </Button>
+          }
+        >
+          <div style={{ padding: "0px", margin: "0px" }}>
+            <Textarea
+              className="form-control"
+              rows="5"
+              value={addressText}
+              readOnly
+            ></Textarea>
+          </div>
+        </ThemeDialog>
+      )}
     </Container>
   );
 };
 
-export default DetailsMaster;
+export default BlogMaster;

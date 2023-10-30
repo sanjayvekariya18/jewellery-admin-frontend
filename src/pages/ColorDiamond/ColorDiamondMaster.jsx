@@ -238,7 +238,7 @@ const ColorDiamondMaster = () => {
   const onClickDelete = (diamond_id) => {
     Swal.fire({
       title: "Are You Sure",
-      text: "Are you sure you want to remove this Colored Diamond ?",
+      text: "Are you sure to remove this Colored Diamond ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "green",

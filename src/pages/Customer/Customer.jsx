@@ -36,7 +36,7 @@ const Customer = () => {
   /* Pagination code */
   const TITLE = [
     { title: "Name" },
-    { title: "Email" },
+    { title: "Email", classNameWidth: "thead-second-width-title" },
     { title: "Country" },
     { title: "State" },
     { title: "City" },

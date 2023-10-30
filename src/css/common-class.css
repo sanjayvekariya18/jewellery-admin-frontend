@@ -176,9 +176,33 @@ input::-webkit-inner-spin-button {
     width: 400px !important;
 }
 
+.thead-second-width-title-answer {
+    width: 350px !important;
+}
+
+.thead-second-width-title-blog {
+    width: 700px !important;
+}
+
 .common-thead-second-width-title {
     display: inline-block;
     width: 395px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.common-thead-second-width-title-answer {
+    display: inline-block;
+    width: 340px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.common-thead-second-width-title-blog {
+    display: inline-block;
+    width: 690px;
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
@@ -190,4 +214,28 @@ input::-webkit-inner-spin-button {
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis;
+}
+
+.errors-message-input input {
+    border: 1px solid #ff3d57;
+    border-radius: 5px;
+}
+
+.flatpickr-input {
+    /* width: 300px; */
+    width: 100%;
+    height: 39px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.flatpickr-input::placeholder {
+    color: #6a6565f9;
+    font-weight: 500;
+    font-size: 14px;
 }

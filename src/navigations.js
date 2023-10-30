@@ -65,10 +65,57 @@ export const navigations = [
         iconText: "DG",
         path: pageRoutes.master.jewellery.details,
       },
+      // {
+      //   name: "Blog Category",
+      //   iconText: "BC",
+      //   path: pageRoutes.master.jewellery.blogCategory,
+      // },
+      // {
+      //   name: "Blog",
+      //   iconText: "BM",
+      //   path: pageRoutes.master.jewellery.blog,
+      // },
+      // {
+      //   name: "FAQ",
+      //   iconText: "FM",
+      //   path: pageRoutes.master.jewellery.faq,
+      // },
+      // {
+      //   name: "Email Template",
+      //   iconText: "ET",
+      //   path: pageRoutes.master.jewellery.emailTemplate,
+      // },
       {
         name: "Metal Price",
         iconText: "MP",
         path: pageRoutes.master.jewellery.metal,
+      },
+    ],
+  },
+
+  {
+    name: "Blogs Managment",
+    icon: "chat",
+    children: [
+      {
+        name: "Blog Category",
+        iconText: "BC",
+        path: pageRoutes.master.blogs.blogCategory,
+      },
+      {
+        name: "Blog",
+        iconText: "BM",
+        path: pageRoutes.master.blogs.blog,
+      },
+      {
+        name: "FAQ",
+        iconText: "FM",
+        path: pageRoutes.master.blogs.faq,
+      },
+      {
+        name: "Email Template",
+        iconText: "ET",
+        path: pageRoutes.master.blogs.emailTemplate,
       },
     ],
   },

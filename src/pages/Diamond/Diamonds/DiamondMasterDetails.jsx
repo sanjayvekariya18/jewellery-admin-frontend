@@ -99,7 +99,24 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
         );
         togglePopup();
       })
-      .catch((e) => HELPER.toaster.error(e.errors.message));
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403
+        ) {
+          HELPER.toaster.error(err.errors.message);
+        } else if (err.status === 422) {
+          if (err.errors.carat && err.errors.carat.length > 0) {
+            HELPER.toaster.error(err.errors.carat[0]);
+          } else {
+            HELPER.toaster.error("An error occurred with the carat field.");
+          }
+        } else {
+          console.error(err);
+        }
+      });
   };
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
@@ -305,7 +322,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
             />
             <Textinput
               size="small"
-              type="text"
+              type="number"
               name="carat"
               label="Carat"
               placeholder="Enter Carat"
@@ -400,7 +417,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr ",
+              gridTemplateColumns: "1fr 1fr 1fr",
               alignItems: "baseline",
               gap: "12px",
             }}
@@ -408,7 +425,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
           >
             <Textinput
               size="small"
-              type="text"
+              type="number"
               name="mLength"
               label="mLength"
               placeholder="Enter mLength"
@@ -419,7 +436,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
             />
             <Textinput
               size="small"
-              type="text"
+              type="number"
               name="mWidth"
               label="mWidth"
               placeholder="Enter mWidth"
@@ -430,7 +447,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
             />
             <Textinput
               size="small"
-              type="text"
+              type="number"
               name="mDepth"
               label="mDepth"
               placeholder="Enter mDepth"
@@ -451,7 +468,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
           >
             <Textinput
               size="small"
-              type="text"
+              type="number"
               name="table"
               label="Table"
               placeholder="Enter Table"
@@ -463,7 +480,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
 
             <Textinput
               size="small"
-              type="text"
+              type="number"
               name="depth"
               label="Depth"
               placeholder="Enter Depth"
@@ -474,9 +491,10 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
             />
             <Textinput
               size="small"
-              type="text"
+              type="number"
               name="certificateNo"
-              label="certificateNo"
+              label="Certificate No"
+              placeholder="Enter Certificate No"
               value={formState.certificateNo}
               onChange={onChange}
               error={errors?.certificateNo}

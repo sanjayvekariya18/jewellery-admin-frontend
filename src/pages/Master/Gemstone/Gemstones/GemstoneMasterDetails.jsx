@@ -75,7 +75,24 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
         );
         togglePopup();
       })
-      .catch((e) => HELPER.toaster.error(e.errors.message));
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403
+        ) {
+          HELPER.toaster.error(err.errors.message);
+        } else if (err.status === 422) {
+          if (err.errors.carat && err.errors.carat.length > 0) {
+            HELPER.toaster.error(err.errors.carat[0]);
+          } else {
+            HELPER.toaster.error("An error occurred with the carat field.");
+          }
+        } else {
+          console.error(err);
+        }
+      });
   };
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
@@ -184,10 +201,10 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
         >
           <Textinput
             size="small"
-            type="text"
+            type="number"
             name="stockId"
-            label="Stock Id"
-            placeholder="Enter Stock Id"
+            label="Stock Number"
+            placeholder="Enter Stock Number"
             value={formState.stockId}
             onChange={onChange}
             error={errors?.stockId}
@@ -319,7 +336,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             <div className="text-input-top">
               <Textinput
                 size="small"
-                type="text"
+                type="number"
                 name="price"
                 label="Price"
                 placeholder="Enter Price"
@@ -340,7 +357,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             <div className="text-input-top">
               <Textinput
                 size="small"
-                type="text"
+                type="number"
                 name="mLength"
                 label="Maximum Length"
                 placeholder="Enter Maximum Length"
@@ -353,7 +370,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             <div className="text-input-top">
               <Textinput
                 size="small"
-                type="text"
+                type="number"
                 name="mWidth"
                 label="Maximum Width"
                 placeholder="Enter Maximum Width"
@@ -366,7 +383,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             <div className="text-input-top">
               <Textinput
                 size="small"
-                type="text"
+                type="number"
                 name="mDepth"
                 label="Maximum Depth"
                 placeholder="Enter Maximum Depth"

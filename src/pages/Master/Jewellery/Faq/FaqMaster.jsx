@@ -1,32 +1,46 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, Tooltip } from "@mui/material";
+import React, { useMemo, useState } from "react";
+import {
+  Box,
+  FormControlLabel,
+  Icon,
+  IconButton,
+  Radio,
+  RadioGroup,
+  Button,
+  Tooltip,
+} from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
-import { API, HELPER } from "../../../../services";
+import { API } from "../../../../services";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
-import { apiConfig, appConfig } from "./../../../../config";
+import { apiConfig, appConfig } from "../../../../config";
 import _ from "lodash";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
-import DetailsMasterDetails from "./DetailsMasterDetails";
-import ReactSelect from "../../../../components/UI/ReactSelect";
+import Textinput from "../../../../components/UI/TextInput";
+import FaqMasterDetails from "./FaqMasterDetails";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Textarea from "../../../../components/UI/Textarea";
 
-const DetailsMaster = () => {
+const FaqMaster = () => {
   const [open, setOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
-  const [productDetailsGroupId, setProductDetailsGroupId] = useState([]);
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
   /* Pagination code */
   const COLUMNS = [
-    { title: "Detail Name" },
-    { title: "Group Name" },
-    { title: "Logo" },
-    { title: "Description" },
+    { title: "Category" },
+    { title: "Question", classNameWidth: "thead-second-width-title-blog" },
+    { title: "Answer", classNameWidth: "thead-second-width-title-answer" },
     { title: "Action" },
   ];
 
@@ -43,7 +57,6 @@ const DetailsMaster = () => {
     let clearStates = {
       searchTxt: "",
       isActive: "",
-      detailsGroupId: "",
       ...appConfig.default_pagination_state,
     };
 
@@ -52,7 +65,6 @@ const DetailsMaster = () => {
       searchTxt: state.searchTxt,
       isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
-      detailsGroupId: state.detailsGroupId,
       order: state.order,
       orderBy: state.orderby,
     };
@@ -66,7 +78,7 @@ const DetailsMaster = () => {
     }
 
     // ----------Get Product Details Group Api------------
-    API.get(apiConfig.productDetails, filter)
+    API.get(apiConfig.faq, filter)
       .then((res) => {
         setState({
           ...state,
@@ -97,7 +109,7 @@ const DetailsMaster = () => {
   const onClickDelete = (id) => {
     Swal.fire({
       title: "Are You Sure",
-      text: "Are you sure you want to remove this Product Details ?",
+      text: "Are you sure you want to remove this FAQ ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "green",
@@ -107,7 +119,7 @@ const DetailsMaster = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        API.destroy(`${apiConfig.productDetails}/${id}`)
+        API.destroy(`${apiConfig.faq}/${id}`)
           .then((res) => {
             toaster.success("Deleted Successfully");
             paginate();
@@ -121,33 +133,33 @@ const DetailsMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
+  const showAddressInDialog = (item) => {
+    const description = item.answer;
+    setAddressText(description); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
         item: item,
         columns: [
-          <span>{item.detailName}</span>,
-          <span>{item.groupName}</span>,
-          <span>
-            {item.logoUrl && item.logoUrl !== null && (
-              <Box
-                component="img"
-                sx={{
-                  height: 40,
-                  width: 40,
-                  maxHeight: { xs: 25, md: 50 },
-                  maxWidth: { xs: 25, md: 50 },
-                }}
-                src={HELPER.getImageUrl(item.logoUrl)}
-              />
-            )}
-          </span>,
-          <span>{item.description}</span>,
+          <span>{item.category}</span>,
+          <div className="common-thead-second-width-title-blog">
+            <span>{item.question}</span>
+          </div>,
+          <div
+            className="common-thead-second-width-title-answer"
+            style={{ fontWeight: "500", cursor: "pointer" }}
+            onClick={() => showAddressInDialog(item)}
+          >
+            <span>{item.answer}</span>
+          </div>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
             </IconButton>
-            <IconButton onClick={(e) => onClickDelete(item.id)}>
+            <IconButton onClick={(e) => onClickDelete(item.faq_id)}>
               <Icon color="error">delete</Icon>
             </IconButton>
           </div>,
@@ -173,21 +185,6 @@ const DetailsMaster = () => {
     setOpen(true);
   };
 
-  useEffect(() => {
-    API.get(apiConfig.listProductDetailGroup, { is_public_url: true })
-      .then((res) => {
-        setProductDetailsGroupId(res);
-        paginate();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
-  let _sortOptions = productDetailsGroupId.map((option) => ({
-    label: option.groupName,
-    value: option.id,
-  }));
   return (
     <Container>
       <Box
@@ -197,7 +194,7 @@ const DetailsMaster = () => {
         <Breadcrumb
           routeSegments={[
             { name: "Masters", path: pageRoutes.master.user.user },
-            { name: "Product Details" },
+            { name: "FAQ" },
           ]}
         />
         <Tooltip title="Filter">
@@ -227,6 +224,25 @@ const DetailsMaster = () => {
         order={state.order}
       ></PaginationTable>
 
+      <SearchFilterDialog
+        isOpen={openSearch}
+        maxWidth="sm"
+        onClose={() => setOpenSearch(false)}
+        reset={() => paginate(true)}
+        search={() => paginate(false, true)}
+      >
+        <Textinput
+          size="small"
+          type="text"
+          name="searchTxt"
+          label="Search Text"
+          variant="outlined"
+          value={state?.searchTxt}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
+          sx={{ mb: 0, mt: 1, width: "100%" }}
+        />
+      </SearchFilterDialog>
+
       <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"
@@ -238,38 +254,45 @@ const DetailsMaster = () => {
         </StyledAddButton>
       </Tooltip>
 
-      <SearchFilterDialog
-        isOpen={openSearch}
-        maxWidth="sm"
-        onClose={() => setOpenSearch(false)}
-        reset={() => paginate(true)}
-        search={() => paginate(false, true)}
-      >
-        <div style={{ height: "200px" }}>
-          <ReactSelect
-            label={"Product Details Group Name"}
-            placeholder="Select Product Details Group Name"
-            options={_sortOptions}
-            onChange={(e) => {
-              changeState("detailsGroupId", e?.target.value || "");
-            }}
-            name="detailsGroupId"
-          />
-        </div>
-      </SearchFilterDialog>
-
-      <DetailsMasterDetails
+      <FaqMasterDetails
         open={open}
         togglePopup={() => {
           togglePopup();
           paginate();
         }}
-        callBack={() => paginate(true)}
         userData={selectedUserData}
-        productDetailsGroupId={productDetailsGroupId}
       />
+
+      {textModal && (
+        <ThemeDialog
+          title="FAQ Answer"
+          id="showModal"
+          isOpen={textModal}
+          toggle={textModaltoggle}
+          centered
+          maxWidth="sm"
+          actionBtns={
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={textModaltoggle}
+            >
+              Close
+            </Button>
+          }
+        >
+          <div style={{ padding: "0px", margin: "0px" }}>
+            <Textarea
+              className="form-control"
+              rows="10"
+              value={addressText}
+              readOnly
+            ></Textarea>
+          </div>
+        </ThemeDialog>
+      )}
     </Container>
   );
 };
 
-export default DetailsMaster;
+export default FaqMaster;

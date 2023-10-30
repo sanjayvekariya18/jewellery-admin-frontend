@@ -11,41 +11,47 @@ const initialValues = {
 };
 
 const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
-    const [formState, setFormState] = useState({ ...initialValues });
-    const [errorModel, setErrorModel] = useState(false);
-    const [err, setErr] = useState();
-    const [errorState, setErrorState] = useState({});
+  const [formState, setFormState] = useState({ ...initialValues });
+  const [errorModel, setErrorModel] = useState(false);
+  const [err, setErr] = useState();
+  const [errorState, setErrorState] = useState({});
 
   const rules = {
     gemstoneData: "required",
   };
   const [isLoader, setIsLoader] = useState(false);
 
-    const handleSubmit = (data) => {
-        setIsLoader(true);
-        API.post(apiConfig.gemstoneBulk, data, {
-            headers: {
-                "Content-Type": `multipart/form-data;`,
-            },
-        })
-            .then((res) => {
-                HELPER.toaster.success("GemStone Bulk added successfully");
-                togglePopup()
-            })
-            .catch((error) => {
-                HELPER.toaster.error("Please Check your Excel sheet...");
-                if (error.errors && error.errors.message && typeof error.errors.message === 'object') {
-                    setErrorState(error.errors.message);
-                    setErrorModel(true);
-                } else {
-                    setErr(error.errors && error.errors.message ? error.errors.message : error)
-                    setErrorModel(true);
-                }
-            })
-            .finally(() => {
-                setIsLoader(false);
-            });
-    };
+  const handleSubmit = (data) => {
+    setIsLoader(true);
+    API.post(apiConfig.gemstoneBulk, data, {
+      headers: {
+        "Content-Type": `multipart/form-data;`,
+      },
+    })
+      .then((res) => {
+        HELPER.toaster.success("GemStone Bulk added successfully");
+        togglePopup();
+      })
+      .catch((error) => {
+        HELPER.toaster.error("Please Check your Excel sheet...");
+        if (
+          error.errors &&
+          error.errors.message &&
+          typeof error.errors.message === "object"
+        ) {
+          setErrorState(error.errors.message);
+          setErrorModel(true);
+        } else {
+          setErr(
+            error.errors && error.errors.message ? error.errors.message : error
+          );
+          setErrorModel(true);
+        }
+      })
+      .finally(() => {
+        setIsLoader(false);
+      });
+  };
 
   return (
     <Validators formData={formState} rules={rules}>
@@ -106,7 +112,12 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                   {Object.keys(errorState).length > 0 ? (
                     Object.keys(errorState).map((errorCode, index) => (
                       <div key={index}>
-                        <h2>Stock No: {errorCode}</h2>
+                        <h2
+                          className="text-error"
+                          style={{ fontSize: "18px", fontWeight: "500" }}
+                        >
+                          Stock No : {errorCode}
+                        </h2>
                         <ul>
                           {errorState[errorCode].map(
                             (errorMessageObj, index) => (
@@ -120,7 +131,12 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                       </div>
                     ))
                   ) : (
-                    <p>{err}</p>
+                    <p
+                      className="text-error"
+                      style={{ fontSize: "18px", fontWeight: "500" }}
+                    >
+                      {err}
+                    </p>
                   )}
                 </div>
               </ThemeDialog>

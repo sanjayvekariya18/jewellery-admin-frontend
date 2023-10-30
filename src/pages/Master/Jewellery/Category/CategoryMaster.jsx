@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Icon, IconButton, Tooltip } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
@@ -11,13 +11,13 @@ import { toaster } from "../../../../services/helper";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
-import { apiConfig, appConfig } from "./../../../../config";
+import { ROUTES, apiConfig, appConfig } from "./../../../../config";
 import CategoryMasterDetails from "./CategoryMasterDetails";
+import { useNavigate } from "react-router-dom";
 
 const CategoryMaster = () => {
-  const [open, setOpen] = useState(false);
-  const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
+  const navigate = useNavigate();
   const COLUMNS = [
     { title: "Name" },
     { title: "Logo Image" },
@@ -72,18 +72,24 @@ const CategoryMaster = () => {
           loader: false,
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403 ||
+          err.status === 500
+        ) {
+          toaster.error(err.errors.message);
+        } else {
+          console.error(err);
+        }
         setState({
           ...state,
           ...(clear && clearStates),
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
 
@@ -141,20 +147,29 @@ const CategoryMaster = () => {
   }, [state.data]);
   /* Pagination code */
 
-  const togglePopup = () => {
-    if (open) {
-      setSelectedUserData(null);
-    }
-    setOpen(!open);
-  };
-
-  const togglePopupSearch = () => {
-    setOpenSearch(!openSearch);
-  };
-
   const handleEdit = (data) => {
-    setSelectedUserData(data);
-    setOpen(true);
+    navigate(`${pageRoutes.master.jewellery.updateCategory}/${data.id}`);
+  };
+
+  // const handleEdit = (data) => {
+  //   // Assuming data.id is the parameter you want to pass to the API call
+  //   const id = data.id;
+
+  //   // Make the API call
+  //   API.get(apiConfig.categoryId.replace(":id", id))
+  //     .then((res) => {
+  //       // After receiving the response, navigate to the next component with categoryData
+  //       navigate(`${pageRoutes.master.jewellery.updateCategory}/${id}`, {
+  //         state: { categoryData: res },
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data: ", error);
+  //       // Handle errors if necessary
+  //     });
+  // };
+  const togglePopup = () => {
+    navigate(pageRoutes.master.jewellery.createCategory);
   };
   // ------------------------------- Delete Category ---------------------------------
   const onClickDelete = (category_id) => {
@@ -180,7 +195,6 @@ const CategoryMaster = () => {
     });
   };
 
-  // console.log(selectedUserData,"selectedUserData");
   return (
     <Container>
       <Box
@@ -193,16 +207,6 @@ const CategoryMaster = () => {
             { name: "Category" },
           ]}
         />
-        {/* <Tooltip title="Filter">
-          <IconButton
-            color="inherit"
-            className="button"
-            aria-label="Filter"
-            onClick={togglePopupSearch}
-          >
-            <Icon>filter_list</Icon>
-          </IconButton>
-        </Tooltip> */}
       </Box>
 
       {/* -------------------------- Pagination table display code  -----------------------------*/}
@@ -231,15 +235,6 @@ const CategoryMaster = () => {
           <Icon>add</Icon>
         </StyledAddButton>
       </Tooltip>
-
-      <CategoryMasterDetails
-        open={open}
-        togglePopup={() => {
-          togglePopup();
-          paginate();
-        }}
-        userData={selectedUserData}
-      />
     </Container>
   );
 };

@@ -10,7 +10,6 @@ import {
   TableHead,
   TableRow,
   // Card,
-  Checkbox,
   Paper,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
@@ -20,25 +19,21 @@ import Textinput from "../../../../components/UI/TextInput";
 import Validators from "../../../../components/validations/Validator";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import { Select } from "react-select-virtualized"; // Import Select from react-select-virtualized
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { pageRoutes } from "../../../../constants/routesList";
 import { Breadcrumb, Container } from "../../../../components";
 import Textarea from "../../../../components/UI/Textarea";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ReactDragListView from "react-drag-listview";
-const CategoryMasterDetails = ({
-  open,
-  togglePopup,
-  userData,
-  fullWidth,
-  maxWidth,
-}) => {
+const EditCategoryMasterDetails = () => {
   const [selected, setSelected] = useState([]);
   const [selected2, setSelected2] = useState([]);
   const [productDetails, setProductDetails] = useState([]);
   const navigate = useNavigate();
   const [options, setOptions] = useState([]);
   const [select, setSelect] = useState([]);
+  const { id } = useParams();
+  const [categoryData, setCategoryData] = useState([]);
 
   // -------------initialization
   const initialValues = {
@@ -47,8 +42,8 @@ const CategoryMasterDetails = ({
     details: "",
     imgUrl: "",
     logoUrl: "",
-    attributes: [], // Initialize as an empty array
-    productDetails: [], // Initialize as an empty array
+    attributes: [],
+    productDetails: [],
   };
 
   const [formState, setFormState] = useState({
@@ -63,63 +58,45 @@ const CategoryMasterDetails = ({
     logoUrl: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
 
-  // const handleSubmit = (data) => {
-  //   const fd = new FormData();
-  //   fd.append("attributes", JSON.stringify(formState.attributes));
-  //   fd.append("productDetails", JSON.stringify(formState.productDetails));
-  //   for (const field in data) {
-  //     if (field !== "attributes" && field !== "productDetails") {
-  //       fd.append(field, data[field]);
-  //     }
-  //   }
-
-  //   const apiUrl =
-  //     data.id === "" ? apiConfig.category : `${apiConfig.category}/${data.id}`;
-
-  //   API[data.id === "" ? "post" : "put"](apiUrl, fd)
-  //     .then(() => {
-  //       HELPER.toaster.success(
-  //         data.id === "" ? "Record created" : "Record saved"
-  //       );
-  //       setTimeout(() => {
-  //         setFormState({ ...initialValues });
-  //       }, 300);
-
-  //     })
-  //     .catch((err) => {
-  //       if (
-  //         err.status === 400 ||
-  //         err.status === 401 ||
-  //         err.status === 409 ||
-  //         err.status === 422 ||
-  //         err.status === 403
-  //       ) {
-  //         HELPER.toaster.error(err.errors.message);
-  //       } else {
-  //         console.error(err);
-  //       }
-  //     });
-  // };
+  useEffect(() => {
+    // Make the API call
+    API.get(apiConfig.categoryId.replace(":id", id))
+      .then((res) => {
+        setCategoryData(res);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, []);
 
   const handleSubmit = (data) => {
     const fd = new FormData();
-    fd.append("attributes", JSON.stringify(formState.attributes));
-    fd.append("productDetails", JSON.stringify(formState.productDetails));
-
-    // Iterate through the other fields in data and append them to fd
+    const filteredAttributes = formState.attributes.map(
+      ({ attributeId, sortNo }) => ({
+        attributeId,
+        sortNo,
+      })
+    );
+    const filteredProductDetails = formState.productDetails.map(
+      ({ productDetailsId, sortNo }) => ({
+        productDetailsId,
+        sortNo,
+      })
+    );
+    fd.append("attributes", JSON.stringify(filteredAttributes));
+    fd.append("productDetails", JSON.stringify(filteredProductDetails));
     for (const field in data) {
       if (field !== "attributes" && field !== "productDetails") {
         fd.append(field, data[field]);
       }
     }
+    const apiUrl = apiConfig.categoryId.replace(":id", id);
 
-    const apiUrl = apiConfig.category;
-
-    API.post(apiUrl, fd)
-      .then(() => {
-        HELPER.toaster.success("Record created");
+    API.put(apiUrl, fd)
+      .then((res) => {
+        HELPER.toaster.success("Record saved");
         setTimeout(() => {
-          setFormState({ ...initialValues });
+          navigate(pageRoutes.master.jewellery.category);
         }, 300);
       })
       .catch((err) => {
@@ -137,15 +114,35 @@ const CategoryMasterDetails = ({
       });
   };
 
-  // useEffect(() => {
-  //   if (open === true && userData !== null) {
-  //     userData.imgUrl = HELPER.getImageUrl(userData.imgUrl);
-  //     userData.logoUrl = HELPER.getImageUrl(userData.logoUrl);
-  //     setFormState(userData);
-  //   } else {
-  //     setFormState({ ...initialValues });
-  //   }
-  // }, [open, userData]);
+  useEffect(() => {
+    if (
+      categoryData &&
+      categoryData.attributes &&
+      categoryData.productDetails
+    ) {
+      categoryData.imgUrl = HELPER.getImageUrl(categoryData.imgUrl);
+      categoryData.logoUrl = HELPER.getImageUrl(categoryData.logoUrl);
+
+      const attributesData = categoryData.attributes.map((row) => ({
+        attributeId: row.attributeId,
+        sortNo: row.sortNo,
+      }));
+
+      // Product Details
+      const productDetailsData = categoryData.productDetails.map((row) => ({
+        productDetailsId: row.productDetailsId,
+        sortNo: row.sortNo,
+      }));
+
+      setFormState({
+        ...categoryData,
+        attributes: attributesData, // Populate attributes from the loaded data
+        productDetails: productDetailsData, // Populate productDetails from the loaded data
+      });
+    } else {
+      setFormState({ ...initialValues });
+    }
+  }, [categoryData]);
 
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
@@ -156,7 +153,7 @@ const CategoryMasterDetails = ({
     });
   }, []);
 
-  useEffect(() => {
+  const attributesListData = () => {
     API.get(apiConfig.attributesList, { is_public_url: true }).then((res) => {
       const optionsFromApi = res.map((row) => ({
         label: row.name,
@@ -164,9 +161,8 @@ const CategoryMasterDetails = ({
       }));
       setOptions(optionsFromApi);
     });
-  }, []);
-
-  useEffect(() => {
+  };
+  const productDetailsListData = () => {
     API.get(apiConfig.productDetailsList, { is_public_url: true }).then(
       (res) => {
         setProductDetails(res);
@@ -177,6 +173,11 @@ const CategoryMasterDetails = ({
         setSelect(selectOptions);
       }
     );
+  };
+
+  useEffect(() => {
+    attributesListData();
+    productDetailsListData();
   }, []);
 
   const handleLogSelectedOption = () => {
@@ -186,7 +187,6 @@ const CategoryMasterDetails = ({
         attributeId: selectedOption.value,
         sortNo: parseInt(formState.attributes.length) + 1,
       };
-
       setFormState((prevFormState) => ({
         ...prevFormState,
         attributes: [...prevFormState.attributes, combinedData],
@@ -291,6 +291,8 @@ const CategoryMasterDetails = ({
       HELPER.toaster.success("Row moved successfully");
     }
   };
+
+  //   console.log(formState, "---------formState");
   return (
     <Container>
       <Validators formData={formState} rules={rules}>
@@ -305,11 +307,10 @@ const CategoryMasterDetails = ({
                       name: "Category",
                       path: pageRoutes.master.jewellery.category,
                     },
-                    { name: "create" },
+                    { name: "Update" },
                   ]}
                 />
               </Box>
-              {/* <Card style={{ padding: "20px" }} elevation={3}> */}
               <>
                 <Textinput
                   size="small"
@@ -317,21 +318,12 @@ const CategoryMasterDetails = ({
                   name="name"
                   label="Category Name"
                   placeholder="Enter Category Name"
-                  value={formState.name}
+                  value={formState.name || categoryData.name}
                   onChange={onChange}
                   error={errors?.name}
                   sx={{ mb: 0, width: "60%" }}
                 />
-
-                <div
-                // style={{
-                //   display: "grid",
-                //   gridTemplateColumns: "1fr 1fr",
-                //   gap: "12px",
-                //   width: "100%",
-                //   alignItems: "baseline",
-                // }}
-                >
+                <div>
                   <div>
                     <div
                       style={{
@@ -367,18 +359,7 @@ const CategoryMasterDetails = ({
                           onChange={(option) => setSelected([option])}
                         />
                       </div>
-                      {/* <div>
-                    <Textinput
-                      size="small"
-                      type="number"
-                      name="sortNo"
-                      label="Sort No"
-                      value={sortNo}
-                      onChange={(e) => setSortNo(e.target.value)}
-                      sx={{ mb: 0, width: "100%" }}
-                      required
-                    />
-                  </div> */}
+
                       <div
                         style={{
                           border: "1px solid #cccccc",
@@ -395,6 +376,7 @@ const CategoryMasterDetails = ({
                     </div>
                     {/* Attributes Table */}
                     <ReactDragListView onDragEnd={handleDragEnd}>
+                      {/* {categoryData && categoryData.length > 0 ? ( */}
                       <div>
                         <TableContainer
                           component={Paper}
@@ -494,6 +476,9 @@ const CategoryMasterDetails = ({
                           </Table>
                         </TableContainer>
                       </div>
+                      {/* ) : ( */}
+                      {/* <p>No data found</p> */}
+                      {/* )} */}
                     </ReactDragListView>
                   </div>
                   <div>
@@ -531,18 +516,7 @@ const CategoryMasterDetails = ({
                           onChange={(option) => setSelected2([option])}
                         />
                       </div>
-                      {/* <div>
-                    <Textinput
-                      size="small"
-                      type="number"
-                      name="sortNo"
-                      label="Sort No"
-                      value={sortNo2}
-                      onChange={(e) => setSortNo2(e.target.value)}
-                      sx={{ mb: 0, width: "100%" }}
-                      required
-                    />
-                  </div> */}
+
                       <div
                         style={{
                           border: "1px solid #cccccc",
@@ -558,6 +532,7 @@ const CategoryMasterDetails = ({
                       </div>
                     </div>
                     <ReactDragListView onDragEnd={handleProductDetailsDragEnd}>
+                      {/* {categoryData && categoryData.length > 0 ? ( */}
                       <TableContainer
                         component={Paper}
                         className="text-input-top"
@@ -657,6 +632,9 @@ const CategoryMasterDetails = ({
                           </TableBody>
                         </Table>
                       </TableContainer>
+                      {/* ) : ( */}
+                      {/* <p>No data found</p> */}
+                      {/* )} */}
                     </ReactDragListView>
                   </div>
                 </div>
@@ -669,7 +647,7 @@ const CategoryMasterDetails = ({
                     minRows={3}
                     maxRows={3}
                     placeholder="Enter Category Details"
-                    value={formState.details}
+                    value={formState.details || categoryData.details}
                     onChange={onChange}
                     sx={{ mb: 1.5 }}
                   />
@@ -722,13 +700,6 @@ const CategoryMasterDetails = ({
                     </div>
                   </div>
                   <Box>
-                    {/* <Button
-                      variant="contained"
-                      color="secondary"
-                    
-                    >
-                      Cancel
-                    </Button> */}
                     <Button
                       style={{ marginLeft: "20px", width: "150px" }}
                       type="submit"
@@ -741,7 +712,6 @@ const CategoryMasterDetails = ({
                   </Box>
                 </div>
               </>
-              {/* </Card> */}
             </div>
           );
         }}
@@ -750,4 +720,4 @@ const CategoryMasterDetails = ({
   );
 };
 
-export default CategoryMasterDetails;
+export default EditCategoryMasterDetails;

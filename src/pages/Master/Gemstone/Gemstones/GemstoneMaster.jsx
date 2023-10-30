@@ -678,15 +678,17 @@ const GemstoneMaster = () => {
               <Icon>add</Icon>
             </StyledAddButton>
           </Tooltip>
-          <GemstoneMasterDetails
-            open={open}
-            togglePopup={() => {
-              togglePopup();
-              paginate();
-            }}
-            callBack={() => paginate(true)}
-            userData={selectedUserData}
-          />
+          {open && (
+            <GemstoneMasterDetails
+              open={open}
+              togglePopup={() => {
+                togglePopup();
+                paginate();
+              }}
+              callBack={() => paginate(true)}
+              userData={selectedUserData}
+            />
+          )}
           <GemstoneBulkMasterDetails
             open={bulkOpen}
             togglePopup={() => {

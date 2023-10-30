@@ -47,7 +47,19 @@ const DetailsMasterDetails = ({
         );
         togglePopup();
       })
-      .catch((e) => HELPER.toaster.error(e.errors.message));
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 422 ||
+          err.status === 403
+        ) {
+          HELPER.toaster.error(err.errors.message);
+        } else {
+          console.error(err);
+        }
+      });
   };
 
   const onChange = useCallback((e) => {

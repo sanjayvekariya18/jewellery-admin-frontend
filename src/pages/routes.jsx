@@ -5,20 +5,19 @@ import { authRoles } from "../auth/authRoles";
 import Loadable from "../components/Loadable";
 import MatxLayout from "../components/MatxLayout/MatxLayout";
 import { pageRoutes } from "../constants/routesList";
-// import FindProductVariant from "./Product/FindProductVariant";
-// import FindProductVariantMoreDetail from "./Product/FindProductVariantMoreDetail";
-// import ProductMaster from "./Product/ProductMaster";
-// import ColorDiamondMaster from "./ColorDiamond/ColorDiamondMaster";
-// import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 
 // session pages
 const NotFound = Loadable(lazy(() => import("./sessions/NotFound")));
 const JwtLogin = Loadable(lazy(() => import("./sessions/JwtLogin")));
 const JwtRegister = Loadable(lazy(() => import("./sessions/JwtRegister")));
-const ForgotPassword = Loadable(lazy(() => import("./sessions/ForgotPassword")));
+const ForgotPassword = Loadable(
+  lazy(() => import("./sessions/ForgotPassword"))
+);
 
 // Pages
-const DiamondMaster = Loadable(lazy(() => import("./Diamond/Diamonds/DiamondMaster")));
+const DiamondMaster = Loadable(
+  lazy(() => import("./Diamond/Diamonds/DiamondMaster"))
+);
 const Jewellery = Loadable(lazy(() => import("./Jewellery/Jewellery")));
 const Customer = Loadable(lazy(() => import("./Customer/Customer")));
 const Discount = Loadable(lazy(() => import("./Discount/Discount")));
@@ -30,6 +29,12 @@ const ShapeMaster = Loadable(
 );
 const CategoryMaster = Loadable(
   lazy(() => import("./Master/Jewellery/Category/CategoryMaster"))
+);
+const CategoryMasterDetails = Loadable(
+  lazy(() => import("./Master/Jewellery/Category/CategoryMasterDetails"))
+);
+const EditCategoryMasterDetails = Loadable(
+  lazy(() => import("./Master/Jewellery/Category/editCategoryDetails"))
 );
 const SubcategoryMaster = Loadable(
   lazy(() => import("./Master/Jewellery/Subcategory/SubcategoryMaster"))
@@ -55,9 +60,20 @@ const UserMaster = Loadable(
 const UserPermissionsMaster = Loadable(
   lazy(() => import("./Master/User/User/UserPermissions"))
 );
-
 const GemstoneMaster = Loadable(
   lazy(() => import("./Master/Gemstone/Gemstones/GemstoneMaster"))
+);
+const BlogCategoryMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/BlogCategory/BlogCategoryMaster"))
+);
+const BlogMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/Blog/BlogMaster"))
+);
+const EmailTemplateMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/EmailTemplate/EmailTemplateMaster"))
+);
+const FaqMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/Faq/FaqMaster"))
 );
 const MetalPriceMaster = Loadable(
   lazy(() => import("./Master/Jewellery/Metal/MetalPriceMaster"))
@@ -121,6 +137,18 @@ const routes = [
         element: <CategoryMaster />,
       },
       {
+        path: pageRoutes.master.jewellery.createCategory,
+        element: <CategoryMasterDetails isCreateMode={true} />,
+      },
+      {
+        path: `${pageRoutes.master.jewellery.updateCategory}/:id`,
+        element: <EditCategoryMasterDetails />,
+      },
+      // {
+      //   path: `${pageRoutes.master.jewellery.updateCategory}/:id?`,
+      //   element: <CategoryMasterDetails />,
+      // },
+      {
         path: pageRoutes.master.jewellery.subcategory,
         element: <SubcategoryMaster />,
       },
@@ -132,6 +160,23 @@ const routes = [
       {
         path: pageRoutes.master.jewellery.detailsGroup,
         element: <DetailsGroupMaster />,
+      },
+      {
+        path: pageRoutes.master.blogs.blogCategory,
+        element: <BlogCategoryMaster />,
+      },
+
+      {
+        path: pageRoutes.master.blogs.blog,
+        element: <BlogMaster />,
+      },
+      {
+        path: pageRoutes.master.blogs.emailTemplate,
+        element: <EmailTemplateMaster />,
+      },
+      {
+        path: pageRoutes.master.blogs.faq,
+        element: <FaqMaster />,
       },
       { path: pageRoutes.master.jewellery.details, element: <DetailsMaster /> },
       {

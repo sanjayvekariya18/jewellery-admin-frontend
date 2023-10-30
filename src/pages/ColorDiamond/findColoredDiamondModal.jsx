@@ -12,7 +12,7 @@ const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
   };
 
   const gemstoneInfo = [
-    { label: "Title : ", key: gemStoneData ? gemStoneData.title : "" },
+    // { label: "Title : ", key: gemStoneData ? gemStoneData.title : "" },
     {
       label: "Gemstone Type : ",
       key: gemStoneData ? gemStoneData.gemstoneType : "",
@@ -38,7 +38,7 @@ const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
 
   return (
     <ThemeDialog
-      title={`Gem Colored Diamond Details : ${
+      title={`Colored Diamond Details : ${
         gemStoneData !== null && gemStoneData.stockId
       }`}
       isOpen={open}
@@ -65,8 +65,42 @@ const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
             <>
               <div
                 style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  justifyContent: "flex-start",
+                  border: "1px solid #3736363b",
+                  marginBottom: "6px",
+                }}
+              >
+                <div style={{ marginRight: "10px" }}>
+                  <h3
+                    style={{
+                      fontSize: "17px",
+                      fontWeight: "500",
+                      color: "#373636de",
+                      padding: "9px 0px 9px 8px",
+                      margin: 0,
+                      maxWidth: "140px",
+                    }}
+                  >
+                    Title :
+                  </h3>
+                </div>
+                <div>
+                  <span
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {gemStoneData.title}
+                  </span>
+                </div>
+              </div>
+              <div
+                style={{
                   display: "grid",
-                  gridTemplateColumns: "auto auto",
+                  gridTemplateColumns: "auto auto auto",
                   gap: "6px",
                 }}
               >

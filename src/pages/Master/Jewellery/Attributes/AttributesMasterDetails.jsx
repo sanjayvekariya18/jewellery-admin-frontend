@@ -45,8 +45,8 @@ const AttributesMasterDetails = ({
   const rules = {
     name: "required",
     options: "required",
-    imgUrl: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
-    logoUrl: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
+    imgUrl: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
+    logoUrl: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
 
   const handleSubmit = (data) => {
@@ -116,53 +116,6 @@ const AttributesMasterDetails = ({
       }));
     });
   }, []);
-
-  // const handleLogSelectedOption = () => {
-  //   if (selected) {
-  //     const selectedValue = selected.value;
-  //     const combinedData = {
-  //       optionId: selectedValue,
-  //       isDefault: sortNo,
-  //     };
-  //     setFormState((prevFormState) => ({
-  //       ...prevFormState,
-  //       options: [...prevFormState.options, combinedData],
-  //     }));
-  //     setSelected(null);
-  //     setSortNo("false"); // Reset the Select to "False" after adding the option
-  //   }
-  // };
-
-  // const handleLogSelectedOption = () => {
-  //   if (selected) {
-  //     const selectedValue = selected.value;
-
-  //     // Check if the selected option is "true"
-  //     const isTrueOption = sortNo === "true";
-
-  //     // Check if a "True" option already exists in the entire array
-  //     const trueOptionExists = formState.options.some(
-  //       (option) => option.isDefault === "true"
-  //     );
-
-  //     if (isTrueOption && trueOptionExists) {
-  //       HELPER.toaster.error("Only one 'true' option is allowed!");
-  //     } else {
-  //       const combinedData = {
-  //         optionId: selectedValue,
-  //         isDefault: sortNo,
-  //       };
-
-  //       setFormState((prevFormState) => ({
-  //         ...prevFormState,
-  //         options: [...prevFormState.options, combinedData],
-  //       }));
-
-  //       setSelected(null);
-  //       setSortNo("false"); // Reset the Select to "False" after adding the option
-  //     }
-  //   }
-  // };
 
   const handleLogSelectedOption = () => {
     if (selected) {

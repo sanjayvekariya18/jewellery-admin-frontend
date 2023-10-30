@@ -30,8 +30,8 @@ const SubcategoryMasterDetails = ({
   const rules = {
     name: "required",
     categoryId: "required",
-    imgUrl: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
-    logoUrl: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
+    imgUrl: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
+    logoUrl: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
 
   const handleSubmit = (data) => {
@@ -73,18 +73,17 @@ const SubcategoryMasterDetails = ({
     }
   }, [open]);
 
-  useEffect(() => {
-    API.get(apiConfig.category, {
-      rowsPerPage: appConfig.defaultPerPage,
-      page: 0,
-    })
+  const fetchCategories = () => {
+    API.get(apiConfig.listCategory, { is_public_url: true })
       .then((res) => {
-        setCategoryId(res.rows);
-        callBack();
+        setCategoryId(res);
       })
       .catch((err) => {
         console.error(err);
       });
+  };
+  useEffect(() => {
+    fetchCategories();
   }, []);
   let _sortOptions = categoryId.map((option) => ({
     label: option.name,

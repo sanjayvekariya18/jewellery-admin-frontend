@@ -112,7 +112,12 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
                     Object.keys(errorState).map((errorCode, i) => {
                       return (
                         <div key={i}>
-                          <h2>Stock No: {errorCode}</h2>
+                          <h2
+                            className="text-error"
+                            style={{ fontSize: "18px", fontWeight: "500" }}
+                          >
+                            Stock No: {errorCode}
+                          </h2>
                           <ul>
                             {errorState[errorCode].map(
                               (errorMessageObj, index) => (
@@ -129,7 +134,12 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
                       );
                     })
                   ) : (
-                    <p>{err}</p>
+                    <p
+                      className="text-error"
+                      style={{ fontSize: "18px", fontWeight: "500" }}
+                    >
+                      {err}
+                    </p>
                   )}
                 </div>
               </ThemeDialog>

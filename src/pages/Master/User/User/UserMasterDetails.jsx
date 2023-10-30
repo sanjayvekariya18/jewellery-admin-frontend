@@ -28,7 +28,7 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
     firstName: "required",
     lastName: "required",
     email: "required",
-    profile: "mimes:png,jpg,jpeg,svg|max_file_size:1048576",
+    profile: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
 
   //  --------------handle onSubmit   --------------

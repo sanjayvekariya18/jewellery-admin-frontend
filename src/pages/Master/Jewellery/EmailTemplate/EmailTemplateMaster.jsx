@@ -1,32 +1,48 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  FormControlLabel,
+  Icon,
+  IconButton,
+  Radio,
+  RadioGroup,
+  Button,
+  Tooltip,
+} from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
-import { apiConfig, appConfig } from "./../../../../config";
+import { apiConfig, appConfig } from "../../../../config";
 import _ from "lodash";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
-import DetailsMasterDetails from "./DetailsMasterDetails";
+import Textinput from "../../../../components/UI/TextInput";
+import EmailTemplateMasterDetails from "./EmailTemplateMasterDetails";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Textarea from "../../../../components/UI/Textarea";
+import moment from "moment";
 import ReactSelect from "../../../../components/UI/ReactSelect";
 
-const DetailsMaster = () => {
+const EmailTemplateMaster = () => {
   const [open, setOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
-  const [productDetailsGroupId, setProductDetailsGroupId] = useState([]);
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
+
   /* Pagination code */
   const COLUMNS = [
-    { title: "Detail Name" },
-    { title: "Group Name" },
-    { title: "Logo" },
-    { title: "Description" },
+    { title: "Template Name", classNameWidth: "thead-second-width-title-blog" },
+    { title: "Subject", classNameWidth: "thead-second-width-title-blog" },
     { title: "Action" },
   ];
 
@@ -43,7 +59,6 @@ const DetailsMaster = () => {
     let clearStates = {
       searchTxt: "",
       isActive: "",
-      detailsGroupId: "",
       ...appConfig.default_pagination_state,
     };
 
@@ -52,7 +67,6 @@ const DetailsMaster = () => {
       searchTxt: state.searchTxt,
       isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
-      detailsGroupId: state.detailsGroupId,
       order: state.order,
       orderBy: state.orderby,
     };
@@ -65,8 +79,8 @@ const DetailsMaster = () => {
       filter = _.merge(filter, newFilterState);
     }
 
-    // ----------Get Product Details Group Api------------
-    API.get(apiConfig.productDetails, filter)
+    // ---------- Email Template Api ------------
+    API.get(apiConfig.emailTemplate, filter)
       .then((res) => {
         setState({
           ...state,
@@ -92,12 +106,12 @@ const DetailsMaster = () => {
       });
   };
 
-  //------------ Delete Lab --------------
+  //------------ Delete --------------
 
   const onClickDelete = (id) => {
     Swal.fire({
       title: "Are You Sure",
-      text: "Are you sure you want to remove this Product Details ?",
+      text: "Are you sure you want to remove this Email Template ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "green",
@@ -107,7 +121,7 @@ const DetailsMaster = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        API.destroy(`${apiConfig.productDetails}/${id}`)
+        API.destroy(`${apiConfig.emailTemplate}/${id}`)
           .then((res) => {
             toaster.success("Deleted Successfully");
             paginate();
@@ -121,33 +135,32 @@ const DetailsMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
+  const showAddressInDialog = (item) => {
+    const description = item.subject;
+    setAddressText(description); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
         item: item,
         columns: [
-          <span>{item.detailName}</span>,
-          <span>{item.groupName}</span>,
-          <span>
-            {item.logoUrl && item.logoUrl !== null && (
-              <Box
-                component="img"
-                sx={{
-                  height: 40,
-                  width: 40,
-                  maxHeight: { xs: 25, md: 50 },
-                  maxWidth: { xs: 25, md: 50 },
-                }}
-                src={HELPER.getImageUrl(item.logoUrl)}
-              />
-            )}
-          </span>,
-          <span>{item.description}</span>,
+          <div className="common-thead-second-width-title-blog">
+            <span>{item.template_name}</span>
+          </div>,
+          <div
+            className="common-thead-second-width-title-blog"
+            style={{ fontWeight: "500", cursor: "pointer" }}
+            onClick={() => showAddressInDialog(item)}
+          >
+            <span>{item.subject}</span>
+          </div>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
             </IconButton>
-            <IconButton onClick={(e) => onClickDelete(item.id)}>
+            <IconButton onClick={(e) => onClickDelete(item.template_id)}>
               <Icon color="error">delete</Icon>
             </IconButton>
           </div>,
@@ -173,21 +186,6 @@ const DetailsMaster = () => {
     setOpen(true);
   };
 
-  useEffect(() => {
-    API.get(apiConfig.listProductDetailGroup, { is_public_url: true })
-      .then((res) => {
-        setProductDetailsGroupId(res);
-        paginate();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
-  let _sortOptions = productDetailsGroupId.map((option) => ({
-    label: option.groupName,
-    value: option.id,
-  }));
   return (
     <Container>
       <Box
@@ -197,7 +195,7 @@ const DetailsMaster = () => {
         <Breadcrumb
           routeSegments={[
             { name: "Masters", path: pageRoutes.master.user.user },
-            { name: "Product Details" },
+            { name: "Email Template" },
           ]}
         />
         <Tooltip title="Filter">
@@ -227,6 +225,25 @@ const DetailsMaster = () => {
         order={state.order}
       ></PaginationTable>
 
+      <SearchFilterDialog
+        isOpen={openSearch}
+        maxWidth="sm"
+        onClose={() => setOpenSearch(false)}
+        reset={() => paginate(true)}
+        search={() => paginate(false, true)}
+      >
+        <Textinput
+          size="small"
+          type="text"
+          name="searchTxt"
+          label="Search Text"
+          variant="outlined"
+          value={state?.searchTxt}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
+          sx={{ mb: 0, mt: 1, width: "100%" }}
+        />
+      </SearchFilterDialog>
+
       <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"
@@ -238,38 +255,45 @@ const DetailsMaster = () => {
         </StyledAddButton>
       </Tooltip>
 
-      <SearchFilterDialog
-        isOpen={openSearch}
-        maxWidth="sm"
-        onClose={() => setOpenSearch(false)}
-        reset={() => paginate(true)}
-        search={() => paginate(false, true)}
-      >
-        <div style={{ height: "200px" }}>
-          <ReactSelect
-            label={"Product Details Group Name"}
-            placeholder="Select Product Details Group Name"
-            options={_sortOptions}
-            onChange={(e) => {
-              changeState("detailsGroupId", e?.target.value || "");
-            }}
-            name="detailsGroupId"
-          />
-        </div>
-      </SearchFilterDialog>
-
-      <DetailsMasterDetails
+      <EmailTemplateMasterDetails
         open={open}
         togglePopup={() => {
           togglePopup();
           paginate();
         }}
-        callBack={() => paginate(true)}
         userData={selectedUserData}
-        productDetailsGroupId={productDetailsGroupId}
       />
+
+      {textModal && (
+        <ThemeDialog
+          title="Body"
+          id="showModal"
+          isOpen={textModal}
+          toggle={textModaltoggle}
+          centered
+          maxWidth="sm"
+          actionBtns={
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={textModaltoggle}
+            >
+              Close
+            </Button>
+          }
+        >
+          <div style={{ padding: "0px", margin: "0px" }}>
+            <Textarea
+              className="form-control"
+              rows="5"
+              value={addressText}
+              readOnly
+            ></Textarea>
+          </div>
+        </ThemeDialog>
+      )}
     </Container>
   );
 };
 
-export default DetailsMaster;
+export default EmailTemplateMaster;

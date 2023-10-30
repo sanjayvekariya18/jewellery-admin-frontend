@@ -17,6 +17,8 @@ const apiConfig = {
 
   // Categories Api
   category: "category",
+  categoryId: "category/:id",
+  listCategory: "list/category",
 
   //lab
   lab: "lab",
@@ -29,19 +31,39 @@ const apiConfig = {
   // attributes
   attributes: "attributes",
   attributesId: "attributes/:id",
+  attributesList: "/list/attribute",
 
   //permission
   permission: "permission",
 
   //productDetailGroup
   productDetailGroup: "productDetailsGroup",
+  listProductDetailGroup: "list/details_group",
 
   //productDetails
   productDetails: "productDetails",
+  productDetailsList: "/list/details",
 
   //options
   options: "options",
   optionsList: "list/option",
+
+  //blogCategory
+  blogCategory: "blog_categories",
+  blogCategoryId: "blog_categories/:id",
+  listblogCategory: "list/blog_categories",
+
+  //emailTemplate
+  emailTemplate: "email_template",
+  emailTemplateId: "email_template/:id",
+
+  //blog
+  blog: "blog",
+  blogId: "blog/:id",
+
+  // faq
+  faq: "faq",
+  faqId: "faq/:id",
 
   //optionsAttributes
   optionsAttributes: "options/attribute/:name",
@@ -83,11 +105,10 @@ const apiConfig = {
   // coloredDiamond
   ColoredBulk: "coloredDiamond/bulk_upload",
   coloredDiamond: "coloredDiamond",
-  priceRange: "coloredDiamond/priceRange",  //price Range Filter
+  priceRange: "coloredDiamond/priceRange", //price Range Filter
   caratRange: "coloredDiamond/caratRange", // carat Range Filter
   intensityRange: "coloredDiamond/intensityRange", // intensity Range Filter
   colorRange: "coloredDiamond/colorRange", // color Range Filter
-
 
   // Product Details
   product: "product",
