@@ -1,51 +1,104 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../services";
 import { apiConfig } from "../../config";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../components/validations/Validator";
-import UploadButton from "../../components/UI/UploadButton";
-
-const initialValues = {
-  productData: "",
+import ReactSelect from "../../components/UI/ReactSelect";
+import { DropzoneArea } from "material-ui-dropzone";
+const rules = {
+  productData: "required",
 };
-
 const ProductBulkMasterDetails = ({ open, togglePopup }) => {
-    const [formState, setFormState] = useState({ ...initialValues });
-    const [errorModel, setErrorModel] = useState(false);
-    const [err, setErr] = useState();
-    const [errorState, setErrorState] = useState({});
-
-  const rules = {
-    productData: "required",
-  };
+  const [errorModel, setErrorModel] = useState(false);
+  const [err, setErr] = useState();
+  const [errorState, setErrorState] = useState({});
+  const [category, setCategory] = useState([]);
+  const [store, setStore] = useState("");
   const [isLoader, setIsLoader] = useState(false);
+  const [formState, setFormState] = useState({ productData: null });
+  const [selectedFile, setSelectedFile] = useState(null);
 
-    const handleSubmit = (data) => {
-        setIsLoader(true);
-        API.post(apiConfig.productBulk, data, {
-            headers: {
-                "Content-Type": `multipart/form-data;`,
-            },
-        })
-            .then((res) => {
-                HELPER.toaster.success("GemStone Bulk added successfully");
-                togglePopup()
-            })
-            .catch((error) => {
-                HELPER.toaster.error("Please Check your Excel sheet...");
-                if (error.errors && error.errors.message && typeof error.errors.message === 'object') {
-                    setErrorState(error.errors.message);
-                    setErrorModel(true);
-                } else {
-                    setErr(error.errors && error.errors.message ? error.errors.message : error)
-                    setErrorModel(true);
-                }
-            })
-            .finally(() => {
-                setIsLoader(false);
+// category wise select
+  useEffect(() => {
+    API.get(apiConfig.category).then((res) => {
+      setCategory(res.rows);
+    });
+  }, []);
+
+  let _sortOptionsCategory = category.map((option) => ({
+    label: option.name,
+    value: option.id,
+  }));
+
+  const handleDownload = () => {
+    if (store && category.length > 0) {
+      const foundCategory = category.find((item) => item.id === store);
+      if (foundCategory) {
+        const categoryName = foundCategory.name;
+        API.getExcel(apiConfig.productDownload.replace(":id", store))
+          .then((res) => {
+            const blob = new Blob([res.data], {
+              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             });
-    };
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            const fileName = `${categoryName} Template.xlsx`;
+            link.setAttribute("download", fileName);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          })
+          .catch((error) => {
+            console.error("Error downloading file:", error);
+          });
+      }
+    }
+  };
+
+// file download handle change
+  const handleFileChange = (files) => {
+    setSelectedFile(files[0]);
+  };
+
+  //  file upload handle submit
+  const handleSubmit = () => {
+    if (selectedFile) {
+      setIsLoader(true);
+      const formData = new FormData();
+      formData.append("productData", selectedFile);
+
+      API.post(apiConfig.productBulk, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((res) => {
+          HELPER.toaster.success("ProductData added successfully");
+          togglePopup();
+        })
+        .catch((error) => {
+          HELPER.toaster.error("Please Check your Excel sheet...");
+          if (
+            error.errors &&
+            error.errors.message &&
+            typeof error.errors.message === "object"
+          ) {
+            setErrorState(error.errors.message);
+            setErrorModel(true);
+          } else {
+            setErr(
+              error.errors && error.errors.message
+                ? error.errors.message
+                : error
+            );
+            setErrorModel(true);
+          }
+        })
+        .finally(() => {
+          setIsLoader(false);
+        });
+    }
+  };
 
   return (
     <Validators formData={formState} rules={rules}>
@@ -53,7 +106,6 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
         <ThemeDialog
           title="Add Product Bulk"
           isOpen={open}
-          maxWidth="xs"
           onClose={() => {
             togglePopup();
             resetValidation();
@@ -78,7 +130,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                   type="submit"
                   variant="contained"
                   color="success"
-                  onClick={() => onSubmit(handleSubmit)}
+                  onClick={handleSubmit}
                 >
                   Save
                 </Button>
@@ -103,53 +155,93 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                 }
               >
                 <div>
-                  {Object.keys(errorState).length > 0 ? (
-                    Object.keys(errorState).map((errorCode, index) => (
-                      <div key={index}>
-                        <h2>Stock No: {errorCode}</h2>
-                        <ul>
-                          {errorState[errorCode].map(
-                            (errorMessageObj, index) => (
-                              <li key={index}>
-                                {Object.keys(errorMessageObj)[0]} :{" "}
-                                <span>{Object.values(errorMessageObj)[0]}</span>
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      </div>
-                    ))
-                  ) : (
-                    <p>{err}</p>
-                  )}
+                  <ul>
+                    {Object.entries(errorState).map(([key, value]) => {
+                      if (Object.keys(value).length > 0) {
+                        return (
+                          <li key={key}>
+                            <h2>{key}</h2>
+                            {Object.keys(value).map((errorKey, index) => (
+                              <ul key={index}>
+                                {Array.isArray(value[errorKey]) &&
+                                  <li 
+                                  className="text-error"
+                                  style={{ fontSize: "18px", fontWeight: "500" }}
+                                  >
+                                    <b>Row No:- {errorKey}</b>
+                                  </li>
+                                }
+                                {Array.isArray(value[errorKey]) ?
+                                  <ul>
+                                    {value[errorKey].map((error, i) =>
+                                      Object.entries(error).map(([k, v]) => (
+                                        <li key={i}>
+                                          {k}: {v}
+                                        </li>
+                                      ))
+                                    )}
+                                  </ul>
+                                  :
+                                  <li> {value[errorKey]}</li>
+                                }
+                              </ul>
+                            ))}
+                          </li>
+
+                        );
+                      } else {
+                        return null;
+                      }
+                    })
+                    }
+                  </ul>
+                 <p
+                  className="text-error"
+                  style={{ fontSize: "18px", fontWeight: "500" }}
+                 > {err}</p>
                 </div>
               </ThemeDialog>
             </>
           }
         >
           <Box>
-            <UploadButton
-              onChange={(selectedFile) => {
-                setFormState((prevProps) => {
-                  return {
-                    ...prevProps,
-                    productData: selectedFile,
-                  };
-                });
-              }}
-            />
-            {errors?.productData && (
-              <p
-                className="text-error"
-                style={{
-                  fontSize: "14px",
-                  marginTop: "10px",
-                  textAlign: "center",
+            <div>
+              <label>Category</label>
+              <ReactSelect
+                placeholder="Select Category"
+                options={_sortOptionsCategory}
+                value={_sortOptionsCategory.find(
+                  (option) => option.value === store
+                )}
+                onChange={(selectedSort) => {
+                  const selectedId = selectedSort.target.value;
+                  setStore(selectedId);
                 }}
-              >
-                File field is required
-              </p>
-            )}
+                name="choices-multi-default"
+              />
+            </div>
+            <br />
+            <Button
+              style={{ marginLeft: "10px", marginTop: "10px" }}
+              type="submit"
+              variant="contained"
+              color="success"
+              onClick={handleDownload}
+            >
+              Download
+            </Button>
+            <div>
+              <DropzoneArea
+                onChange={handleFileChange}
+                acceptedFiles={[
+                  ".xlsx",
+                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                ]}
+                showPreviewsInDropzone
+                dropzoneText="Drag and drop your file here or click"
+                filesLimit={1}
+              />
+            </div>
           </Box>
         </ThemeDialog>
       )}
@@ -157,5 +249,4 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
   );
 };
 
-export default ProductBulkMasterDetails
-;
+export default ProductBulkMasterDetails;

@@ -5,6 +5,8 @@ import { authRoles } from "../auth/authRoles";
 import Loadable from "../components/Loadable";
 import MatxLayout from "../components/MatxLayout/MatxLayout";
 import { pageRoutes } from "../constants/routesList";
+// import FindProductVariant from "./Product/FindProductVariant";
+// import FindProductVariantMoreDetail from "./Product/FindProductVariantMoreDetail";
 // import ProductMaster from "./Product/ProductMaster";
 // import ColorDiamondMaster from "./ColorDiamond/ColorDiamondMaster";
 // import materialRoutes from 'app/views/material-kit/MaterialRoutes';
@@ -66,6 +68,12 @@ const ColorDiamondMaster = Loadable(
 const ProductMaster = Loadable(
   lazy(() => import("./Product/ProductMaster"))
 );
+const FindProductVariantMoreDetail = Loadable(
+  lazy(() => import("./Product/FindProductVariantMoreDetail"))
+);
+const FindProductVariant = Loadable(
+  lazy(() => import("./Product/FindProductVariant"))
+);
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
 
@@ -87,7 +95,16 @@ const routes = [
         element: <Analytics />,
         auth: authRoles.admin,
       },
+
       { path: pageRoutes.product, element: <ProductMaster /> },
+      {
+        path: `${pageRoutes.variantProductId}/:productId`,
+        element: <FindProductVariant />,
+      },
+      {
+        path: `${pageRoutes.productVariantId}/:productVariantId`,
+        element: <FindProductVariantMoreDetail />,
+      },
       { path: pageRoutes.diamond, element: <DiamondMaster /> },
       { path: pageRoutes.colorDiamond, element: <ColorDiamondMaster /> },
       { path: pageRoutes.jewellery, element: <Jewellery /> },

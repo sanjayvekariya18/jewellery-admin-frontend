@@ -75,24 +75,26 @@ const apiConfig = {
   findDiamond: "diamonds/:id",
   visibility_diamond: "diamonds/visibility/:id", //diamond visible toggle
   diamondsBulk: "diamonds/bulk_upload",
-  diamondCaratRange:"diamonds/caratRange", //diamond carat range
-  diamondPriceRange:"diamonds/priceRange", //diamond price range
-  diamondTableRange:"diamonds/tableRange", //diamond table range
-  diamondDepthRange:"diamonds/depthRange", //diamond depth range
-  
+  diamondCaratRange: "diamonds/caratRange", //diamond carat range
+  diamondPriceRange: "diamonds/priceRange", //diamond price range
+  diamondTableRange: "diamonds/tableRange", //diamond table range
+  diamondDepthRange: "diamonds/depthRange", //diamond depth range
+
   // coloredDiamond
   ColoredBulk: "coloredDiamond/bulk_upload",
   coloredDiamond: "coloredDiamond",
   priceRange: "coloredDiamond/priceRange",  //price Range Filter
   caratRange: "coloredDiamond/caratRange", // carat Range Filter
-  intensityRange:"coloredDiamond/intensityRange", // intensity Range Filter
-  colorRange:"coloredDiamond/colorRange", // color Range Filter
+  intensityRange: "coloredDiamond/intensityRange", // intensity Range Filter
+  colorRange: "coloredDiamond/colorRange", // color Range Filter
 
 
   // Product Details
   product: "product",
-  productBulk:"product/bulk",
-  findProduct:"product/productVariant/:productId"
+  productBulk: "product/bulk",
+  findProduct: "product/productVariant/:productId",
+  findProductVariant: "product/productVariant/moreDetail/:productVariantId",
+  productDownload: "product/template/:id"
 };
 
 export default apiConfig;

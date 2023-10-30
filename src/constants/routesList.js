@@ -19,8 +19,9 @@ export const pageRoutes = {
     forgotPassword: "forgot_password",
     error: "404",
   },
+  variantProductId:"/productVariant",
+  productVariantId:"/productVariant/moreDetail",
   dashboard: "/dashboard/default",
-  
   diamond: "/diamonds/diamonds",
   colorDiamond:"/colorDiamond",
   product:"/product",

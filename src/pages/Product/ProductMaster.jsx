@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, {  useMemo, useState } from "react";
 import { Box, Button, Icon, IconButton } from "@mui/material";
 import error400cover from "../../assets/no-data-found-page.png";
 import _ from "lodash";
@@ -8,16 +8,15 @@ import PaginationTable, {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
 import useDidMountEffect from "../../hooks/useDidMountEffect";
-import { Breadcrumb, Container, StyledAddButton } from "../../components";
+import { Breadcrumb, Container } from "../../components";
 import { pageRoutes } from "../../constants/routesList";
 import ProductBulkMasterDetails from "./ProductBulkMasterDetails";
-import FindProductModel from "./FindProductModel";
+import { useNavigate } from "react-router-dom";
 
 const ProductMaster = () => {
   const [bulkOpen, setBulkOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
-  const [findProduct, setFindProduct] = useState(false);
-  const [ProductData, setProductData] = useState([]);
+  const navigate = useNavigate();
 
   // ----Pagination code------
   const COLUMNS = [
@@ -36,19 +35,14 @@ const ProductMaster = () => {
     { title: "Action" },
   ];
 
-  const toggleGemstonePopup = () => {
-    if (findProduct) {
-      setProductData(null); // Reset gemStoneData when closing the modal
-    }
-    setFindProduct(!findProduct); // Toggle modal visibility
-  };
-  const getProductData = (id) => {
-    setProductData(id); // Update gemStoneData when fetching data
-    setFindProduct(true); // Open the modal when data is received
-  };
-
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable();
+
+  const handleButtonClick = (id) => {
+    navigate(`${pageRoutes.variantProductId}/${id}`);
+  };
+
+
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -115,7 +109,6 @@ const ProductMaster = () => {
     return state.data.map((item) => {
       return {
         item: item,
-
         columns: [
           <span>{item.stockId}</span>,
           <div className="common-width-three-dot-text">
@@ -133,8 +126,9 @@ const ProductMaster = () => {
           <span>{item.otherCost}</span>,
           <span>{item.profit}</span>,
           <span>{item.discount}</span>,
+
           <div>
-            <IconButton onClick={(e) => getProductData(item.id)}>
+            <IconButton onClick={(e) => handleButtonClick(item.id)}>
               <Icon color="error">remove_red_eye</Icon>
             </IconButton>
           </div>,
@@ -144,11 +138,10 @@ const ProductMaster = () => {
   }, [state.data]);
 
   const togglePopupBulk = () => {
-    // if (bulkOpen) {
-    //     setSelectedUserData(null);
-    // }
     setBulkOpen(!bulkOpen);
   };
+
+
 
   return (
     <>
@@ -189,15 +182,9 @@ const ProductMaster = () => {
             orderBy={state.orderby}
             order={state.order}
           ></PaginationTable>
-          {findProduct && (
-            <FindProductModel
-              open={findProduct}
-              togglePopup={() => {
-                toggleGemstonePopup();
-              }}
-              productData={ProductData}
-            />
-          )}
+           <div>
+      </div>
+
           <ProductBulkMasterDetails
             open={bulkOpen}
             togglePopup={() => {
@@ -205,7 +192,6 @@ const ProductMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
           />
         </Container>
       </div>

@@ -11,6 +11,14 @@ const instance = axios.create({
   },
 });
 
+const excelInstance = axios.create({
+  baseURL: apiConfig.baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  responseType: 'blob',
+});
+
 // Prepare request
 instance.interceptors.request.use(
   (config) => {
@@ -35,6 +43,29 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// excel file instance
+excelInstance.interceptors.request.use(
+  (config) => {
+    let token = AuthStorage.getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    if (config?.data?.is_public_url || config?.params?.is_public_url) {
+      config.baseURL = apiConfig.publicURL;
+      delete config?.data?.is_public_url;
+      delete config?.params?.is_public_url;
+    }
+
+    if (config.method === "post" || config.method === "put") {
+      if (config.data instanceof FormData) {
+        config.headers["Content-Type"] = "multipart/form-data";
+      }
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 // Prepare Response
 instance.interceptors.response.use(
   (response) => {
@@ -71,6 +102,11 @@ const get = (url, params) =>
   instance.get(url, {
     params,
   });
+  
+const getExcel = (url, params) =>
+  excelInstance.get(url, {
+    params,
+  });
 
 const put = (url, data, headers = {}) => instance.put(url, data, headers);
 
@@ -79,5 +115,6 @@ export default {
   post,
   destroy,
   get,
+  getExcel,
   put,
 };
