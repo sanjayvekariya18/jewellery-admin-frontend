@@ -92,7 +92,9 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
 
     let payload = {
       userId: userId,
-      permissionDetails: __userPermissions,
+      permissionDetails: __userPermissions.filter((item) => {
+        return item.create || item.delete || item.edit
+      }),
     };
 
     API.post(apiConfig.userPermission, payload).then(() => {
