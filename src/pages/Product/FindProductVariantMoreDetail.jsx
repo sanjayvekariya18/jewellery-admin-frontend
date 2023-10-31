@@ -10,6 +10,7 @@ import { Breadcrumb } from "../../components";
 import { pageRoutes } from "../../constants/routesList";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import error400cover from "../../assets/no-data-found-page.png";
+import Textarea from "../../components/UI/Textarea";
 
 const FindProductVariantMoreDetail = () => {
   const gemstoneInfo = [
@@ -30,6 +31,19 @@ const FindProductVariantMoreDetail = () => {
   const [variantModel, setVariantMOdel] = useState(false);
   const [productData, setProductData] = useState([]);
   const navigate = useNavigate();
+
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
+
+  const showAddressInDialog = (item) => {
+    const address = item.description;
+    setAddressText(address); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
+
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable();
 
@@ -66,7 +80,7 @@ const FindProductVariantMoreDetail = () => {
 
   // diamond
   const COLUMNSDIAMOND = [
-    { title: "StockId" },
+    { title: "Stock No" },
     { title: "Shape" },
     { title: "Carat" },
     { title: "Color" },
@@ -82,7 +96,9 @@ const FindProductVariantMoreDetail = () => {
         return {
           item: item,
           columns: [
-            <span>{item.stockId}</span>,
+            <div className="span-permision">
+              <span>{item.stockId}</span>
+            </div>,
             <span>{item.shape}</span>,
             <span>{item.carat}</span>,
             <span>{item.color}</span>,
@@ -96,16 +112,16 @@ const FindProductVariantMoreDetail = () => {
 
   // gemstone
   const COLUMNSGEMSTONE = [
-    { title: "StockId" },
+    { title: "Stock No" },
     { title: "Type" },
     { title: "Shape" },
     { title: "Carat" },
     { title: "Color" },
     { title: "Clarity" },
     { title: "Origin" },
-    { title: "MLength" },
-    { title: "MWidth" },
-    { title: "MDepth" },
+    { title: "M-Length" },
+    { title: "M-Width" },
+    { title: "M-Depth" },
     { title: "Price" },
   ];
   const productVariantGemstone = productData.ProductVariantGemstones;
@@ -116,7 +132,9 @@ const FindProductVariantMoreDetail = () => {
         return {
           item: item,
           columns: [
-            <span style={{ whiteSpace: "nowrap" }}>{item.stockId}</span>,
+            <div className="span-permision">
+              <span style={{ whiteSpace: "nowrap" }}>{item.stockId}</span>
+            </div>,
             <span style={{ whiteSpace: "nowrap" }}>{item.gemstoneType}</span>,
             <span>{item.shape}</span>,
             <span>{item.carat}</span>,
@@ -150,7 +168,9 @@ const FindProductVariantMoreDetail = () => {
           item: item,
           columns: [
             <span>{i + 1}</span>,
-            <span>{attribute.name}</span>,
+            <div className="span-permision">
+              <span>{attribute.name}</span>
+            </div>,
             <span>{option.name}</span>,
           ],
         };
@@ -162,10 +182,10 @@ const FindProductVariantMoreDetail = () => {
   const COLUMNVARIANT = [
     { title: "Index" },
     { title: "Value" },
-    { title: "DetailName" },
+    { title: "Detail Name" },
+    { title: "Details Group Name" },
+    { title: "Logo Image" },
     { title: "Description" },
-    { title: "LogoUrl" },
-    { title: "ProductDetailsGroupName" },
   ];
   const productVariant = productData.productVariantDetails;
   const rowsVariant = useMemo(() => {
@@ -177,27 +197,28 @@ const FindProductVariantMoreDetail = () => {
           item: item,
           columns: [
             <span>{i + 1}</span>,
-            <span>{item.value}</span>,
+            <div className="span-permision">
+              <span>{item.value}</span>
+            </div>,
             <span>{productDetail.detailName}</span>,
-            <span>
-              {productDetail.description === ""
-                ? "-"
-                : productDetail.description}
-            </span>,
-            <span>
-              {productDetail.logoUrl === null ? "-" : productDetail.logoUrl}
-            </span>,
             <span>{productDetail.ProductDetailsGroup.groupName}</span>,
+
+            <span>{productDetail.logoUrl || ""}</span>,
+            <div onClick={() => showAddressInDialog(item)}>
+              <span
+                className="three-dot-text"
+                style={{ fontWeight: "500", cursor: "pointer" }}
+              >
+                {" "}
+                {productDetail.description || ""}
+              </span>
+            </div>,
           ],
         };
       })
     );
   }, [productVariant]);
 
-  const handleProductVariantClick = () => {
-    console.log("hello");
-    window.history.back(); // Use this to go back to the previous page
-  };
   return (
     <>
       <Box
@@ -205,18 +226,17 @@ const FindProductVariantMoreDetail = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          padding: "20px 0px 10px 10px",
+          padding: "30px 0px 0px 30px",
         }}
       >
         <Breadcrumb
           routeSegments={[
             { name: "Masters", path: pageRoutes.diamond },
             { name: "Product", path: pageRoutes.product },
-            {
-              name: "Product Variant",
-              onClick: handleProductVariantClick,
-              style: { cursor: "pointer" },
-            },
+            // {
+            //   name: "Product Variant",
+            //   path: pageRoutes.variantProductId,
+            // },
             { name: "Product Details" },
           ]}
         />
@@ -227,8 +247,9 @@ const FindProductVariantMoreDetail = () => {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "auto auto",
+                gridTemplateColumns: "1fr 1fr 1fr",
                 gap: "6px",
+                padding: "20px 20px 0px 20px",
               }}
             >
               {gemstoneInfo.map((info) => (
@@ -271,7 +292,8 @@ const FindProductVariantMoreDetail = () => {
             <div
               style={{
                 border: "1px solid #3736363b",
-                marginTop: "5px",
+                // marginTop: "5px",
+                margin: "6px 20px 0px 20px",
                 padding: "4px 8px 10px 8px",
               }}
             >
@@ -297,34 +319,88 @@ const FindProductVariantMoreDetail = () => {
           </>
         </div>
       </Box>
-
-      <Box style={{ padding: "20px 10px" }}>
-        {productVariantDiamond !== undefined &&
-          productVariantDiamond.length !== 0 && (
-            <Button variant="contained" onClick={() => setDiamondModel(true)}>
-              Product Variant Diamonds
-            </Button>
-          )}
-      </Box>
-
+      <div
+        style={{
+          display: "flex",
+          // gridTemplateColumns: "auto auto auto auto",
+          justifyContent: "start",
+          marginTop: "20px",
+          marginLeft: "12px",
+          gap: "13px",
+          alignItems: "center",
+        }}
+      >
+        <Box>
+          <div>
+            {productVariantDiamond !== undefined &&
+              productVariantDiamond.length !== 0 && (
+                <Button
+                  variant="contained"
+                  onClick={() => setDiamondModel(true)}
+                >
+                  Product Variant Diamonds
+                </Button>
+              )}
+          </div>
+        </Box>
+        <Box>
+          <div>
+            {productVariantGemstone !== undefined &&
+              productVariantGemstone.length > 0 && (
+                <Button
+                  variant="contained"
+                  onClick={() => setGemstoneModel(true)}
+                >
+                  Product Variant Gemstone
+                </Button>
+              )}
+          </div>
+        </Box>
+        <Box>
+          <div>
+            {productVariantAttributes !== undefined &&
+              productVariantAttributes.length > 0 && (
+                <Button
+                  variant="contained"
+                  onClick={() => setAttributeModel(true)}
+                >
+                  Product Variant Attributes
+                </Button>
+              )}
+          </div>
+        </Box>
+        <Box>
+          <div>
+            {productVariant !== undefined && productVariant.length > 0 && (
+              <Button variant="contained" onClick={() => setVariantMOdel(true)}>
+                Product Variant Details
+              </Button>
+            )}
+          </div>
+        </Box>
+      </div>
       {/* ThemeDialog Component */}
+
+      {/* Product Variant Diamonds */}
       <ThemeDialog
         isOpen={diamondModel}
+        maxWidth="lg"
         onClose={() => setDiamondModel(false)}
         title="Product Variant Diamonds Details"
-        maxWidth="sm"
         actionBtns={
           <Button
-            variant="outlined"
+            variant="contained"
             color="secondary"
             onClick={() => {
               setDiamondModel(false);
             }}
           >
-            Okay
+            Close
           </Button>
         }
       >
+        {/* {productVariantDiamond !== undefined &&
+          productVariantDiamond.length > 0 && ( */}
         <div>
           <PaginationTable
             header={COLUMNSDIAMOND}
@@ -343,31 +419,24 @@ const FindProductVariantMoreDetail = () => {
             footerVisibility={false}
           ></PaginationTable>
         </div>
+        {/* )} */}
       </ThemeDialog>
 
-      <Box style={{ padding: "20px 10px" }}>
-        {productVariantGemstone !== undefined &&
-          productVariantGemstone.length > 0 && (
-            <Button variant="contained" onClick={() => setGemstoneModel(true)}>
-              Product Variant Gemstone
-            </Button>
-          )}
-      </Box>
-
+      {/* Product Variant Gemstone */}
       <ThemeDialog
         isOpen={gemstoneModel}
         onClose={() => setGemstoneModel(false)}
         title="Product Variant Gemstone Details"
-        maxWidth="md"
+        maxWidth="lg"
         actionBtns={
           <Button
-            variant="outlined"
+            variant="contained"
             color="secondary"
             onClick={() => {
               setGemstoneModel(false);
             }}
           >
-            Okay
+            Close
           </Button>
         }
       >
@@ -391,14 +460,7 @@ const FindProductVariantMoreDetail = () => {
         </div>
       </ThemeDialog>
 
-      <Box style={{ padding: "20px 10px" }}>
-        {productVariantAttributes !== undefined &&
-          productVariantAttributes.length > 0 && (
-            <Button variant="contained" onClick={() => setAttributeModel(true)}>
-              Product Variant Attributes
-            </Button>
-          )}
-      </Box>
+      {/* Product Variant Attributes */}
       <ThemeDialog
         isOpen={attributesModel}
         onClose={() => setAttributeModel(false)}
@@ -406,13 +468,13 @@ const FindProductVariantMoreDetail = () => {
         maxWidth="md"
         actionBtns={
           <Button
-            variant="outlined"
+            variant="contained"
             color="secondary"
             onClick={() => {
               setAttributeModel(false);
             }}
           >
-            Okay
+            Close
           </Button>
         }
       >
@@ -436,27 +498,21 @@ const FindProductVariantMoreDetail = () => {
         </div>
       </ThemeDialog>
 
-      <Box style={{ padding: "20px 10px" }}>
-        {productVariant !== undefined && productVariant.length > 0 && (
-          <Button variant="contained" onClick={() => setVariantMOdel(true)}>
-            Product Variant Details
-          </Button>
-        )}
-      </Box>
+      {/* Product Variant Details */}
       <ThemeDialog
         isOpen={variantModel}
         onClose={() => setVariantMOdel(false)}
         title="Product Variant Details"
-        maxWidth="md"
+        maxWidth="lg"
         actionBtns={
           <Button
-            variant="outlined"
+            variant="contained"
             color="secondary"
             onClick={() => {
               setVariantMOdel(false);
             }}
           >
-            Cancel
+            Close
           </Button>
         }
       >
@@ -479,6 +535,35 @@ const FindProductVariantMoreDetail = () => {
           ></PaginationTable>
         </div>
       </ThemeDialog>
+
+      {textModal && (
+        <ThemeDialog
+          title="Description"
+          id="showModal"
+          isOpen={textModal}
+          toggle={textModaltoggle}
+          centered
+          maxWidth="sm"
+          actionBtns={
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={textModaltoggle}
+            >
+              Close
+            </Button>
+          }
+        >
+          <div style={{ padding: "0px", margin: "0px" }}>
+            <Textarea
+              className="form-control"
+              rows="5"
+              value={addressText}
+              readOnly
+            ></Textarea>
+          </div>
+        </ThemeDialog>
+      )}
     </>
   );
 };

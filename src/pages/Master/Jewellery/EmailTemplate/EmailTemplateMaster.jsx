@@ -17,7 +17,6 @@ import PaginationTable, {
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "../../../../config";
 import _ from "lodash";
-import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
@@ -26,8 +25,6 @@ import Textinput from "../../../../components/UI/TextInput";
 import EmailTemplateMasterDetails from "./EmailTemplateMasterDetails";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Textarea from "../../../../components/UI/Textarea";
-import moment from "moment";
-import ReactSelect from "../../../../components/UI/ReactSelect";
 
 const EmailTemplateMaster = () => {
   const [open, setOpen] = useState(false);
@@ -131,9 +128,9 @@ const EmailTemplateMaster = () => {
     });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   const showAddressInDialog = (item) => {
     const description = item.subject;

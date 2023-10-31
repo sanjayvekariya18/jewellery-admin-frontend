@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Icon, IconButton, TextField, Tooltip } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { apiEndPoint, pageRoutes } from "../../../../constants/routesList";
@@ -10,7 +10,6 @@ import PaginationTable, {
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { appConfig } from "./../../../../config";
 import _ from "lodash";
-import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ImgBoxShow from "../../../../components/UI/ImgBoxShow";
@@ -33,7 +32,6 @@ const UserMaster = () => {
     { title: "Active" },
     { title: "Action" },
     { title: "Permission" },
-
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -101,9 +99,9 @@ const UserMaster = () => {
       });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {
@@ -140,13 +138,14 @@ const UserMaster = () => {
           <IconButton
             onClick={(e) =>
               navigate(
-                `${pageRoutes.master.user.userPermissions.split(":")[0]}${item.id
+                `${pageRoutes.master.user.userPermissions.split(":")[0]}${
+                  item.id
                 }`
               )
             }
           >
             <Icon color="warning">fingerprint</Icon>
-          </IconButton>
+          </IconButton>,
         ],
       };
     });

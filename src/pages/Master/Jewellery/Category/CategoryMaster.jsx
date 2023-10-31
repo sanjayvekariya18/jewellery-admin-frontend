@@ -1,22 +1,19 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Box, Icon, IconButton, Tooltip } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
 import Swal from "sweetalert2";
 import _ from "lodash";
-import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { toaster } from "../../../../services/helper";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
-import { ROUTES, apiConfig, appConfig } from "./../../../../config";
-import CategoryMasterDetails from "./CategoryMasterDetails";
+import { apiConfig, appConfig } from "./../../../../config";
 import { useNavigate } from "react-router-dom";
 
 const CategoryMaster = () => {
-  const [selectedUserData, setSelectedUserData] = useState(null);
   const navigate = useNavigate();
   const COLUMNS = [
     { title: "Name" },
@@ -93,9 +90,9 @@ const CategoryMaster = () => {
       });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {

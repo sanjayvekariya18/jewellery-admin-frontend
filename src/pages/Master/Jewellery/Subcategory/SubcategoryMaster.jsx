@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Icon, IconButton, Tooltip } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
@@ -8,7 +8,6 @@ import PaginationTable, {
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "./../../../../config";
 import _ from "lodash";
-import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { toaster } from "../../../../services/helper";
 import Swal from "sweetalert2";
@@ -93,9 +92,9 @@ const SubcategoryMaster = () => {
       });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {

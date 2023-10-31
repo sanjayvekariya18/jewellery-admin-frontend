@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   DialogContent,
@@ -17,7 +17,6 @@ import { usePaginationTable } from "../../components/UI/Pagination/PaginationTab
 import { API, HELPER } from "../../../src/services/index";
 import { IconButton, Button } from "@mui/material";
 import error400cover from "../../assets/no-data-found-page.png";
-import useDidMountEffect from "../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
 import LabMasterDetails from "../Master/Diamond/Lab/LabMasterDetails";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
@@ -138,10 +137,9 @@ const Customer = () => {
     textModaltoggle(); // Show the dialog
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
-
+  }, []);
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {

@@ -114,6 +114,15 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
             <>
               <Box>
                 <Button
+                  style={{ marginLeft: "0px" }}
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDownload}
+                >
+                  Download
+                </Button>
+                <Button
                   style={{ marginLeft: "10px" }}
                   variant="outlined"
                   color="secondary"
@@ -210,8 +219,8 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
         >
           <Box>
             <div>
-              <label>Category</label>
               <ReactSelect
+                label={"Category"}
                 placeholder="Select Category"
                 options={_sortOptionsCategory}
                 value={_sortOptionsCategory.find(
@@ -224,17 +233,9 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                 name="choices-multi-default"
               />
             </div>
-            <br />
-            <Button
-              style={{ marginLeft: "10px", marginTop: "10px" }}
-              type="submit"
-              variant="contained"
-              color="success"
-              onClick={handleDownload}
-            >
-              Download
-            </Button>
-            <div>
+            {/* <br /> */}
+
+            <div style={{ marginTop: "15px" }}>
               <DropzoneArea
                 onChange={handleFileChange}
                 acceptedFiles={[

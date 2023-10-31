@@ -7,7 +7,6 @@ import { API, HELPER } from "../../services";
 import { apiConfig } from "../../config";
 import _ from "lodash";
 import { useParams } from "react-router-dom";
-import useDidMountEffect from "../../hooks/useDidMountEffect";
 import { Breadcrumb, Container } from "../../components";
 import { Box, IconButton, Icon } from "@mui/material";
 import { pageRoutes } from "../../constants/routesList";
@@ -89,9 +88,10 @@ const FindProductVariant = () => {
     });
   }, [state.data]);
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage]);
+  }, []);
+
   const handleButtonClick = (id) => {
     navigate(`${pageRoutes.productVariantId}/${id}`);
   };

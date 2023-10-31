@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Icon, Tooltip } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
@@ -9,7 +9,6 @@ import _ from "lodash";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
-import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import PermissionMasterDetails from "./PermissionMasterDetails";
 
 const PermissionsMaster = () => {
@@ -78,9 +77,9 @@ const PermissionsMaster = () => {
         }
       });
   };
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   const togglePopup = () => {
     if (open) {

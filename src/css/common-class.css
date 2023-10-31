@@ -172,6 +172,22 @@ input::-webkit-inner-spin-button {
     width: 150px !important;
 }
 
+.thead-second-width-stock-no {
+    width: 200px !important;
+}
+
+.thead-second-width-action {
+    width: 65px !important;
+}
+
+.three-dot-text-title-stock-no {
+    display: inline-block;
+    width: 190px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
 .thead-second-width-title {
     width: 400px !important;
 }

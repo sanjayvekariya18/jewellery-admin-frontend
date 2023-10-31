@@ -7,7 +7,6 @@ import { apiConfig, appConfig } from "../../config";
 import PaginationTable, {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
-import useDidMountEffect from "../../hooks/useDidMountEffect";
 import { Breadcrumb, Container } from "../../components";
 import { pageRoutes } from "../../constants/routesList";
 import ProductBulkMasterDetails from "./ProductBulkMasterDetails";
@@ -20,9 +19,9 @@ const ProductMaster = () => {
 
   // ----Pagination code------
   const COLUMNS = [
-    { title: "Stock No" },
+    { title: "Stock No", classNameWidth: "thead-second-width-stock-no" },
     { title: "Product Name", classNameWidth: "common-width-apply-th " },
-    { title: "SubCategory", classNameWidth: "thead-second-width" },
+    { title: "SubCategory", classNameWidth: "thead-second-width-stock-no" },
     { title: "Gender" },
     { title: "Design Price" },
     { title: "Box Price" },
@@ -32,7 +31,7 @@ const ProductMaster = () => {
     { title: "Other Cost" },
     { title: "Profit" },
     { title: "Discount" },
-    { title: "Action" },
+    { title: "Action", classNameWidth: "thead-second-width-action" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -99,9 +98,9 @@ const ProductMaster = () => {
       });
   };
 
-  useDidMountEffect(() => {
-    paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  // useDidMountEffect(() => {
+  //   paginate();
+  // }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
   useEffect(() => {
     paginate();
@@ -116,7 +115,7 @@ const ProductMaster = () => {
           <div className="common-width-three-dot-text">
             <span>{item.productName}</span>
           </div>,
-          <div className="three-dot-text-title">
+          <div className="three-dot-text-title-stock-no">
             <span>{item.subCategoryName}</span>
           </div>,
           <span>{item.gender}</span>,

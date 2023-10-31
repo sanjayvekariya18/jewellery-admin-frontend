@@ -13,7 +13,6 @@ import { pageRoutes } from "../../constants/routesList";
 import Textinput from "../../components/UI/TextInput";
 import ThemeSwitch from "../../components/UI/ThemeSwitch";
 import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
-import useDidMountEffect from "../../hooks/useDidMountEffect";
 import { Breadcrumb, Container, StyledAddButton } from "../../components";
 import ColorDiamondBulkMasterDetails from "./ColorDiamondBulkMasterDetails";
 import ColorDiamondMasterDetails from "./ColorDiamondMasterDetails";
@@ -265,9 +264,9 @@ const ColorDiamondMaster = () => {
     });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {
@@ -626,15 +625,17 @@ const ColorDiamondMaster = () => {
               <Icon>add</Icon>
             </StyledAddButton>
           </Tooltip>
-          <ColorDiamondMasterDetails
-            open={open}
-            togglePopup={() => {
-              togglePopup();
-              paginate();
-            }}
-            callBack={() => paginate(true)}
-            userData={selectedUserData}
-          />
+          {open && (
+            <ColorDiamondMasterDetails
+              open={open}
+              togglePopup={() => {
+                togglePopup();
+                paginate();
+              }}
+              callBack={() => paginate(true)}
+              userData={selectedUserData}
+            />
+          )}
           <ColorDiamondBulkMasterDetails
             open={bulkOpen}
             togglePopup={() => {
@@ -644,7 +645,6 @@ const ColorDiamondMaster = () => {
             callBack={() => paginate(true)}
             //   userData={selectedUserData}
           />
-
           <FindColoredModal
             open={findGemstone}
             togglePopup={() => {

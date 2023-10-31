@@ -17,7 +17,6 @@ import PaginationTable, {
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "../../../../config";
 import _ from "lodash";
-import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
@@ -170,9 +169,9 @@ const BlogMaster = () => {
     });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   const showAddressInDialog = (item) => {
     const description = item.description;

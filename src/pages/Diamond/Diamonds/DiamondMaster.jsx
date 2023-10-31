@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { apiConfig, appConfig } from "../../../config";
 import { Breadcrumb, Container, StyledAddButton } from "../../../components";
-import useDidMountEffect from "../../../hooks/useDidMountEffect";
 import { Box, Button, Icon, IconButton, Slider, Tooltip } from "@mui/material";
 import ThemeSwitch from "../../../components/UI/ThemeSwitch";
 import PaginationTable, {
@@ -107,7 +106,7 @@ const DiamondMaster = () => {
       toTable: table.maxTable,
       fromDepth: depth.minDepth,
       toDepth: depth.maxDepth,
-      lab:"",
+      lab: "",
       // fromColor: "",
       // toColor: "",
       sortByShape: "ASC",
@@ -268,9 +267,9 @@ const DiamondMaster = () => {
     });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   // ---------------color Filter----------------------
   const marksColor = [
@@ -367,7 +366,6 @@ const DiamondMaster = () => {
     changeState("fromPolish", marksPolish[newValue[0]].value);
     changeState("toPolish", marksPolish[newValue[1]].value);
   };
-
 
   // -------------------Get Carat---------------------------------
   useEffect(() => {
@@ -574,7 +572,7 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Color :</label>
                 <Slider
-                  defaultValue={[0,1]}
+                  defaultValue={[0, 1]}
                   onChange={handleChangeColor}
                   aria-labelledby="track-inverted-slider"
                   marks={marksColor}
@@ -695,7 +693,9 @@ const DiamondMaster = () => {
                       type="text"
                       id="maxCost"
                       value={
-                        state.toPrice === undefined ? price.maxPrice : state.toPrice
+                        state.toPrice === undefined
+                          ? price.maxPrice
+                          : state.toPrice
                       }
                       placeholder="End Price"
                       name="toPrice"
@@ -727,7 +727,9 @@ const DiamondMaster = () => {
                       type="text"
                       id="minCost"
                       value={
-                        state.fromCts === undefined ? carat.minCarat : state.fromCts
+                        state.fromCts === undefined
+                          ? carat.minCarat
+                          : state.fromCts
                       }
                       placeholder="Start Carat"
                       name="fromCts"
@@ -792,7 +794,9 @@ const DiamondMaster = () => {
                       type="text"
                       id="minCost"
                       value={
-                        state.fromDepth === undefined ? depth.minDepth : state.fromDepth
+                        state.fromDepth === undefined
+                          ? depth.minDepth
+                          : state.fromDepth
                       }
                       placeholder="Start Depth"
                       name="fromDepth"
@@ -812,7 +816,9 @@ const DiamondMaster = () => {
                       type="text"
                       id="maxCost"
                       value={
-                        state.toDepth === undefined ? depth.maxDepth : state.toDepth
+                        state.toDepth === undefined
+                          ? depth.maxDepth
+                          : state.toDepth
                       }
                       placeholder="End Depth"
                       name="toDepth"
@@ -846,7 +852,9 @@ const DiamondMaster = () => {
                       type="text"
                       id="minCost"
                       value={
-                        state.fromTable === undefined ? table.minTable : state.fromTable
+                        state.fromTable === undefined
+                          ? table.minTable
+                          : state.fromTable
                       }
                       placeholder="Start Table"
                       name="fromTable"
@@ -866,7 +874,9 @@ const DiamondMaster = () => {
                       type="text"
                       id="maxCost"
                       value={
-                        state.toTable === undefined ? table.maxTable : state.toTable
+                        state.toTable === undefined
+                          ? table.maxTable
+                          : state.toTable
                       }
                       placeholder="End Table"
                       name="toTable"
@@ -925,15 +935,17 @@ const DiamondMaster = () => {
             }}
             gemDiamondData={gemDiamondData}
           />
-          <DiamondBulkMasterDetails
-            open={bulkOpen}
-            togglePopup={() => {
-              togglePopupBulk();
-              paginate();
-            }}
-            callBack={() => paginate(true)}
-          //   userData={selectedUserData}
-          />
+          {bulkOpen && (
+            <DiamondBulkMasterDetails
+              open={bulkOpen}
+              togglePopup={() => {
+                togglePopupBulk();
+                paginate();
+              }}
+              callBack={() => paginate(true)}
+              //   userData={selectedUserData}
+            />
+          )}
         </Container>
       </div>
     </>

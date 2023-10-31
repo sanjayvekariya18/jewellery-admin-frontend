@@ -10,7 +10,6 @@ import {
   TableHead,
   TableRow,
   // Card,
-  Checkbox,
   Paper,
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
@@ -63,44 +62,6 @@ const CategoryMasterDetails = ({
     logoUrl: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
 
-  // const handleSubmit = (data) => {
-  //   const fd = new FormData();
-  //   fd.append("attributes", JSON.stringify(formState.attributes));
-  //   fd.append("productDetails", JSON.stringify(formState.productDetails));
-  //   for (const field in data) {
-  //     if (field !== "attributes" && field !== "productDetails") {
-  //       fd.append(field, data[field]);
-  //     }
-  //   }
-
-  //   const apiUrl =
-  //     data.id === "" ? apiConfig.category : `${apiConfig.category}/${data.id}`;
-
-  //   API[data.id === "" ? "post" : "put"](apiUrl, fd)
-  //     .then(() => {
-  //       HELPER.toaster.success(
-  //         data.id === "" ? "Record created" : "Record saved"
-  //       );
-  //       setTimeout(() => {
-  //         setFormState({ ...initialValues });
-  //       }, 300);
-
-  //     })
-  //     .catch((err) => {
-  //       if (
-  //         err.status === 400 ||
-  //         err.status === 401 ||
-  //         err.status === 409 ||
-  //         err.status === 422 ||
-  //         err.status === 403
-  //       ) {
-  //         HELPER.toaster.error(err.errors.message);
-  //       } else {
-  //         console.error(err);
-  //       }
-  //     });
-  // };
-
   const handleSubmit = (data) => {
     const fd = new FormData();
     fd.append("attributes", JSON.stringify(formState.attributes));
@@ -136,16 +97,6 @@ const CategoryMasterDetails = ({
         }
       });
   };
-
-  // useEffect(() => {
-  //   if (open === true && userData !== null) {
-  //     userData.imgUrl = HELPER.getImageUrl(userData.imgUrl);
-  //     userData.logoUrl = HELPER.getImageUrl(userData.logoUrl);
-  //     setFormState(userData);
-  //   } else {
-  //     setFormState({ ...initialValues });
-  //   }
-  // }, [open, userData]);
 
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {

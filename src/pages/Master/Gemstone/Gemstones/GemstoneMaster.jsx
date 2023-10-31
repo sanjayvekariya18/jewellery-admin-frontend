@@ -8,7 +8,6 @@ import { API, HELPER } from "../../../../services";
 import { apiConfig, appConfig } from "../../../../config";
 import _ from "lodash";
 import Swal from "sweetalert2";
-import useDidMountEffect from "../../../../hooks/useDidMountEffect";
 import { Box, Button, Icon, IconButton, Slider, Tooltip } from "@mui/material";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
@@ -191,9 +190,9 @@ const GemstoneMaster = () => {
     });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   // -------------------Get Price---------------------------------
   useEffect(() => {

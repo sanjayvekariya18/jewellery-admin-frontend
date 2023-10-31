@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Icon, IconButton } from "@mui/material";
 import { Breadcrumb, Container } from "../../components";
 import error400cover from "../../assets/no-data-found-page.png";
@@ -8,7 +8,6 @@ import PaginationTable, {
 } from "../../components/UI/Pagination/PaginationTable";
 import { API } from "../../services";
 import { apiConfig, appConfig } from "../../config";
-import useDidMountEffect from "../../hooks/useDidMountEffect";
 import DiscountDetails from "./DiscountDetails";
 import { pageRoutes } from "../../constants/routesList";
 
@@ -78,9 +77,9 @@ const Discount = () => {
       });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {

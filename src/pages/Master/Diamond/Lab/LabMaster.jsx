@@ -1,14 +1,5 @@
-import React, { useMemo, useState } from "react";
-import {
-  Box,
-  FormControlLabel,
-  Icon,
-  IconButton,
-  Radio,
-  RadioGroup,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import React, { useEffect, useMemo, useState } from "react";
+import { Box, Icon, IconButton, Tooltip } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API } from "../../../../services";
@@ -17,8 +8,6 @@ import PaginationTable, {
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "./../../../../config";
 import _ from "lodash";
-import useDidMountEffect from "../../../../hooks/useDidMountEffect";
-import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
@@ -26,7 +15,6 @@ import LabMasterDetails from "./LabMasterDetails";
 
 const LabMaster = () => {
   const [open, setOpen] = useState(false);
-  const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
   //   const url = apiEndPoint.user;
 
@@ -127,9 +115,9 @@ const LabMaster = () => {
     });
   };
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+  }, []);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {
