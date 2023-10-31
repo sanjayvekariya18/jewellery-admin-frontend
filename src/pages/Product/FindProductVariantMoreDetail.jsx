@@ -30,7 +30,6 @@ const FindProductVariantMoreDetail = () => {
   const [attributesModel, setAttributeModel] = useState(false);
   const [variantModel, setVariantMOdel] = useState(false);
   const [productData, setProductData] = useState([]);
-  const navigate = useNavigate();
 
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
@@ -226,7 +225,7 @@ const FindProductVariantMoreDetail = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          padding: "30px 0px 0px 30px",
+          padding: "30px 0px 0px 40px",
         }}
       >
         <Breadcrumb
@@ -235,7 +234,7 @@ const FindProductVariantMoreDetail = () => {
             { name: "Product", path: pageRoutes.product },
             // {
             //   name: "Product Variant",
-            //   path: pageRoutes.variantProductId,
+            //   path: pageRoutes.product,
             // },
             { name: "Product Details" },
           ]}
@@ -249,7 +248,8 @@ const FindProductVariantMoreDetail = () => {
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr 1fr",
                 gap: "6px",
-                padding: "20px 20px 0px 20px",
+
+                padding: "20px 35px 0px 35px",
               }}
             >
               {gemstoneInfo.map((info) => (
@@ -293,7 +293,7 @@ const FindProductVariantMoreDetail = () => {
               style={{
                 border: "1px solid #3736363b",
                 // marginTop: "5px",
-                margin: "6px 20px 0px 20px",
+                margin: "6px 35px 0px 35px",
                 padding: "4px 8px 10px 8px",
               }}
             >
@@ -319,18 +319,18 @@ const FindProductVariantMoreDetail = () => {
           </>
         </div>
       </Box>
-      <div
-        style={{
-          display: "flex",
-          // gridTemplateColumns: "auto auto auto auto",
-          justifyContent: "start",
-          marginTop: "20px",
-          marginLeft: "12px",
-          gap: "13px",
-          alignItems: "center",
-        }}
-      >
-        <Box>
+      <Box style={{ marginLeft: "38px" }}>
+        <div
+          style={{
+            display: "flex",
+            // gridTemplateColumns: "auto auto auto auto",
+            justifyContent: "start",
+            marginTop: "20px",
+            // marginLeft: "40px",
+            gap: "0px 6px",
+            alignItems: "center",
+          }}
+        >
           <div>
             {productVariantDiamond !== undefined &&
               productVariantDiamond.length !== 0 && (
@@ -342,8 +342,6 @@ const FindProductVariantMoreDetail = () => {
                 </Button>
               )}
           </div>
-        </Box>
-        <Box>
           <div>
             {productVariantGemstone !== undefined &&
               productVariantGemstone.length > 0 && (
@@ -355,8 +353,6 @@ const FindProductVariantMoreDetail = () => {
                 </Button>
               )}
           </div>
-        </Box>
-        <Box>
           <div>
             {productVariantAttributes !== undefined &&
               productVariantAttributes.length > 0 && (
@@ -368,8 +364,6 @@ const FindProductVariantMoreDetail = () => {
                 </Button>
               )}
           </div>
-        </Box>
-        <Box>
           <div>
             {productVariant !== undefined && productVariant.length > 0 && (
               <Button variant="contained" onClick={() => setVariantMOdel(true)}>
@@ -377,8 +371,8 @@ const FindProductVariantMoreDetail = () => {
               </Button>
             )}
           </div>
-        </Box>
-      </div>
+        </div>
+      </Box>
       {/* ThemeDialog Component */}
 
       {/* Product Variant Diamonds */}
@@ -402,23 +396,28 @@ const FindProductVariantMoreDetail = () => {
         {/* {productVariantDiamond !== undefined &&
           productVariantDiamond.length > 0 && ( */}
         <div>
-          <PaginationTable
-            header={COLUMNSDIAMOND}
-            rows={rowsDiamond}
-            totalItems={state.total_items || 0}
-            perPage={state.rowsPerPage}
-            activePage={state.page}
-            checkboxColumn={false}
-            selectedRows={state.selectedRows}
-            enableOrder={true}
-            isLoader={state.loader}
-            emptyTableImg={<img src={error400cover} width="400px" />}
-            {...otherTableActionProps}
-            orderBy={state.orderby}
-            order={state.order}
-            footerVisibility={false}
-          ></PaginationTable>
+          {rowsDiamond && rowsDiamond.length > 0 ? (
+            <PaginationTable
+              header={COLUMNSDIAMOND}
+              rows={rowsDiamond}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              {...otherTableActionProps}
+              orderBy={state.orderby}
+              order={state.order}
+              footerVisibility={false}
+            ></PaginationTable>
+          ) : (
+            <p>No data available</p>
+          )}
         </div>
+
         {/* )} */}
       </ThemeDialog>
 
@@ -441,22 +440,26 @@ const FindProductVariantMoreDetail = () => {
         }
       >
         <div>
-          <PaginationTable
-            header={COLUMNSGEMSTONE}
-            rows={rowsGemstone}
-            totalItems={state.total_items || 0}
-            perPage={state.rowsPerPage}
-            activePage={state.page}
-            checkboxColumn={false}
-            selectedRows={state.selectedRows}
-            enableOrder={true}
-            isLoader={state.loader}
-            emptyTableImg={<img src={error400cover} width="400px" />}
-            {...otherTableActionProps}
-            orderBy={state.orderby}
-            order={state.order}
-            footerVisibility={false}
-          ></PaginationTable>
+          {rowsGemstone && rowsGemstone.length > 0 ? (
+            <PaginationTable
+              header={COLUMNSGEMSTONE}
+              rows={rowsGemstone}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              {...otherTableActionProps}
+              orderBy={state.orderby}
+              order={state.order}
+              footerVisibility={false}
+            ></PaginationTable>
+          ) : (
+            <p>No data available</p>
+          )}
         </div>
       </ThemeDialog>
 
@@ -479,22 +482,26 @@ const FindProductVariantMoreDetail = () => {
         }
       >
         <div>
-          <PaginationTable
-            header={COLUMNATTRIBUTES}
-            rows={rowsAttributes}
-            totalItems={state.total_items || 0}
-            perPage={state.rowsPerPage}
-            activePage={state.page}
-            checkboxColumn={false}
-            selectedRows={state.selectedRows}
-            enableOrder={true}
-            isLoader={state.loader}
-            emptyTableImg={<img src={error400cover} width="400px" />}
-            {...otherTableActionProps}
-            orderBy={state.orderby}
-            order={state.order}
-            footerVisibility={false}
-          ></PaginationTable>
+          {rowsAttributes && rowsAttributes.length > 0 ? (
+            <PaginationTable
+              header={COLUMNATTRIBUTES}
+              rows={rowsAttributes}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              {...otherTableActionProps}
+              orderBy={state.orderby}
+              order={state.order}
+              footerVisibility={false}
+            ></PaginationTable>
+          ) : (
+            <p>No data available</p>
+          )}
         </div>
       </ThemeDialog>
 
@@ -517,22 +524,26 @@ const FindProductVariantMoreDetail = () => {
         }
       >
         <div>
-          <PaginationTable
-            header={COLUMNVARIANT}
-            rows={rowsVariant}
-            totalItems={state.total_items || 0}
-            perPage={state.rowsPerPage}
-            activePage={state.page}
-            checkboxColumn={false}
-            selectedRows={state.selectedRows}
-            enableOrder={true}
-            isLoader={state.loader}
-            emptyTableImg={<img src={error400cover} width="400px" />}
-            {...otherTableActionProps}
-            orderBy={state.orderby}
-            order={state.order}
-            footerVisibility={false}
-          ></PaginationTable>
+          {rowsVariant && rowsVariant.length > 0 ? (
+            <PaginationTable
+              header={COLUMNVARIANT}
+              rows={rowsVariant}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              {...otherTableActionProps}
+              orderBy={state.orderby}
+              order={state.order}
+              footerVisibility={false}
+            ></PaginationTable>
+          ) : (
+            <p>No data available</p>
+          )}
         </div>
       </ThemeDialog>
 

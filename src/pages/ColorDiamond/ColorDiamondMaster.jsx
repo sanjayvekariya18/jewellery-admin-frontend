@@ -264,9 +264,13 @@ const ColorDiamondMaster = () => {
     });
   };
 
+  // useEffect(() => {
+  //   paginate();
+  // }, []);
+
   useEffect(() => {
     paginate();
-  }, []);
+  }, [state.page, state.rowsPerPage]);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {

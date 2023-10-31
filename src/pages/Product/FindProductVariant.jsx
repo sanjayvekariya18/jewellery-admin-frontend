@@ -52,15 +52,15 @@ const FindProductVariant = () => {
   }, []);
 
   const COLUMNS = [
-    { title: "Index" },
-    { title: "Title", classNameWidth: "common-width-apply-th" },
+    { title: "Index", classNameWidth: "thead-second-width-action-index" },
+    { title: "Title", classNameWidth: "thead-second-width-title-blog" },
     { title: "Total Carat" },
     { title: "Metal Weight" },
     { title: "Metal Price" },
     { title: "Making Price" },
     { title: "Diamond Price" },
     { title: "Total Price" },
-    { title: "Action" },
+    { title: "Action", classNameWidth: "thead-second-width-action" },
   ];
 
   const rows = useMemo(() => {
@@ -69,7 +69,7 @@ const FindProductVariant = () => {
         item: item,
         columns: [
           <span>{i + 1}</span>,
-          <div className="common-width-three-dot-text span-permision">
+          <div className="common-thead-second-width-title-blog   span-permision">
             <span>{item.title}</span>
           </div>,
           <span>{item.totalCarat}</span>,
@@ -90,7 +90,7 @@ const FindProductVariant = () => {
 
   useEffect(() => {
     paginate();
-  }, []);
+  }, [state.page, state.rowsPerPage]);
 
   const handleButtonClick = (id) => {
     navigate(`${pageRoutes.productVariantId}/${id}`);

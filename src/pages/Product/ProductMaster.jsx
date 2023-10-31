@@ -104,7 +104,11 @@ const ProductMaster = () => {
 
   useEffect(() => {
     paginate();
-  }, []);
+  }, [state.page, state.rowsPerPage]);
+
+  // useEffect(() => {
+  //   paginate();
+  // }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {
@@ -152,7 +156,7 @@ const ProductMaster = () => {
           >
             <Breadcrumb
               routeSegments={[
-                { name: "Masters", path: pageRoutes.product },
+                { name: "Masters", path: pageRoutes.master.user.user },
                 { name: "Product" },
               ]}
             />
@@ -160,7 +164,7 @@ const ProductMaster = () => {
               <Button
                 variant="contained"
                 onClick={togglePopupBulk}
-                style={{ marginLeft: "20px" }}
+                // style={{ marginLeft: "20px" }}
               >
                 Add Product Bulk
               </Button>
@@ -181,16 +185,17 @@ const ProductMaster = () => {
             orderBy={state.orderby}
             order={state.order}
           ></PaginationTable>
-          <div></div>
-
-          <ProductBulkMasterDetails
-            open={bulkOpen}
-            togglePopup={() => {
-              togglePopupBulk();
-              paginate();
-            }}
-            callBack={() => paginate(true)}
-          />
+          {/* <div></div> */}
+          {bulkOpen && (
+            <ProductBulkMasterDetails
+              open={bulkOpen}
+              togglePopup={() => {
+                togglePopupBulk();
+                paginate();
+              }}
+              callBack={() => paginate(true)}
+            />
+          )}
         </Container>
       </div>
     </>

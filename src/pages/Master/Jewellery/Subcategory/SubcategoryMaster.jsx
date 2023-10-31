@@ -94,7 +94,7 @@ const SubcategoryMaster = () => {
 
   useEffect(() => {
     paginate();
-  }, []);
+  }, [state.page, state.rowsPerPage]);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {

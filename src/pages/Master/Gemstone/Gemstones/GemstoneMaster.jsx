@@ -192,7 +192,7 @@ const GemstoneMaster = () => {
 
   useEffect(() => {
     paginate();
-  }, []);
+  }, [state.page, state.rowsPerPage]);
 
   // -------------------Get Price---------------------------------
   useEffect(() => {

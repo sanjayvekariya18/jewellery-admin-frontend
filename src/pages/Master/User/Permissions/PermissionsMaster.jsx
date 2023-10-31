@@ -79,7 +79,7 @@ const PermissionsMaster = () => {
   };
   useEffect(() => {
     paginate();
-  }, []);
+  }, [state.page, state.rowsPerPage]);
 
   const togglePopup = () => {
     if (open) {

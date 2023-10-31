@@ -269,7 +269,7 @@ const DiamondMaster = () => {
 
   useEffect(() => {
     paginate();
-  }, []);
+  }, [state.page, state.rowsPerPage]);
 
   // ---------------color Filter----------------------
   const marksColor = [

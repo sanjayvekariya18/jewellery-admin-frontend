@@ -96,7 +96,7 @@ const OptionMaster = () => {
 
   useEffect(() => {
     paginate();
-  }, []);
+  }, [state.page, state.rowsPerPage]);
 
   /* Pagination code */
 

@@ -34,7 +34,7 @@ export const pageRoutes = {
       discount: "/master/diamond/discount",
     },
     gemstone: {
-      gemstone: "/master/gemstone/gemstones",
+      gemstone: "/master/gemstone",
     },
     jewellery: {
       category: "/master/jewellery/category",

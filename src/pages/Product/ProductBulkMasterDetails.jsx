@@ -6,12 +6,10 @@ import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../components/validations/Validator";
 import ReactSelect from "../../components/UI/ReactSelect";
 import { DropzoneArea } from "material-ui-dropzone";
-const rules = {
-  productData: "required",
-};
+
 const ProductBulkMasterDetails = ({ open, togglePopup }) => {
   const [errorModel, setErrorModel] = useState(false);
-  const [err, setErr] = useState();
+  const [err, setErr] = useState("");
   const [errorState, setErrorState] = useState({});
   const [category, setCategory] = useState([]);
   const [store, setStore] = useState("");
@@ -19,18 +17,24 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
   const [formState, setFormState] = useState({ productData: null });
   const [selectedFile, setSelectedFile] = useState(null);
 
-  // category wise select
+  const rules = {
+    productData: "required",
+  };
+
+  // Fetch category data on component mount
   useEffect(() => {
     API.get(apiConfig.category).then((res) => {
       setCategory(res.rows);
     });
   }, []);
 
-  let _sortOptionsCategory = category.map((option) => ({
+  // Map category data for ReactSelect component
+  const _sortOptionsCategory = category.map((option) => ({
     label: option.name,
     value: option.id,
   }));
 
+  // Handle file download
   const handleDownload = () => {
     if (store && category.length > 0) {
       const foundCategory = category.find((item) => item.id === store);
@@ -57,12 +61,12 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
     }
   };
 
-  // file download handle change
+  // Handle file change for upload
   const handleFileChange = (files) => {
     setSelectedFile(files[0]);
   };
 
-  //  file upload handle submit
+  // Handle file upload submit
   const handleSubmit = () => {
     if (selectedFile) {
       setIsLoader(true);
@@ -123,13 +127,13 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                   Download
                 </Button>
                 <Button
-                  style={{ marginLeft: "10px" }}
+                  style={{ marginLeft: "20px" }}
                   variant="outlined"
                   color="secondary"
                   onClick={() => {
                     togglePopup();
                     resetValidation();
-                    setFormState("");
+                    setFormState({ productData: null });
                   }}
                 >
                   Cancel
@@ -144,7 +148,6 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                   Save
                 </Button>
               </Box>
-
               <ThemeDialog
                 isOpen={errorModel}
                 onClose={() => setErrorModel(false)}
@@ -233,9 +236,8 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                 name="choices-multi-default"
               />
             </div>
-            {/* <br /> */}
 
-            <div style={{ marginTop: "15px" }}>
+            <div className="div-container">
               <DropzoneArea
                 onChange={handleFileChange}
                 acceptedFiles={[
@@ -243,8 +245,8 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 ]}
                 showPreviewsInDropzone
-                dropzoneText="Drag and drop your file here or click"
                 filesLimit={1}
+                dropzoneClass="dropzone"
               />
             </div>
           </Box>

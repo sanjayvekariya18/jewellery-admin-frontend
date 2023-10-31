@@ -130,7 +130,7 @@ const EmailTemplateMaster = () => {
 
   useEffect(() => {
     paginate();
-  }, []);
+  }, [state.page, state.rowsPerPage]);
 
   const showAddressInDialog = (item) => {
     const description = item.subject;
