@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Button, Icon, IconButton } from "@mui/material";
 import error400cover from "../../assets/no-data-found-page.png";
 import _ from "lodash";
@@ -102,6 +102,10 @@ const ProductMaster = () => {
   useDidMountEffect(() => {
     paginate();
   }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+
+  useEffect(() => {
+    paginate();
+  }, []);
 
   const rows = useMemo(() => {
     return state.data.map((item) => {
