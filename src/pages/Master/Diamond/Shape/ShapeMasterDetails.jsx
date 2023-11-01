@@ -20,6 +20,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
 
   const rules = {
+    rankk: "required|integer",
     shape: "required",
     image: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
@@ -119,6 +120,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
             placeholder="Enter Rank"
             value={formState.rankk}
             onChange={onChange}
+            error={errors?.rankk}
             sx={{ mb: 0, mt: 1, width: "100%" }}
           />
           <div className="text-input-top">

@@ -9,11 +9,15 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "quill/dist/quill.core.css";
 
+function generateUniqueKey() {
+  return new Date().getTime().toString();
+}
 const initialValues = {
   id: "",
   template_name: "",
   subject: "",
   body: "",
+  key: generateUniqueKey(),
 };
 
 const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {

@@ -5,7 +5,7 @@ import { apiConfig } from "../../config";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../components/validations/Validator";
 import ReactSelect from "../../components/UI/ReactSelect";
-import { DropzoneArea } from "material-ui-dropzone";
+import FileDrop from "../../components/UI/FileDrop";
 
 const ProductBulkMasterDetails = ({ open, togglePopup }) => {
   const [errorModel, setErrorModel] = useState(false);
@@ -16,7 +16,6 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
   const [isLoader, setIsLoader] = useState(false);
   const [formState, setFormState] = useState({ productData: null });
   const [selectedFile, setSelectedFile] = useState(null);
-
   const rules = {
     productData: "required",
   };
@@ -61,11 +60,6 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
     }
   };
 
-  // Handle file change for upload
-  const handleFileChange = (files) => {
-    setSelectedFile(files[0]);
-  };
-
   // Handle file upload submit
   const handleSubmit = () => {
     if (selectedFile) {
@@ -102,6 +96,10 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
           setIsLoader(false);
         });
     }
+  };
+
+  const onFileSelected = (selectedFile) => {
+    setSelectedFile(selectedFile);
   };
 
   return (
@@ -236,19 +234,15 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                 name="choices-multi-default"
               />
             </div>
-
-            <div className="div-container">
-              <DropzoneArea
-                onChange={handleFileChange}
-                acceptedFiles={[
-                  ".xlsx",
-                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                ]}
-                showPreviewsInDropzone
-                filesLimit={1}
-                dropzoneClass="dropzone"
-              />
-            </div>
+            <FileDrop
+              onFileSelected={onFileSelected}
+              accept={[
+                ".xlsx",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+              ]}
+              icon="cloud_upload"
+              label="Drag & drop an Excel file here, or click to select one"
+            />
           </Box>
         </ThemeDialog>
       )}

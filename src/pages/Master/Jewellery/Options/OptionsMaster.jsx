@@ -184,7 +184,19 @@ const OptionMaster = () => {
             toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((err) => {
+            if (
+              err.status === 400 ||
+              err.status === 401 ||
+              err.status === 409 ||
+              err.status === 422 ||
+              err.status === 403
+            ) {
+              HELPER.toaster.error(err.errors.message);
+            } else {
+              console.error(err);
+            }
+          });
       }
     });
   };

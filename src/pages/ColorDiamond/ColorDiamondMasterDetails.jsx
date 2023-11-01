@@ -37,7 +37,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
     carat: "required",
     shape: "required",
     color: "required",
-    price: "required",
+    price: "required|numeric|min:1",
     clarity: "required",
     colorName: "required",
     intensity: "required",
@@ -397,9 +397,9 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               placeholder="Enter Price"
               value={formState.price}
               onChange={onChange}
-              error={errors?.price ? true : false}
-              helperText={errors?.price}
-              sx={{ mb: 1, width: "100%" }}
+              // error={errors?.price ? true : false}
+              error={errors?.price}
+              sx={{ mb: 0, width: "100%" }}
               InputProps={{ inputProps: { min: 1 } }}
             />
           </div>

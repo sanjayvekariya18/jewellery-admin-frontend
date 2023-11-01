@@ -218,6 +218,11 @@ const FindProductVariantMoreDetail = () => {
     );
   }, [productVariant]);
 
+  const navigate = useNavigate();
+  const handleOnClick = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <Box
@@ -232,10 +237,10 @@ const FindProductVariantMoreDetail = () => {
           routeSegments={[
             { name: "Masters", path: pageRoutes.diamond },
             { name: "Product", path: pageRoutes.product },
-            // {
-            //   name: "Product Variant",
-            //   path: pageRoutes.product,
-            // },
+            {
+              name: "Product Variant",
+              onClick: handleOnClick,
+            },
             { name: "Product Details" },
           ]}
         />
