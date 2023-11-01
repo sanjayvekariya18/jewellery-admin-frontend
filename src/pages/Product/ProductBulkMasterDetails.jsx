@@ -153,14 +153,14 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                 maxWidth="sm"
                 actionBtns={
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
                     onClick={() => {
                       setErrorModel(false);
                       togglePopup();
                     }}
                   >
-                    Okay
+                    Close
                   </Button>
                 }
               >

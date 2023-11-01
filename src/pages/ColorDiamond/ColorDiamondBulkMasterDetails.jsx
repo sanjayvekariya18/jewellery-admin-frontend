@@ -123,14 +123,14 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
                 maxWidth="sm"
                 actionBtns={
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     color="secondary"
                     onClick={() => {
                       setErrorModel(false);
                       setSelectedFile(null);
                     }}
                   >
-                    Okay
+                    Close
                   </Button>
                 }
               >
