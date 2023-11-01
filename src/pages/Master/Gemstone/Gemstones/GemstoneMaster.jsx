@@ -69,8 +69,8 @@ const GemstoneMaster = () => {
       sortBy: "newest",
       fromPrice: price.minPrice,
       toPrice: price.maxPrice,
-      fromDimension: 0.05,
-      toDimension: 10.0,
+      fromDimension: "",
+      toDimension: "",
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
