@@ -17,6 +17,10 @@ const Textinput = ({
   onChange,
   ...rest
 }) => {
+  //  const displayValue = value !== null && value !== undefined ? value : 0;
+
+  // Check if the type is "number" and the value is 0, then display "0"
+  const displayValue = type === "number" && value === 0 ? "0" : value;
   return (
     <div className="mb-3">
       <TextField
@@ -28,7 +32,12 @@ const Textinput = ({
         label={label}
         placeholder={placeholder}
         readOnly={readonly}
-        value={value ? value : ""}
+        // value={value ? value : ""}
+        value={
+          displayValue !== null && displayValue !== undefined
+            ? displayValue
+            : ""
+        }
         disabled={disabled}
         inputProps={{ min: "0" }}
         id={id}

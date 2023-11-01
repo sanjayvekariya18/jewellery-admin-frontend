@@ -29,11 +29,6 @@ const GemstoneMaster = () => {
   const [gemStoneData, setGemstoneData] = useState(null);
   const [price, setPrice] = useState([]);
 
-  //   const [textModal, setTextModal] = useState(false);
-  //   const [addressText, setAddressText] = useState("");
-  //   const textModaltoggle = () => {
-  //     setTextModal(!textModal);
-  //   };
   // ----Pagination code------
   const COLUMNS = [
     { title: "Stock No" },
@@ -45,10 +40,6 @@ const GemstoneMaster = () => {
     { title: "Clarity" },
     { title: "Origin" },
     { title: "Price" },
-    // { title: "M-Length" },
-    // { title: "M-Width" },
-    // { title: "M-Depth" },
-    // { title: "Description" },
     { title: "Visible" },
     { title: "Action" },
   ];
@@ -57,11 +48,10 @@ const GemstoneMaster = () => {
     color: "",
     origin: "",
     gemstoneType: "",
-  }
+  };
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
-
       shape: "",
       color: "",
       origin: "",
@@ -81,6 +71,8 @@ const GemstoneMaster = () => {
       origin: "",
       gemstoneType: "",
       sortBy: "newest",
+      fromPrice: price.minPrice,
+      toPrice: price.maxPrice,
       fromDimension: 0.05,
       toDimension: 10.0,
       ...appConfig.default_pagination_state,
@@ -301,12 +293,6 @@ const GemstoneMaster = () => {
     });
   };
 
-  //   const showAddressInDialog = (item) => {
-  //     const title = `${item.title}}`;
-
-  //     setAddressText(title); // Set the address text
-  //     textModaltoggle(); // Show the dialog
-  //   };
   // ----------Get Gemstone List Api-------------
   const rows = useMemo(() => {
     return state.data.map((item) => {
@@ -317,7 +303,7 @@ const GemstoneMaster = () => {
           <div className="common-thead-second-width-title">
             <span
               style={{ fontWeight: 500 }}
-            // onClick={() => showAddressInDialog(item)}
+              // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -330,12 +316,7 @@ const GemstoneMaster = () => {
           <span>{item.clarity}</span>,
           <span>{item.origin}</span>,
           <span>{item.price}</span>,
-          //   <span>{item.mLength}</span>,
-          //   <span>{item.mWidth}</span>,
-          //   <span>{item.mDepth}</span>,
-          //   <span className="three-dot-text" style={{ fontWeight: 500 }}>
-          //     {item.description}
-          //   </span>,
+
           <span>
             <ThemeSwitch
               checked={item.isVisible}
@@ -428,16 +409,21 @@ const GemstoneMaster = () => {
                 <div>
                   <ReactSelect
                     // label="Select Sort by Price"
-                    placeholder={_sortOptionsSortBy.find(option => option.value === state.sortBy)?.label || "Sort by Price"}
+                    placeholder={
+                      _sortOptionsSortBy.find(
+                        (option) => option.value === state.sortBy
+                      )?.label || "Sort by Price"
+                    }
                     options={_sortOptionsSortBy}
-                    value={_sortOptionsSortBy.find((option) => option.value === state.sortBy)}
+                    value={_sortOptionsSortBy.find(
+                      (option) => option.value === state.sortBy
+                    )}
                     onChange={(selectedSort) => {
                       const selectedId = selectedSort.target.value;
                       changeState("sortBy", selectedId);
                     }}
                     name="choices-multi-default"
                   />
-
                 </div>
                 <div
                   style={{
@@ -542,7 +528,7 @@ const GemstoneMaster = () => {
                   }}
                   className="text-input-top"
                 >
-                  {/* <div>
+                  <div>
                     <label className="label-class">Price :</label>
                     <Slider
                       defaultValue={[price.minPrice, price.maxPrice]}
@@ -596,8 +582,8 @@ const GemstoneMaster = () => {
                         style={{ width: "140px" }}
                       />
                     </div>
-                  </div> */}
-                  <div>
+                  </div>
+                  {/* <div>
                     <label className="label-class">Price :</label>
                     <Slider
                       defaultValue={[price.minPrice, price.maxPrice]}
@@ -637,11 +623,7 @@ const GemstoneMaster = () => {
                         style={{ width: "140px" }}
                       />
                     </div>
-                  </div>
-
-
-
-
+                  </div> */}
 
                   <div>
                     <label
@@ -747,7 +729,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}
@@ -757,34 +739,6 @@ const GemstoneMaster = () => {
             }}
             gemStoneData={gemStoneData}
           />
-          {/* {textModal && (
-            <ThemeDialog
-              title="Address"
-              id="showModal"
-              isOpen={textModal}
-              toggle={textModaltoggle}
-              centered
-              maxWidth="sm"
-              actionBtns={
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={textModaltoggle}
-                >
-                  Close
-                </Button>
-              }
-            >
-              <div style={{ padding: "0px", margin: "0px" }}>
-                <Textarea
-                  className="form-control"
-                  rows="5"
-                  value={addressText}
-                  readOnly
-                ></Textarea>
-              </div>
-            </ThemeDialog>
-          )} */}
         </Container>
       </div>
     </>

@@ -19,7 +19,7 @@ const Discount = () => {
     { title: "High Size" },
     { title: "Low Size" },
     { title: "Discount" },
-    { title: "Action" },
+    { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =

@@ -40,7 +40,7 @@ const EmailTemplateMaster = () => {
   const COLUMNS = [
     { title: "Template Name", classNameWidth: "thead-second-width-title-blog" },
     { title: "Subject", classNameWidth: "thead-second-width-title-blog" },
-    { title: "Action" },
+    { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =

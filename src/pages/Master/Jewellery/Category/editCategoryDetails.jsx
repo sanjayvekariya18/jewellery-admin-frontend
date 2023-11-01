@@ -292,6 +292,7 @@ const EditCategoryMasterDetails = () => {
     }
   };
 
+  // console.log(formState, "---------formState");
   return (
     <Container>
       <Validators formData={formState} rules={rules}>
@@ -317,7 +318,7 @@ const EditCategoryMasterDetails = () => {
                   name="name"
                   label="Category Name"
                   placeholder="Enter Category Name"
-                  value={formState.name || categoryData.name}
+                  value={formState.name}
                   onChange={onChange}
                   error={errors?.name}
                   sx={{ mb: 0, width: "60%" }}
@@ -646,7 +647,7 @@ const EditCategoryMasterDetails = () => {
                     minRows={3}
                     maxRows={3}
                     placeholder="Enter Category Details"
-                    value={formState.details || categoryData.details}
+                    value={formState.details}
                     onChange={onChange}
                     sx={{ mb: 1.5 }}
                   />

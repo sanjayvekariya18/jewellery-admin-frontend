@@ -29,7 +29,10 @@ const DetailsGroupMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
 
   /* Pagination code */
-  const COLUMNS = [{ title: "Group Name" }, { title: "Action" }];
+  const COLUMNS = [
+    { title: "Group Name" },
+    { title: "Action", classNameWidth: "thead-second-width-action-index" },
+  ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({

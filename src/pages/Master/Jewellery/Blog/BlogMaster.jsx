@@ -48,10 +48,10 @@ const BlogMaster = () => {
   /* Pagination code */
   const COLUMNS = [
     { title: "Title", classNameWidth: "thead-second-width-title-blog" },
-    { title: "Category Name" },
-    { title: "Image" },
-    { title: "Date" },
-    { title: "Action" },
+    { title: "Category Name", classNameWidth: "thead-second-width-title" },
+    { title: "Image", classNameWidth: "thead-second-width" },
+    { title: "Date", classNameWidth: "thead-second-width" },
+    { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =

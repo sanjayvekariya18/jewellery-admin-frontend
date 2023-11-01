@@ -37,9 +37,9 @@ const BlogCategoryMaster = () => {
   };
   /* Pagination code */
   const COLUMNS = [
-    { title: "Category Name" },
-    { title: "Description" },
-    { title: "Action" },
+    { title: "Category Name", classNameWidth: "thead-second-width-title" },
+    { title: "Description", classNameWidth: "thead-second-width-title-option" },
+    { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -143,7 +143,7 @@ const BlogCategoryMaster = () => {
         columns: [
           <span>{item.category_name}</span>,
           <div
-            className="common-thead-second-width-title"
+            className="common-thead-second-width-title-option"
             style={{ fontWeight: "500", cursor: "pointer" }}
             onClick={() => showAddressInDialog(item)}
           >

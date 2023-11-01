@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, Tooltip } from "@mui/material";
+import { Box, Icon, IconButton, Tooltip, Button } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
@@ -14,19 +14,26 @@ import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
 import DetailsMasterDetails from "./DetailsMasterDetails";
 import ReactSelect from "../../../../components/UI/ReactSelect";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Textarea from "../../../../components/UI/Textarea";
 
 const DetailsMaster = () => {
   const [open, setOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [productDetailsGroupId, setProductDetailsGroupId] = useState([]);
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
   /* Pagination code */
   const COLUMNS = [
-    { title: "Detail Name" },
-    { title: "Group Name" },
-    { title: "Logo" },
-    { title: "Description" },
-    { title: "Action" },
+    { title: "Detail Name", classNameWidth: "thead-second-width-title" },
+    { title: "Group Name", classNameWidth: "thead-second-width-title" },
+    { title: "Logo", classNameWidth: "thead-second-width" },
+    { title: "Description", classNameWidth: "thead-second-width-title-answer" },
+    { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -120,6 +127,12 @@ const DetailsMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage]);
 
+  const showAddressInDialog = (item) => {
+    const address = item.description;
+    setAddressText(address); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -141,7 +154,16 @@ const DetailsMaster = () => {
               />
             )}
           </span>,
-          <span>{item.description}</span>,
+          <div>
+            <span
+              className="common-thead-second-width-title-answer"
+              style={{ fontWeight: "500", cursor: "pointer" }}
+              onClick={() => showAddressInDialog(item)}
+            >
+              {item.description}
+            </span>
+          </div>,
+
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
@@ -267,6 +289,34 @@ const DetailsMaster = () => {
         userData={selectedUserData}
         productDetailsGroupId={productDetailsGroupId}
       />
+      {textModal && (
+        <ThemeDialog
+          title="Details"
+          id="showModal"
+          isOpen={textModal}
+          toggle={textModaltoggle}
+          centered
+          maxWidth="sm"
+          actionBtns={
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={textModaltoggle}
+            >
+              Close
+            </Button>
+          }
+        >
+          <div style={{ padding: "0px", margin: "0px" }}>
+            <Textarea
+              className="form-control"
+              rows="5"
+              value={addressText}
+              readOnly
+            ></Textarea>
+          </div>
+        </ThemeDialog>
+      )}
     </Container>
   );
 };

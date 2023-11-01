@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, Tooltip } from "@mui/material";
+import { Box, Icon, IconButton, Tooltip, Button } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
@@ -12,18 +12,24 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 import { toaster } from "../../../../services/helper";
 import Swal from "sweetalert2";
 import ShapeMasterDetails from "./ShapeMasterDetails";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Textarea from "../../../../components/UI/Textarea";
 
 const ShapeMaster = () => {
   const [open, setOpen] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
-
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
   /* Pagination code */
   const COLUMNS = [
-    { title: "Rank" },
-    { title: "Shape" },
-    { title: "Image" },
-    { title: "Description" },
-    { title: "Action" },
+    { title: "Rank", classNameWidth: "thead-second-width-action-index" },
+    { title: "Shape", classNameWidth: "thead-second-width-title" },
+    { title: "Image", classNameWidth: "thead-second-width" },
+    { title: "Description", classNameWidth: "thead-second-width-title-option" },
+    { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -94,6 +100,13 @@ const ShapeMaster = () => {
   useEffect(() => {
     paginate();
   }, [state.page, state.rowsPerPage]);
+
+  const showAddressInDialog = (item) => {
+    const address = item.description;
+    setAddressText(address); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -115,7 +128,15 @@ const ShapeMaster = () => {
               />
             )}
           </span>,
-          <span>{item.description}</span>,
+          <div>
+            <span
+              className="common-thead-second-width-title-option"
+              style={{ fontWeight: "500", cursor: "pointer" }}
+              onClick={() => showAddressInDialog(item)}
+            >
+              {item.description}
+            </span>
+          </div>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
@@ -214,6 +235,34 @@ const ShapeMaster = () => {
         }}
         userData={selectedUserData}
       />
+      {textModal && (
+        <ThemeDialog
+          title="Details"
+          id="showModal"
+          isOpen={textModal}
+          toggle={textModaltoggle}
+          centered
+          maxWidth="sm"
+          actionBtns={
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={textModaltoggle}
+            >
+              Close
+            </Button>
+          }
+        >
+          <div style={{ padding: "0px", margin: "0px" }}>
+            <Textarea
+              className="form-control"
+              rows="5"
+              value={addressText}
+              readOnly
+            ></Textarea>
+          </div>
+        </ThemeDialog>
+      )}
     </Container>
   );
 };

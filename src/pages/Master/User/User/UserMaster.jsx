@@ -96,6 +96,11 @@ const UserMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
+      })
+      .finally(() => {
+        if (openSearch == true) {
+          setOpenSearch(false);
+        }
       });
   };
 
@@ -108,7 +113,7 @@ const UserMaster = () => {
       return {
         item: item,
         columns: [
-          <span>
+          <span className="main-image-box-user">
             <ImgBoxShow src={item.image} />
           </span>,
           <span>
@@ -244,6 +249,7 @@ const UserMaster = () => {
         onClose={() => setOpenSearch(false)}
         reset={() => paginate(true)}
         search={() => paginate(false, true)}
+        maxWidth="sm"
       >
         <Textinput
           size="small"

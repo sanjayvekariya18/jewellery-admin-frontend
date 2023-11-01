@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, Tooltip } from "@mui/material";
+import { Box, Icon, IconButton, Tooltip, Button } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API } from "../../../../services";
@@ -12,17 +12,23 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
 import LabMasterDetails from "./LabMasterDetails";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Textarea from "../../../../components/UI/Textarea";
 
 const LabMaster = () => {
   const [open, setOpen] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
   //   const url = apiEndPoint.user;
-
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
   /* Pagination code */
   const COLUMNS = [
-    { title: "Name" },
-    { title: "Details" },
-    { title: "Action" },
+    { title: "Name", classNameWidth: "thead-second-width-title" },
+    { title: "Details", classNameWidth: "thead-second-width-title-option" },
+    { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -119,13 +125,25 @@ const LabMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage]);
 
+  const showAddressInDialog = (item) => {
+    const address = item.details;
+    setAddressText(address); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
         item: item,
         columns: [
           <span>{item.labName}</span>,
-          <span>{item.details}</span>,
+          <span
+            className="common-thead-second-width-title-option"
+            style={{ fontWeight: "500", cursor: "pointer" }}
+            onClick={() => showAddressInDialog(item)}
+          >
+            {item.details}
+          </span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
@@ -201,6 +219,35 @@ const LabMaster = () => {
         }}
         userData={selectedUserData}
       />
+
+      {textModal && (
+        <ThemeDialog
+          title="Details"
+          id="showModal"
+          isOpen={textModal}
+          toggle={textModaltoggle}
+          centered
+          maxWidth="sm"
+          actionBtns={
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={textModaltoggle}
+            >
+              Close
+            </Button>
+          }
+        >
+          <div style={{ padding: "0px", margin: "0px" }}>
+            <Textarea
+              className="form-control"
+              rows="5"
+              value={addressText}
+              readOnly
+            ></Textarea>
+          </div>
+        </ThemeDialog>
+      )}
     </Container>
   );
 };

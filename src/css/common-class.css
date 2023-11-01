@@ -208,6 +208,18 @@ input::-webkit-inner-spin-button {
     width: 600px !important;
 }
 
+.thead-second-width-title-subcategory {
+    width: 500px !important;
+}
+
+.common-thead-second-width-title-subcategory {
+    display: inline-block;
+    width: 495px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
 .common-thead-second-width-title-option {
     display: inline-block;
     width: 595px;
@@ -299,4 +311,9 @@ input::-webkit-inner-spin-button {
 .uploaded-image {
     max-width: 100%;
     max-height: 100%;
+}
+
+.main-image-box-user img {
+    width: 40px !important;
+    height: 40px !important;
 }

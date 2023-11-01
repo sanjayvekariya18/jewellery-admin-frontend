@@ -283,7 +283,7 @@ const OptionMaster = () => {
 
       {textModal && (
         <ThemeDialog
-          title="Address"
+          title="Details"
           id="showModal"
           isOpen={textModal}
           toggle={textModaltoggle}

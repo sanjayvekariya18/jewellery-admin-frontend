@@ -37,10 +37,10 @@ const FaqMaster = () => {
   };
   /* Pagination code */
   const COLUMNS = [
-    { title: "Category" },
+    { title: "Category", classNameWidth: "thead-second-width-title" },
     { title: "Question", classNameWidth: "thead-second-width-title-blog" },
     { title: "Answer", classNameWidth: "thead-second-width-title-answer" },
-    { title: "Action" },
+    { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
