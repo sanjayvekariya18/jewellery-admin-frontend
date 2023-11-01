@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IconButton, Icon } from "@mui/material";
 import { useDropzone } from "react-dropzone";
 
-const FileDrop = ({ onFileSelected, accept, icon, label }) => {
+const FileDrop = ({ onFileSelected, accept, icon, label, selectedFileNameRemove }) => {
   const [selectedFileName, setSelectedFileName] = useState("");
+
+  useEffect(() => {
+    if (selectedFileNameRemove === null) {
+      setSelectedFileName("");
+    }
+  }, [selectedFileNameRemove])
 
   const onDrop = (acceptedFiles) => {
     const selectedFile = acceptedFiles[0];
@@ -15,7 +21,6 @@ const FileDrop = ({ onFileSelected, accept, icon, label }) => {
     onDrop,
     accept,
   });
-
   return (
     <div
       className={`text-input-top dropzone ${isDragActive ? "active" : ""}`}

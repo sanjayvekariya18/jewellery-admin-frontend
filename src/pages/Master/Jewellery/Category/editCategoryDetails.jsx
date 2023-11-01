@@ -292,7 +292,6 @@ const EditCategoryMasterDetails = () => {
     }
   };
 
-  //   console.log(formState, "---------formState");
   return (
     <Container>
       <Validators formData={formState} rules={rules}>

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Validators from "../../components/validations/Validator";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
-import UploadButton from "../../components/UI/UploadButton";
 import { API, HELPER } from "../../services";
 import { apiConfig } from "../../config";
+import FileDrop from "../../components/UI/FileDrop";
 
 const initialValues = {
   colorDiamond: "",
@@ -15,43 +15,55 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
   const [errorModel, setErrorModel] = useState(false);
   const [err, setErr] = useState();
   const [errorState, setErrorState] = useState({});
+  const [selectedFile, setSelectedFile] = useState(null);
+
 
   const rules = {
     colorDiamond: "required",
   };
   const [isLoader, setIsLoader] = useState(false);
 
-  const handleSubmit = (data) => {
-    setIsLoader(true);
-    API.post(apiConfig.ColoredBulk, data, {
-      headers: {
-        "Content-Type": `multipart/form-data;`,
-      },
-    })
-      .then((res) => {
-        HELPER.toaster.success("Colored Diamond Bulk added successfully");
-        togglePopup();
-      })
-      .catch((error) => {
-        HELPER.toaster.error("Please Check your Excel sheet...");
-        if (
-          error.errors &&
-          error.errors.message &&
-          typeof error.errors.message === "object"
-        ) {
-          setErrorState(error.errors.message);
-          setErrorModel(true);
-        } else {
-          setErr(
-            error.errors && error.errors.message ? error.errors.message : error
-          );
-          setErrorModel(true);
-        }
-      })
+  const handleSubmit = () => {
+    if (selectedFile) {
+      setIsLoader(true);
+      const formData = new FormData();
+      formData.append("colorDiamond", selectedFile);
 
-      .finally(() => {
-        setIsLoader(false);
-      });
+      API.post(apiConfig.ColoredBulk, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((res) => {
+          HELPER.toaster.success("ColoredBulk Bulk added successfully");
+          setSelectedFile(null);
+          togglePopup();
+        })
+        .catch((error) => {
+          HELPER.toaster.error("Please Check your Excel sheet...");
+          if (
+            error.errors &&
+            error.errors.message &&
+            typeof error.errors.message === "object"
+          ) {
+            setErrorState(error.errors.message);
+            setErrorModel(true);
+          } else {
+            setErr(
+              error.errors && error.errors.message ? error.errors.message : error
+            );
+            setErrorModel(true);
+          }
+        })
+        .finally(() => {
+          setIsLoader(false);
+        });
+    }
+  };
+  const handleDownload = () => {
+    const fileURL = 'http://192.168.0.221:6363/excelTemplate/Colored_Diamond_Data.xlsx';
+    window.open(fileURL, '_blank');
+  };
+  const onFileSelected = (selectedFile) => {
+    setSelectedFile(selectedFile);
   };
   return (
     <Validators formData={formState} rules={rules}>
@@ -59,21 +71,32 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
         <ThemeDialog
           title="Add Colored Diamond Bulk"
           isOpen={open}
-          maxWidth="xs"
+          maxWidth="md"
           onClose={() => {
             togglePopup();
             resetValidation();
           }}
           actionBtns={
             <>
-              <Box>
+               <Box>
                 <Button
+                  style={{ marginLeft: "0px" }}
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDownload}
+                >
+                  Download
+                </Button>
+                <Button
+                  style={{ marginLeft: "10px" }}
                   variant="outlined"
                   color="secondary"
                   onClick={() => {
                     togglePopup();
                     resetValidation();
                     setFormState("");
+                    setSelectedFile(null);
                   }}
                 >
                   Cancel
@@ -83,25 +106,24 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
                   type="submit"
                   variant="contained"
                   color="success"
-                  onClick={() => onSubmit(handleSubmit)}
+                  onClick={handleSubmit}
                 >
                   Save
                 </Button>
               </Box>
               <ThemeDialog
                 isOpen={errorModel}
-                onClose={() => setErrorModel(false)}
+                onClose={() => {
+                  setErrorModel(false);
+                  togglePopup();
+                }}
                 title="Error"
                 maxWidth="sm"
                 actionBtns={
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={() => {
-                      setErrorModel(false);
-                      togglePopup();
-                    }}
-                  >
+                  <Button variant="outlined" color="secondary" onClick={() => {
+                    setErrorModel(false);
+                    setSelectedFile(null);
+                  }}>
                     Okay
                   </Button>
                 }
@@ -145,28 +167,19 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
             </>
           }
         >
-          <UploadButton
-            onChange={(selectedFile) => {
-              setFormState((prevProps) => {
-                return {
-                  ...prevProps,
-                  colorDiamond: selectedFile,
-                };
-              });
-            }}
-          />
-          {errors?.colorDiamond && (
-            <p
-              className="text-error"
-              style={{
-                fontSize: "14px",
-                marginTop: "10px",
-                textAlign: "center",
-              }}
-            >
-              File field is required
-            </p>
-          )}
+           <Box>
+            <FileDrop
+              onFileSelected={onFileSelected}
+              selectedFileNameRemove={selectedFile}
+              accept={[
+                ".xlsx",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+              ]}
+              icon="cloud_upload"
+              label={`Drag & drop an Excel file here, or click to select one ${selectedFile === null ? '' : ` (${selectedFile.name})`
+                }`}
+            />
+          </Box>
         </ThemeDialog>
       )}
     </Validators>

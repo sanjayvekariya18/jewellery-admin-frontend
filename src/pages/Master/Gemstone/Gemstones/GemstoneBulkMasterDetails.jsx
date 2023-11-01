@@ -4,7 +4,7 @@ import { API, HELPER } from "../../../../services";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
 import { apiConfig } from "../../../../config";
-import UploadButton from "../../../../components/UI/UploadButton";
+import FileDrop from "../../../../components/UI/FileDrop";
 
 const initialValues = {
   gemstoneData: "",
@@ -15,43 +15,101 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
   const [errorModel, setErrorModel] = useState(false);
   const [err, setErr] = useState();
   const [errorState, setErrorState] = useState({});
+  const [selectedFile, setSelectedFile] = useState(null);
+
+
 
   const rules = {
     gemstoneData: "required",
   };
   const [isLoader, setIsLoader] = useState(false);
 
-  const handleSubmit = (data) => {
-    setIsLoader(true);
-    API.post(apiConfig.gemstoneBulk, data, {
-      headers: {
-        "Content-Type": `multipart/form-data;`,
-      },
-    })
-      .then((res) => {
-        HELPER.toaster.success("GemStone Bulk added successfully");
-        togglePopup();
+  // const handleSubmit = () => {
+  //   if (selectedFile) {
+  //     setIsLoader(true);
+  //     const formData = new FormData();
+  //     formData.append("gemstoneData", selectedFile);
+
+  //     API.post(apiConfig.gemstoneBulk, formData, {
+  //       headers: { "Content-Type": "multipart/form-data" },
+  //     })
+  //       .then((res) => {
+  //         HELPER.toaster.success("GemStone Bulk added successfully");
+  //         togglePopup();
+  //       })
+  //       .catch((error) => {
+  //         HELPER.toaster.error("Please Check your Excel sheet...");
+  //         if (
+  //           error.errors &&
+  //           error.errors.message &&
+  //           typeof error.errors.message === "object"
+  //         ) {
+  //           setErrorState(error.errors.message);
+  //           setErrorModel(true);
+  //           // togglePopup();
+  //           console.log("hello");
+  //         } else {
+  //           setErr(
+  //             error.errors && error.errors.message ? error.errors.message : error
+  //           );
+  //           togglePopup();
+  //           setErrorModel(true);
+  //           console.log(errorModel,"sadew");
+  //         }
+  //       })
+  //       .finally(() => {
+  //         setIsLoader(false);
+  //       });
+  //   }
+  // };
+
+  const handleSubmit = () => {
+    if (selectedFile) {
+      setIsLoader(true);
+      const formData = new FormData();
+      formData.append("gemstoneData", selectedFile);
+
+      API.post(apiConfig.gemstoneBulk, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       })
-      .catch((error) => {
-        HELPER.toaster.error("Please Check your Excel sheet...");
-        if (
-          error.errors &&
-          error.errors.message &&
-          typeof error.errors.message === "object"
-        ) {
-          setErrorState(error.errors.message);
-          setErrorModel(true);
-        } else {
-          setErr(
-            error.errors && error.errors.message ? error.errors.message : error
-          );
-          setErrorModel(true);
-        }
-      })
-      .finally(() => {
-        setIsLoader(false);
-      });
+        .then((res) => {
+          HELPER.toaster.success("GemStone Bulk added successfully");
+          setSelectedFile(null);
+          togglePopup();
+        })
+        .catch((error) => {
+          HELPER.toaster.error("Please Check your Excel sheet...");
+          if (
+            error.errors &&
+            error.errors.message &&
+            typeof error.errors.message === "object"
+          ) {
+            setErrorState(error.errors.message);
+            setErrorModel(true);
+          } else {
+            setErr(
+              error.errors && error.errors.message ? error.errors.message : error
+            );
+            setErrorModel(true);
+          }
+        })
+        .finally(() => {
+          setIsLoader(false);
+        });
+    }
   };
+
+
+  const handleDownload = () => {
+    const fileURL = 'http://192.168.0.221:6363/excelTemplate/Gemstone_Data.xlsx';
+    window.open(fileURL, '_blank');
+  };
+
+
+  const onFileSelected = (selectedFile) => {
+    setSelectedFile(selectedFile);
+  };
+
 
   return (
     <Validators formData={formState} rules={rules}>
@@ -59,14 +117,24 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
         <ThemeDialog
           title="Add Gem Stone Bulk"
           isOpen={open}
-          maxWidth="xs"
+          maxWidth="md"
           onClose={() => {
+            setSelectedFile(null);
             togglePopup();
             resetValidation();
           }}
           actionBtns={
             <>
               <Box>
+                <Button
+                  style={{ marginLeft: "0px" }}
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDownload}
+                >
+                  Download
+                </Button>
                 <Button
                   style={{ marginLeft: "10px" }}
                   variant="outlined"
@@ -75,6 +143,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                     togglePopup();
                     resetValidation();
                     setFormState("");
+                    setSelectedFile(null);
                   }}
                 >
                   Cancel
@@ -84,7 +153,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                   type="submit"
                   variant="contained"
                   color="success"
-                  onClick={() => onSubmit(handleSubmit)}
+                  onClick={handleSubmit}
                 >
                   Save
                 </Button>
@@ -92,18 +161,17 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
 
               <ThemeDialog
                 isOpen={errorModel}
-                onClose={() => setErrorModel(false)}
+                onClose={() => {
+                  setErrorModel(false);
+                  togglePopup();
+                }}
                 title="Error"
                 maxWidth="sm"
                 actionBtns={
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={() => {
-                      setErrorModel(false);
-                      togglePopup();
-                    }}
-                  >
+                  <Button variant="outlined" color="secondary" onClick={() => {
+                    setErrorModel(false);
+                    setSelectedFile(null);
+                  }}>
                     Okay
                   </Button>
                 }
@@ -144,28 +212,17 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
           }
         >
           <Box>
-            <UploadButton
-              onChange={(selectedFile) => {
-                setFormState((prevProps) => {
-                  return {
-                    ...prevProps,
-                    gemstoneData: selectedFile,
-                  };
-                });
-              }}
+            <FileDrop
+              onFileSelected={onFileSelected}
+              selectedFileNameRemove={selectedFile}
+              accept={[
+                ".xlsx",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+              ]}
+              icon="cloud_upload"
+              label={`Drag & drop an Excel file here, or click to select one ${selectedFile  === null  ?  '' :` (${selectedFile.name})` 
+                }`}
             />
-            {errors?.gemstoneData && (
-              <p
-                className="text-error"
-                style={{
-                  fontSize: "14px",
-                  marginTop: "10px",
-                  textAlign: "center",
-                }}
-              >
-                File field is required
-              </p>
-            )}
           </Box>
         </ThemeDialog>
       )}
