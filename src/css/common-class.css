@@ -204,6 +204,18 @@ input::-webkit-inner-spin-button {
     width: 700px !important;
 }
 
+.thead-second-width-title-option {
+    width: 600px !important;
+}
+
+.common-thead-second-width-title-option {
+    display: inline-block;
+    width: 595px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
 .common-thead-second-width-title {
     display: inline-block;
     width: 395px;

@@ -352,7 +352,7 @@ const ColorDiamondMaster = () => {
           >
             <Breadcrumb
               routeSegments={[
-                { name: "Masters", path: pageRoutes.master.user.user },
+                // { name: "Masters", path: pageRoutes.master.user.user },
                 { name: "Colored Diamond" },
               ]}
             />

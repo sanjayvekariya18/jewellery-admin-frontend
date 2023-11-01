@@ -143,7 +143,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
               maxLength={255}
               minRows={3}
               maxRows={3}
-              placeholder="Enter Shape Details"
+              placeholder="Enter Shape Description"
               value={formState.description}
               onChange={onChange}
             />

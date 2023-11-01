@@ -20,7 +20,7 @@ const ProductMaster = () => {
   // ----Pagination code------
   const COLUMNS = [
     { title: "Stock No", classNameWidth: "thead-second-width-stock-no" },
-    { title: "Product Name", classNameWidth: "common-width-apply-th " },
+    { title: "Product Name", classNameWidth: "common-width-apply-th" },
     { title: "SubCategory", classNameWidth: "thead-second-width-stock-no" },
     { title: "Gender" },
     { title: "Design Price" },
@@ -156,7 +156,7 @@ const ProductMaster = () => {
           >
             <Breadcrumb
               routeSegments={[
-                { name: "Masters", path: pageRoutes.master.user.user },
+                // { name: "Masters", path: pageRoutes.master.user.user },
                 { name: "Product" },
               ]}
             />

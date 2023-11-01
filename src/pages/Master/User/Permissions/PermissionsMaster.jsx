@@ -108,8 +108,7 @@ const PermissionsMaster = () => {
       <Box className="breadcrumb">
         <Breadcrumb
           routeSegments={[
-            { name: "Masters", path: pageRoutes.master.user.permissions },
-            { name: "User", path: pageRoutes.master.user.permissions },
+            { name: "Masters", path: pageRoutes.master.user.user },
             { name: "Permissions" },
           ]}
         />

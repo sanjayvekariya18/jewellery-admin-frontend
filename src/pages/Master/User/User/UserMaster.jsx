@@ -26,12 +26,12 @@ const UserMaster = () => {
 
   /* Pagination code */
   const COLUMNS = [
-    { title: "Profile" },
-    { title: "Name" },
-    { title: "Email" },
-    { title: "Active" },
-    { title: "Action" },
-    { title: "Permission" },
+    { title: "Profile", classNameWidth: "thead-second-width" },
+    { title: "Name", classNameWidth: "thead-second-width-title" },
+    { title: "Email", classNameWidth: "thead-second-width-title" },
+    { title: "Active", classNameWidth: "thead-second-width-action" },
+    { title: "Action", classNameWidth: "thead-second-width-action" },
+    { title: "Permission", classNameWidth: "thead-second-width-action-index" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -114,7 +114,9 @@ const UserMaster = () => {
           <span>
             {item.firstName} {item.lastName}
           </span>,
-          <span>{item.email}</span>,
+          <div>
+            <span>{item.email}</span>
+          </div>,
           <span>
             <IconButton onClick={() => handleToggle(item.id)}>
               <Icon
