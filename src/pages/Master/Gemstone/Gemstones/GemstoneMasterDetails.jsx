@@ -36,7 +36,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     origin: "required",
     shape: "required",
     color: "required",
-    price: "required",
+    price: "required|numeric|min:1",
   };
 
   // ------------------Get Shape API --------------------------------

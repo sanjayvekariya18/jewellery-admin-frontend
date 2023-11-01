@@ -14,7 +14,7 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
 
   const rules = {
-    discount: "required",
+    discount: "required|numeric|between:0,100",
   };
 
   const handleSubmit = (data) => {
