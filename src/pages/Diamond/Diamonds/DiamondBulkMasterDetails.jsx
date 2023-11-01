@@ -46,7 +46,9 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
             setErrorModel(true);
           } else {
             setErr(
-              error.errors && error.errors.message ? error.errors.message : error
+              error.errors && error.errors.message
+                ? error.errors.message
+                : error
             );
             setErrorModel(true);
           }
@@ -58,8 +60,8 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
   };
 
   const handleDownload = () => {
-    const fileURL = 'http://192.168.0.221:6363/excelTemplate/Diamond_Data.xlsx';
-    window.open(fileURL, '_blank');
+    const fileURL = "http://192.168.0.221:6363/excelTemplate/Diamond_Data.xlsx";
+    window.open(fileURL, "_blank");
   };
   const onFileSelected = (selectedFile) => {
     setSelectedFile(selectedFile);
@@ -88,7 +90,7 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
                   Download
                 </Button>
                 <Button
-                  style={{ marginLeft: "10px" }}
+                  style={{ marginLeft: "20px" }}
                   variant="outlined"
                   color="secondary"
                   onClick={() => {
@@ -118,12 +120,16 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
                   togglePopup();
                 }}
                 title="Error"
-                maxWidth="sm" 
+                maxWidth="sm"
                 actionBtns={
-                  <Button variant="outlined" color="secondary" onClick={() => {
-                    setErrorModel(false);
-                    setSelectedFile(null);
-                  }}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setErrorModel(false);
+                      setSelectedFile(null);
+                    }}
+                  >
                     Okay
                   </Button>
                 }
@@ -176,8 +182,9 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
               ]}
               icon="cloud_upload"
-              label={`Drag & drop an Excel file here, or click to select one ${selectedFile === null ? '' : ` (${selectedFile.name})`
-                }`}
+              label={`Drag & drop an Excel file here, or click to select one ${
+                selectedFile === null ? "" : ` (${selectedFile.name})`
+              }`}
             />
           </Box>
         </ThemeDialog>

@@ -17,8 +17,6 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
   const [errorState, setErrorState] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
 
-
-
   const rules = {
     gemstoneData: "required",
   };
@@ -88,7 +86,9 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
             setErrorModel(true);
           } else {
             setErr(
-              error.errors && error.errors.message ? error.errors.message : error
+              error.errors && error.errors.message
+                ? error.errors.message
+                : error
             );
             setErrorModel(true);
           }
@@ -99,17 +99,15 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
     }
   };
 
-
   const handleDownload = () => {
-    const fileURL = 'http://192.168.0.221:6363/excelTemplate/Gemstone_Data.xlsx';
-    window.open(fileURL, '_blank');
+    const fileURL =
+      "http://192.168.0.221:6363/excelTemplate/Gemstone_Data.xlsx";
+    window.open(fileURL, "_blank");
   };
-
 
   const onFileSelected = (selectedFile) => {
     setSelectedFile(selectedFile);
   };
-
 
   return (
     <Validators formData={formState} rules={rules}>
@@ -136,7 +134,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                   Download
                 </Button>
                 <Button
-                  style={{ marginLeft: "10px" }}
+                  style={{ marginLeft: "20px" }}
                   variant="outlined"
                   color="secondary"
                   onClick={() => {
@@ -168,10 +166,14 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                 title="Error"
                 maxWidth="sm"
                 actionBtns={
-                  <Button variant="outlined" color="secondary" onClick={() => {
-                    setErrorModel(false);
-                    setSelectedFile(null);
-                  }}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setErrorModel(false);
+                      setSelectedFile(null);
+                    }}
+                  >
                     Okay
                   </Button>
                 }
@@ -220,8 +222,9 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
               ]}
               icon="cloud_upload"
-              label={`Drag & drop an Excel file here, or click to select one ${selectedFile  === null  ?  '' :` (${selectedFile.name})` 
-                }`}
+              label={`Drag & drop an Excel file here, or click to select one ${
+                selectedFile === null ? "" : ` (${selectedFile.name})`
+              }`}
             />
           </Box>
         </ThemeDialog>

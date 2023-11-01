@@ -648,11 +648,10 @@ const GemstoneMaster = () => {
                       }}
                     >
                       <Textinput
-                        defaultValue="1"
                         className="form-control"
                         type="text"
                         id="minCost"
-                        value={state.fromDimension}
+                        value={state.fromDimension} // Use the "value" prop for a controlled input
                         placeholder="Start Dimension"
                         name="fromDimension"
                         onChange={(e) =>
@@ -661,17 +660,16 @@ const GemstoneMaster = () => {
                         disabled={true}
                         style={{ width: "140px" }}
                       />
+
                       <span
                         style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
                       >
                         To
                       </span>
                       <Textinput
-                        // className="form-control "
                         type="text"
                         id="maxCost"
-                        defaultValue="10"
-                        value={state.toDimension}
+                        value={state.toDimension} // Use the "value" prop for a controlled input
                         placeholder="End Dimension"
                         name="toDimension"
                         onChange={(e) =>

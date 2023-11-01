@@ -17,7 +17,6 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
   const [errorState, setErrorState] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
 
-
   const rules = {
     colorDiamond: "required",
   };
@@ -48,7 +47,9 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
             setErrorModel(true);
           } else {
             setErr(
-              error.errors && error.errors.message ? error.errors.message : error
+              error.errors && error.errors.message
+                ? error.errors.message
+                : error
             );
             setErrorModel(true);
           }
@@ -59,8 +60,9 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
     }
   };
   const handleDownload = () => {
-    const fileURL = 'http://192.168.0.221:6363/excelTemplate/Colored_Diamond_Data.xlsx';
-    window.open(fileURL, '_blank');
+    const fileURL =
+      "http://192.168.0.221:6363/excelTemplate/Colored_Diamond_Data.xlsx";
+    window.open(fileURL, "_blank");
   };
   const onFileSelected = (selectedFile) => {
     setSelectedFile(selectedFile);
@@ -78,7 +80,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
           }}
           actionBtns={
             <>
-               <Box>
+              <Box>
                 <Button
                   style={{ marginLeft: "0px" }}
                   type="submit"
@@ -89,7 +91,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
                   Download
                 </Button>
                 <Button
-                  style={{ marginLeft: "10px" }}
+                  style={{ marginLeft: "20px" }}
                   variant="outlined"
                   color="secondary"
                   onClick={() => {
@@ -120,10 +122,14 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
                 title="Error"
                 maxWidth="sm"
                 actionBtns={
-                  <Button variant="outlined" color="secondary" onClick={() => {
-                    setErrorModel(false);
-                    setSelectedFile(null);
-                  }}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setErrorModel(false);
+                      setSelectedFile(null);
+                    }}
+                  >
                     Okay
                   </Button>
                 }
@@ -167,7 +173,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
             </>
           }
         >
-           <Box>
+          <Box>
             <FileDrop
               onFileSelected={onFileSelected}
               selectedFileNameRemove={selectedFile}
@@ -176,8 +182,9 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
               ]}
               icon="cloud_upload"
-              label={`Drag & drop an Excel file here, or click to select one ${selectedFile === null ? '' : ` (${selectedFile.name})`
-                }`}
+              label={`Drag & drop an Excel file here, or click to select one ${
+                selectedFile === null ? "" : ` (${selectedFile.name})`
+              }`}
             />
           </Box>
         </ThemeDialog>
