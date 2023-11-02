@@ -129,17 +129,17 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
 
   // ------------------Option Color---------------
   const sortOptionDcolor = [
-    { label: "D", value: "0" },
-    { label: "E", value: "1" },
-    { label: "F", value: "2" },
-    { label: "G", value: "3" },
-    { label: "H", value: "4" },
-    { label: "I", value: "5" },
-    { label: "J", value: "6" },
-    { label: "K", value: "7" },
-    { label: "L", value: "8" },
-    { label: "MN", value: "9" },
-    { label: "OP", value: "10" },
+    { label: "D", value: 0 },
+    { label: "E", value: 1 },
+    { label: "F", value: 2 },
+    { label: "G", value: 3 },
+    { label: "H", value: 4 },
+    { label: "I", value: 5 },
+    { label: "J", value: 6 },
+    { label: "K", value: 7 },
+    { label: "L", value: 8 },
+    { label: "MN", value: 9 },
+    { label: "OP", value: 10 },
   ];
   let _sortOptionsDcolor = sortOptionDcolor.map((option) => ({
     label: option.label,
@@ -149,17 +149,17 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
   // ------------------Option clarity---------------
 
   const sortOptionDclarity = [
-    { label: "FL", value: "0" },
-    { label: "IF", value: "1" },
-    { label: "VVS1", value: "2" },
-    { label: "VVS2", value: "3" },
-    { label: "VS1", value: "4" },
-    { label: "VS2", value: "5" },
-    { label: "SI1", value: "6" },
-    { label: "SI2", value: "7" },
-    { label: "I1", value: "8" },
-    { label: "I2", value: "9" },
-    { label: "I3", value: "10" },
+    { label: "FL", value: 0 },
+    { label: "IF", value: 1 },
+    { label: "VVS1", value: 2 },
+    { label: "VVS2", value: 3 },
+    { label: "VS1", value: 4 },
+    { label: "VS2", value: 5 },
+    { label: "SI1", value: 6 },
+    { label: "SI2", value: 7 },
+    { label: "I1", value: 8 },
+    { label: "I2", value: 9 },
+    { label: "I3", value: 10 },
   ];
 
   let _sortOptionsDclarity = sortOptionDclarity.map((option) => ({
@@ -169,12 +169,12 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
 
   // ------------------Option Cut---------------
   const sortOptionsDcut = [
-    { label: "Super_Ideal", value: "0" },
-    { label: "Ideal", value: "1" },
-    { label: "Very_Good", value: "2" },
-    { label: "Good", value: "3" },
-    { label: "Fair", value: "4" },
-    { label: "Poor", value: "5" },
+    { label: "Super_Ideal", value: 0 },
+    { label: "Ideal", value: 1 },
+    { label: "Very_Good", value: 2 },
+    { label: "Good", value: 3 },
+    { label: "Fair", value: 4 },
+    { label: "Poor", value: 5 },
   ];
 
   let _sortOptionsDcut = sortOptionsDcut.map((option) => ({
@@ -184,9 +184,9 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
 
   // ------------------Option Symmetry---------------
   const sortOptionsDsymmetry = [
-    { label: "Excellent", value: "0" },
-    { label: "Very_Good", value: "1" },
-    { label: "Good", value: "2" },
+    { label: "Excellent", value: 0 },
+    { label: "Very_Good", value: 1 },
+    { label: "Good", value: 2 },
   ];
   let _sortOptionsDsymmetry = sortOptionsDsymmetry.map((option) => ({
     label: option.label,
@@ -196,11 +196,11 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
   // ------------------Option Fluoresecence---------------
 
   const sortOptionsDfluorescence = [
-    { label: "None", value: "0" },
-    { label: "Faint", value: "1" },
-    { label: "Medium", value: "2" },
-    { label: "Stong", value: "3" },
-    { label: "Very_Strong", value: "4" },
+    { label: "None", value: 0 },
+    { label: "Faint", value: 1 },
+    { label: "Medium", value: 2 },
+    { label: "Stong", value: 3 },
+    { label: "Very_Strong", value: 4 },
   ];
 
   let _sortOptionsDfluorescence = sortOptionsDfluorescence.map((option) => ({
@@ -250,9 +250,9 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
   }));
   // ------------------Option Polish---------------
   const sortOptionsDpolish = [
-    { label: "Excellent", value: "0" },
-    { label: "Very_Good", value: "1" },
-    { label: "Good", value: "2" },
+    { label: "Excellent", value: 0 },
+    { label: "Very_Good", value: 1 },
+    { label: "Good", value: 2 },
   ];
   let _sortOptionsDpolish = sortOptionsDpolish.map((option) => ({
     label: option.label,
@@ -389,7 +389,6 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               value={formState.cut}
               onChange={onChange}
               name="cut"
-              id="idStatus"
               error={errors?.cut}
             />
             <ReactSelect
@@ -399,7 +398,6 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               value={formState.origin}
               onChange={onChange}
               name="origin"
-              id="idStatus"
               error={errors?.origin}
             />
             <ReactSelect
@@ -409,7 +407,6 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               value={formState.fluorescence}
               onChange={onChange}
               name="fluorescence"
-              id="idStatus"
               error={errors?.fluorescence}
             />
           </div>

@@ -119,7 +119,7 @@ const SubcategoryMasterDetails = ({
                   style={{
                     marginRight: "20px",
                     display: "flex ",
-                    alignContent: "center",
+                    alignItems: "center",
                     flexDirection: "column",
                   }}
                 >
@@ -131,7 +131,13 @@ const SubcategoryMasterDetails = ({
                     label={"Logo Image"}
                   />
                 </div>
-                <div>
+                <div
+                  style={{
+                    display: "flex ",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
                   <label className="label-class">Image</label>
                   <ImgUploadBoxInput
                     name="imgUrl"

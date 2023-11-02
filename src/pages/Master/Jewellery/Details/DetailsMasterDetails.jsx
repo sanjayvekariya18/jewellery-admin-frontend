@@ -97,34 +97,52 @@ const DetailsMasterDetails = ({
           }}
           actionBtns={
             <>
-              <ImgUploadBoxInput
-                name="logoUrl"
-                onChange={onChange}
-                value={formState?.logoUrl}
-                error={errors?.logoUrl}
-                label={"logo Image"}
-              />
-              <Box>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => {
-                    togglePopup();
-                    resetValidation();
+              <div
+                style={{
+                  display: "flex ",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex ",
+                    alignItems: "center",
+                    flexDirection: "column",
                   }}
                 >
-                  Cancel
-                </Button>
-                <Button
-                  style={{ marginLeft: "20px" }}
-                  type="submit"
-                  variant="contained"
-                  color="success"
-                  onClick={() => onSubmit(handleSubmit)}
-                >
-                  Save
-                </Button>
-              </Box>
+                  <label className="label-class">Image</label>
+                  <ImgUploadBoxInput
+                    name="logoUrl"
+                    onChange={onChange}
+                    value={formState?.logoUrl}
+                    error={errors?.logoUrl}
+                    label={"logo Image"}
+                  />
+                </div>
+                <Box>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                      togglePopup();
+                      resetValidation();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    style={{ marginLeft: "20px" }}
+                    type="submit"
+                    variant="contained"
+                    color="success"
+                    onClick={() => onSubmit(handleSubmit)}
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </div>
             </>
           }
         >

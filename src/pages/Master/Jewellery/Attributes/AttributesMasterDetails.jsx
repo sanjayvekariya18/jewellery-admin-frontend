@@ -230,14 +230,14 @@ const AttributesMasterDetails = ({
               <div
                 style={{
                   display: "flex",
-                  alignContent: "center",
+                  alignItems: "center",
                 }}
               >
                 <div
                   style={{
                     marginRight: "20px",
                     display: "flex",
-                    alignContent: "center",
+                    alignItems: "center",
                     flexDirection: "column",
                   }}
                 >
@@ -251,9 +251,8 @@ const AttributesMasterDetails = ({
                 </div>
                 <div
                   style={{
-                    marginRight: "20px",
                     display: "flex",
-                    alignContent: "center",
+                    alignItems: "center",
                     flexDirection: "column",
                   }}
                 >

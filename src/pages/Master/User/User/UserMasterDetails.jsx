@@ -87,34 +87,53 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
               }}
               actionBtns={
                 <>
-                  <ImgUploadBoxInput
-                    name="profile"
-                    onChange={onChange}
-                    value={formState?.profile}
-                    error={errors?.profile}
-                    label={"Profile Image"}
-                  />
-                  <Box>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => {
-                        togglePopup();
-                        resetValidation();
+                  <div
+                    style={{
+                      display: "flex ",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex ",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        // padding: "0px",
                       }}
                     >
-                      Cancel
-                    </Button>
-                    <Button
-                      style={{ marginLeft: "20px" }}
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => onSubmit(handleSubmit)}
-                    >
-                      Save
-                    </Button>
-                  </Box>
+                      <label className="label-class">Profile</label>
+                      <ImgUploadBoxInput
+                        name="profile"
+                        onChange={onChange}
+                        value={formState?.profile}
+                        error={errors?.profile}
+                        label={"Profile Image"}
+                      />
+                    </div>
+                    <Box>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => {
+                          togglePopup();
+                          resetValidation();
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        style={{ marginLeft: "20px" }}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        onClick={() => onSubmit(handleSubmit)}
+                      >
+                        Save
+                      </Button>
+                    </Box>
+                  </div>
                 </>
               }
             >

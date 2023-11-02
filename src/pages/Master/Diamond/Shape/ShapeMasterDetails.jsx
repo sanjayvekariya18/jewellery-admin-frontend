@@ -76,40 +76,51 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
             <>
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
+                  display: "flex ",
+                  justifyContent: "space-between",
                   alignItems: "center",
+                  width: "100%",
                 }}
               >
                 {/* <label className="label-class">Image</label> */}
-                <ImgUploadBoxInput
-                  name="image"
-                  onChange={onChange}
-                  value={formState?.image}
-                  label={"Image"}
-                />
-              </div>
-              <Box>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => {
-                    togglePopup();
-                    resetValidation();
+                <div
+                  style={{
+                    display: "flex ",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    // padding: "0px",
                   }}
                 >
-                  Cancel
-                </Button>
-                <Button
-                  style={{ marginLeft: "20px" }}
-                  type="submit"
-                  variant="contained"
-                  color="success"
-                  onClick={() => onSubmit(handleSubmit)}
-                >
-                  Save
-                </Button>
-              </Box>
+                  <label className="label-class">Image</label>
+                  <ImgUploadBoxInput
+                    name="image"
+                    onChange={onChange}
+                    value={formState?.image}
+                    label={"Image"}
+                  />
+                </div>
+                <Box>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                      togglePopup();
+                      resetValidation();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    style={{ marginLeft: "20px" }}
+                    type="submit"
+                    variant="contained"
+                    color="success"
+                    onClick={() => onSubmit(handleSubmit)}
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </div>
             </>
           }
         >
