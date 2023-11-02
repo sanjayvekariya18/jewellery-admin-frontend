@@ -70,6 +70,7 @@ const apiConfig = {
 
   //subCategory
   subCategory: "subcategory",
+  listSubCategory: "list/subcategory",
 
   //userPermission
   userPermission: "userPermission",

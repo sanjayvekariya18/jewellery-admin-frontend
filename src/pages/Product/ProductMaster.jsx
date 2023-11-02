@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Box, Button, Icon, IconButton, Tooltip } from "@mui/material";
 import error400cover from "../../assets/no-data-found-page.png";
 import _ from "lodash";
+import Select from "react-select";
 import { API, HELPER } from "../../services";
 import { apiConfig, appConfig } from "../../config";
 import PaginationTable, {
@@ -12,10 +13,13 @@ import { pageRoutes } from "../../constants/routesList";
 import ProductBulkMasterDetails from "./ProductBulkMasterDetails";
 import { useNavigate } from "react-router-dom";
 import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
+import Textinput from "../../components/UI/TextInput";
+import ReactSelect from "../../components/UI/ReactSelect";
 
 const ProductMaster = () => {
   const [bulkOpen, setBulkOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+  const [subCategory, setSubCategory] = useState([])
   const navigate = useNavigate();
 
   // ----Pagination code------
@@ -36,7 +40,11 @@ const ProductMaster = () => {
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
-    usePaginationTable();
+    usePaginationTable({
+      searchTxt: "",
+      subCategory: "",
+      gender:"",
+    });
 
   const handleButtonClick = (id) => {
     navigate(`${pageRoutes.variantProductId}/${id}`);
@@ -45,12 +53,18 @@ const ProductMaster = () => {
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
+      searchTxt: "",
+      subCategory: "",
+      gender:"",
       ...appConfig.default_pagination_state,
     };
 
     let filter = {
       page: state.page,
       rowsPerPage: state.rowsPerPage,
+      searchTxt: state.searchTxt,
+      subCategory: state.subCategory,
+      gender: state.gender,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
@@ -111,6 +125,8 @@ const ProductMaster = () => {
   //   paginate();
   // }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
+
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -149,6 +165,31 @@ const ProductMaster = () => {
   const togglePopupSearch = () => {
     setOpenSearch(!openSearch);
   };
+
+  // useEffect in SubCategory in Select 
+  useEffect(() => {
+    API.get(apiConfig.listSubCategory, { is_public_url: true })
+      .then((res) => {
+        setSubCategory(res);
+      })
+  }, [])
+  // --------------------SubCategory Filter----------------------------
+  let _sortOptionsSubCategory = subCategory.map((option) => ({
+    label: option.name,
+    value: option.id,
+  }));
+
+  // ----------------Gender Filter----------------
+  const sortOptionsGender = [
+    { label: "Male", value: "Male" },
+    { label: "Female ", value: "Female" },
+    { label: "Unisex", value: "Unisex" },
+  ];
+  // --------------------Gender Filter----------------------------
+  let _sortOptionsGender = sortOptionsGender.map((option) => ({
+    label: option.label,
+    value: option.value,
+  }));
 
   return (
     <>
@@ -194,8 +235,49 @@ const ProductMaster = () => {
             reset={() => paginate(true)}
             search={() => paginate(false, true)}
           >
-
-
+            <Textinput
+              size="small"
+              type="text"
+              name="searchTxt"
+              label="Search Text"
+              variant="outlined"
+              value={state?.searchTxt}
+              onChange={(e) => changeState("searchTxt", e.target.value)}
+              sx={{ mb: 0, mt: 1, width: "100%" }}
+            />
+            <Select
+              placeholder="Select Shap Name"
+              options={_sortOptionsSubCategory}
+              isMulti
+              value={_sortOptionsSubCategory.filter((option) =>
+                state.subCategory.includes(option.value)
+              )}
+              onChange={(selectedSort) => {
+                const selectedIds = selectedSort.map(
+                  (option) => option.value
+                );
+                changeState("subCategory", selectedIds);
+              }}
+              name="choices-multi-default"
+              id="subCategory"
+            />
+            <ReactSelect
+              // label="Select Sort by Price"
+              placeholder={
+                _sortOptionsGender.find(
+                  (option) => option.value === state.gender
+                )?.label || "Select Gender"
+              }
+              options={_sortOptionsGender}
+              value={_sortOptionsGender.find(
+                (option) => option.value === state.gender
+              )}
+              onChange={(selectedSort) => {
+                const selectedId = selectedSort.target.value;
+                changeState("gender", selectedId);
+              }}
+              name="choices-multi-default"
+            />
           </SearchFilterDialog>
           <PaginationTable
             header={COLUMNS}
