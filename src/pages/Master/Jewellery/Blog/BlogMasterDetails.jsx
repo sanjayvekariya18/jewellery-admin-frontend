@@ -98,7 +98,7 @@ const BlogMasterDetails = ({
   const modules = {
     toolbar: {
       container: [
-        [{ header: "1" }, { header: "2" }, { font: [] }],
+        [{ header: "1" }, { header: "2" }],
         ["bold", "italic", "underline", "strike", "blockquote"],
         [
           { list: "ordered" },
@@ -107,7 +107,6 @@ const BlogMasterDetails = ({
           { indent: "+1" },
         ],
         ["link", "image"],
-        ["clean"],
       ],
     },
   };
