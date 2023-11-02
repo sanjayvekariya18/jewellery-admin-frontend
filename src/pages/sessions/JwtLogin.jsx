@@ -173,15 +173,27 @@ const JwtLogin = () => {
                       width: "50%",
                       display: "flex",
                       justifyContent: "center",
-                      background: "#49449f",
+                      alignItems: "center",
+                      background: "#405198",
                       height: "100vh",
                     }}
                   >
-                    <img
+                    <h2
+                      style={{
+                        color: "white",
+                        fontWeight: "700",
+                        fontFamily: "inherit",
+                        fontSize: "120px",
+                        letterSpacing: "2px",
+                      }}
+                    >
+                      JEWELLERY
+                    </h2>
+                    {/* <img
                       src="/assets/images/illustrations/dreamer.svg"
                       width="500px"
                       alt=""
-                    />
+                    /> */}
                   </div>
                 </div>
               </>

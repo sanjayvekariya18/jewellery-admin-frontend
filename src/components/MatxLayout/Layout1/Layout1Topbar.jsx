@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Hidden,
@@ -23,6 +23,8 @@ import { Span } from "../../Typography";
 import NotificationBar from "../../NotificationBar/NotificationBar";
 import ShoppingCart from "../../ShoppingCart";
 import ChangePassword from "../../../pages/Master/User/User/ChangePassword";
+import { navigations } from "../../../navigations";
+import { Select } from "react-select-virtualized";
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -84,6 +86,8 @@ const IconBox = styled("div")(({ theme }) => ({
 
 const Layout1Topbar = () => {
   const theme = useTheme();
+  const [selectedData, setselectedData] = useState(null);
+  const navigate = useNavigate();
   const { settings, updateSettings } = useSettings();
   const { logout } = useAuth();
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -109,6 +113,28 @@ const Layout1Topbar = () => {
     setOpenTable(!openTable);
   };
 
+  // -------- Search Bar --------------------
+
+  const _sortOptions = navigations.reduce((options, item) => {
+    if (item.children && Array.isArray(item.children)) {
+      options.push(
+        ...item.children.map((subItem) => ({
+          label: subItem.name,
+          value: subItem.path,
+        }))
+      );
+    }
+    return options;
+  }, []);
+
+  // -----------handleSearchInputChange-----------
+  const handleSearchInputChange = (selectedOption) => {
+    if (selectedOption) {
+      setselectedData(selectedOption.value);
+      navigate(selectedOption.value);
+    }
+  };
+
   return (
     <TopbarRoot>
       <TopbarContainer>
@@ -116,7 +142,32 @@ const Layout1Topbar = () => {
           <StyledIconButton onClick={handleSidebarToggle}>
             <Icon>menu</Icon>
           </StyledIconButton>
-
+          <div
+            style={{ width: "340px", position: "relative", marginLeft: "20px" }}
+            className="main-search-bar-select"
+          >
+            <span
+              style={{
+                fontSize: "22px",
+                position: "absolute",
+                right: "8px",
+                top: "7px",
+                zIndex: "99",
+                color: "gray",
+              }}
+            >
+              <Icon>search</Icon>
+            </span>
+            <Select
+              placeholder="Search..."
+              options={_sortOptions}
+              value={_sortOptions.find(
+                (option) => option.value === selectedData
+              )}
+              onChange={handleSearchInputChange}
+              className="search-moal-header"
+            ></Select>
+          </div>
           {/* <IconBox>
             <StyledIconButton>
               <Icon>mail_outline</Icon>

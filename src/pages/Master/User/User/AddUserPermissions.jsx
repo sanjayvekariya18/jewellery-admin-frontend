@@ -93,14 +93,32 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
     let payload = {
       userId: userId,
       permissionDetails: __userPermissions.filter((item) => {
-        return item.create || item.delete || item.edit
+        return item.create || item.delete || item.edit;
       }),
     };
 
-    API.post(apiConfig.userPermission, payload).then(() => {
-      HELPER.toaster.success("Permission added!");
-      refreshTable();
-    });
+    API.post(apiConfig.userPermission, payload)
+      .then(() => {
+        HELPER.toaster.success("Permission added!");
+        refreshTable();
+      })
+      .catch((err) => {
+        if ([400, 401, 409, 422, 403, 500].includes(err.status)) {
+          if (err.errors.permissionDetails) {
+            if (err.errors.permissionDetails[0]) {
+              HELPER.toaster.error(err.errors.permissionDetails[0]);
+            } else if (err.errors.permissionDetails[1]) {
+              HELPER.toaster.error(err.errors.permissionDetails[1]);
+            } else {
+              HELPER.toaster.error(err.errors.message);
+            }
+          } else {
+            HELPER.toaster.error(err.errors.message);
+          }
+        } else {
+          console.error(err);
+        }
+      });
   };
 
   const userPermissionHeaderColumns = [
@@ -224,12 +242,14 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
                 variant="outlined"
                 color="secondary"
                 onClick={togglePopup}
+                style={{ marginRight: "20px" }}
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
-                color="primary"
+                variant="contained"
+                color="success"
                 onClick={() => addUserPermissions()}
               >
                 Save

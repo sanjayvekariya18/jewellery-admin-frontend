@@ -89,6 +89,7 @@ const PermissionMasterDetails = ({ open, togglePopup, userData }) => {
               <Button
                 variant="outlined"
                 color="secondary"
+                style={{ marginRight: "20px" }}
                 onClick={() => {
                   togglePopup();
                   resetValidation();
@@ -98,7 +99,8 @@ const PermissionMasterDetails = ({ open, togglePopup, userData }) => {
               </Button>
               <Button
                 type="submit"
-                color="primary"
+                variant="contained"
+                color="success"
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
