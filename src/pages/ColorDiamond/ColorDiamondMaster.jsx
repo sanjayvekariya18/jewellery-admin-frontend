@@ -9,7 +9,6 @@ import error400cover from "../../assets/no-data-found-page.png";
 import _ from "lodash";
 import { API, HELPER } from "../../services";
 import Swal from "sweetalert2";
-import { pageRoutes } from "../../constants/routesList";
 import Textinput from "../../components/UI/TextInput";
 import ThemeSwitch from "../../components/UI/ThemeSwitch";
 import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
@@ -133,7 +132,6 @@ const ColorDiamondMaster = () => {
       fromCts: carat.minCarat,
       toCts: carat.maxCarat,
     });
-
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
@@ -142,33 +140,43 @@ const ColorDiamondMaster = () => {
       color: "",
       intensity: "",
       sortBy: "newest",
-
+      fromPrice: price.minPrice,
+      toPrice: price.maxPrice,
+      fromCts: carat.minCarat,
+      toCts: carat.maxCarat,
       ...appConfig.default_pagination_state,
     };
 
     let filter = {
       page: state.page,
       rowsPerPage: state.rowsPerPage,
-      fromCts: state.fromCts,
-      toCts: state.toCts,
       shape: state.shape,
       color: state.color,
       origin: state.origin,
       intensity: state.intensity,
-      fromPrice: clear ? clearStates.fromPrice : state.fromPrice,
-      toPrice: clear ? clearStates.toPrice : state.toPrice,
+      fromPrice: clear ? price.minPrice : state.fromPrice,
+      toPrice: clear ? price.maxPrice : state.toPrice,
+      fromCts: clear ? carat.minCarat : state.fromCts,
+      toCts: clear ? carat.maxCarat : state.toCts, 
       sortBy: state.sortBy,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
 
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.fromCts;
+      delete filter.toCts;
+      delete filter.color;
+      delete filter.shape;
+      delete filter.toPrice;
+      delete filter.fromPrice;
+      delete filter.intensity;
+      delete filter.origin;
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
 
-    // ----------Get Colored Diamong Api------------
+    // ----------Get Colored Diamond Api------------
 
     API.get(apiConfig.coloredDiamond, filter)
       .then((res) => {
@@ -200,7 +208,7 @@ const ColorDiamondMaster = () => {
         });
       })
       .finally(() => {
-        if (openSearch == true) {
+        if (openSearch === true) {
           setOpenSearch(false);
         }
       });
@@ -489,7 +497,7 @@ const ColorDiamondMaster = () => {
                   <div>
                     <label className="label-class">Price :</label>
                     <Slider
-                      defaultValue={[price.minPrice, price.maxPrice]}
+                      defaultValue={[state.fromPrice === undefined ? price.minPrice : state.fromPrice, state.toPrice === undefined ? price.maxPrice : state.toPrice]}
                       onChange={handleChangePrice}
                       valueLabelDisplay="auto"
                       min={price.minPrice}
@@ -503,8 +511,7 @@ const ColorDiamondMaster = () => {
                       }}
                     >
                       <Textinput
-                        className="form-control"
-                        type="text"
+                        type="number"
                         id="minCost"
                         value={
                           state.fromPrice === undefined
@@ -512,11 +519,11 @@ const ColorDiamondMaster = () => {
                             : state.fromPrice
                         }
                         placeholder="Start Price"
+                        disabled={true}
                         name="fromPrice"
                         onChange={(e) =>
                           changeState("fromPrice", e.target.value)
                         }
-                        disabled={true}
                         style={{ width: "140px" }}
                       />
                       <span
@@ -526,9 +533,9 @@ const ColorDiamondMaster = () => {
                       </span>
 
                       <Textinput
-                        className="form-control "
-                        type="text"
+                        type="number"
                         id="maxCost"
+                        disabled={true}
                         value={
                           state.toPrice === undefined
                             ? price.maxPrice
@@ -537,7 +544,6 @@ const ColorDiamondMaster = () => {
                         placeholder="End Price"
                         name="toPrice"
                         onChange={(e) => changeState("toPrice", e.target.value)}
-                        disabled={true}
                         style={{ width: "140px" }}
                       />
                     </div>
@@ -545,7 +551,7 @@ const ColorDiamondMaster = () => {
                   <div>
                     <label className="label-class">Carat :</label>
                     <Slider
-                      defaultValue={[carat.minCarat, carat.maxCarat]}
+                      defaultValue={[state.fromCts === undefined ? carat.minCarat : state.fromCts, state.toCts === undefined ? carat.maxCarat : state.toCts]}
                       onChange={handleChangeCarat}
                       valueLabelDisplay="auto"
                       min={carat.minCarat}
@@ -647,7 +653,7 @@ const ColorDiamondMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
           <FindColoredModal
             open={findGemstone}

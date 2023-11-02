@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Button, Icon, IconButton } from "@mui/material";
+import { Box, Button, Icon, IconButton, Tooltip } from "@mui/material";
 import error400cover from "../../assets/no-data-found-page.png";
 import _ from "lodash";
 import { API, HELPER } from "../../services";
@@ -11,6 +11,7 @@ import { Breadcrumb, Container } from "../../components";
 import { pageRoutes } from "../../constants/routesList";
 import ProductBulkMasterDetails from "./ProductBulkMasterDetails";
 import { useNavigate } from "react-router-dom";
+import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
 
 const ProductMaster = () => {
   const [bulkOpen, setBulkOpen] = useState(false);
@@ -145,6 +146,9 @@ const ProductMaster = () => {
   const togglePopupBulk = () => {
     setBulkOpen(!bulkOpen);
   };
+  const togglePopupSearch = () => {
+    setOpenSearch(!openSearch);
+  };
 
   return (
     <>
@@ -165,15 +169,34 @@ const ProductMaster = () => {
               ]}
             />
             <div>
+              <Tooltip title="Filter">
+                <IconButton
+                  color="inherit"
+                  className="button"
+                  aria-label="Filter"
+                  onClick={togglePopupSearch}
+                >
+                  <Icon>filter_list</Icon>
+                </IconButton>
+              </Tooltip>
               <Button
                 variant="contained"
                 onClick={togglePopupBulk}
-                // style={{ marginLeft: "20px" }}
+              // style={{ marginLeft: "20px" }}
               >
                 Add Product Bulk
               </Button>
             </div>
           </Box>
+          <SearchFilterDialog
+            isOpen={openSearch}
+            onClose={() => setOpenSearch(false)}
+            reset={() => paginate(true)}
+            search={() => paginate(false, true)}
+          >
+
+
+          </SearchFilterDialog>
           <PaginationTable
             header={COLUMNS}
             rows={rows}
