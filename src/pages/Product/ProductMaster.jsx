@@ -19,7 +19,7 @@ import ReactSelect from "../../components/UI/ReactSelect";
 const ProductMaster = () => {
   const [bulkOpen, setBulkOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
-  const [subCategory, setSubCategory] = useState([])
+  const [subCategory, setSubCategory] = useState([]);
   const navigate = useNavigate();
 
   // ----Pagination code------
@@ -43,7 +43,7 @@ const ProductMaster = () => {
     usePaginationTable({
       searchTxt: "",
       subCategory: "",
-      gender:"",
+      gender: "",
     });
 
   const handleButtonClick = (id) => {
@@ -55,7 +55,7 @@ const ProductMaster = () => {
     let clearStates = {
       searchTxt: "",
       subCategory: "",
-      gender:"",
+      gender: "",
       ...appConfig.default_pagination_state,
     };
 
@@ -125,8 +125,6 @@ const ProductMaster = () => {
   //   paginate();
   // }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
-
-
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -166,13 +164,12 @@ const ProductMaster = () => {
     setOpenSearch(!openSearch);
   };
 
-  // useEffect in SubCategory in Select 
+  // useEffect in SubCategory in Select
   useEffect(() => {
-    API.get(apiConfig.listSubCategory, { is_public_url: true })
-      .then((res) => {
-        setSubCategory(res);
-      })
-  }, [])
+    API.get(apiConfig.listSubCategory, { is_public_url: true }).then((res) => {
+      setSubCategory(res);
+    });
+  }, []);
   // --------------------SubCategory Filter----------------------------
   let _sortOptionsSubCategory = subCategory.map((option) => ({
     label: option.name,
@@ -223,7 +220,7 @@ const ProductMaster = () => {
               <Button
                 variant="contained"
                 onClick={togglePopupBulk}
-              // style={{ marginLeft: "20px" }}
+                style={{ marginLeft: "20px" }}
               >
                 Add Product Bulk
               </Button>
@@ -235,49 +232,55 @@ const ProductMaster = () => {
             reset={() => paginate(true)}
             search={() => paginate(false, true)}
           >
-            <Textinput
-              size="small"
-              type="text"
-              name="searchTxt"
-              label="Search Text"
-              variant="outlined"
-              value={state?.searchTxt}
-              onChange={(e) => changeState("searchTxt", e.target.value)}
-              sx={{ mb: 0, mt: 1, width: "100%" }}
-            />
-            <Select
-              placeholder="Select Shap Name"
-              options={_sortOptionsSubCategory}
-              isMulti
-              value={_sortOptionsSubCategory.filter((option) =>
-                state.subCategory.includes(option.value)
-              )}
-              onChange={(selectedSort) => {
-                const selectedIds = selectedSort.map(
-                  (option) => option.value
-                );
-                changeState("subCategory", selectedIds);
-              }}
-              name="choices-multi-default"
-              id="subCategory"
-            />
-            <ReactSelect
-              // label="Select Sort by Price"
-              placeholder={
-                _sortOptionsGender.find(
-                  (option) => option.value === state.gender
-                )?.label || "Select Gender"
-              }
-              options={_sortOptionsGender}
-              value={_sortOptionsGender.find(
-                (option) => option.value === state.gender
-              )}
-              onChange={(selectedSort) => {
-                const selectedId = selectedSort.target.value;
-                changeState("gender", selectedId);
-              }}
-              name="choices-multi-default"
-            />
+            <div style={{ height: "350px" }}>
+              <Textinput
+                size="small"
+                type="text"
+                name="searchTxt"
+                label="Search Text"
+                variant="outlined"
+                value={state?.searchTxt}
+                onChange={(e) => changeState("searchTxt", e.target.value)}
+                sx={{ mb: 0, mt: 1, width: "100%" }}
+              />
+              <div className="text-input-top">
+                <Select
+                  placeholder="Select Shap Name"
+                  options={_sortOptionsSubCategory}
+                  isMulti
+                  value={_sortOptionsSubCategory.filter((option) =>
+                    state.subCategory.includes(option.value)
+                  )}
+                  onChange={(selectedSort) => {
+                    const selectedIds = selectedSort.map(
+                      (option) => option.value
+                    );
+                    changeState("subCategory", selectedIds);
+                  }}
+                  name="choices-multi-default"
+                  id="subCategory"
+                />
+              </div>
+              <div className="text-input-top">
+                <ReactSelect
+                  // label="Select Sort by Price"
+                  placeholder={
+                    _sortOptionsGender.find(
+                      (option) => option.value === state.gender
+                    )?.label || "Select Gender"
+                  }
+                  options={_sortOptionsGender}
+                  value={_sortOptionsGender.find(
+                    (option) => option.value === state.gender
+                  )}
+                  onChange={(selectedSort) => {
+                    const selectedId = selectedSort.target.value;
+                    changeState("gender", selectedId);
+                  }}
+                  name="choices-multi-default"
+                />
+              </div>
+            </div>
           </SearchFilterDialog>
           <PaginationTable
             header={COLUMNS}

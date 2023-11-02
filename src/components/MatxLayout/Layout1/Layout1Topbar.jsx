@@ -85,7 +85,7 @@ const IconBox = styled("div")(({ theme }) => ({
 const Layout1Topbar = () => {
   const theme = useTheme();
   const { settings, updateSettings } = useSettings();
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [openTable, setOpenTable] = useState(false);
   const updateSidebarMode = (sidebarSettings) => {
@@ -156,24 +156,24 @@ const Layout1Topbar = () => {
               </UserMenu>
             }
           >
-            <StyledItem>
+            {/* <StyledItem>
               <Link to="/">
                 <Icon> home </Icon>
                 <Span> Home </Span>
               </Link>
-            </StyledItem>
+            </StyledItem> */}
 
-            <StyledItem>
+            {/* <StyledItem>
               <Link to="/page-layouts/user-profile">
                 <Icon> person </Icon>
                 <Span> Profile </Span>
               </Link>
-            </StyledItem>
+            </StyledItem> */}
 
-            <StyledItem>
+            {/* <StyledItem>
               <Icon> settings </Icon>
               <Span> Settings </Span>
-            </StyledItem>
+            </StyledItem> */}
             <StyledItem onClick={togglePopupTable}>
               <Icon> lock </Icon>
               <Span> Change Password </Span>

@@ -325,3 +325,20 @@ input::-webkit-inner-spin-button {
     width: 40px !important;
     height: 40px !important;
 }
+
+.main-login-text-input input {
+    height: 25px;
+    font-size: 16px;
+}
+
+.main-login-text-input button {
+    height: 45px !important;
+    font-size: 17px;
+    font-weight: 500;
+    background-color: #49449f;
+    /* background-color: #222a44e7; */
+}
+
+.main-login-text-input input::placeholder {
+    font-size: 16px;
+}

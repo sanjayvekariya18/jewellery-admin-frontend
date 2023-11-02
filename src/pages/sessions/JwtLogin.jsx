@@ -1,9 +1,8 @@
-import { Alert, Card, Grid, Snackbar, Button, Checkbox } from "@mui/material";
-import { Box, styled, useTheme } from "@mui/material";
-import { Paragraph } from "../../components/Typography";
+import { Card, Grid, Button } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Textinput from "../../components/UI/TextInput";
 import Validators from "../../components/validations/Validator";
 import { HELPER } from "../../services";
@@ -32,25 +31,24 @@ const JWTRoot = styled(JustifyBox)(() => ({
   },
 }));
 
-// inital login credentials
+// Initial login credentials
 const initialValues = {
   email: "admin@admin.com",
   password: "admin@123",
-  remember: true,
 };
 
 const JwtLogin = () => {
-  // -------formState-----
-
+  // Form state
   const [formState, setFormState] = useState({
     ...initialValues,
   });
-  //  -------------Validation --------------
+
+  // Validation rules
   const rules = {
     password: "required|min:6",
     email: "required",
   };
-  const theme = useTheme();
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -59,113 +57,138 @@ const JwtLogin = () => {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      await login(values.email, values.password, values.remember);
-      HELPER.toaster.success("Login SuccessFully..");
+      await login(values.email, values.password);
+      HELPER.toaster.success("Login Successfully ...");
       navigate("/");
     } catch (e) {
       setLoading(false);
       HELPER.toaster.error(e.errors.message);
     }
   };
+
   const onChange = ({ target: { value, name } }) => {
     setFormState((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+
   return (
     <JWTRoot>
-      <Card className="card">
-        <Grid container>
-          <Grid item sm={6} xs={12}>
-            <JustifyBox p={4} height="100%" sx={{ minWidth: 320 }}>
-              <img
-                src="/assets/images/illustrations/dreamer.svg"
-                width="100%"
-                alt=""
-              />
-            </JustifyBox>
-          </Grid>
-
-          <Grid item sm={6} xs={12}>
-            <ContentBox>
-              <Validators formData={formState} rules={rules}>
-                {({ onSubmit, errors }) => {
-                  return (
-                    <>
+      <>
+        <Validators formData={formState} rules={rules}>
+          {({ onSubmit, errors }) => {
+            return (
+              <>
+                <div
+                  style={{
+                    background: "white",
+                    width: "100%",
+                    height: "100vh",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "50%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "baseline",
+                      }}
+                    >
+                      <h2
+                        style={{
+                          color: "#131313",
+                          fontWeight: "500",
+                          marginRight: "10px",
+                          fontFamily: "system-ui",
+                          fontSize: "26px",
+                        }}
+                      >
+                        Welcome To Jewellery ,
+                      </h2>
+                      <h2
+                        style={{
+                          color: "#405189",
+                          fontWeight: "600",
+                          fontFamily: "system-ui",
+                          fontSize: "26px",
+                        }}
+                      >
+                        Admin ! 👋
+                      </h2>
+                    </div>
+                    <div className="text-input-top main-login-text-input">
                       <Textinput
                         size="small"
                         type="email"
                         name="email"
                         label="Email"
                         value={formState.email}
+                        placeholder="Enter Email Address"
                         onChange={onChange}
                         error={errors?.email}
-                        sx={{ mb: 3 }}
+                        sx={{ mb: 0, width: "500px" }}
                       />
-
+                    </div>
+                    <div className="text-input-top main-login-text-input">
                       <Textinput
                         size="small"
                         type="password"
                         name="password"
-                        label="password"
+                        label="Password"
+                        placeholder="******"
                         value={formState.password}
                         onChange={onChange}
                         error={errors?.password}
-                        sx={{ mb: 1.5 }}
+                        sx={{ mb: 0, width: "500px" }}
                       />
-                      <FlexBox justifyContent="space-between">
-                        <FlexBox gap={1}>
-                          <Checkbox
-                            size="small"
-                            name="remember"
-                            onChange={onChange}
-                            checked={formState.remember}
-                            sx={{ padding: 0 }}
-                          />
-
-                          <Paragraph>Remember Me</Paragraph>
-                        </FlexBox>
-
-                        <NavLink
-                          to="/session/forgot-password"
-                          style={{ color: theme.palette.primary.main }}
-                        >
-                          Forgot password?
-                        </NavLink>
-                      </FlexBox>
-
+                    </div>
+                    <div className="main-login-text-input">
                       <Button
                         type="submit"
                         color="primary"
-                        loading={loading}
                         variant="contained"
+                        disabled={loading}
                         sx={{ my: 2 }}
                         onClick={() => onSubmit(handleSubmit)}
+                        style={{ width: "500px" }}
                       >
-                        Login
+                        {loading ? "Loading..." : "Login"}
                       </Button>
-
-                      <Paragraph>
-                        Don't have an account?
-                        <NavLink
-                          to="/session/signup"
-                          style={{
-                            color: theme.palette.primary.main,
-                            marginLeft: 5,
-                          }}
-                        >
-                          Register
-                        </NavLink>
-                      </Paragraph>
-                    </>
-                  );
-                }}
-              </Validators>
-            </ContentBox>
-          </Grid>
-        </Grid>
-      </Card>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      width: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      background: "#49449f",
+                      height: "100vh",
+                    }}
+                  >
+                    <img
+                      src="/assets/images/illustrations/dreamer.svg"
+                      width="500px"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </>
+            );
+          }}
+        </Validators>
+      </>
     </JWTRoot>
   );
 };
