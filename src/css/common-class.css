@@ -168,6 +168,10 @@ input::-webkit-inner-spin-button {
     width: 235px !important;
 }
 
+.thead-second-width-address {
+    width: 110px !important;
+}
+
 .thead-second-width {
     width: 150px !important;
 }
@@ -194,6 +198,10 @@ input::-webkit-inner-spin-button {
 
 .thead-second-width-title {
     width: 400px !important;
+}
+
+.thead-second-width-title-email {
+    width: 300px !important;
 }
 
 .thead-second-width-title-answer {

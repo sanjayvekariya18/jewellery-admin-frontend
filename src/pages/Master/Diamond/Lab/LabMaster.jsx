@@ -101,7 +101,7 @@ const LabMaster = () => {
   const onClickDelete = (lab_id) => {
     Swal.fire({
       title: "Are You Sure",
-      text: "Are you sure you want to remove this Lab Master ?",
+      text: "Are you sure you want to remove this Lab ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "green",

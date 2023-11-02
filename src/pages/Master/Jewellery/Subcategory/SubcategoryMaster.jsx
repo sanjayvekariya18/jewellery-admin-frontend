@@ -189,7 +189,7 @@ const SubcategoryMaster = () => {
   const onClickDelete = (id) => {
     Swal.fire({
       title: "Are You Sure",
-      text: "Are you sure you want to remove this Option ?",
+      text: "Are you sure you want to remove this Sub Category ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "green",

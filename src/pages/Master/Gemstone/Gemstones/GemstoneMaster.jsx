@@ -300,7 +300,6 @@ const GemstoneMaster = () => {
             >
               {item.title}
             </span>
-            ,
           </div>,
           <span>{item.gemstoneType}</span>,
           <span>{item.shapeName}</span>,

@@ -34,15 +34,15 @@ const Customer = () => {
   };
   /* Pagination code */
   const TITLE = [
-    { title: "Name" },
-    { title: "Email", classNameWidth: "thead-second-width-title" },
-    { title: "Country" },
-    { title: "State" },
-    { title: "City" },
-    { title: "Pincode" },
-    { title: "Address" },
-    { title: "Active" },
-    { title: "Action" },
+    { title: "Name", classNameWidth: "thead-second-width-title-email" },
+    { title: "Email", classNameWidth: "thead-second-width-title-email" },
+    { title: "Country", classNameWidth: "thead-second-width" },
+    { title: "State", classNameWidth: "thead-second-width-stock-no" },
+    { title: "City", classNameWidth: "thead-second-width" },
+    { title: "Pincode", classNameWidth: "thead-second-width" },
+    { title: "Address", classNameWidth: "thead-second-width-stock-no" },
+    { title: "Active", classNameWidth: "thead-second-width-action" },
+    { title: "Action", classNameWidth: "thead-second-width-action" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -152,7 +152,7 @@ const Customer = () => {
           <span>{item.city}</span>,
           <span>{item.pincode}</span>,
           <span
-            className="three-dot-text"
+            className="three-dot-text-title-stock-no"
             style={{ fontWeight: "500", cursor: "pointer" }}
             onClick={() => showAddressInDialog(item)}
           >

@@ -424,8 +424,8 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               size="small"
               type="number"
               name="mLength"
-              label="mLength"
-              placeholder="Enter mLength"
+              label="Maximum Length"
+              placeholder="Enter Maximum Length"
               value={formState.mLength}
               onChange={onChange}
               error={errors?.mLength}
@@ -435,8 +435,8 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               size="small"
               type="number"
               name="mWidth"
-              label="mWidth"
-              placeholder="Enter mWidth"
+              label="Maximum Width"
+              placeholder="Enter Maximum Width"
               value={formState.mWidth}
               onChange={onChange}
               error={errors?.mWidth}
@@ -446,8 +446,8 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               size="small"
               type="number"
               name="mDepth"
-              label="mDepth"
-              placeholder="Enter mDepth"
+              label="Maximum Depth"
+              placeholder="Enter Maximum Depth"
               value={formState.mDepth}
               onChange={onChange}
               error={errors?.mDepth}
