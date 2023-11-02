@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
 import { apiConfig } from "../../../../config";
-import { API } from "../../../../services";
+import { API, HELPER } from "../../../../services";
 import { toaster } from "../../../../services/helper";
 import Textinput from "../../../../components/UI/TextInput";
 import { Button } from "@mui/material";
@@ -10,19 +10,19 @@ import { Button } from "@mui/material";
 const ChangePassword = ({ open, togglePopup }) => {
   const [isLoader, setIsLoader] = useState(false);
 
-  //  -------------formState --------------
+  // Form state
   const [formState, setFormState] = useState({
     oldPassword: "",
     newPassword: "",
   });
 
-  //  -------------Validation --------------
+  // Validation rules
   const rules = {
     oldPassword: "required",
     newPassword: "required",
   };
 
-  //  -------------handle Change Password --------------
+  // Handle Change Password
   const handleSubmit = (data) => {
     setIsLoader(true);
     API.put(apiConfig.changePassword, data)
@@ -31,15 +31,10 @@ const ChangePassword = ({ open, togglePopup }) => {
         togglePopup();
       })
       .catch((err) => {
-        if (
-          err.status === 400 ||
-          err.status === 401 ||
-          err.status === 409 ||
-          err.status === 403 ||
-          err.status === 422 ||
-          err.status === 500
-        ) {
-          toaster.error(err.errors.message);
+        if ([400, 409, 403, 422, 500].includes(err.status)) {
+          HELPER.toaster.error(err.errors.message);
+        } else if (err.status === 401) {
+          HELPER.toaster.error(err.errors);
         } else {
           console.error(err);
         }
@@ -49,7 +44,7 @@ const ChangePassword = ({ open, togglePopup }) => {
       });
   };
 
-  // -----------------onChange--------------------
+  // Handle input changes
   const onChange = ({ target: { value, name } }) => {
     setFormState((prev) => ({
       ...prev,
@@ -58,73 +53,68 @@ const ChangePassword = ({ open, togglePopup }) => {
   };
 
   return (
-    <ThemeDialog
-      title={"Change Password"}
-      isOpen={open}
-      onClose={() => {
-        togglePopup();
-      }}
-    >
-      <Validators formData={formState} rules={rules}>
-        {({ onSubmit, errors }) => {
-          return (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                onSubmit(handleSubmit);
-              }}
-              action="#"
-            >
-              <Textinput
-                label="Old Password"
-                value={formState.oldPassword}
-                name="oldPassword"
-                // placeholder="Enter Old Password"
-                error={errors?.oldPassword}
-                type="password"
-                onChange={onChange}
-                sx={{
-                  mb: 2,
-                  mt: 1,
-                  width: "100%",
-                  border: "1px solid #c4c4c4",
-                  borderRadius: "5px",
+    <Validators formData={formState} rules={rules}>
+      {({ onSubmit, errors, resetValidation }) => (
+        <ThemeDialog
+          title="Change Password"
+          isOpen={open}
+          onClose={() => {
+            togglePopup();
+            resetValidation();
+          }}
+          maxWidth="sm"
+          actionBtns={
+            <>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  togglePopup();
+                  resetValidation();
                 }}
-              />
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{ marginLeft: "20px" }}
+                type="submit"
+                variant="contained"
+                color="success"
+                onClick={() => onSubmit(handleSubmit)}
+              >
+                Save
+              </Button>
+            </>
+          }
+        >
+          <div className="change-password-component">
+            <Textinput
+              label="Old Password"
+              value={formState.oldPassword}
+              placeholder="Enter Old Password"
+              name="oldPassword"
+              error={errors?.oldPassword}
+              type="password"
+              onChange={onChange}
+              sx={{ mb: 0, mt: 1, width: "100%" }}
+            />
 
+            <div className="text-input-top ">
               <Textinput
-                size="small"
-                label={"New Password"}
-                value={formState.newPassword}
+                label="New Password"
                 name="newPassword"
-                placeholder="Enter New Password"
-                error={errors?.newPassword}
+                value={formState.newPassword}
                 type="password"
+                placeholder="Enter New Password"
                 onChange={onChange}
-                sx={{
-                  mb: 2,
-                  mt: 1,
-                  width: "100%",
-                  border: "1px solid #c4c4c4",
-                  borderRadius: "5px",
-                }}
+                sx={{ mb: 0, width: "100%" }}
+                error={errors?.newPassword}
               />
-              <div className="mt-4">
-                <Button
-                  loader={isLoader}
-                  color="success"
-                  variant="contained"
-                  sx={{ width: "20%", borderRadius: 0 }}
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              </div>
-            </form>
-          );
-        }}
-      </Validators>
-    </ThemeDialog>
+            </div>
+          </div>
+        </ThemeDialog>
+      )}
+    </Validators>
   );
 };
 

@@ -1,8 +1,7 @@
 import { memo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
-  Hidden,
   Icon,
   IconButton,
   MenuItem,
@@ -12,19 +11,16 @@ import {
   useTheme,
 } from "@mui/material";
 
-import { MatxMenu, MatxSearchBox } from "../../../components";
+import { MatxMenu } from "../../../components";
 import { themeShadows } from "../../../components/MatxTheme/themeColors";
-import { NotificationProvider } from "../../../contexts/NotificationContext";
 import useAuth from "../../../hooks/useAuth";
 import useSettings from "../../../hooks/useSettings";
 import { topBarHeight } from "../../../utils/constant";
 
 import { Span } from "../../Typography";
-import NotificationBar from "../../NotificationBar/NotificationBar";
-import ShoppingCart from "../../ShoppingCart";
-import ChangePassword from "../../../pages/Master/User/User/ChangePassword";
 import { navigations } from "../../../navigations";
 import { Select } from "react-select-virtualized";
+import ChangePassword from "../../../pages/Master/User/User/ChangePassword";
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -154,115 +150,77 @@ const Layout1Topbar = () => {
   };
 
   return (
-    <TopbarRoot>
-      <TopbarContainer style={{ marginRight: "10px" }}>
-        <Box display="flex">
-          <StyledIconButton onClick={handleSidebarToggle}>
-            <Icon>menu</Icon>
-          </StyledIconButton>
-          <div
-            style={{ width: "340px", position: "relative", marginLeft: "20px" }}
-            className="main-search-bar-select"
-          >
-            <span
+    <>
+      <TopbarRoot>
+        <TopbarContainer style={{ marginRight: "10px" }}>
+          <Box display="flex">
+            <StyledIconButton onClick={handleSidebarToggle}>
+              <Icon>menu</Icon>
+            </StyledIconButton>
+            <div
               style={{
-                fontSize: "22px",
-                position: "absolute",
-                right: "8px",
-                top: "7px",
-                zIndex: "99",
-                color: "gray",
+                width: "340px",
+                position: "relative",
+                marginLeft: "20px",
               }}
+              className="main-search-bar-select"
             >
-              <Icon>search</Icon>
-            </span>
-            <Select
-              placeholder="Search..."
-              options={_filteredSortOptions}
-              value={_filteredSortOptions.find(
-                (option) => option.value === selectedData
-              )}
-              onChange={handleSearchInputChange}
-              className="search-moal-header"
-            ></Select>
-          </div>
-          {/* <IconBox>
-            <StyledIconButton>
-              <Icon>mail_outline</Icon>
-            </StyledIconButton>
+              <span
+                style={{
+                  fontSize: "22px",
+                  position: "absolute",
+                  right: "8px",
+                  top: "7px",
+                  zIndex: "99",
+                  color: "gray",
+                }}
+              >
+                <Icon>search</Icon>
+              </span>
+              <Select
+                placeholder="Search..."
+                options={_filteredSortOptions}
+                value={_filteredSortOptions.find(
+                  (option) => option.value === selectedData
+                )}
+                onChange={handleSearchInputChange}
+                className="search-moal-header"
+              ></Select>
+            </div>
+          </Box>
 
-            <StyledIconButton>
-              <Icon>web_asset</Icon>
-            </StyledIconButton>
-
-            <StyledIconButton>
-              <Icon>star_outline</Icon>
-            </StyledIconButton>
-          </IconBox> */}
-        </Box>
-
-        <Box display="flex" alignItems="center">
-          {/* <MatxSearchBox /> */}
-
-          {/* <NotificationProvider>
+          <Box display="flex" alignItems="center">
+            {/* <NotificationProvider>
             <NotificationBar />
           </NotificationProvider> */}
+            <MatxMenu
+              menuButton={
+                <UserMenu>
+                  <Avatar
+                    src="./assets/images/face-6.jpg"
+                    sx={{ cursor: "pointer" }}
+                  />
+                </UserMenu>
+              }
+            >
+              <StyledItem onClick={togglePopupTable}>
+                <Icon> lock </Icon>
+                <Span> Change Password </Span>
+              </StyledItem>
 
-          {/* <ShoppingCart /> */}
+              <StyledItem onClick={logout}>
+                <Icon> power_settings_new </Icon>
+                <Span> Logout </Span>
+              </StyledItem>
+            </MatxMenu>
+          </Box>
+        </TopbarContainer>
+      </TopbarRoot>
 
-          <MatxMenu
-            menuButton={
-              <UserMenu>
-                <Hidden xsDown>
-                  {/* <Span>
-                    Hi <strong>{`${user.firstName} ${user.lastName}`}</strong>
-                  </Span> */}
-                </Hidden>
-                <Avatar
-                  src="./assets/images/face-6.jpg"
-                  sx={{ cursor: "pointer" }}
-                />
-              </UserMenu>
-            }
-          >
-            {/* <StyledItem>
-              <Link to="/">
-                <Icon> home </Icon>
-                <Span> Home </Span>
-              </Link>
-            </StyledItem> */}
-
-            {/* <StyledItem>
-              <Link to="/page-layouts/user-profile">
-                <Icon> person </Icon>
-                <Span> Profile </Span>
-              </Link>
-            </StyledItem> */}
-
-            {/* <StyledItem>
-              <Icon> settings </Icon>
-              <Span> Settings </Span>
-            </StyledItem> */}
-            <StyledItem onClick={togglePopupTable}>
-              <Icon> lock </Icon>
-              <Span> Change Password </Span>
-            </StyledItem>
-
-            <StyledItem onClick={logout}>
-              <Icon> power_settings_new </Icon>
-              <Span> Logout </Span>
-            </StyledItem>
-          </MatxMenu>
-        </Box>
-      </TopbarContainer>
-
-      <ChangePassword
-        open={openTable}
-        togglePopup={() => {
-          togglePopupTable();
-        }}
-      />
-    </TopbarRoot>
+      {openTable && (
+        <ChangePassword open={openTable} togglePopup={togglePopupTable} />
+      )}
+    </>
   );
 };
 
