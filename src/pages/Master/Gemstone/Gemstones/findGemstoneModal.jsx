@@ -15,8 +15,8 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
     { label: "M-Length : ", key: "mLength" },
     { label: "M-Width : ", key: "mWidth" },
     { label: "M-Depth : ", key: "mDepth" },
-    { label: "Table : ", key: "table" },
-    { label: "Depth : ", key: "depth" },
+    // { label: "Table : ", key: "table" },
+    // { label: "Depth : ", key: "depth" },
     { label: "Price : ", key: "price" },
   ];
 
@@ -84,7 +84,7 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "auto auto auto",
+                  gridTemplateColumns: "auto auto",
                   gap: "6px",
                 }}
               >
