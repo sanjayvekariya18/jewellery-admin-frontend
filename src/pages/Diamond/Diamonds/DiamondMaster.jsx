@@ -23,12 +23,6 @@ const DiamondMaster = () => {
   const [open, setOpen] = useState(false);
   const [bulkOpen, setBulkOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
-  const [color, setColor] = useState([0, 1]);
-  const [clarity, setClarity] = useState([0, 10]);
-  const [cut, setCut] = useState([0, 5]);
-  const [fluorescence, setFluorescence] = useState([0, 4]);
-  const [symmetry, setSymmetry] = useState([0, 2]);
-  const [polish, setPolish] = useState([0, 2]);
   const [shapMaster, setShapMaster] = useState([]);
   const [labMaster, setLabMaster] = useState([]);
   const [carat, setCarat] = useState([]);
@@ -300,7 +294,6 @@ const DiamondMaster = () => {
     { value: 9, label: "OP" },
   ];
   const handleChangeColor = (event, newValue) => {
-    setColor(newValue);
     changeState("fromColor", marksColor[newValue[0]].value);
     changeState("toColor", marksColor[newValue[1]].value);
   };
@@ -320,7 +313,6 @@ const DiamondMaster = () => {
     { value: 10, label: "I3" },
   ];
   const handleChangeClarity = (event, newValue) => {
-    setClarity(newValue);
     changeState("fromClarity", marksClarity[newValue[0]].value);
     changeState("toClarity", marksClarity[newValue[1]].value);
   };
@@ -336,7 +328,6 @@ const DiamondMaster = () => {
   ];
 
   const handleChangeCut = (event, newValue) => {
-    setCut(newValue);
     changeState("fromCut", marksCut[newValue[0]].value);
     changeState("toCut", marksCut[newValue[1]].value);
   };
@@ -351,7 +342,6 @@ const DiamondMaster = () => {
   ];
 
   const handleChangeFluorescence = (event, newValue) => {
-    setFluorescence(newValue);
     changeState("fromFlor", marksFluorescence[newValue[0]].value);
     changeState("toFlor", marksFluorescence[newValue[1]].value);
   };
@@ -364,7 +354,6 @@ const DiamondMaster = () => {
   ];
 
   const handleChangeSymmetry = (event, newValue) => {
-    setSymmetry(newValue);
     changeState("fromSym", marksSymmetry[newValue[0]].value);
     changeState("toSym", marksSymmetry[newValue[1]].value);
   };
@@ -377,7 +366,6 @@ const DiamondMaster = () => {
   ];
 
   const handleChangePolish = (event, newValue) => {
-    setPolish(newValue);
     changeState("fromPolish", marksPolish[newValue[0]].value);
     changeState("toPolish", marksPolish[newValue[1]].value);
   };
