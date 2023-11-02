@@ -86,6 +86,36 @@ const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {
     }));
   };
 
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: "1" }, { header: "2" }],
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+        ],
+        ["link"],
+      ],
+    },
+  };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+  ];
+
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
@@ -152,6 +182,8 @@ const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {
                 value={formState.body}
                 style={{ height: "250px", marginBottom: "50px" }}
                 onChange={onChangeQuill}
+                modules={modules}
+                formats={formats}
               />
               {errors?.body && <p className="text-error">Body Is required</p>}
             </div>

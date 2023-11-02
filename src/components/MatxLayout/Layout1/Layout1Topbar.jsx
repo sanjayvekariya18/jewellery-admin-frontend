@@ -115,17 +115,35 @@ const Layout1Topbar = () => {
 
   // -------- Search Bar --------------------
 
-  const _sortOptions = navigations.reduce((options, item) => {
-    if (item.children && Array.isArray(item.children)) {
-      options.push(
-        ...item.children.map((subItem) => ({
-          label: subItem.name,
-          value: subItem.path,
-        }))
-      );
-    }
-    return options;
-  }, []);
+  const filterOptions = (options) => {
+    return options.filter(
+      (option) => option.label !== undefined && option.value !== undefined
+    );
+  };
+  const flattenNavigations = (navigations) => {
+    const flattenedOptions = [];
+
+    navigations.forEach((option) => {
+      flattenedOptions.push({
+        label: option.name,
+        value: option.path,
+      });
+
+      if (option.children) {
+        option.children.forEach((child) => {
+          flattenedOptions.push({
+            label: child.name,
+            value: child.path,
+          });
+        });
+      }
+    });
+
+    return flattenedOptions;
+  };
+
+  const _sortOptions1 = flattenNavigations(navigations);
+  const _filteredSortOptions = filterOptions(_sortOptions1);
 
   // -----------handleSearchInputChange-----------
   const handleSearchInputChange = (selectedOption) => {
@@ -137,7 +155,7 @@ const Layout1Topbar = () => {
 
   return (
     <TopbarRoot>
-      <TopbarContainer>
+      <TopbarContainer style={{ marginRight: "10px" }}>
         <Box display="flex">
           <StyledIconButton onClick={handleSidebarToggle}>
             <Icon>menu</Icon>
@@ -160,8 +178,8 @@ const Layout1Topbar = () => {
             </span>
             <Select
               placeholder="Search..."
-              options={_sortOptions}
-              value={_sortOptions.find(
+              options={_filteredSortOptions}
+              value={_filteredSortOptions.find(
                 (option) => option.value === selectedData
               )}
               onChange={handleSearchInputChange}
@@ -186,9 +204,9 @@ const Layout1Topbar = () => {
         <Box display="flex" alignItems="center">
           {/* <MatxSearchBox /> */}
 
-          <NotificationProvider>
+          {/* <NotificationProvider>
             <NotificationBar />
-          </NotificationProvider>
+          </NotificationProvider> */}
 
           {/* <ShoppingCart /> */}
 
