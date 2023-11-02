@@ -84,14 +84,6 @@ const DiamondMaster = () => {
       toTable: table.maxTable,
       fromDepth: depth.minDepth,
       toDepth: depth.maxDepth,
-      // fromColor: "",
-      // toColor: "",
-      sortByShape: "ASC",
-      sortByPrice: "ASC",
-      sortByCarat: "ASC",
-      sortByCut: "ASC",
-      sortByColor: "ASC",
-      sortByLab: "ASC",
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -107,14 +99,18 @@ const DiamondMaster = () => {
       fromDepth: depth.minDepth,
       toDepth: depth.maxDepth,
       lab: "",
-      // fromColor: "",
-      // toColor: "",
-      sortByShape: "ASC",
-      sortByPrice: "ASC",
-      sortByCarat: "ASC",
-      sortByCut: "ASC",
-      sortByColor: "ASC",
-      sortByLab: "ASC",
+      fromColor: "",
+      toColor: "",
+      fromClarity: "",
+      toClarity: "",
+      fromCut: "",
+      toCut: "",
+      fromFlor: "",
+      toFlor: "",
+      fromSym: "",
+      toSym: "",
+      fromPolish: "",
+      toPolish: "",
       ...appConfig.default_pagination_state,
     };
 
@@ -126,39 +122,58 @@ const DiamondMaster = () => {
       shape: state.shape,
       fromColor: clear ? clearStates.fromColor : state.fromColor,
       toColor: clear ? clearStates.toColor : state.toColor,
-      fromClarity: state.fromClarity,
-      toClarity: state.toClarity,
-      fromCut: state.fromCut,
-      toCut: state.toCut,
-      fromFlor: state.fromFlor,
-      toFlor: state.toFlor,
-      fromSym: state.fromSym,
-      toSym: state.toSym,
-      fromPolish: state.fromPolish,
-      toPolish: state.toPolish,
-      fromTable: state.fromTable,
-      toTable: state.toTable,
-      fromDepth: state.fromDepth,
-      toDepth: state.toDepth,
+      fromClarity: clear ? clearStates.fromClarity : state.fromClarity,
+      toClarity: clear ? clearStates.toClarity : state.toClarity,
+      fromCut: clear ? clearStates.fromCut : state.fromCut,
+      toCut: clear ? clearStates.toCut : state.toCut,
+      fromFlor: clear ? clearStates.fromFlor : state.fromFlor,
+      toFlor: clear ? clearStates.toFlor : state.toFlor,
+      fromSym: clear ? clearStates.fromSym : state.fromSym,
+      toSym: clear ? clearStates.toSym : state.toSym,
+      fromPolish: clear ? clearStates.fromPolish : state.fromPolish,
+      toPolish: clear ? clearStates.toPolish : state.toPolish,
+      fromTable: clear ? clearStates.fromTable : state.fromTable,
+      toTable: clear ? clearStates.toTable : state.toTable,
+      fromDepth: clear ? clearStates.fromDepth : state.fromDepth,
+      toDepth: clear ? clearStates.toDepth : state.toDepth,
       fromPrice: clear ? clearStates.fromPrice : state.fromPrice,
       toPrice: clear ? clearStates.toPrice : state.toPrice,
       lab: state.lab,
-      sortByShape: state.sortByShape,
-      sortByPrice: state.sortByPrice,
-      sortByCarat: state.sortByCarat,
-      sortByCut: state.sortByCut,
-      sortByColor: state.sortByColor,
-      sortByLab: state.sortByLab,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
 
+
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.fromCts;
+      delete filter.toCts;
+      delete filter.shape;
+      delete filter.fromColor;
+      delete filter.toColor;
+      delete filter.fromTable;
+      delete filter.toTable;
+      delete filter.fromDepth;
+      delete filter.toDepth;
+      delete filter.fromPrice;
+      delete filter.toPrice;
+      delete filter.lab;
+      delete filter.fromClarity;
+      delete filter.toClarity;
+      delete filter.fromCut;
+      delete filter.toCut;
+      delete filter.fromFlor;
+      delete filter.toFlor;
+      delete filter.fromSym;
+      delete filter.toSym;
+      delete filter.fromPolish;
+      delete filter.toPolish;
+      delete filter.fromDepth;
+      delete filter.toDepth;
+      delete filter.fromTable;
+      delete filter.toTable;
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
-
     // ----------Get Diamong Api------------
 
     API.get(apiConfig.diamonds, filter)
@@ -572,7 +587,7 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Color :</label>
                 <Slider
-                  defaultValue={[0, 1]}
+                  value={[state.fromColor === undefined || state.fromColor === "" ? 0 : state.fromColor, state.toColor === undefined || state.toColor === "" ? 1 : state.toColor]}
                   onChange={handleChangeColor}
                   aria-labelledby="track-inverted-slider"
                   marks={marksColor}
@@ -584,7 +599,7 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Clarity :</label>
                 <Slider
-                  value={clarity}
+                  value={[state.fromClarity === undefined || state.fromClarity === "" ? 0 : state.fromClarity, state.toClarity === undefined || state.toClarity === "" ? 1 : state.toClarity]}
                   onChange={handleChangeClarity}
                   aria-labelledby="track-inverted-slider"
                   marks={marksClarity}
@@ -596,7 +611,7 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Cut :</label>
                 <Slider
-                  value={cut}
+                  value={[state.fromCut === undefined || state.fromCut === "" ? 0 : state.fromCut, state.toCut === undefined || state.toCut === "" ? 1 : state.toCut]}
                   onChange={handleChangeCut}
                   aria-labelledby="track-inverted-slider"
                   marks={marksCut}
@@ -608,7 +623,7 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Fluorescence :</label>
                 <Slider
-                  value={fluorescence}
+                  value={[state.fromFlor === undefined || state.fromFlor === "" ? 0 : state.fromFlor, state.toFlor === undefined || state.toFlor === "" ? 1 : state.toFlor]}
                   onChange={handleChangeFluorescence}
                   aria-labelledby="track-inverted-slider"
                   marks={marksFluorescence}
@@ -620,7 +635,7 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Symmetry :</label>
                 <Slider
-                  value={symmetry}
+                  value={[state.fromSym === undefined || state.fromSym === "" ? 0 : state.fromSym, state.toSym === undefined || state.toSym === "" ? 1 : state.toSym]}
                   onChange={handleChangeSymmetry}
                   aria-labelledby="track-inverted-slider"
                   marks={marksSymmetry}
@@ -632,7 +647,7 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Polish :</label>
                 <Slider
-                  value={polish}
+                  value={[state.fromPolish === undefined || state.fromPolish === "" ? 0 : state.fromPolish, state.toPolish === undefined || state.toPolish === "" ? 1 : state.toPolish]}
                   onChange={handleChangePolish}
                   aria-labelledby="track-inverted-slider"
                   marks={marksPolish}
@@ -654,7 +669,7 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Price :</label>
                   <Slider
-                    defaultValue={[price.minPrice, price.maxPrice]}
+                    defaultValue={[state.fromPrice === undefined ? price.minPrice : state.fromPrice, state.toPrice === undefined ? price.maxPrice : state.toPrice]}
                     onChange={handleChangePrice}
                     valueLabelDisplay="auto"
                     min={price.minPrice}
@@ -708,7 +723,7 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Carat :</label>
                   <Slider
-                    defaultValue={[carat.minCarat, carat.maxCarat]}
+                    defaultValue={[state.fromCts === undefined ? carat.minCarat : state.fromCts, state.toCts === undefined ? carat.maxCarat : state.toCts]}
                     onChange={handleChangeCarat}
                     valueLabelDisplay="auto"
                     min={carat.minCarat}
@@ -775,7 +790,7 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Depth :</label>
                   <Slider
-                    defaultValue={[depth.minDepth, depth.maxDepth]}
+                    value={[state.fromDepth === undefined || state.fromDepth === "" ? depth.minDepth : state.fromDepth, state.toDepth === undefined || state.toDepth === "" ? depth.maxDepth : state.toDepth]}
                     onChange={handleChangeDepth}
                     valueLabelDisplay="auto"
                     min={depth.minDepth}
@@ -834,7 +849,7 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Table :</label>
                   <Slider
-                    defaultValue={[table.minTable, table.maxTable]}
+                    value={[state.fromTable === undefined || state.fromTable === "" ? table.minTable : state.fromTable, state.toTable === undefined || state.toTable === "" ? table.maxTable : state.toTable]}
                     onChange={handleChangeTable}
                     valueLabelDisplay="auto"
                     min={table.minTable}
@@ -943,7 +958,7 @@ const DiamondMaster = () => {
                 paginate();
               }}
               callBack={() => paginate(true)}
-              //   userData={selectedUserData}
+            //   userData={selectedUserData}
             />
           )}
         </Container>
