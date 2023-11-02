@@ -157,7 +157,7 @@ const ColorDiamondMaster = () => {
       fromPrice: clear ? price.minPrice : state.fromPrice,
       toPrice: clear ? price.maxPrice : state.toPrice,
       fromCts: clear ? carat.minCarat : state.fromCts,
-      toCts: clear ? carat.maxCarat : state.toCts, 
+      toCts: clear ? carat.maxCarat : state.toCts,
       sortBy: state.sortBy,
     };
 
@@ -496,8 +496,29 @@ const ColorDiamondMaster = () => {
                 >
                   <div>
                     <label className="label-class">Price :</label>
+                    {/* <Slider
+                      defaultValue={[
+                        state.fromPrice === undefined
+                          ? price.minPrice
+                          : state.fromPrice,
+                        state.toPrice === undefined
+                          ? price.maxPrice
+                          : state.toPrice,
+                      ]}
+                      onChange={handleChangePrice}
+                      valueLabelDisplay="auto"
+                      min={price.minPrice}
+                      max={price.maxPrice}
+                    /> */}
                     <Slider
-                      defaultValue={[state.fromPrice === undefined ? price.minPrice : state.fromPrice, state.toPrice === undefined ? price.maxPrice : state.toPrice]}
+                      value={[
+                        state.fromPrice === undefined
+                          ? price.minPrice
+                          : state.fromPrice,
+                        state.toPrice === undefined
+                          ? price.maxPrice
+                          : state.toPrice,
+                      ]}
                       onChange={handleChangePrice}
                       valueLabelDisplay="auto"
                       min={price.minPrice}
@@ -551,7 +572,14 @@ const ColorDiamondMaster = () => {
                   <div>
                     <label className="label-class">Carat :</label>
                     <Slider
-                      defaultValue={[state.fromCts === undefined ? carat.minCarat : state.fromCts, state.toCts === undefined ? carat.maxCarat : state.toCts]}
+                      value={[
+                        state.fromCts === undefined
+                          ? carat.minCarat
+                          : state.fromCts,
+                        state.toCts === undefined
+                          ? carat.maxCarat
+                          : state.toCts,
+                      ]}
                       onChange={handleChangeCarat}
                       valueLabelDisplay="auto"
                       min={carat.minCarat}
@@ -653,7 +681,7 @@ const ColorDiamondMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
           <FindColoredModal
             open={findGemstone}

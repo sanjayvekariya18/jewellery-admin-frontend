@@ -296,7 +296,7 @@ const GemstoneMaster = () => {
           <div className="common-thead-second-width-title">
             <span
               style={{ fontWeight: 500 }}
-            // onClick={() => showAddressInDialog(item)}
+              // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -523,7 +523,14 @@ const GemstoneMaster = () => {
                   <div>
                     <label className="label-class">Price :</label>
                     <Slider
-                      defaultValue={[state.fromPrice === undefined ? price.minPrice : state.fromPrice, state.toPrice === undefined ? price.maxPrice : state.toPrice]}
+                      value={[
+                        state.fromPrice === undefined
+                          ? price.minPrice
+                          : state.fromPrice,
+                        state.toPrice === undefined
+                          ? price.maxPrice
+                          : state.toPrice,
+                      ]}
                       onChange={handleChangePrice}
                       valueLabelDisplay="auto"
                       min={price.minPrice}
@@ -583,7 +590,10 @@ const GemstoneMaster = () => {
                       Dimension :
                     </label>
                     <Slider
-                      defaultValue={[state.fromDimension === "" ? 0.05 : state.fromDimension, state.toDimension === "" ? 10.0 : state.toDimension]}
+                      value={[
+                        state.fromDimension === "" ? 0.05 : state.fromDimension,
+                        state.toDimension === "" ? 10.0 : state.toDimension,
+                      ]}
                       onChange={handleChangeDimension}
                       valueLabelDisplay="auto"
                       min={0.05}
@@ -679,7 +689,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}
