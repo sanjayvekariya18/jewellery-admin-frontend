@@ -147,6 +147,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                   Cancel
                 </Button>
                 <Button
+                  disabled={selectedFile === null ? true : false}
                   style={{ marginLeft: "20px" }}
                   type="submit"
                   variant="contained"
@@ -222,9 +223,8 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
               ]}
               icon="cloud_upload"
-              label={`Drag & drop an Excel file here, or click to select one ${
-                selectedFile === null ? "" : ` (${selectedFile.name})`
-              }`}
+              label={`Drag & drop an Excel file here, or click to select one ${selectedFile === null ? "" : ` (${selectedFile.name})`
+                }`}
             />
           </Box>
         </ThemeDialog>

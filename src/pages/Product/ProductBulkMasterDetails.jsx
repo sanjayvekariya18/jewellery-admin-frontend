@@ -137,6 +137,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                   Cancel
                 </Button>
                 <Button
+                  disabled={selectedFile === null ? true : false}
                   style={{ marginLeft: "20px" }}
                   type="submit"
                   variant="contained"
