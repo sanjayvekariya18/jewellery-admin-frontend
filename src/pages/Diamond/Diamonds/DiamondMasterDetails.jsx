@@ -44,6 +44,10 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     color: "required",
     clarity: "required",
     origin: "required",
+    mDepth:"numeric|min:0",
+    mLength:"numeric|min:0",
+    mWidth:"numeric|min:0",
+    depth:"numeric|min:0",
   };
 
   // ------------------Get Shap API --------------------------------

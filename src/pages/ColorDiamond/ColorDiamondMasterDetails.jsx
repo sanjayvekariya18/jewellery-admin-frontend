@@ -41,6 +41,9 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
     clarity: "required",
     colorName: "required",
     intensity: "required",
+    mDepth:"numeric|min:0",
+    mLength:"numeric|min:0",
+    mWidth:"numeric|min:0",
   };
 
   const onChange = useCallback((e) => {
@@ -365,6 +368,8 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               onChange={onChange}
               error={errors?.mLength}
               sx={{ mb: 0, width: "100%" }}
+              InputProps={{ inputProps: { min: 0 } }}
+
             />
             <Textinput
               size="small"
@@ -376,6 +381,8 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               onChange={onChange}
               error={errors?.mWidth}
               sx={{ mb: 0, width: "100%" }}
+              InputProps={{ inputProps: { min: 0 } }}
+
             />
             <Textinput
               size="small"
@@ -387,6 +394,8 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               onChange={onChange}
               error={errors?.mDepth}
               sx={{ mb: 0, width: "100%" }}
+              InputProps={{ inputProps: { min: 0 } }}
+
             />
 
             <Textinput

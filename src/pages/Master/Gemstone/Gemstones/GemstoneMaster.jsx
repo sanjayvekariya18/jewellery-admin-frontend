@@ -88,7 +88,11 @@ const GemstoneMaster = () => {
 
     let newFilterState = { ...appConfig.default_pagination_state };
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.fromPrice;
+      delete filter.toPrice;
+      delete filter.fromDimension;
+      delete filter.toDimension;
+  
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -263,15 +267,15 @@ const GemstoneMaster = () => {
   }));
 
   // -----------------SortBy Filter----------------
-  const sortOptionsSortBy = [
-    { label: "Newest", value: "newest" },
-    { label: "Lowest Price", value: "lPrice" },
-    { label: "Highest Price", value: "hPrice" },
-  ];
-  let _sortOptionsSortBy = sortOptionsSortBy.map((option) => ({
-    label: option.label,
-    value: option.value,
-  }));
+  // const sortOptionsSortBy = [
+  //   { label: "Newest", value: "newest" },
+  //   { label: "Lowest Price", value: "lPrice" },
+  //   { label: "Highest Price", value: "hPrice" },
+  // ];
+  // let _sortOptionsSortBy = sortOptionsSortBy.map((option) => ({
+  //   label: option.label,
+  //   value: option.value,
+  // }));
   const toggleGemstonePopup = () => {
     if (findGemstone) {
       setGemstoneData(null); // Reset gemStoneData when closing the modal
@@ -367,7 +371,7 @@ const GemstoneMaster = () => {
             <Breadcrumb
               routeSegments={[
                 { name: "Masters", path: pageRoutes.master.user.user },
-                { name: "Gem Stone" },
+                { name: "Gemstones" },
               ]}
             />
             <div>
@@ -387,7 +391,7 @@ const GemstoneMaster = () => {
                   onClick={togglePopupBulk}
                   style={{ marginLeft: "20px" }}
                 >
-                  Add GemStone Bulk
+                  Add Gemstones Bulk
                 </Button>
               </div>
             </div>
@@ -398,7 +402,7 @@ const GemstoneMaster = () => {
               search={() => paginate(false, true)}
             >
               <div style={{ height: "350px" }}>
-                <div>
+                {/* <div>
                   <ReactSelect
                     // label="Select Sort by Price"
                     placeholder={
@@ -416,7 +420,7 @@ const GemstoneMaster = () => {
                     }}
                     name="choices-multi-default"
                   />
-                </div>
+                </div> */}
                 <div
                   style={{
                     display: "grid",

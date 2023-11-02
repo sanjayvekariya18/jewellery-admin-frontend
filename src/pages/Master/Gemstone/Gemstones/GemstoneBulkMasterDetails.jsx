@@ -192,9 +192,13 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                         <ul>
                           {errorState[errorCode].map(
                             (errorMessageObj, index) => (
-                              <li key={index}>
+                              <li key={index}  
+                              style={{ fontSize: "16px", fontWeight: "500",color:"#ff0000e8",marginBottom:"6px" }}>
                                 {Object.keys(errorMessageObj)[0]} :{" "}
-                                <span>{Object.values(errorMessageObj)[0]}</span>
+                                <span
+                                  className="text-error"
+                                  style={{ fontSize: "14px", fontWeight: "400" }}
+                                >{Object.values(errorMessageObj)[0]}</span>
                               </li>
                             )
                           )}
