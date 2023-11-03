@@ -48,8 +48,8 @@ const GemstoneMaster = () => {
       // color: "",
       // origin: "",
       // gemstoneType: "",
-      fromDimension: 0.05,
-      toDimension: 10.0,
+      // fromDimension: 0.05,
+      // toDimension: 10.0,
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -61,9 +61,9 @@ const GemstoneMaster = () => {
       gemstoneType: "",
       // sortBy: "newest",
       fromPrice: price.minPrice,
-      toPrice: price.maxPrice,
-      fromDimension: 0.05,
-      toDimension: 10.0,
+      // toPrice: price.maxPrice,
+      // fromDimension: 0.05,
+      // toDimension: 10.0,
       ...appConfig.default_pagination_state,
     };
 
@@ -299,7 +299,7 @@ const GemstoneMaster = () => {
           <div className="common-thead-second-width-title">
             <span
               style={{ fontWeight: 500 }}
-              // onClick={() => showAddressInDialog(item)}
+            // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -590,7 +590,7 @@ const GemstoneMaster = () => {
                       />
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <label
                       className="label-class"
                       htmlFor="product-price-input"
@@ -649,6 +649,15 @@ const GemstoneMaster = () => {
                         style={{ width: "140px" }}
                       />
                     </div>
+                  </div> */}
+
+                  <div>
+                    <Button onClick={() => setState({ ...state, toDimension: 6 })}>under 6mm</Button>
+                    <Button onClick={() => setState({ ...state, fromDimension: 6, toDimension: 6.9 })}>6-6.9mm</Button>
+                    <Button onClick={() => setState({ ...state, fromDimension: 7, toDimension: 7.9 })}>7-7.9mm</Button>
+                    <Button onClick={() => setState({ ...state, fromDimension: 8, toDimension: 8.9 })}>8-8.9mm</Button>
+                    <Button onClick={() => setState({ ...state, fromDimension: 10 })}>10mm+</Button>
+
                   </div>
                 </div>
               </div>
@@ -697,7 +706,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}
