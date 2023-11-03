@@ -32,7 +32,7 @@ const AttributesMasterDetails = ({
   const [selected, setSelected] = useState([]);
   const [sortNo, setSortNo] = useState("false");
   const [options, setOptions] = useState([]);
-
+  const [filteredOptions, setFilteredOptions] = useState([]);
   const [formState, setFormState] = useState({
     id: "",
     name: "",
@@ -207,6 +207,21 @@ const AttributesMasterDetails = ({
     return selectedOption ? selectedOption.label : "";
   };
 
+  const filterOptions = () => {
+    return options.filter((option) => {
+      const optionValue = option.value;
+      const isOptionSelected = formState.options.some(
+        (selectedOption) => selectedOption.optionId === optionValue
+      );
+      return !isOptionSelected;
+    });
+  };
+
+  // Update filteredOptions when options or selected values change
+  useEffect(() => {
+    setFilteredOptions(filterOptions());
+  }, [options, formState.options]);
+
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
@@ -310,7 +325,7 @@ const AttributesMasterDetails = ({
             <div>
               <Select
                 value={selected}
-                options={options}
+                options={filteredOptions}
                 onChange={(selectedOption) => setSelected(selectedOption)}
                 isSearchable={true}
                 placeholder="Select Option"
