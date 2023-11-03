@@ -63,7 +63,7 @@ const Customer = () => {
 
     let filter = {
       page: state.page,
-      searchTxt: state.searchTxt,
+      searchTxt: state.searchTxt.trim(),
       isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
       order: state.order,
@@ -246,7 +246,7 @@ const Customer = () => {
           label="Search Text"
           variant="outlined"
           value={state?.searchTxt}
-          onChange={(e) => changeState("searchTxt", e.target.value.trim())}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}
         />
 

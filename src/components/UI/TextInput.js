@@ -15,6 +15,7 @@ const Textinput = ({
   disabled,
   id,
   onChange,
+  focused,
   ...rest
 }) => {
   //  const displayValue = value !== null && value !== undefined ? value : 0;
@@ -25,6 +26,7 @@ const Textinput = ({
     <div className="mb-3">
       <TextField
         size="small"
+        focused={focused}
         error={error ? true : false}
         sx={{ mb: 2, mt: 1, ml: 0.5, width: "49.5%" }}
         type={type}

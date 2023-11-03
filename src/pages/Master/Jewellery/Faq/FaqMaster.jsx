@@ -232,6 +232,7 @@ const FaqMaster = () => {
       >
        <Textinput
           size="small"
+          focused={true}
           type="text"
           name="searchTxt"
           label="Search Text"
