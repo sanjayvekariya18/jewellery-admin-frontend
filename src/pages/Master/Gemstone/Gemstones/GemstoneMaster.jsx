@@ -48,6 +48,8 @@ const GemstoneMaster = () => {
       // color: "",
       // origin: "",
       // gemstoneType: "",
+      fromDimension: 0.05,
+      toDimension: 10.0,
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -85,6 +87,11 @@ const GemstoneMaster = () => {
       delete filter.toPrice;
       delete filter.fromDimension;
       delete filter.toDimension;
+      delete filter.shape;
+      delete filter.color;
+      delete filter.origin;
+      delete filter.gemstoneType;
+
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }

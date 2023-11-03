@@ -64,8 +64,8 @@ const DiamondMaster = () => {
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      shape: "",
-      lab: "",
+      // shape: "",
+      // lab: "",
       fromPrice: price.minPrice,
       toPrice: price.maxPrice,
       fromCts: carat.minCarat,
@@ -537,7 +537,7 @@ const DiamondMaster = () => {
                   options={_sortOptionsShap}
                   isMulti
                   value={_sortOptionsShap.filter((option) =>
-                    state.shape.includes(option.value)
+                    state.shape && state.shape.includes(option.value)
                   )}
                   onChange={(selectedSort) => {
                     const selectedIds = selectedSort.map(
@@ -555,7 +555,7 @@ const DiamondMaster = () => {
                   options={_sortOptionsLab}
                   isMulti
                   value={_sortOptionsLab.filter((option) =>
-                    state.lab.includes(option.value)
+                    state.lab && state.lab.includes(option.value)
                   )}
                   onChange={(selectedSort) => {
                     const selectedIds = selectedSort.map(
@@ -1009,7 +1009,7 @@ const DiamondMaster = () => {
                 paginate();
               }}
               callBack={() => paginate(true)}
-              //   userData={selectedUserData}
+            //   userData={selectedUserData}
             />
           )}
         </Container>

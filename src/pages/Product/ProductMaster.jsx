@@ -41,9 +41,9 @@ const ProductMaster = () => {
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      searchTxt: "",
-      subCategory: "",
-      gender: "",
+      // searchTxt: "",
+      // subCategory: "",
+      // gender: "",
     });
 
   const handleButtonClick = (id) => {
@@ -68,9 +68,10 @@ const ProductMaster = () => {
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
-
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.gender;
+      delete filter.subCategory;
+      delete filter.searchTxt;
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -249,7 +250,7 @@ const ProductMaster = () => {
                   options={_sortOptionsSubCategory}
                   isMulti
                   value={_sortOptionsSubCategory.filter((option) =>
-                    state.subCategory.includes(option.value)
+                    state.subCategory && state.subCategory.includes(option.value)
                   )}
                   onChange={(selectedSort) => {
                     const selectedIds = selectedSort.map(

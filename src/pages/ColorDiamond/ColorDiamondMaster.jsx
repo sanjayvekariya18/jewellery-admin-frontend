@@ -118,15 +118,15 @@ const ColorDiamondMaster = () => {
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      shape: "",
-      color: "",
+      // shape: "",
+      // color: "",
       // sortBy: "newest",
-      intensity: "",
-      origin: "",
-      fromPrice: price.minPrice,
-      toPrice: price.maxPrice,
-      fromCts: carat.minCarat,
-      toCts: carat.maxCarat,
+      // intensity: "",
+      // origin: "",
+      // fromPrice: price.minPrice,
+      // toPrice: price.maxPrice,
+      // fromCts: carat.minCarat,
+      // toCts: carat.maxCarat,
     });
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -402,7 +402,7 @@ const ColorDiamondMaster = () => {
                       options={_sortOptionsShap}
                       isMulti
                       value={_sortOptionsShap.filter((option) =>
-                        state.shape.includes(option.value)
+                        state.shape && state.shape.includes(option.value)
                       )}
                       onChange={(selectedSort) => {
                         const selectedIds = selectedSort.map(
@@ -421,7 +421,7 @@ const ColorDiamondMaster = () => {
                       options={_colorOptions}
                       isMulti
                       value={_colorOptions.filter((option) =>
-                        state.color.includes(option.value)
+                        state.color && state.color.includes(option.value)
                       )}
                       onChange={(selectedSort) => {
                         const selectedIds = selectedSort.map(
@@ -450,7 +450,7 @@ const ColorDiamondMaster = () => {
                       options={_sortOptionsOrigin}
                       isMulti
                       value={_sortOptionsOrigin.filter((option) =>
-                        state.origin.includes(option.value)
+                        state.origin && state.origin.includes(option.value)
                       )}
                       onChange={(selectedSort) => {
                         const selectedIds = selectedSort.map(
@@ -468,7 +468,7 @@ const ColorDiamondMaster = () => {
                       options={_intensityOptions}
                       isMulti
                       value={_intensityOptions.filter((option) =>
-                        state.intensity.includes(option.value)
+                        state.intensity && state.intensity.includes(option.value)
                       )}
                       onChange={(selectedSort) => {
                         const selectedIds = selectedSort.map(
@@ -677,7 +677,7 @@ const ColorDiamondMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
           <FindColoredModal
             open={findGemstone}
