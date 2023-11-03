@@ -358,6 +358,13 @@ const GemstoneMaster = () => {
     setOpen(true);
   };
 
+  const [activeDimension, setActiveDimension] = useState(null);
+
+  // Function to set the active dimension
+  const setActive = (dimension) => {
+    setActiveDimension(dimension);
+  };
+
   const activeButtonStyle = {
     backgroundColor: "#1976d2", // You can set your desired background color here
     color: "white", // Change the text color when the button is active
@@ -672,10 +679,16 @@ const GemstoneMaster = () => {
                         onClick={() =>
                           setState({
                             ...state,
+                            fromDimension: null,
                             toDimension: 6,
                           })
                         }
-                        style={state.toDimension === 6 ? activeButtonStyle : {}}
+                        style={
+                          state.fromDimension === null &&
+                          state.toDimension === 6
+                            ? activeButtonStyle
+                            : {}
+                        }
                       >
                         Under 6mm
                       </Button>
@@ -737,10 +750,17 @@ const GemstoneMaster = () => {
                         variant="outlined"
                         color="primary"
                         onClick={() =>
-                          setState({ ...state, fromDimension: 10 })
+                          setState({
+                            ...state,
+                            fromDimension: 10,
+                            toDimension: null,
+                          })
                         }
                         style={
-                          state.fromDimension === 10 ? activeButtonStyle : {}
+                          state.fromDimension === 10 &&
+                          state.toDimension === null
+                            ? activeButtonStyle
+                            : {}
                         }
                       >
                         10mm+
