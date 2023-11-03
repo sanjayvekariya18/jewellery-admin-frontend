@@ -34,23 +34,19 @@ const DiamondMaster = () => {
 
   // ----Pagination code------
   const COLUMNS = [
-    { title: "Stock No" },
-    { title: "Shape" },
-    { title: "Carat" },
-    { title: "Cut" },
-    { title: "Color" },
-    { title: "Clarity" },
-    // { title: "Fluorescence" },
-    { title: "Polish" },
-    { title: "Symmetry" },
-    // { title: "Girdle" },
-    // { title: "Culet" },
-    { title: "Origin" },
-    { title: "Lab" },
-    // { title: "Certificate No" },
-    { title: "Price" },
-    { title: "Is Visible" },
-    { title: "Action" },
+    { title: "Stock No", classNameWidth: "thead-second-width-stone" },
+    { title: "Shape", classNameWidth: "thead-second-width-address" },
+    { title: "Carat", classNameWidth: "thead-second-width-address" },
+    { title: "Cut", classNameWidth: "thead-second-width-address" },
+    { title: "Color", classNameWidth: "thead-second-width-address" },
+    { title: "Clarity", classNameWidth: "thead-second-width-address" },
+    { title: "Polish", classNameWidth: "thead-second-width-address" },
+    { title: "Symmetry", classNameWidth: "thead-second-width-address" },
+    { title: "Origin", classNameWidth: "thead-second-width-address" },
+    { title: "Lab", classNameWidth: "thead-second-width-address" },
+    { title: "Price", classNameWidth: "thead-second-width-address" },
+    { title: "Is Visible", classNameWidth: "thead-second-width-action-index" },
+    { title: "Action", classNameWidth: "thead-second-width-stone" },
   ];
 
   const toggleGemstonePopup = () => {
@@ -136,7 +132,6 @@ const DiamondMaster = () => {
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
-
 
     if (clear) {
       delete filter.fromCts;
@@ -575,7 +570,14 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Color :</label>
                 <Slider
-                  value={[state.fromColor === undefined || state.fromColor === "" ? 0 : state.fromColor, state.toColor === undefined || state.toColor === "" ? 1 : state.toColor]}
+                  value={[
+                    state.fromColor === undefined || state.fromColor === ""
+                      ? 0
+                      : state.fromColor,
+                    state.toColor === undefined || state.toColor === ""
+                      ? 1
+                      : state.toColor,
+                  ]}
                   onChange={handleChangeColor}
                   aria-labelledby="track-inverted-slider"
                   marks={marksColor}
@@ -587,7 +589,14 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Clarity :</label>
                 <Slider
-                  value={[state.fromClarity === undefined || state.fromClarity === "" ? 0 : state.fromClarity, state.toClarity === undefined || state.toClarity === "" ? 1 : state.toClarity]}
+                  value={[
+                    state.fromClarity === undefined || state.fromClarity === ""
+                      ? 0
+                      : state.fromClarity,
+                    state.toClarity === undefined || state.toClarity === ""
+                      ? 1
+                      : state.toClarity,
+                  ]}
                   onChange={handleChangeClarity}
                   aria-labelledby="track-inverted-slider"
                   marks={marksClarity}
@@ -599,7 +608,14 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Cut :</label>
                 <Slider
-                  value={[state.fromCut === undefined || state.fromCut === "" ? 0 : state.fromCut, state.toCut === undefined || state.toCut === "" ? 1 : state.toCut]}
+                  value={[
+                    state.fromCut === undefined || state.fromCut === ""
+                      ? 0
+                      : state.fromCut,
+                    state.toCut === undefined || state.toCut === ""
+                      ? 1
+                      : state.toCut,
+                  ]}
                   onChange={handleChangeCut}
                   aria-labelledby="track-inverted-slider"
                   marks={marksCut}
@@ -611,7 +627,14 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Fluorescence :</label>
                 <Slider
-                  value={[state.fromFlor === undefined || state.fromFlor === "" ? 0 : state.fromFlor, state.toFlor === undefined || state.toFlor === "" ? 1 : state.toFlor]}
+                  value={[
+                    state.fromFlor === undefined || state.fromFlor === ""
+                      ? 0
+                      : state.fromFlor,
+                    state.toFlor === undefined || state.toFlor === ""
+                      ? 1
+                      : state.toFlor,
+                  ]}
                   onChange={handleChangeFluorescence}
                   aria-labelledby="track-inverted-slider"
                   marks={marksFluorescence}
@@ -623,7 +646,14 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Symmetry :</label>
                 <Slider
-                  value={[state.fromSym === undefined || state.fromSym === "" ? 0 : state.fromSym, state.toSym === undefined || state.toSym === "" ? 1 : state.toSym]}
+                  value={[
+                    state.fromSym === undefined || state.fromSym === ""
+                      ? 0
+                      : state.fromSym,
+                    state.toSym === undefined || state.toSym === ""
+                      ? 1
+                      : state.toSym,
+                  ]}
                   onChange={handleChangeSymmetry}
                   aria-labelledby="track-inverted-slider"
                   marks={marksSymmetry}
@@ -635,7 +665,14 @@ const DiamondMaster = () => {
               <div className="text-input-top" style={{ padding: "0px 18px" }}>
                 <label className="label-class">Polish :</label>
                 <Slider
-                  value={[state.fromPolish === undefined || state.fromPolish === "" ? 0 : state.fromPolish, state.toPolish === undefined || state.toPolish === "" ? 1 : state.toPolish]}
+                  value={[
+                    state.fromPolish === undefined || state.fromPolish === ""
+                      ? 0
+                      : state.fromPolish,
+                    state.toPolish === undefined || state.toPolish === ""
+                      ? 1
+                      : state.toPolish,
+                  ]}
                   onChange={handleChangePolish}
                   aria-labelledby="track-inverted-slider"
                   marks={marksPolish}
@@ -657,7 +694,14 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Price :</label>
                   <Slider
-                    defaultValue={[state.fromPrice === undefined ? price.minPrice : state.fromPrice, state.toPrice === undefined ? price.maxPrice : state.toPrice]}
+                    defaultValue={[
+                      state.fromPrice === undefined
+                        ? price.minPrice
+                        : state.fromPrice,
+                      state.toPrice === undefined
+                        ? price.maxPrice
+                        : state.toPrice,
+                    ]}
                     onChange={handleChangePrice}
                     valueLabelDisplay="auto"
                     min={price.minPrice}
@@ -711,7 +755,12 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Carat :</label>
                   <Slider
-                    defaultValue={[state.fromCts === undefined ? carat.minCarat : state.fromCts, state.toCts === undefined ? carat.maxCarat : state.toCts]}
+                    defaultValue={[
+                      state.fromCts === undefined
+                        ? carat.minCarat
+                        : state.fromCts,
+                      state.toCts === undefined ? carat.maxCarat : state.toCts,
+                    ]}
                     onChange={handleChangeCarat}
                     valueLabelDisplay="auto"
                     min={carat.minCarat}
@@ -778,7 +827,14 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Depth :</label>
                   <Slider
-                    value={[state.fromDepth === undefined || state.fromDepth === "" ? depth.minDepth : state.fromDepth, state.toDepth === undefined || state.toDepth === "" ? depth.maxDepth : state.toDepth]}
+                    value={[
+                      state.fromDepth === undefined || state.fromDepth === ""
+                        ? depth.minDepth
+                        : state.fromDepth,
+                      state.toDepth === undefined || state.toDepth === ""
+                        ? depth.maxDepth
+                        : state.toDepth,
+                    ]}
                     onChange={handleChangeDepth}
                     valueLabelDisplay="auto"
                     min={depth.minDepth}
@@ -837,7 +893,14 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Table :</label>
                   <Slider
-                    value={[state.fromTable === undefined || state.fromTable === "" ? table.minTable : state.fromTable, state.toTable === undefined || state.toTable === "" ? table.maxTable : state.toTable]}
+                    value={[
+                      state.fromTable === undefined || state.fromTable === ""
+                        ? table.minTable
+                        : state.fromTable,
+                      state.toTable === undefined || state.toTable === ""
+                        ? table.maxTable
+                        : state.toTable,
+                    ]}
                     onChange={handleChangeTable}
                     valueLabelDisplay="auto"
                     min={table.minTable}
@@ -946,7 +1009,7 @@ const DiamondMaster = () => {
                 paginate();
               }}
               callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+              //   userData={selectedUserData}
             />
           )}
         </Container>

@@ -37,9 +37,9 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     shape: "required",
     color: "required",
     price: "required|numeric|min:1",
-    mDepth:"numeric|min:0",
-    mLength:"numeric|min:0",
-    mWidth:"numeric|min:0",
+    mDepth: "numeric|min:0",
+    mLength: "numeric|min:0",
+    mWidth: "numeric|min:0",
   };
 
   // ------------------Get Shape API --------------------------------
@@ -305,7 +305,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
             <div className="text-input-top">
               <ReactSelect
                 label={"Select Origin"}
-                placeholder="Origin name"
+                placeholder="Origin Name"
                 options={_sortOptionsOrigin}
                 value={formState.origin}
                 onChange={onChange}

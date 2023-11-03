@@ -176,6 +176,10 @@ input::-webkit-inner-spin-button {
     width: 150px !important;
 }
 
+.thead-second-width-stone {
+    width: 120px !important;
+}
+
 .thead-second-width-stock-no {
     width: 200px !important;
 }

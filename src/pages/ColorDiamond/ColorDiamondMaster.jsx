@@ -103,21 +103,17 @@ const ColorDiamondMaster = () => {
   }));
   // ----Pagination code------
   const COLUMNS = [
-    { title: "Stock No" },
+    { title: "Stock No", classNameWidth: "thead-second-width-stone" },
     { title: "Title", classNameWidth: "thead-second-width-title" },
-    // { title: "Description" },
-    { title: "Shape" },
-    { title: "Carat" },
-    { title: "Color" },
-    { title: "Clarity" },
-    { title: "Origin" },
-    { title: "Intensity" },
-    // { title: "MLength" },
-    // { title: "MWidth" },
-    // { title: "MDepth" },
-    { title: "Price" },
-    { title: "Is Visible" },
-    { title: "Action" },
+    { title: "Shape", classNameWidth: "thead-second-width-address" },
+    { title: "Carat", classNameWidth: "thead-second-width-address" },
+    { title: "Color", classNameWidth: "thead-second-width-address" },
+    { title: "Clarity", classNameWidth: "thead-second-width-address" },
+    { title: "Origin", classNameWidth: "thead-second-width-address" },
+    { title: "Intensity", classNameWidth: "thead-second-width-address" },
+    { title: "Price", classNameWidth: "thead-second-width-address" },
+    { title: "Is Visible", classNameWidth: "thead-second-width-action-index" },
+    { title: "Action", classNameWidth: "thead-second-width-stone" },
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
