@@ -222,7 +222,7 @@ const DetailsGroupMaster = () => {
           name="searchTxt"
           label="Search Text"
           value={state?.searchTxt}
-          onChange={(e) => changeState("searchTxt", e.target.value.trim())}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 2, mt: 1 }}
         />
         <RadioGroup

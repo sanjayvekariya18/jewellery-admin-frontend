@@ -45,35 +45,27 @@ const Customer = () => {
     { title: "Action", classNameWidth: "thead-second-width-action" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, changeState, getInitialStates, ...otherTableActionProps } =
     usePaginationTable({
-      searchTxt: "",
-      isActive: "",
-      order: "",
-      orderby: "",
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      searchTxt: "",
-      isActive: "",
       ...appConfig.default_pagination_state,
     };
 
     let filter = {
       page: state.page,
-      searchTxt: state.searchTxt.trim(),
+      searchTxt: state.searchTxt,
       isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
-      order: state.order,
-      orderBy: state.orderby,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
-
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.searchTxt;
+      delete filter.isActive;
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -82,13 +74,15 @@ const Customer = () => {
     API.get(apiConfig.customer, filter)
       .then((res) => {
         setState({
-          ...state,
+          ...(clear ? { ...getInitialStates() } : {
+            ...state,
+            ...(clear && clearStates),
+            ...(isNewFilter && newFilterState),
+            loader: false,
+          }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
-        });
+        })
       })
       .catch(() => {
         setState({
@@ -241,6 +235,7 @@ const Customer = () => {
       >
         <Textinput
           size="small"
+          focused={true}
           type="text"
           name="searchTxt"
           label="Search Text"

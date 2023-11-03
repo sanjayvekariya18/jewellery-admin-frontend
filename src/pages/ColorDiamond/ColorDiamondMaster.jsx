@@ -116,7 +116,7 @@ const ColorDiamondMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-stone" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, getInitialStates, changeState, ...otherTableActionProps } =
     usePaginationTable({
       // shape: "",
       // color: "",
@@ -131,15 +131,6 @@ const ColorDiamondMaster = () => {
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      shape: "",
-      origin: "",
-      color: "",
-      intensity: "",
-      // sortBy: "newest",
-      fromPrice: price.minPrice,
-      toPrice: price.maxPrice,
-      fromCts: carat.minCarat,
-      toCts: carat.maxCarat,
       ...appConfig.default_pagination_state,
     };
 
@@ -177,13 +168,15 @@ const ColorDiamondMaster = () => {
     API.get(apiConfig.coloredDiamond, filter)
       .then((res) => {
         setState({
-          ...state,
+          ...(clear ? { ...getInitialStates() } : {
+            ...state,
+            ...(clear && clearStates),
+            ...(isNewFilter && newFilterState),
+            loader: false,
+          }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
-        });
+        })
       })
       .catch((err) => {
         if (

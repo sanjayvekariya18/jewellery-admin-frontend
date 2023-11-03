@@ -54,65 +54,35 @@ const BlogMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, getInitialStates, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      searchTxt: "",
-      date: {
-        from_date: "",
-        to_date: "",
-      },
-      category_id: "",
-      isActive: "",
-      order: "",
-      orderby: "",
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      searchTxt: "",
-      date: {
-        from_date: "",
-        to_date: "",
-      },
-      category_id: "",
-      isActive: "",
       ...appConfig.default_pagination_state,
     };
 
     let filter = {
       page: state.page,
       searchTxt: state.searchTxt,
-      from_date:
-        !clear && dateRange[0]
-          ? momentTimezone
-              .tz(
-                dateRange[0],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
-          : null,
-      to_date:
-        !clear && dateRange[1]
-          ? momentTimezone
-              .tz(
-                dateRange[1],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
-          : null,
+      from_date: !clear && dateRange[0] ? momentTimezone.tz(dateRange[0], Intl.DateTimeFormat().resolvedOptions().timeZone).format(appConfig.dateDisplayEditFormat) : null,
+      to_date: !clear && dateRange[1] ? momentTimezone.tz(dateRange[1], Intl.DateTimeFormat().resolvedOptions().timeZone).format(appConfig.dateDisplayEditFormat) : null,
       category_id: state.category_id,
       isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
-      order: state.order,
-      orderBy: state.orderby,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
 
     if (clear) {
-      filter = _.merge(filter, clearStates);
-      setDateRange([null, null]);
+      delete filter.category_id;
+      delete filter.isActive;
+      delete filter.searchTxt;
+      delete filter.from_date;
+      delete filter.to_date;
+      setDateRange([null, null]); // Reset date range here
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -121,13 +91,15 @@ const BlogMaster = () => {
     API.get(apiConfig.blog, filter)
       .then((res) => {
         setState({
-          ...state,
+          ...(clear ? { ...getInitialStates() } : {
+            ...state,
+            ...(clear && clearStates),
+            ...(isNewFilter && newFilterState),
+            loader: false,
+          }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
-        });
+        })
       })
       .catch(() => {
         setState({
@@ -303,8 +275,9 @@ const BlogMaster = () => {
           name="searchTxt"
           label="Search Text"
           variant="outlined"
+          focused={true}
           value={state?.searchTxt}
-          onChange={(e) => changeState("searchTxt", e.target.value.trim())}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}
         />
         <div className="text-input-top">
@@ -321,13 +294,20 @@ const BlogMaster = () => {
         </div>
         <div style={{ height: "200px" }} className="text-input-top">
           <ReactSelect
-            label={"Category Name"}
-            placeholder="Select Category Name"
+            placeholder={
+              _sortOptions.find(
+                (option) => option.value === state.category_id
+              )?.label || "Select Category Name"
+            }
             options={_sortOptions}
-            onChange={(e) => {
-              changeState("category_id", e?.target.value || "");
+            value={_sortOptions.find(
+              (option) => option.value === state.category_id
+            )}
+            onChange={(selectedSort) => {
+              const selectedId = selectedSort.target.value;
+              changeState("category_id", selectedId);
             }}
-            name="category_id"
+            name="choices-multi-default"
           />
         </div>
       </SearchFilterDialog>

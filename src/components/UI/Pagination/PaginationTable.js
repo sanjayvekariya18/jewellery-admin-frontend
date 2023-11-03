@@ -38,6 +38,19 @@ export const usePaginationTable = (initialState = {}) => {
     });
   };
 
+  const getInitialStates = () => {
+    return {
+      total_items: 0,
+      data: [],
+      ...appConfig.default_pagination_state,
+      selectedRows: [],
+      loader: false,
+      order: "",
+      orderby: "",
+      ...initialState,
+    }
+  };
+
   // Per Page & Page Setting
   const changePerPage = useCallback(
     (value) => {
@@ -80,6 +93,7 @@ export const usePaginationTable = (initialState = {}) => {
     changeActivePage,
     changeOrder,
     onCheckBoxSelect,
+    getInitialStates
   };
 };
 

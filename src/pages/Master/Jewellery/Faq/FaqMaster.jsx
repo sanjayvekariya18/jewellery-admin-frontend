@@ -43,19 +43,13 @@ const FaqMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, getInitialStates, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      searchTxt: "",
-      isActive: "",
-      order: "",
-      orderby: "",
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      searchTxt: "",
-      isActive: "",
       ...appConfig.default_pagination_state,
     };
 
@@ -64,14 +58,12 @@ const FaqMaster = () => {
       searchTxt: state.searchTxt,
       isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
-      order: state.order,
-      orderBy: state.orderby,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
-
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.searchTxt;
+      delete filter.isActive;
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -80,13 +72,15 @@ const FaqMaster = () => {
     API.get(apiConfig.faq, filter)
       .then((res) => {
         setState({
-          ...state,
+          ...(clear ? { ...getInitialStates() } : {
+            ...state,
+            ...(clear && clearStates),
+            ...(isNewFilter && newFilterState),
+            loader: false,
+          }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
-        });
+        })
       })
       .catch(() => {
         setState({
@@ -230,15 +224,15 @@ const FaqMaster = () => {
         reset={() => paginate(true)}
         search={() => paginate(false, true)}
       >
-       <Textinput
+        <Textinput
           size="small"
           focused={true}
           type="text"
           name="searchTxt"
-          label="Search Text"
+          label="Search Text Question"
           variant="outlined"
           value={state?.searchTxt}
-          onChange={(e) => changeState("searchTxt", e.target.value.trim())}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}
         />
       </SearchFilterDialog>

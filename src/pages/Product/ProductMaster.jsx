@@ -39,7 +39,7 @@ const ProductMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, getInitialStates, changeState, ...otherTableActionProps } =
     usePaginationTable({
       // searchTxt: "",
       // subCategory: "",
@@ -53,9 +53,6 @@ const ProductMaster = () => {
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      searchTxt: "",
-      subCategory: "",
-      gender: "",
       ...appConfig.default_pagination_state,
     };
 
@@ -81,13 +78,15 @@ const ProductMaster = () => {
     API.get(apiConfig.product, filter)
       .then((res) => {
         setState({
-          ...state,
+          ...(clear ? { ...getInitialStates() } : {
+            ...state,
+            ...(clear && clearStates),
+            ...(isNewFilter && newFilterState),
+            loader: false,
+          }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
-        });
+        })
       })
       .catch((err) => {
         if (
@@ -241,7 +240,7 @@ const ProductMaster = () => {
                 label="Search Text"
                 variant="outlined"
                 value={state?.searchTxt}
-                onChange={(e) => changeState("searchTxt", e.target.value.trim())}
+                onChange={(e) => changeState("searchTxt", e.target.value)}
                 sx={{ mb: 0, mt: 1, width: "100%" }}
               />
               <div className="text-input-top">

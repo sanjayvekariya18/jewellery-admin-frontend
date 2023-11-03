@@ -62,45 +62,23 @@ const DiamondMaster = () => {
     });
   };
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, getInitialStates,changeState, ...otherTableActionProps } =
     usePaginationTable({
       // shape: "",
       // lab: "",
-      fromPrice: price.minPrice,
-      toPrice: price.maxPrice,
-      fromCts: carat.minCarat,
-      toCts: carat.maxCarat,
-      fromTable: table.minTable,
-      toTable: table.maxTable,
-      fromDepth: depth.minDepth,
-      toDepth: depth.maxDepth,
+      // fromPrice: price.minPrice,
+      // toPrice: price.maxPrice,
+      // fromCts: carat.minCarat,
+      // toCts: carat.maxCarat,
+      // fromTable: table.minTable,
+      // toTable: table.maxTable,
+      // fromDepth: depth.minDepth,
+      // toDepth: depth.maxDepth,
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      shape: "",
-      fromPrice: price.minPrice,
-      toPrice: price.maxPrice,
-      fromCts: carat.minCarat,
-      toCts: carat.maxCarat,
-      fromTable: table.minTable,
-      toTable: table.maxTable,
-      fromDepth: depth.minDepth,
-      toDepth: depth.maxDepth,
-      lab: "",
-      fromColor: "",
-      toColor: "",
-      fromClarity: "",
-      toClarity: "",
-      fromCut: "",
-      toCut: "",
-      fromFlor: "",
-      toFlor: "",
-      fromSym: "",
-      toSym: "",
-      fromPolish: "",
-      toPolish: "",
       ...appConfig.default_pagination_state,
     };
 
@@ -131,6 +109,7 @@ const DiamondMaster = () => {
       lab: state.lab,
     };
 
+    console.log("filter", clear, clearStates.fromTable, state.fromTable);
     let newFilterState = { ...appConfig.default_pagination_state };
 
     if (clear) {
@@ -160,20 +139,26 @@ const DiamondMaster = () => {
       delete filter.toDepth;
       delete filter.fromTable;
       delete filter.toTable;
+      console.log("hello")
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
     // ----------Get Diamong Api------------
 
+    console.log('state', state);
+
     API.get(apiConfig.diamonds, filter)
       .then((res) => {
         setState({
-          ...state,
+          ...(clear ? {...getInitialStates()} : {
+            ...state,
+            ...(clear && clearStates),
+            ...(isNewFilter && newFilterState),
+            loader: false,
+          }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
+          
         });
       })
       .catch((err) => {
@@ -694,7 +679,7 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Price :</label>
                   <Slider
-                    defaultValue={[
+                    value={[
                       state.fromPrice === undefined
                         ? price.minPrice
                         : state.fromPrice,
@@ -702,6 +687,7 @@ const DiamondMaster = () => {
                         ? price.maxPrice
                         : state.toPrice,
                     ]}
+                    // value={[state.fromPrice, state.toPrice]}
                     onChange={handleChangePrice}
                     valueLabelDisplay="auto"
                     min={price.minPrice}
@@ -893,7 +879,7 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Table :</label>
                   <Slider
-                    value={[
+                    defaultValue={[
                       state.fromTable === undefined || state.fromTable === ""
                         ? table.minTable
                         : state.fromTable,

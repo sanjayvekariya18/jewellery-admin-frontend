@@ -42,7 +42,7 @@ const GemstoneMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-stone" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, getInitialStates, changeState, ...otherTableActionProps } =
     usePaginationTable({
       // shape: "",
       // color: "",
@@ -55,15 +55,6 @@ const GemstoneMaster = () => {
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      shape: "",
-      color: "",
-      origin: "",
-      gemstoneType: "",
-      // sortBy: "newest",
-      fromPrice: price.minPrice,
-      toPrice: price.maxPrice,
-      fromDimension: "",
-      toDimension: "",
       ...appConfig.default_pagination_state,
     };
 
@@ -91,6 +82,7 @@ const GemstoneMaster = () => {
       delete filter.color;
       delete filter.origin;
       delete filter.gemstoneType;
+      console.log("hello")
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -100,12 +92,14 @@ const GemstoneMaster = () => {
     API.get(apiConfig.gemstone, filter)
       .then((res) => {
         setState({
-          ...state,
+          ...(clear ? { ...getInitialStates() } : {
+            ...state,
+            ...(clear && clearStates),
+            ...(isNewFilter && newFilterState),
+            loader: false,
+          }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
         });
       })
       .catch((err) => {
@@ -298,7 +292,7 @@ const GemstoneMaster = () => {
           <div className="common-thead-second-width-title">
             <span
               style={{ fontWeight: 500 }}
-              // onClick={() => showAddressInDialog(item)}
+            // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -491,7 +485,7 @@ const GemstoneMaster = () => {
                   <div className="text-input-top">
                     <Select
                       label="Select Color"
-                      placeholder="Select Color name"
+                      placeholder="Select Color Name"
                       options={_sortOptionsColor}
                       isMulti
                       value={_sortOptionsColor.filter(
@@ -685,7 +679,7 @@ const GemstoneMaster = () => {
                         }
                         style={
                           state.fromDimension === null &&
-                          state.toDimension === 6
+                            state.toDimension === 6
                             ? activeButtonStyle
                             : {}
                         }
@@ -758,7 +752,7 @@ const GemstoneMaster = () => {
                         }
                         style={
                           state.fromDimension === 10 &&
-                          state.toDimension === null
+                            state.toDimension === null
                             ? activeButtonStyle
                             : {}
                         }
@@ -814,7 +808,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}
