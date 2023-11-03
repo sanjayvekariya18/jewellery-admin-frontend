@@ -363,3 +363,9 @@ input::-webkit-inner-spin-button {
 .change-password-component label {
     color: #a5a4b0 !important;
 }
+
+/* 
+.main-buttons-handle .css-1btqthh-MuiButtonBase-root-MuiButton-root:focus {
+    background-color: #1976d2 !important;
+    color: white !important;
+} */

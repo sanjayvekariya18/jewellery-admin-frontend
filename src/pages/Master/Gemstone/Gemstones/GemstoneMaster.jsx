@@ -61,9 +61,9 @@ const GemstoneMaster = () => {
       gemstoneType: "",
       // sortBy: "newest",
       fromPrice: price.minPrice,
-      // toPrice: price.maxPrice,
-      // fromDimension: 0.05,
-      // toDimension: 10.0,
+      toPrice: price.maxPrice,
+      fromDimension: "",
+      toDimension: "",
       ...appConfig.default_pagination_state,
     };
 
@@ -91,7 +91,6 @@ const GemstoneMaster = () => {
       delete filter.color;
       delete filter.origin;
       delete filter.gemstoneType;
-
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -299,7 +298,7 @@ const GemstoneMaster = () => {
           <div className="common-thead-second-width-title">
             <span
               style={{ fontWeight: 500 }}
-            // onClick={() => showAddressInDialog(item)}
+              // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -357,6 +356,11 @@ const GemstoneMaster = () => {
   const handleEdit = (data) => {
     setSelectedUserData(data);
     setOpen(true);
+  };
+
+  const activeButtonStyle = {
+    backgroundColor: "#1976d2", // You can set your desired background color here
+    color: "white", // Change the text color when the button is active
   };
 
   return (
@@ -650,14 +654,98 @@ const GemstoneMaster = () => {
                       />
                     </div>
                   </div> */}
-
                   <div>
-                    <Button onClick={() => setState({ ...state, toDimension: 6 })}>under 6mm</Button>
-                    <Button onClick={() => setState({ ...state, fromDimension: 6, toDimension: 6.9 })}>6-6.9mm</Button>
-                    <Button onClick={() => setState({ ...state, fromDimension: 7, toDimension: 7.9 })}>7-7.9mm</Button>
-                    <Button onClick={() => setState({ ...state, fromDimension: 8, toDimension: 8.9 })}>8-8.9mm</Button>
-                    <Button onClick={() => setState({ ...state, fromDimension: 10 })}>10mm+</Button>
-
+                    <div style={{ paddingBottom: "10px" }}>
+                      <label className="label-class">Dimension :</label>
+                    </div>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "auto auto auto ",
+                        gap: "6px",
+                      }}
+                      className="main-buttons-handle"
+                    >
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            toDimension: 6,
+                          })
+                        }
+                        style={state.toDimension === 6 ? activeButtonStyle : {}}
+                      >
+                        Under 6mm
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            fromDimension: 6,
+                            toDimension: 6.9,
+                          })
+                        }
+                        style={
+                          state.fromDimension === 6 && state.toDimension === 6.9
+                            ? activeButtonStyle
+                            : {}
+                        }
+                      >
+                        6-6.9mm
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            fromDimension: 7,
+                            toDimension: 7.9,
+                          })
+                        }
+                        style={
+                          state.fromDimension === 7 && state.toDimension === 7.9
+                            ? activeButtonStyle
+                            : {}
+                        }
+                      >
+                        7-7.9mm
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            fromDimension: 8,
+                            toDimension: 8.9,
+                          })
+                        }
+                        style={
+                          state.fromDimension === 8 && state.toDimension === 8.9
+                            ? activeButtonStyle
+                            : {}
+                        }
+                      >
+                        8-8.9mm
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({ ...state, fromDimension: 10 })
+                        }
+                        style={
+                          state.fromDimension === 10 ? activeButtonStyle : {}
+                        }
+                      >
+                        10mm+
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -706,7 +794,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}
