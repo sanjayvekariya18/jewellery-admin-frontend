@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
-import { pageRoutes } from "../../../../constants/routesList";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
@@ -50,7 +49,7 @@ const GemstoneMaster = () => {
       color: "",
       origin: "",
       gemstoneType: "",
-      sortBy: "newest",
+      // sortBy: "newest",
       fromPrice: price.minPrice,
       toPrice: price.maxPrice,
       fromDimension: "",
@@ -64,7 +63,7 @@ const GemstoneMaster = () => {
       color: "",
       origin: "",
       gemstoneType: "",
-      sortBy: "newest",
+      // sortBy: "newest",
       fromPrice: price.minPrice,
       toPrice: price.maxPrice,
       fromDimension: 0.05,
@@ -77,7 +76,7 @@ const GemstoneMaster = () => {
       rowsPerPage: state.rowsPerPage,
       shape: clear ? clearStates.shape : state.shape,
       color: clear ? clearStates.color : state.color,
-      sortBy: state.sortBy,
+      // sortBy: state.sortBy,
       origin: clear ? clearStates.origin : state.origin,
       gemstoneType: clear ? clearStates.gemstoneType : state.gemstoneType,
       fromPrice: clear ? clearStates.fromPrice : state.fromPrice,
@@ -370,7 +369,7 @@ const GemstoneMaster = () => {
           >
             <Breadcrumb
               routeSegments={[
-                { name: "Masters", path: pageRoutes.master.user.user },
+                // { name: "Masters", path: pageRoutes.master.user.user },
                 { name: "Gemstones" },
               ]}
             />

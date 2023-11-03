@@ -124,7 +124,7 @@ const ColorDiamondMaster = () => {
     usePaginationTable({
       shape: "",
       color: "",
-      sortBy: "newest",
+      // sortBy: "newest",
       intensity: "",
       origin: "",
       fromPrice: price.minPrice,
@@ -139,7 +139,7 @@ const ColorDiamondMaster = () => {
       origin: "",
       color: "",
       intensity: "",
-      sortBy: "newest",
+      // sortBy: "newest",
       fromPrice: price.minPrice,
       toPrice: price.maxPrice,
       fromCts: carat.minCarat,
@@ -158,7 +158,7 @@ const ColorDiamondMaster = () => {
       toPrice: clear ? price.maxPrice : state.toPrice,
       fromCts: clear ? carat.minCarat : state.fromCts,
       toCts: clear ? carat.maxCarat : state.toCts,
-      sortBy: state.sortBy,
+      // sortBy: state.sortBy,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
