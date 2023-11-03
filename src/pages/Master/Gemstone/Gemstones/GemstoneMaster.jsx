@@ -16,7 +16,6 @@ import GemstoneMasterDetails from "./GemstoneMasterDetails";
 import GemstoneBulkMasterDetails from "./GemstoneBulkMasterDetails";
 import Textinput from "../../../../components/UI/TextInput";
 import FindGemstoneModal from "./findGemstoneModal";
-import ReactSelect from "../../../../components/UI/ReactSelect";
 
 const GemstoneMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -45,15 +44,10 @@ const GemstoneMaster = () => {
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      shape: "",
-      color: "",
-      origin: "",
-      gemstoneType: "",
-      // sortBy: "newest",
-      fromPrice: price.minPrice,
-      toPrice: price.maxPrice,
-      fromDimension: "",
-      toDimension: "",
+      // shape: "",
+      // color: "",
+      // origin: "",
+      // gemstoneType: "",
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -91,7 +85,7 @@ const GemstoneMaster = () => {
       delete filter.toPrice;
       delete filter.fromDimension;
       delete filter.toDimension;
-  
+
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -133,6 +127,10 @@ const GemstoneMaster = () => {
         }
       });
   };
+
+
+
+
 
   // ------------------Get Shap API --------------------------------
 
@@ -299,7 +297,7 @@ const GemstoneMaster = () => {
           <div className="common-thead-second-width-title">
             <span
               style={{ fontWeight: 500 }}
-              // onClick={() => showAddressInDialog(item)}
+            // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -430,17 +428,15 @@ const GemstoneMaster = () => {
                 >
                   <div>
                     <Select
-                      label="Select Shap Name"
-                      placeholder="Select Shap Name"
+                      label="Select Shape Name"
+                      placeholder="Select Shape Name"
                       options={_sortOptionsShap}
                       isMulti
                       value={_sortOptionsShap.filter((option) =>
-                        state.shape.includes(option.value)
+                        state.shape && state.shape.includes(option.value)
                       )}
                       onChange={(selectedSort) => {
-                        const selectedIds = selectedSort.map(
-                          (option) => option.value
-                        );
+                        const selectedIds = selectedSort.map((option) => option.value);
                         changeState("shape", selectedIds);
                       }}
                       name="choices-multi-default"
@@ -454,7 +450,7 @@ const GemstoneMaster = () => {
                       options={_sortOptionsOrigin}
                       isMulti
                       value={_sortOptionsOrigin.filter((option) =>
-                        state.origin.includes(option.value)
+                        state.origin && state.origin.includes(option.value)
                       )}
                       onChange={(selectedSort) => {
                         const selectedIds = selectedSort.map(
@@ -482,7 +478,7 @@ const GemstoneMaster = () => {
                       options={_sortOptionsColor}
                       isMulti
                       value={_sortOptionsColor.filter((option) =>
-                        state.color.includes(option.value)
+                        state.color && state.color.includes(option.value)
                       )}
                       onChange={(selectedSort) => {
                         const selectedIds = selectedSort.map(
@@ -502,7 +498,7 @@ const GemstoneMaster = () => {
                       options={_sortOptionsGemstoneType}
                       isMulti
                       value={_sortOptionsGemstoneType.filter((option) =>
-                        state.gemstoneType.includes(option.value)
+                        state.gemstoneType && state.gemstoneType.includes(option.value)
                       )}
                       onChange={(selectedSort) => {
                         const selectedIds = selectedSort.map(
@@ -692,7 +688,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}
