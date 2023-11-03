@@ -242,6 +242,28 @@ const CategoryMasterDetails = ({
       HELPER.toaster.success("Row moved successfully");
     }
   };
+
+  // Select Options  ------------------------
+  const filteredOptions = options.filter((option) => {
+    const optionValue = option.value;
+    // Check if the option is already present in formState.attributes
+    const isOptionSelected = formState.attributes.some(
+      (data) => data.attributeId === optionValue
+    );
+    return !isOptionSelected;
+  });
+
+  // Select Product Details --------------------
+  const filteredSelect = select.filter((select) => {
+    const selectValue = select.value;
+    // Check if the option is already present in formState.attributes
+    const isSelectSelected = formState.productDetails.some(
+      (data) => data.productDetailsId === selectValue
+    );
+    return !isSelectSelected;
+  });
+
+  // console.log(formState, "---formState");
   return (
     <Container>
       <Validators formData={formState} rules={rules}>
@@ -312,7 +334,7 @@ const CategoryMasterDetails = ({
                       <div>
                         <Select
                           placeholder="Select Attributes"
-                          options={options}
+                          options={filteredOptions}
                           isSearchable
                           value={selected[0] || ""}
                           onChange={(option) => setSelected([option])}
@@ -476,7 +498,7 @@ const CategoryMasterDetails = ({
                       <div>
                         <Select
                           placeholder="Select Product Details"
-                          options={select}
+                          options={filteredSelect}
                           isSearchable
                           value={selected2[0] || ""}
                           onChange={(option) => setSelected2([option])}
