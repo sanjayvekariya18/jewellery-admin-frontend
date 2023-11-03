@@ -10,7 +10,11 @@ export const navigations = [
     path: pageRoutes.master.gemstone.gemstone,
   },
   { name: "Diamonds", path: pageRoutes.diamond, icon: "diamond" },
-  { name: "Colored Diamond", path: pageRoutes.colorDiamond, icon: "diamond" },
+  {
+    name: "Colored Diamond",
+    path: pageRoutes.colorDiamond,
+    icon: "star",
+  },
   { name: "Product", path: pageRoutes.product, icon: "shopping_cart" },
   // { name: "Jewellery", path: pageRoutes.jewellery, icon: "diversity_2" },
   { name: "Customer", path: pageRoutes.customer, icon: "person" },
