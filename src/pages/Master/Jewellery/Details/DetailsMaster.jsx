@@ -38,10 +38,8 @@ const DetailsMaster = () => {
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      searchTxt: "",
-      isActive: "",
-      order: "",
-      orderby: "",
+      // searchTxt: "",
+      // isActive: "",
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -59,18 +57,16 @@ const DetailsMaster = () => {
       isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
       detailsGroupId: state.detailsGroupId,
-      order: state.order,
-      orderBy: state.orderby,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
-
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.searchTxt;
+      delete filter.isActive;
+      delete filter.detailsGroupId;
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
-
     // ----------Get Product Details Group Api------------
     API.get(apiConfig.productDetails, filter)
       .then((res) => {
@@ -267,7 +263,7 @@ const DetailsMaster = () => {
         search={() => paginate(false, true)}
       >
         <div style={{ height: "200px" }}>
-          <ReactSelect
+          {/* <ReactSelect
             label={"Product Details Group Name"}
             placeholder="Select Product Details Group Name"
             options={_sortOptions}
@@ -275,6 +271,24 @@ const DetailsMaster = () => {
               changeState("detailsGroupId", e?.target.value || "");
             }}
             name="detailsGroupId"
+          /> */}
+
+          <ReactSelect
+            // label="Select Sort by Price"
+            placeholder={
+              _sortOptions.find(
+                (option) => option.value === state.detailsGroupId
+              )?.label || "Select Product Details Group Name"
+            }
+            options={_sortOptions}
+            value={_sortOptions.find(
+              (option) => option.value === state.detailsGroupId
+            )}
+            onChange={(selectedSort) => {
+              const selectedId = selectedSort.target.value;
+              changeState("detailsGroupId", selectedId);
+            }}
+            name="choices-multi-default"
           />
         </div>
       </SearchFilterDialog>
