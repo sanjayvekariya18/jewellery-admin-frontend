@@ -288,7 +288,10 @@ const FindProductVariantMoreDetail = () => {
                         fontWeight: "400",
                       }}
                     >
-                      {productData[info.key] || ""}
+                      {/* {productData[info.key] || ""} */}
+                      {productData[info.key] === 0
+                        ? "0"
+                        : productData[info.key] || ""}
                     </span>
                   </div>
                 </div>

@@ -54,12 +54,12 @@ const FindProductVariant = () => {
   const COLUMNS = [
     { title: "Index", classNameWidth: "thead-second-width-action-index" },
     { title: "Title", classNameWidth: "thead-second-width-title-blog" },
-    { title: "Total Carat" },
-    { title: "Metal Weight" },
-    { title: "Metal Price" },
-    { title: "Making Price" },
-    { title: "Diamond Price" },
-    { title: "Total Price" },
+    { title: "Total Carat", classNameWidth: "thead-second-width-address" },
+    { title: "Metal Weight", classNameWidth: "thead-second-width-address" },
+    { title: "Metal Price", classNameWidth: "thead-second-width-address" },
+    { title: "Making Price", classNameWidth: "thead-second-width-address" },
+    { title: "Diamond Price", classNameWidth: "thead-second-width-address" },
+    { title: "Total Price", classNameWidth: "thead-second-width-address" },
     { title: "Action", classNameWidth: "thead-second-width-action" },
   ];
 

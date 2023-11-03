@@ -13,6 +13,7 @@ import { apiConfig } from "../../../../config";
 import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
 import SimpleTable from "../../../../components/UI/SimpleTable";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import error400cover from "../../../../assets/no-data-found-page.png";
 
 const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
   const [userPermissions, setUserPermissions] = useState({});
@@ -258,15 +259,26 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
           </>
         }
       >
-        {Object.keys(userPermissions).map((group, i) => (
-          <SimpleCard key={i} title={group} sx={{ mb: 2 }}>
-            <SimpleTable
-              data={userPermissions[group]}
-              headerColumns={userPermissionHeaderColumns}
-              extraData={{ group }}
-            />
-          </SimpleCard>
-        ))}
+        {Object.keys(userPermissions).length === 0 ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <img src={error400cover} width="300px" />
+          </div>
+        ) : (
+          Object.keys(userPermissions).map((group, i) => (
+            <SimpleCard key={i} title={group} sx={{ mb: 2 }}>
+              <SimpleTable
+                data={userPermissions[group]}
+                headerColumns={userPermissionHeaderColumns}
+                extraData={{ group }}
+              />
+            </SimpleCard>
+          ))
+        )}
       </ThemeDialog>
     </>
   );
