@@ -575,7 +575,7 @@ const DiamondMaster = () => {
                       ? 0
                       : state.fromColor,
                     state.toColor === undefined || state.toColor === ""
-                      ? 1
+                      ? 9
                       : state.toColor,
                   ]}
                   onChange={handleChangeColor}
@@ -594,7 +594,7 @@ const DiamondMaster = () => {
                       ? 0
                       : state.fromClarity,
                     state.toClarity === undefined || state.toClarity === ""
-                      ? 1
+                      ? 10
                       : state.toClarity,
                   ]}
                   onChange={handleChangeClarity}
@@ -613,7 +613,7 @@ const DiamondMaster = () => {
                       ? 0
                       : state.fromCut,
                     state.toCut === undefined || state.toCut === ""
-                      ? 1
+                      ? 6
                       : state.toCut,
                   ]}
                   onChange={handleChangeCut}
@@ -632,7 +632,7 @@ const DiamondMaster = () => {
                       ? 0
                       : state.fromFlor,
                     state.toFlor === undefined || state.toFlor === ""
-                      ? 1
+                      ? 4
                       : state.toFlor,
                   ]}
                   onChange={handleChangeFluorescence}
@@ -651,7 +651,7 @@ const DiamondMaster = () => {
                       ? 0
                       : state.fromSym,
                     state.toSym === undefined || state.toSym === ""
-                      ? 1
+                      ? 2
                       : state.toSym,
                   ]}
                   onChange={handleChangeSymmetry}
@@ -670,7 +670,7 @@ const DiamondMaster = () => {
                       ? 0
                       : state.fromPolish,
                     state.toPolish === undefined || state.toPolish === ""
-                      ? 1
+                      ? 2
                       : state.toPolish,
                   ]}
                   onChange={handleChangePolish}
