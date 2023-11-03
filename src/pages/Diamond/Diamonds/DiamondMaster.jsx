@@ -62,19 +62,24 @@ const DiamondMaster = () => {
     });
   };
 
-  const { state, setState, getInitialStates,changeState, ...otherTableActionProps } =
-    usePaginationTable({
-      // shape: "",
-      // lab: "",
-      // fromPrice: price.minPrice,
-      // toPrice: price.maxPrice,
-      // fromCts: carat.minCarat,
-      // toCts: carat.maxCarat,
-      // fromTable: table.minTable,
-      // toTable: table.maxTable,
-      // fromDepth: depth.minDepth,
-      // toDepth: depth.maxDepth,
-    });
+  const {
+    state,
+    setState,
+    getInitialStates,
+    changeState,
+    ...otherTableActionProps
+  } = usePaginationTable({
+    // shape: "",
+    // lab: "",
+    // fromPrice: price.minPrice,
+    // toPrice: price.maxPrice,
+    // fromCts: carat.minCarat,
+    // toCts: carat.maxCarat,
+    // fromTable: table.minTable,
+    // toTable: table.maxTable,
+    // fromDepth: depth.minDepth,
+    // toDepth: depth.maxDepth,
+  });
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -139,26 +144,27 @@ const DiamondMaster = () => {
       delete filter.toDepth;
       delete filter.fromTable;
       delete filter.toTable;
-      console.log("hello")
+      console.log("hello");
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
     // ----------Get Diamong Api------------
 
-    console.log('state', state);
+    console.log("state", state);
 
     API.get(apiConfig.diamonds, filter)
       .then((res) => {
         setState({
-          ...(clear ? {...getInitialStates()} : {
-            ...state,
-            ...(clear && clearStates),
-            ...(isNewFilter && newFilterState),
-            loader: false,
-          }),
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
-          
         });
       })
       .catch((err) => {
@@ -178,12 +184,12 @@ const DiamondMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
+    // .finally(() => {
+    //   if (openSearch == true) {
+    //     setOpenSearch(false);
+    //   }
+    // });
   };
 
   // ------------------Get Shap API --------------------------------
@@ -514,15 +520,19 @@ const DiamondMaster = () => {
               isOpen={openSearch}
               onClose={() => setOpenSearch(false)}
               reset={() => paginate(true)}
-              search={() => paginate(false, true)}
+              search={() => {
+                paginate(false, true);
+                setOpenSearch(false); // Close the modal
+              }}
             >
               <div>
                 <Select
                   placeholder="Select Shap Name"
                   options={_sortOptionsShap}
                   isMulti
-                  value={_sortOptionsShap.filter((option) =>
-                    state.shape && state.shape.includes(option.value)
+                  value={_sortOptionsShap.filter(
+                    (option) =>
+                      state.shape && state.shape.includes(option.value)
                   )}
                   onChange={(selectedSort) => {
                     const selectedIds = selectedSort.map(
@@ -539,8 +549,8 @@ const DiamondMaster = () => {
                   placeholder="Select Lab Name"
                   options={_sortOptionsLab}
                   isMulti
-                  value={_sortOptionsLab.filter((option) =>
-                    state.lab && state.lab.includes(option.value)
+                  value={_sortOptionsLab.filter(
+                    (option) => state.lab && state.lab.includes(option.value)
                   )}
                   onChange={(selectedSort) => {
                     const selectedIds = selectedSort.map(
@@ -995,7 +1005,7 @@ const DiamondMaster = () => {
                 paginate();
               }}
               callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+              //   userData={selectedUserData}
             />
           )}
         </Container>

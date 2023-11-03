@@ -42,15 +42,20 @@ const GemstoneMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-stone" },
   ];
 
-  const { state, setState, getInitialStates, changeState, ...otherTableActionProps } =
-    usePaginationTable({
-      // shape: "",
-      // color: "",
-      // origin: "",
-      // gemstoneType: "",
-      // fromDimension: 0.05,
-      // toDimension: 10.0,
-    });
+  const {
+    state,
+    setState,
+    getInitialStates,
+    changeState,
+    ...otherTableActionProps
+  } = usePaginationTable({
+    // shape: "",
+    // color: "",
+    // origin: "",
+    // gemstoneType: "",
+    // fromDimension: 0.05,
+    // toDimension: 10.0,
+  });
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -82,7 +87,7 @@ const GemstoneMaster = () => {
       delete filter.color;
       delete filter.origin;
       delete filter.gemstoneType;
-      console.log("hello")
+      console.log("hello");
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -92,12 +97,14 @@ const GemstoneMaster = () => {
     API.get(apiConfig.gemstone, filter)
       .then((res) => {
         setState({
-          ...(clear ? { ...getInitialStates() } : {
-            ...state,
-            ...(clear && clearStates),
-            ...(isNewFilter && newFilterState),
-            loader: false,
-          }),
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
         });
@@ -119,12 +126,12 @@ const GemstoneMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
+    // .finally(() => {
+    //   if (openSearch == true) {
+    //     setOpenSearch(false);
+    //   }
+    // });
   };
 
   // ------------------Get Shap API --------------------------------
@@ -292,7 +299,7 @@ const GemstoneMaster = () => {
           <div className="common-thead-second-width-title">
             <span
               style={{ fontWeight: 500 }}
-            // onClick={() => showAddressInDialog(item)}
+              // onClick={() => showAddressInDialog(item)}
             >
               {item.title}
             </span>
@@ -403,7 +410,11 @@ const GemstoneMaster = () => {
               isOpen={openSearch}
               onClose={() => setOpenSearch(false)}
               reset={() => paginate(true)}
-              search={() => paginate(false, true)}
+              // search={() => paginate(false, true)}
+              search={() => {
+                paginate(false, true);
+                setOpenSearch(false); // Close the modal
+              }}
             >
               <div style={{ height: "350px" }}>
                 {/* <div>
@@ -679,7 +690,7 @@ const GemstoneMaster = () => {
                         }
                         style={
                           state.fromDimension === null &&
-                            state.toDimension === 6
+                          state.toDimension === 6
                             ? activeButtonStyle
                             : {}
                         }
@@ -752,7 +763,7 @@ const GemstoneMaster = () => {
                         }
                         style={
                           state.fromDimension === 10 &&
-                            state.toDimension === null
+                          state.toDimension === null
                             ? activeButtonStyle
                             : {}
                         }
@@ -808,7 +819,7 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-          //   userData={selectedUserData}
+            //   userData={selectedUserData}
           />
           <FindGemstoneModal
             open={findGemstone}

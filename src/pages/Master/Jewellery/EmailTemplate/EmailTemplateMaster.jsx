@@ -43,9 +43,13 @@ const EmailTemplateMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
-  const { state, setState, getInitialStates, changeState, ...otherTableActionProps } =
-    usePaginationTable({
-    });
+  const {
+    state,
+    setState,
+    getInitialStates,
+    changeState,
+    ...otherTableActionProps
+  } = usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -72,15 +76,17 @@ const EmailTemplateMaster = () => {
     API.get(apiConfig.emailTemplate, filter)
       .then((res) => {
         setState({
-          ...(clear ? { ...getInitialStates() } : {
-            ...state,
-            ...(clear && clearStates),
-            ...(isNewFilter && newFilterState),
-            loader: false,
-          }),
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
-        })
+        });
       })
       .catch(() => {
         setState({
@@ -89,11 +95,6 @@ const EmailTemplateMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
 
@@ -221,7 +222,10 @@ const EmailTemplateMaster = () => {
         maxWidth="sm"
         onClose={() => setOpenSearch(false)}
         reset={() => paginate(true)}
-        search={() => paginate(false, true)}
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
       >
         <Textinput
           size="small"

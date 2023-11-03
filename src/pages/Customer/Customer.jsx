@@ -45,9 +45,13 @@ const Customer = () => {
     { title: "Action", classNameWidth: "thead-second-width-action" },
   ];
 
-  const { state, setState, changeState, getInitialStates, ...otherTableActionProps } =
-    usePaginationTable({
-    });
+  const {
+    state,
+    setState,
+    changeState,
+    getInitialStates,
+    ...otherTableActionProps
+  } = usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -74,15 +78,17 @@ const Customer = () => {
     API.get(apiConfig.customer, filter)
       .then((res) => {
         setState({
-          ...(clear ? { ...getInitialStates() } : {
-            ...state,
-            ...(clear && clearStates),
-            ...(isNewFilter && newFilterState),
-            loader: false,
-          }),
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
-        })
+        });
       })
       .catch(() => {
         setState({
@@ -91,12 +97,12 @@ const Customer = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
+    // .finally(() => {
+    //   if (openSearch == true) {
+    //     setOpenSearch(false);
+    //   }
+    // });
   };
 
   //------------ Delete Lab--------------
@@ -124,8 +130,9 @@ const Customer = () => {
     });
   };
   const showAddressInDialog = (item) => {
-    const address = `${item.addressLine1 || ""} ${item.addressLine2 || ""} ${item.addressLine3 || ""
-      }`;
+    const address = `${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
+      item.addressLine3 || ""
+    }`;
     setAddressText(address); // Set the address text
     textModaltoggle(); // Show the dialog
   };
@@ -149,8 +156,9 @@ const Customer = () => {
             style={{ fontWeight: "500", cursor: "pointer" }}
             onClick={() => showAddressInDialog(item)}
           >
-            {`${item.addressLine1 || ""} ${item.addressLine2 || ""} ${item.addressLine3 || ""
-              }`}
+            {`${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
+              item.addressLine3 || ""
+            }`}
           </span>,
           <span>
             <IconButton onClick={() => handleToggle(item.id)}>
@@ -231,7 +239,10 @@ const Customer = () => {
         maxWidth="sm"
         onClose={() => setOpenSearch(false)}
         reset={() => paginate(true)}
-        search={() => paginate(false, true)}
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
       >
         <Textinput
           size="small"
@@ -244,7 +255,6 @@ const Customer = () => {
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}
         />
-
       </SearchFilterDialog>
 
       <LabMasterDetails

@@ -39,12 +39,17 @@ const ProductMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action" },
   ];
 
-  const { state, setState, getInitialStates, changeState, ...otherTableActionProps } =
-    usePaginationTable({
-      // searchTxt: "",
-      // subCategory: "",
-      // gender: "",
-    });
+  const {
+    state,
+    setState,
+    getInitialStates,
+    changeState,
+    ...otherTableActionProps
+  } = usePaginationTable({
+    // searchTxt: "",
+    // subCategory: "",
+    // gender: "",
+  });
 
   const handleButtonClick = (id) => {
     navigate(`${pageRoutes.variantProductId}/${id}`);
@@ -78,15 +83,17 @@ const ProductMaster = () => {
     API.get(apiConfig.product, filter)
       .then((res) => {
         setState({
-          ...(clear ? { ...getInitialStates() } : {
-            ...state,
-            ...(clear && clearStates),
-            ...(isNewFilter && newFilterState),
-            loader: false,
-          }),
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
-        })
+        });
       })
       .catch((err) => {
         if (
@@ -105,11 +112,6 @@ const ProductMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
 
@@ -230,7 +232,10 @@ const ProductMaster = () => {
             isOpen={openSearch}
             onClose={() => setOpenSearch(false)}
             reset={() => paginate(true)}
-            search={() => paginate(false, true)}
+            search={() => {
+              paginate(false, true);
+              setOpenSearch(false); // Close the modal
+            }}
           >
             <div style={{ height: "350px" }}>
               <Textinput
@@ -248,8 +253,10 @@ const ProductMaster = () => {
                   placeholder="Select Shap Name"
                   options={_sortOptionsSubCategory}
                   isMulti
-                  value={_sortOptionsSubCategory.filter((option) =>
-                    state.subCategory && state.subCategory.includes(option.value)
+                  value={_sortOptionsSubCategory.filter(
+                    (option) =>
+                      state.subCategory &&
+                      state.subCategory.includes(option.value)
                   )}
                   onChange={(selectedSort) => {
                     const selectedIds = selectedSort.map(

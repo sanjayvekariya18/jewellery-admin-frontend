@@ -70,11 +70,6 @@ const PermissionsMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
   useEffect(() => {

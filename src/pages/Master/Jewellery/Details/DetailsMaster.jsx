@@ -86,11 +86,6 @@ const DetailsMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
 
@@ -260,7 +255,10 @@ const DetailsMaster = () => {
         maxWidth="sm"
         onClose={() => setOpenSearch(false)}
         reset={() => paginate(true)}
-        search={() => paginate(false, true)}
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
       >
         <div style={{ height: "200px" }}>
           {/* <ReactSelect

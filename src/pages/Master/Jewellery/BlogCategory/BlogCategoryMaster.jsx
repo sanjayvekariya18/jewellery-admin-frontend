@@ -42,9 +42,13 @@ const BlogCategoryMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
-  const { state, setState, changeState, getInitialStates, ...otherTableActionProps } =
-    usePaginationTable({
-    });
+  const {
+    state,
+    setState,
+    changeState,
+    getInitialStates,
+    ...otherTableActionProps
+  } = usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -67,20 +71,21 @@ const BlogCategoryMaster = () => {
       filter = _.merge(filter, newFilterState);
     }
 
-
     // ----------Get Product Details Group Api------------
     API.get(apiConfig.blogCategory, filter)
       .then((res) => {
         setState({
-          ...(clear ? { ...getInitialStates() } : {
-            ...state,
-            ...(clear && clearStates),
-            ...(isNewFilter && newFilterState),
-            loader: false,
-          }),
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
-        })
+        });
       })
       .catch(() => {
         setState({
@@ -89,12 +94,12 @@ const BlogCategoryMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
+    // .finally(() => {
+    //   if (openSearch == true) {
+    //     setOpenSearch(false);
+    //   }
+    // });
   };
 
   //------------ Delete Lab --------------
@@ -218,7 +223,10 @@ const BlogCategoryMaster = () => {
         maxWidth="sm"
         onClose={() => setOpenSearch(false)}
         reset={() => paginate(true)}
-        search={() => paginate(false, true)}
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
       >
         <Textinput
           size="small"

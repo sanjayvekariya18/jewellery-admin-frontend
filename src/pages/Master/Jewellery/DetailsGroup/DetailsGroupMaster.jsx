@@ -86,11 +86,6 @@ const DetailsGroupMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
 
@@ -214,7 +209,10 @@ const DetailsGroupMaster = () => {
         isOpen={openSearch}
         onClose={() => setOpenSearch(false)}
         reset={() => paginate(true)}
-        search={() => paginate(false, true)}
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
       >
         <Textinput
           size="small"
