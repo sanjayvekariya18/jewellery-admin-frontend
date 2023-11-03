@@ -257,7 +257,7 @@ const UserMaster = () => {
           name="searchTxt"
           label="Search Text"
           value={state?.searchTxt}
-          onChange={(e) => changeState("searchTxt", e.target.value)}
+          onChange={(e) => changeState("searchTxt", e.target.value.trim())}
           sx={{ mb: 2, mt: 1, width: "100%" }}
         />
 
