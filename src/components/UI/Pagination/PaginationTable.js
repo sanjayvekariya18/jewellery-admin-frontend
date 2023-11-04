@@ -48,7 +48,7 @@ export const usePaginationTable = (initialState = {}) => {
       order: "",
       orderby: "",
       ...initialState,
-    }
+    };
   };
 
   // Per Page & Page Setting
@@ -93,7 +93,7 @@ export const usePaginationTable = (initialState = {}) => {
     changeActivePage,
     changeOrder,
     onCheckBoxSelect,
-    getInitialStates
+    getInitialStates,
   };
 };
 
@@ -243,6 +243,8 @@ export default function PaginationTable({
             }
             nextIconButtonProps={{ "aria-label": "Next Page" }}
             backIconButtonProps={{ "aria-label": "Previous Page" }}
+            showFirstButton={true}
+            showLastButton={true}
           />
         )}
       </Box>

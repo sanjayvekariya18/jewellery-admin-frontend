@@ -41,8 +41,7 @@ const SubcategoryMaster = () => {
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
-    usePaginationTable({
-    });
+    usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -238,16 +237,17 @@ const SubcategoryMaster = () => {
           <Icon>add</Icon>
         </StyledAddButton>
       </Tooltip>
-
-      <SubcategoryMasterDetails
-        open={open}
-        togglePopup={() => {
-          togglePopup();
-          paginate();
-        }}
-        callBack={() => paginate(true)}
-        userData={selectedUserData}
-      />
+      {open && (
+        <SubcategoryMasterDetails
+          open={open}
+          togglePopup={() => {
+            togglePopup();
+            paginate();
+          }}
+          callBack={() => paginate(true)}
+          userData={selectedUserData}
+        />
+      )}
       {textModal && (
         <ThemeDialog
           title="Details"

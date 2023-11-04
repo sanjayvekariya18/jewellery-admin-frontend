@@ -34,10 +34,15 @@ const UserMaster = () => {
     { title: "Permission", classNameWidth: "thead-second-width-action-index" },
   ];
 
-  const { state, setState, changeState, getInitialStates, ...otherTableActionProps } =
-    usePaginationTable({
-      isActive: "",
-    });
+  const {
+    state,
+    setState,
+    changeState,
+    getInitialStates,
+    ...otherTableActionProps
+  } = usePaginationTable({
+    isActive: "",
+  });
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -49,7 +54,7 @@ const UserMaster = () => {
       page: state.page,
       searchTxt: state.searchTxt,
       isActive: state.isActive,
-      rowsPerPage: state.rowsPerPage
+      rowsPerPage: state.rowsPerPage,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
@@ -67,11 +72,11 @@ const UserMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-              ...state,
-              ...(clear && clearStates),
-              ...(isNewFilter && newFilterState),
-              loader: false,
-            }),
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
         });
@@ -93,11 +98,6 @@ const UserMaster = () => {
           ...(isNewFilter && newFilterState),
           loader: false,
         });
-      })
-      .finally(() => {
-        if (openSearch == true) {
-          setOpenSearch(false);
-        }
       });
   };
 
@@ -142,7 +142,8 @@ const UserMaster = () => {
           <IconButton
             onClick={(e) =>
               navigate(
-                `${pageRoutes.master.user.userPermissions.split(":")[0]}${item.id
+                `${pageRoutes.master.user.userPermissions.split(":")[0]}${
+                  item.id
                 }`
               )
             }
@@ -244,7 +245,10 @@ const UserMaster = () => {
         isOpen={openSearch}
         onClose={() => setOpenSearch(false)}
         reset={() => paginate(true)}
-        search={() => paginate(false, true)}
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
         maxWidth="sm"
       >
         <Textinput

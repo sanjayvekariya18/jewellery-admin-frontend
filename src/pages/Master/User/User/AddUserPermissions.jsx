@@ -125,7 +125,14 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
   const userPermissionHeaderColumns = [
     {
       headerCell: ({ group }) => (
-        <Tooltip title="Add/Remove All">
+        <Tooltip
+          title="Add/Remove All"
+          style={{
+            paddingRight: "0px",
+            paddingTop: "0px",
+            paddingBottom: "0px",
+          }}
+        >
           <IconButton
             onClick={(e) => toggleGroupPermissions(group, e.target.checked)}
           >
