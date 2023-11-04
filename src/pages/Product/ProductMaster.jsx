@@ -30,7 +30,7 @@ const ProductMaster = () => {
     { title: "Gender", classNameWidth: "thead-second-width-address" },
     { title: "Design Price", classNameWidth: "thead-second-width-address" },
     { title: "Box Price", classNameWidth: "thead-second-width-address" },
-    { title: "F/UPS", classNameWidth: "thead-second-width-action-index" },
+    { title: "Fedex UPS", classNameWidth: "thead-second-width-action-index" },
     { title: "India Post", classNameWidth: "thead-second-width-action-index" },
     { title: "Insurance", classNameWidth: "thead-second-width-action-index" },
     { title: "Other Cost", classNameWidth: "thead-second-width-address" },
