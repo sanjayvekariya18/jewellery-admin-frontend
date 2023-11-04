@@ -74,7 +74,7 @@ const SubcategoryMaster = () => {
     }
 
     // ----------Get Blog Api------------
-    API.get(apiConfig.subCategory, filter)
+    API.get(apiConfig.subCategory)
       .then((res) => {
         setState({
           ...state,

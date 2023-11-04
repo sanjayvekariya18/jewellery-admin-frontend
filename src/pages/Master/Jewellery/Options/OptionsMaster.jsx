@@ -69,7 +69,7 @@ const OptionMaster = () => {
     }
 
     // ----------Get Blog Api------------
-    API.get(apiConfig.options, filter)
+    API.get(apiConfig.options)
       .then((res) => {
         setState({
           ...state,

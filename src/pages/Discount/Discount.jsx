@@ -56,7 +56,7 @@ const Discount = () => {
     }
 
     // ----------Get Blog Api------------
-    API.get(apiConfig.diamondDiscount, filter)
+    API.get(apiConfig.diamondDiscount)
       .then((res) => {
         setState({
           ...state,

@@ -65,7 +65,7 @@ const LabMaster = () => {
     }
 
     // ----------Get Lab Api------------
-    API.get(apiConfig.lab, filter)
+    API.get(apiConfig.lab)
       .then((res) => {
         setState({
           ...state,

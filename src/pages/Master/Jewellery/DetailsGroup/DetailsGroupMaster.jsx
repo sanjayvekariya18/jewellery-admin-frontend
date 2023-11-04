@@ -68,7 +68,7 @@ const DetailsGroupMaster = () => {
     }
 
     // ----------Get Product Details Group Api------------
-    API.get(apiConfig.productDetailGroup, filter)
+    API.get(apiConfig.productDetailGroup)
       .then((res) => {
         setState({
           ...state,

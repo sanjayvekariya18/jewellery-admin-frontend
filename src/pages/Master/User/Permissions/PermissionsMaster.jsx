@@ -52,7 +52,7 @@ const PermissionsMaster = () => {
     }
 
     // ----------Get Blog Api------------
-    API.get(apiConfig.permission, filter)
+    API.get(apiConfig.permission)
       .then((res) => {
         setState({
           ...state,

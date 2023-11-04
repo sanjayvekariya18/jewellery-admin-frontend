@@ -113,8 +113,6 @@ const DiamondMaster = () => {
       toPrice: clear ? clearStates.toPrice : state.toPrice,
       lab: state.lab,
     };
-
-    console.log("filter", clear, clearStates.fromTable, state.fromTable);
     let newFilterState = { ...appConfig.default_pagination_state };
 
     if (clear) {
@@ -144,13 +142,10 @@ const DiamondMaster = () => {
       delete filter.toDepth;
       delete filter.fromTable;
       delete filter.toTable;
-      console.log("hello");
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
     // ----------Get Diamong Api------------
-
-    console.log("state", state);
 
     API.get(apiConfig.diamonds, filter)
       .then((res) => {

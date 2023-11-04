@@ -66,7 +66,7 @@ const CategoryMaster = () => {
 
     // ----------Get Category Api------------
 
-    API.get(apiConfig.category, filter)
+    API.get(apiConfig.category)
       .then((res) => {
         setState({
           ...state,

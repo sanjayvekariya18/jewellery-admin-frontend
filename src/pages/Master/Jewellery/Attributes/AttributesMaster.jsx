@@ -67,7 +67,7 @@ const AttributesMaster = () => {
     }
 
     // ----------Get Attributes Api------------
-    API.get(apiConfig.attributes, filter)
+    API.get(apiConfig.attributes)
       .then((res) => {
         setState({
           ...state,

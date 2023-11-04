@@ -66,7 +66,7 @@ const ShapeMaster = () => {
     }
 
     // ----------Get Blog Api------------
-    API.get(apiConfig.shape, filter)
+    API.get(apiConfig.shape)
       .then((res) => {
         setState({
           ...state,
