@@ -251,6 +251,7 @@ const UserMaster = () => {
           size="small"
           type="text"
           name="searchTxt"
+          focused={true}
           label="Search Text"
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}
