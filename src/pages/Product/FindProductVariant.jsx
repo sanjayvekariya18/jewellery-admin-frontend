@@ -4,7 +4,7 @@ import PaginationTable, {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
 import { API, HELPER } from "../../services";
-import { apiConfig } from "../../config";
+import { apiConfig, appConfig } from "../../config";
 import _ from "lodash";
 import { useParams } from "react-router-dom";
 import { Breadcrumb, Container } from "../../components";
@@ -14,21 +14,17 @@ import { useNavigate } from "react-router-dom/dist";
 
 const FindProductVariant = () => {
   const { productId } = useParams();
-  const { state, setState, changeState, ...otherTableActionProps } =
-    usePaginationTable();
+  const { state, setState, changeState, ...otherTableActionProps } = usePaginationTable();
   const navigate = useNavigate();
-
-  let filter = {
-    page: state.page,
-    isActive: state.isActive,
-    rowsPerPage: state.rowsPerPage,
-  };
-
-  const paginate = (clear = false, isNewFilter = false) => {
+  const paginate = () => {
     changeState("loader", true);
-  };
-  useEffect(() => {
-    API.get(apiConfig.findProduct.replace(":productId", productId), filter)
+
+    let updatedFilter = {
+      page: state.page,
+      rowsPerPage: state.rowsPerPage,
+    };
+
+    API.get(apiConfig.findProduct.replace(":productId", productId), updatedFilter)
       .then((res) => {
         setState({
           ...state,
@@ -49,7 +45,9 @@ const FindProductVariant = () => {
           console.error(err);
         }
       });
-  }, []);
+  };
+
+
 
   const COLUMNS = [
     { title: "Index", classNameWidth: "thead-second-width-action-index" },
