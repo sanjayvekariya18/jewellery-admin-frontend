@@ -107,6 +107,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
           title="Add Product Bulk"
+          maxWidth="sm"
           isOpen={open}
           onClose={() => {
             togglePopup();

@@ -115,7 +115,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
         <ThemeDialog
           title="Add Gem Stone Bulk"
           isOpen={open}
-          maxWidth="md"
+          maxWidth="sm"
           onClose={() => {
             setSelectedFile(null);
             togglePopup();
@@ -192,13 +192,25 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                         <ul>
                           {errorState[errorCode].map(
                             (errorMessageObj, index) => (
-                              <li key={index}  
-                              style={{ fontSize: "16px", fontWeight: "500",color:"#ff0000e8",marginBottom:"6px" }}>
+                              <li
+                                key={index}
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: "500",
+                                  color: "#ff0000e8",
+                                  marginBottom: "6px",
+                                }}
+                              >
                                 {Object.keys(errorMessageObj)[0]} :{" "}
                                 <span
                                   className="text-error"
-                                  style={{ fontSize: "14px", fontWeight: "400" }}
-                                >{Object.values(errorMessageObj)[0]}</span>
+                                  style={{
+                                    fontSize: "14px",
+                                    fontWeight: "400",
+                                  }}
+                                >
+                                  {Object.values(errorMessageObj)[0]}
+                                </span>
                               </li>
                             )
                           )}
@@ -227,8 +239,9 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
               ]}
               icon="cloud_upload"
-              label={`Drag & drop an Excel file here, or click to select one ${selectedFile === null ? "" : ` (${selectedFile.name})`
-                }`}
+              label={`Drag & drop an Excel file here, or click to select one ${
+                selectedFile === null ? "" : ` (${selectedFile.name})`
+              }`}
             />
           </Box>
         </ThemeDialog>

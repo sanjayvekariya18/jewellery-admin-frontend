@@ -72,7 +72,7 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
         <ThemeDialog
           title="Add Diamond Bulk"
           isOpen={open}
-          maxWidth="md"
+          maxWidth="sm"
           onClose={() => {
             togglePopup();
             resetValidation();
