@@ -6,7 +6,7 @@ export const navigations = [
 
   {
     name: "GemStone",
-    icon: "diamond",
+    icon: "camera",
     path: pageRoutes.master.gemstone.gemstone,
   },
   { name: "Diamonds", path: pageRoutes.diamond, icon: "diamond" },
