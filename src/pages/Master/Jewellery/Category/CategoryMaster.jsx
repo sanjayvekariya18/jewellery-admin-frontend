@@ -33,27 +33,17 @@ const CategoryMaster = () => {
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      searchTxt: "",
-      isActive: "",
-      order: "",
-      orderby: "",
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      searchTxt: "",
-      isActive: "",
       ...appConfig.default_pagination_state,
     };
 
     let filter = {
       page: state.page,
-      searchTxt: state.searchTxt,
-      isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
-      order: state.order,
-      orderBy: state.orderby,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
@@ -66,7 +56,7 @@ const CategoryMaster = () => {
 
     // ----------Get Category Api------------
 
-    API.get(apiConfig.category)
+    API.get(apiConfig.category, filter)
       .then((res) => {
         setState({
           ...state,

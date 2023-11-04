@@ -42,27 +42,17 @@ const SubcategoryMaster = () => {
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      searchTxt: "",
-      isActive: "",
-      order: "",
-      orderby: "",
     });
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      searchTxt: "",
-      isActive: "",
       ...appConfig.default_pagination_state,
     };
 
     let filter = {
       page: state.page,
-      searchTxt: state.searchTxt,
-      isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
-      order: state.order,
-      orderBy: state.orderby,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
@@ -74,7 +64,7 @@ const SubcategoryMaster = () => {
     }
 
     // ----------Get Blog Api------------
-    API.get(apiConfig.subCategory)
+    API.get(apiConfig.subCategory, filter)
       .then((res) => {
         setState({
           ...state,
