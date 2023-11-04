@@ -468,6 +468,14 @@ const CategoryMasterDetails = ({
                         </TableContainer>
                       </div>
                     </ReactDragListView>
+                    {errors?.attributes && (
+                      <p
+                        className="text-error"
+                        style={{ fontSize: "14px", marginTop: "5px" }}
+                      >
+                        Attributes Is required
+                      </p>
+                    )}
                   </div>
                   <div>
                     <div
@@ -502,6 +510,7 @@ const CategoryMasterDetails = ({
                           isSearchable
                           value={selected2[0] || ""}
                           onChange={(option) => setSelected2([option])}
+                          // name="productDetails"
                         />
                       </div>
                       {/* <div>
@@ -631,6 +640,14 @@ const CategoryMasterDetails = ({
                         </Table>
                       </TableContainer>
                     </ReactDragListView>
+                    {errors?.productDetails && (
+                      <p
+                        className="text-error"
+                        style={{ fontSize: "14px", marginTop: "5px" }}
+                      >
+                        Product Details Is required
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="text-input-top" style={{ width: "60%" }}>

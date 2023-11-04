@@ -499,6 +499,14 @@ const EditCategoryMasterDetails = () => {
                       {/* <p>No data found</p> */}
                       {/* )} */}
                     </ReactDragListView>
+                    {errors?.attributes && (
+                      <p
+                        className="text-error"
+                        style={{ fontSize: "14px", marginTop: "5px" }}
+                      >
+                        Attributes Is required
+                      </p>
+                    )}
                   </div>
                   <div>
                     <div
@@ -655,6 +663,14 @@ const EditCategoryMasterDetails = () => {
                       {/* <p>No data found</p> */}
                       {/* )} */}
                     </ReactDragListView>
+                    {errors?.productDetails && (
+                      <p
+                        className="text-error"
+                        style={{ fontSize: "14px", marginTop: "5px" }}
+                      >
+                        Product Details Is required
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="text-input-top" style={{ width: "60%" }}>
