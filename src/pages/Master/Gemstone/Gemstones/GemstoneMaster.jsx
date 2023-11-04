@@ -87,7 +87,7 @@ const GemstoneMaster = () => {
       delete filter.color;
       delete filter.origin;
       delete filter.gemstoneType;
-      console.log("hello");
+      // console.log("hello");
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }

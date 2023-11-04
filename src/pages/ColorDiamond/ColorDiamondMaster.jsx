@@ -421,7 +421,7 @@ const ColorDiamondMaster = () => {
                   <div>
                     <Select
                       label="Select Color"
-                      placeholder="Select Color name"
+                      placeholder="Select Color Name"
                       options={_colorOptions}
                       isMulti
                       value={_colorOptions.filter(

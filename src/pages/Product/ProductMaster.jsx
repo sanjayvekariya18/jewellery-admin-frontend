@@ -237,7 +237,7 @@ const ProductMaster = () => {
               setOpenSearch(false); // Close the modal
             }}
           >
-            <div style={{ height: "350px" }}>
+            <div style={{ height: "300px" }}>
               <Textinput
                 size="small"
                 type="text"
