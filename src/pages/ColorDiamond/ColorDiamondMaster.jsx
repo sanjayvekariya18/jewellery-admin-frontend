@@ -352,7 +352,11 @@ const ColorDiamondMaster = () => {
         <Container>
           <Box
             className="breadcrumb"
-            sx={{ display: "flex", justifyContent: "space-between" }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
             <Breadcrumb
               routeSegments={[

@@ -369,3 +369,11 @@ input::-webkit-inner-spin-button {
     background-color: #1976d2 !important;
     color: white !important;
 } */
+
+.main-footer-table-pagination .css-pdct74-MuiTablePagination-selectLabel {
+    text-transform: capitalize !important;
+}
+
+.css-1ra94hr-MuiButtonBase-root-MuiFab-root {
+    bottom: 118px !important;
+}
