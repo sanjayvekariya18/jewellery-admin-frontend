@@ -124,6 +124,18 @@ export const navigations = [
     ],
   },
   {
+    name: "Order Management",
+    icon: "inventory2",
+    children: [
+      {
+        name: "Order Details",
+        iconText: "OD",
+        path: pageRoutes.master.order.order,
+      },
+      // { name: "User", iconText: "CT", path: pageRoutes.master.user.user },
+    ],
+  },
+  {
     name: "User",
     icon: "account_circle",
     children: [

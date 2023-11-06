@@ -63,6 +63,9 @@ const UserPermissionsMaster = Loadable(
 const GemstoneMaster = Loadable(
   lazy(() => import("./Master/Gemstone/Gemstones/GemstoneMaster"))
 );
+const OrderMaster = Loadable(
+  lazy(() => import("./Master/Orders/Order/OrderMaster"))
+);
 const BlogCategoryMaster = Loadable(
   lazy(() => import("./Master/Jewellery/BlogCategory/BlogCategoryMaster"))
 );
@@ -88,6 +91,7 @@ const FindProductVariantMoreDetail = Loadable(
 const FindProductVariant = Loadable(
   lazy(() => import("./Product/FindProductVariant"))
 );
+
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
 
@@ -185,6 +189,10 @@ const routes = [
       {
         path: pageRoutes.master.user.userPermissions,
         element: <UserPermissionsMaster />,
+      },
+      {
+        path: pageRoutes.master.order.order,
+        element: <OrderMaster />,
       },
       {
         path: pageRoutes.master.jewellery.metal,

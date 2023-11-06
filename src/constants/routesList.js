@@ -33,6 +33,9 @@ export const pageRoutes = {
       shape: "/master/diamond/shape",
       discount: "/master/diamond/discount",
     },
+    order: {
+      order: "/master/order",
+    },
     gemstone: {
       gemstone: "/gemstone",
     },
