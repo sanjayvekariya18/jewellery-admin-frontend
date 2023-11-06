@@ -122,6 +122,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
                   variant="contained"
                   color="primary"
                   onClick={handleDownload}
+                  disabled={!store}
                 >
                   Download
                 </Button>
