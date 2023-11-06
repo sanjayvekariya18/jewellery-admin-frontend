@@ -86,18 +86,36 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
                 <div
                   style={{
                     display: "flex ",
-                    alignItems: "center",
+                    alignItems: "baseline",
                     flexDirection: "column",
-                    // padding: "0px",
                   }}
                 >
-                  <label className="label-class">Image</label>
-                  <ImgUploadBoxInput
-                    name="image"
-                    onChange={onChange}
-                    value={formState?.image}
-                    label={"Image"}
-                  />
+                  <div
+                    style={{
+                      display: "flex ",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      // padding: "0px",
+                    }}
+                  >
+                    <label className="label-class">Image</label>
+                    <ImgUploadBoxInput
+                      name="image"
+                      onChange={onChange}
+                      value={formState?.image}
+                      label={"Image"}
+                    />
+                  </div>
+                  <div>
+                    {errors?.image && (
+                      <p
+                        className="text-error"
+                        style={{ padding: "0", margin: "0" }}
+                      >
+                        The image must be a file of type png,jpg,jpeg,svg,webp
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <Box>
                   <Button

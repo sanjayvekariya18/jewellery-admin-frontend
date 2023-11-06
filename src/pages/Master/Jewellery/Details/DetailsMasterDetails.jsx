@@ -28,6 +28,7 @@ const DetailsMasterDetails = ({
   const rules = {
     detailsGroupId: "required",
     detailName: "required",
+    logoUrl: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
 
   const handleSubmit = (data) => {
@@ -108,18 +109,35 @@ const DetailsMasterDetails = ({
                 <div
                   style={{
                     display: "flex ",
-                    alignItems: "center",
+                    alignItems: "baseline",
                     flexDirection: "column",
                   }}
                 >
-                  <label className="label-class">Image</label>
-                  <ImgUploadBoxInput
-                    name="logoUrl"
-                    onChange={onChange}
-                    value={formState?.logoUrl}
-                    error={errors?.logoUrl}
-                    label={"logo Image"}
-                  />
+                  <div
+                    style={{
+                      display: "flex ",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <label className="label-class">Image</label>
+                    <ImgUploadBoxInput
+                      name="logoUrl"
+                      onChange={onChange}
+                      value={formState?.logoUrl}
+                      label={"logo Image"}
+                    />
+                  </div>
+                  <div>
+                    {errors?.logoUrl && (
+                      <p
+                        className="text-error"
+                        style={{ padding: "0", margin: "0" }}
+                      >
+                        The image must be a file of type png,jpg,jpeg,svg,webp
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <Box>
                   <Button

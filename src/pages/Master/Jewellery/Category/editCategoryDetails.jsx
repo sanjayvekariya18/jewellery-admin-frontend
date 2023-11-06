@@ -317,86 +317,256 @@ const EditCategoryMasterDetails = () => {
       <Validators formData={formState} rules={rules}>
         {({ onSubmit, errors, resetValidation }) => {
           return (
-            <div title={`${formState?.id === "" ? "Add" : "Edit"} Category`}>
-              <Box className="breadcrumb">
-                <Breadcrumb
-                  routeSegments={[
-                    { name: "Masters", path: pageRoutes.master.user.user },
-                    {
-                      name: "Category",
-                      path: pageRoutes.master.jewellery.category,
-                    },
-                    { name: "Update" },
-                  ]}
-                />
-              </Box>
-              <>
-                <Textinput
-                  size="small"
-                  type="text"
-                  name="name"
-                  label="Category Name"
-                  placeholder="Enter Category Name"
-                  value={formState.name}
-                  onChange={onChange}
-                  error={errors?.name}
-                  sx={{ mb: 0, width: "60%" }}
-                />
-                <div>
+            <>
+              <div title={`${formState?.id === "" ? "Add" : "Edit"} Category`}>
+                <Box className="breadcrumb">
+                  <Breadcrumb
+                    routeSegments={[
+                      { name: "Masters", path: pageRoutes.master.user.user },
+                      {
+                        name: "Category",
+                        path: pageRoutes.master.jewellery.category,
+                      },
+                      { name: "Update" },
+                    ]}
+                  />
+                </Box>
+                <>
+                  <Textinput
+                    size="small"
+                    type="text"
+                    name="name"
+                    label="Category Name"
+                    placeholder="Enter Category Name"
+                    value={formState.name}
+                    onChange={onChange}
+                    error={errors?.name}
+                    sx={{ mb: 0, width: "60%" }}
+                  />
                   <div>
-                    <div
-                      style={{
-                        marginTop: "15px",
-                        marginBottom: "15px",
-                      }}
-                    >
-                      <label
-                        style={{
-                          fontSize: "18px",
-                          fontWeight: "500",
-                        }}
-                      >
-                        Attributes
-                      </label>
-                    </div>
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr  auto",
-                        gap: "12px",
-                        width: "35%",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <div>
-                        <Select
-                          placeholder="Select Attributes"
-                          options={filteredOptions}
-                          isSearchable
-                          value={selected[0] || ""}
-                          onChange={(option) => setSelected([option])}
-                        />
-                      </div>
-
+                    <div>
                       <div
                         style={{
-                          border: "1px solid #cccccc",
-                          padding: "0px 0px 4px 4px",
-                          borderRadius: "5px",
-                          width: "39px",
-                          height: "39px",
+                          marginTop: "15px",
+                          marginBottom: "15px",
                         }}
                       >
-                        <IconButton onClick={handleLogSelectedOption}>
-                          <Icon color="success">save</Icon>
-                        </IconButton>
+                        <label
+                          style={{
+                            fontSize: "18px",
+                            fontWeight: "500",
+                          }}
+                        >
+                          Attributes
+                        </label>
                       </div>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr  auto",
+                          gap: "12px",
+                          width: "35%",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <div>
+                          <Select
+                            placeholder="Select Attributes"
+                            options={filteredOptions}
+                            isSearchable
+                            value={selected[0] || ""}
+                            onChange={(option) => setSelected([option])}
+                          />
+                        </div>
+
+                        <div
+                          style={{
+                            border: "1px solid #cccccc",
+                            padding: "0px 0px 4px 4px",
+                            borderRadius: "5px",
+                            width: "39px",
+                            height: "39px",
+                          }}
+                        >
+                          <IconButton onClick={handleLogSelectedOption}>
+                            <Icon color="success">save</Icon>
+                          </IconButton>
+                        </div>
+                      </div>
+                      {/* Attributes Table */}
+                      <ReactDragListView onDragEnd={handleDragEnd}>
+                        {/* {categoryData && categoryData.length > 0 ? ( */}
+                        <div>
+                          <TableContainer
+                            component={Paper}
+                            className="text-input-top"
+                            style={{
+                              maxHeight: "450px",
+                              overflow: "auto",
+                              width: "60%",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <Table>
+                              <TableHead
+                                style={{
+                                  background: "#e0e2e8",
+                                  position: "sticky",
+                                  top: "0",
+                                  zIndex: 99,
+                                }}
+                              >
+                                <TableRow>
+                                  <TableCell
+                                    style={{
+                                      paddingLeft: "20px",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    Attributes
+                                  </TableCell>
+                                  <TableCell
+                                    style={{
+                                      paddingLeft: "20px",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    Sort No
+                                  </TableCell>
+                                  <TableCell
+                                    style={{
+                                      paddingLeft: "20px",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    Delete
+                                  </TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {formState.attributes &&
+                                formState.attributes.length > 0 ? (
+                                  formState.attributes.map((data, index) => (
+                                    <TableRow key={index}>
+                                      <TableCell
+                                        style={{ paddingLeft: "20px" }}
+                                      >
+                                        {getAttributesLabel(data.attributeId)}
+                                      </TableCell>
+                                      <TableCell
+                                        style={{ paddingLeft: "20px" }}
+                                      >
+                                        {data.sortNo}
+                                      </TableCell>
+                                      <TableCell
+                                        style={{
+                                          padding: "0px 0px 0px 20px",
+                                        }}
+                                      >
+                                        <IconButton
+                                          onClick={() =>
+                                            handleRemoveOptionAttributes(index)
+                                          }
+                                        >
+                                          <Icon
+                                            color="error"
+                                            style={{ padding: "0" }}
+                                          >
+                                            delete
+                                          </Icon>
+                                        </IconButton>
+                                      </TableCell>
+                                    </TableRow>
+                                  ))
+                                ) : (
+                                  <TableRow>
+                                    <TableCell
+                                      colSpan={3}
+                                      style={{
+                                        textAlign: "center",
+                                        color: "red",
+                                      }}
+                                    >
+                                      <img
+                                        src={error400cover}
+                                        width="150px"
+                                        alt="No data found"
+                                      />
+                                    </TableCell>
+                                  </TableRow>
+                                )}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        </div>
+                        {/* ) : ( */}
+                        {/* <p>No data found</p> */}
+                        {/* )} */}
+                      </ReactDragListView>
+                      {errors?.attributes && (
+                        <p
+                          className="text-error"
+                          style={{ fontSize: "14px", marginTop: "5px" }}
+                        >
+                          Attributes Is required
+                        </p>
+                      )}
                     </div>
-                    {/* Attributes Table */}
-                    <ReactDragListView onDragEnd={handleDragEnd}>
-                      {/* {categoryData && categoryData.length > 0 ? ( */}
-                      <div>
+                    <div>
+                      <div
+                        style={{
+                          marginTop: "15px",
+                          marginBottom: "15px",
+                        }}
+                      >
+                        <label
+                          style={{
+                            fontSize: "18px",
+                            fontWeight: "500",
+                          }}
+                        >
+                          Product Details
+                        </label>
+                      </div>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr  auto",
+                          gap: "12px",
+                          width: "35%",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <div>
+                          <Select
+                            placeholder="Select Product Details"
+                            options={filteredSelect}
+                            isSearchable
+                            value={selected2[0] || ""}
+                            onChange={(option) => setSelected2([option])}
+                          />
+                        </div>
+
+                        <div
+                          style={{
+                            border: "1px solid #cccccc",
+                            padding: "0px 0px 4px 4px",
+                            borderRadius: "5px",
+                            width: "39px",
+                            height: "39px",
+                          }}
+                        >
+                          <IconButton onClick={handleLogSelectedOption2}>
+                            <Icon color="success">save</Icon>
+                          </IconButton>
+                        </div>
+                      </div>
+                      <ReactDragListView
+                        onDragEnd={handleProductDetailsDragEnd}
+                      >
+                        {/* {categoryData && categoryData.length > 0 ? ( */}
                         <TableContainer
                           component={Paper}
                           className="text-input-top"
@@ -423,7 +593,7 @@ const EditCategoryMasterDetails = () => {
                                     fontSize: "14px",
                                   }}
                                 >
-                                  Attributes
+                                  Product Details
                                 </TableCell>
                                 <TableCell
                                   style={{
@@ -444,12 +614,14 @@ const EditCategoryMasterDetails = () => {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {formState.attributes &&
-                              formState.attributes.length > 0 ? (
-                                formState.attributes.map((data, index) => (
+                              {formState.productDetails &&
+                              formState.productDetails.length > 0 ? (
+                                formState.productDetails.map((data, index) => (
                                   <TableRow key={index}>
                                     <TableCell style={{ paddingLeft: "20px" }}>
-                                      {getAttributesLabel(data.attributeId)}
+                                      {getProductDetailsLabel(
+                                        data.productDetailsId
+                                      )}
                                     </TableCell>
                                     <TableCell style={{ paddingLeft: "20px" }}>
                                       {data.sortNo}
@@ -461,7 +633,7 @@ const EditCategoryMasterDetails = () => {
                                     >
                                       <IconButton
                                         onClick={() =>
-                                          handleRemoveOptionAttributes(index)
+                                          handleRemoveProductDetails(index)
                                         }
                                       >
                                         <Icon
@@ -494,260 +666,118 @@ const EditCategoryMasterDetails = () => {
                             </TableBody>
                           </Table>
                         </TableContainer>
-                      </div>
-                      {/* ) : ( */}
-                      {/* <p>No data found</p> */}
-                      {/* )} */}
-                    </ReactDragListView>
-                    {errors?.attributes && (
-                      <p
-                        className="text-error"
-                        style={{ fontSize: "14px", marginTop: "5px" }}
-                      >
-                        Attributes Is required
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        marginTop: "15px",
-                        marginBottom: "15px",
-                      }}
-                    >
-                      <label
-                        style={{
-                          fontSize: "18px",
-                          fontWeight: "500",
-                        }}
-                      >
-                        Product Details
-                      </label>
+                        {/* ) : ( */}
+                        {/* <p>No data found</p> */}
+                        {/* )} */}
+                      </ReactDragListView>
+                      {errors?.productDetails && (
+                        <p
+                          className="text-error"
+                          style={{ fontSize: "14px", marginTop: "5px" }}
+                        >
+                          Product Details Is required
+                        </p>
+                      )}
                     </div>
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr  auto",
-                        gap: "12px",
-                        width: "35%",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <div>
-                        <Select
-                          placeholder="Select Product Details"
-                          options={filteredSelect}
-                          isSearchable
-                          value={selected2[0] || ""}
-                          onChange={(option) => setSelected2([option])}
-                        />
-                      </div>
-
-                      <div
-                        style={{
-                          border: "1px solid #cccccc",
-                          padding: "0px 0px 4px 4px",
-                          borderRadius: "5px",
-                          width: "39px",
-                          height: "39px",
-                        }}
-                      >
-                        <IconButton onClick={handleLogSelectedOption2}>
-                          <Icon color="success">save</Icon>
-                        </IconButton>
-                      </div>
-                    </div>
-                    <ReactDragListView onDragEnd={handleProductDetailsDragEnd}>
-                      {/* {categoryData && categoryData.length > 0 ? ( */}
-                      <TableContainer
-                        component={Paper}
-                        className="text-input-top"
-                        style={{
-                          maxHeight: "450px",
-                          overflow: "auto",
-                          width: "60%",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <Table>
-                          <TableHead
-                            style={{
-                              background: "#e0e2e8",
-                              position: "sticky",
-                              top: "0",
-                              zIndex: 99,
-                            }}
-                          >
-                            <TableRow>
-                              <TableCell
-                                style={{
-                                  paddingLeft: "20px",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Product Details
-                              </TableCell>
-                              <TableCell
-                                style={{
-                                  paddingLeft: "20px",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Sort No
-                              </TableCell>
-                              <TableCell
-                                style={{
-                                  paddingLeft: "20px",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                Delete
-                              </TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {formState.productDetails &&
-                            formState.productDetails.length > 0 ? (
-                              formState.productDetails.map((data, index) => (
-                                <TableRow key={index}>
-                                  <TableCell style={{ paddingLeft: "20px" }}>
-                                    {getProductDetailsLabel(
-                                      data.productDetailsId
-                                    )}
-                                  </TableCell>
-                                  <TableCell style={{ paddingLeft: "20px" }}>
-                                    {data.sortNo}
-                                  </TableCell>
-                                  <TableCell
-                                    style={{
-                                      padding: "0px 0px 0px 20px",
-                                    }}
-                                  >
-                                    <IconButton
-                                      onClick={() =>
-                                        handleRemoveProductDetails(index)
-                                      }
-                                    >
-                                      <Icon
-                                        color="error"
-                                        style={{ padding: "0" }}
-                                      >
-                                        delete
-                                      </Icon>
-                                    </IconButton>
-                                  </TableCell>
-                                </TableRow>
-                              ))
-                            ) : (
-                              <TableRow>
-                                <TableCell
-                                  colSpan={3}
-                                  style={{
-                                    textAlign: "center",
-                                    color: "red",
-                                  }}
-                                >
-                                  <img
-                                    src={error400cover}
-                                    width="150px"
-                                    alt="No data found"
-                                  />
-                                </TableCell>
-                              </TableRow>
-                            )}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                      {/* ) : ( */}
-                      {/* <p>No data found</p> */}
-                      {/* )} */}
-                    </ReactDragListView>
-                    {errors?.productDetails && (
-                      <p
-                        className="text-error"
-                        style={{ fontSize: "14px", marginTop: "5px" }}
-                      >
-                        Product Details Is required
-                      </p>
-                    )}
                   </div>
-                </div>
-                <div className="text-input-top" style={{ width: "60%" }}>
-                  <Textarea
-                    size="small"
-                    name="details"
-                    type="text"
-                    maxLength={255}
-                    minRows={3}
-                    maxRows={3}
-                    placeholder="Enter Category Details"
-                    value={formState.details}
-                    onChange={onChange}
-                    sx={{ mb: 1.5 }}
-                  />
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "60%",
-                  }}
-                  className="text-input-top"
-                >
+                  <div className="text-input-top" style={{ width: "60%" }}>
+                    <Textarea
+                      size="small"
+                      name="details"
+                      type="text"
+                      maxLength={255}
+                      minRows={3}
+                      maxRows={3}
+                      placeholder="Enter Category Details"
+                      value={formState.details}
+                      onChange={onChange}
+                      sx={{ mb: 1.5 }}
+                    />
+                  </div>
                   <div
                     style={{
                       display: "flex",
-                      alignContent: "center",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      width: "60%",
                     }}
+                    className="text-input-top"
                   >
                     <div
                       style={{
-                        marginRight: "20px",
                         display: "flex",
                         alignContent: "center",
-                        flexDirection: "column",
                       }}
                     >
-                      <label className="label-class">Logo Image</label>
-                      <ImgUploadBoxInput
-                        name="logoUrl"
-                        onChange={onChange}
-                        value={formState?.logoUrl}
-                        label="Logo Image"
-                      />
+                      <div
+                        style={{
+                          marginRight: "20px",
+                          display: "flex",
+                          alignContent: "center",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <label className="label-class">Logo Image</label>
+                        <ImgUploadBoxInput
+                          name="logoUrl"
+                          onChange={onChange}
+                          value={formState?.logoUrl}
+                          label="Logo Image"
+                        />
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <label className="label-class">Image</label>
+                        <ImgUploadBoxInput
+                          name="imgUrl"
+                          onChange={onChange}
+                          value={formState?.imgUrl}
+                          label={"Image"}
+                        />
+                      </div>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <label className="label-class">Image</label>
-                      <ImgUploadBoxInput
-                        name="imgUrl"
-                        onChange={onChange}
-                        value={formState?.imgUrl}
-                        label={"Image"}
-                      />
-                    </div>
+                    <Box>
+                      <Button
+                        style={{ marginLeft: "20px", width: "150px" }}
+                        type="submit"
+                        variant="contained"
+                        color="success"
+                        onClick={() => onSubmit(handleSubmit)}
+                      >
+                        Save
+                      </Button>
+                    </Box>
                   </div>
-                  <Box>
-                    <Button
-                      style={{ marginLeft: "20px", width: "150px" }}
-                      type="submit"
-                      variant="contained"
-                      color="success"
-                      onClick={() => onSubmit(handleSubmit)}
+                </>
+              </div>
+              <div>
+                <div>
+                  {errors?.logoUrl && (
+                    <p
+                      className="text-error"
+                      style={{ padding: "0", margin: "0" }}
                     >
-                      Save
-                    </Button>
-                  </Box>
+                      The logo Url must be a file of type png,jpg,jpeg,svg,webp
+                    </p>
+                  )}
                 </div>
-              </>
-            </div>
+                <div>
+                  {errors?.imgUrl && (
+                    <p
+                      className="text-error"
+                      style={{ padding: "0", margin: "0" }}
+                    >
+                      The Image Url must be a file of type png,jpg,jpeg,svg,webp
+                    </p>
+                  )}
+                </div>
+              </div>
+            </>
           );
         }}
       </Validators>

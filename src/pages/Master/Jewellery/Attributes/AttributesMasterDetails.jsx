@@ -237,70 +237,101 @@ const AttributesMasterDetails = ({
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
                 width: "100%",
+                flexDirection: "column",
               }}
             >
               <div
                 style={{
                   display: "flex",
+                  justifyContent: "space-between",
                   alignItems: "center",
+                  width: "100%",
                 }}
               >
                 <div
                   style={{
-                    marginRight: "20px",
                     display: "flex",
                     alignItems: "center",
-                    flexDirection: "column",
                   }}
                 >
-                  <label className="label-class">Logo Image</label>
-                  <ImgUploadBoxInput
-                    name="logoUrl"
-                    onChange={onChange}
-                    value={formState?.logoUrl}
-                    label={"Logo Image"}
-                  />
+                  <div
+                    style={{
+                      marginRight: "20px",
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <label className="label-class">Logo Image</label>
+                    <ImgUploadBoxInput
+                      name="logoUrl"
+                      onChange={onChange}
+                      value={formState?.logoUrl}
+                      label={"Logo Image"}
+                    />
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <label className="label-class">Image</label>
+                    <ImgUploadBoxInput
+                      name="imgUrl"
+                      onChange={onChange}
+                      value={formState?.imgUrl}
+                      label={"Image"}
+                    />
+                  </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                  }}
-                >
-                  <label className="label-class">Image</label>
-                  <ImgUploadBoxInput
-                    name="imgUrl"
-                    onChange={onChange}
-                    value={formState?.imgUrl}
-                    label={"Image"}
-                  />
+                <Box>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                      togglePopup();
+                      resetValidation();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    style={{ marginLeft: "20px" }}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => onSubmit(handleSubmit)}
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </div>
+              <div>
+                <div>
+                  {errors?.logoUrl && (
+                    <p
+                      className="text-error"
+                      style={{ padding: "0", margin: "0" }}
+                    >
+                      The logo Url must be a file of type png,jpg,jpeg,svg,webp
+                    </p>
+                  )}
+                </div>
+                <div>
+                  {errors?.imgUrl && (
+                    <p
+                      className="text-error"
+                      style={{ padding: "0", margin: "0" }}
+                    >
+                      The image Url must be a file of type png,jpg,jpeg,svg,webp
+                    </p>
+                  )}
                 </div>
               </div>
-              <Box>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => {
-                    togglePopup();
-                    resetValidation();
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  style={{ marginLeft: "20px" }}
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  onClick={() => onSubmit(handleSubmit)}
-                >
-                  Save
-                </Button>
-              </Box>
             </div>
           }
         >
@@ -438,6 +469,13 @@ const AttributesMasterDetails = ({
                 </TableBody>
               </Table>
             </TableContainer>
+            <div>
+              {errors?.options && (
+                <p className="text-error" style={{ marginTop: "5px" }}>
+                  Options is required.
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="text-input-top">

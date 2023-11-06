@@ -98,19 +98,38 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                     <div
                       style={{
                         display: "flex ",
-                        alignItems: "center",
+                        alignItems: "baseline",
                         flexDirection: "column",
-                        // padding: "0px",
                       }}
                     >
-                      <label className="label-class">Profile</label>
-                      <ImgUploadBoxInput
-                        name="profile"
-                        onChange={onChange}
-                        value={formState?.profile}
-                        error={errors?.profile}
-                        label={"Profile Image"}
-                      />
+                      <div
+                        style={{
+                          display: "flex ",
+                          alignItems: "center",
+                          flexDirection: "column",
+                          // padding: "0px",
+                        }}
+                      >
+                        <label className="label-class">Profile</label>
+                        <ImgUploadBoxInput
+                          name="profile"
+                          onChange={onChange}
+                          value={formState?.profile}
+                          // error={errors?.profile}
+                          label={"Profile Image"}
+                        />
+                      </div>
+                      <div>
+                        {errors?.profile && (
+                          <p
+                            className="text-error"
+                            style={{ padding: "0", margin: "0" }}
+                          >
+                            The image must be a file of type
+                            png,jpg,jpeg,svg,webp
+                          </p>
+                        )}
+                      </div>
                     </div>
                     <Box>
                       <Button
@@ -147,35 +166,39 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                   value={formState.firstName}
                   onChange={onChange}
                   error={errors?.firstName}
-                  sx={{ mb: 2, mt: 1, width: "100%" }}
+                  sx={{ mb: 0, mt: 1, width: "100%" }}
                 />
-                <Textinput
-                  type="text"
-                  name="lastName"
-                  label="Last Name"
-                  placeholder="Enter Last Name"
-                  value={formState.lastName}
-                  onChange={onChange}
-                  error={errors?.lastName}
-                  sx={{ mb: 2, mt: 1, ml: 0.5, width: "100%" }}
-                />
-                <Textinput
-                  fullWidth={true}
-                  size="small"
-                  type="email"
-                  name="email"
-                  label="Email"
-                  placeholder="Enter Email"
-                  value={formState.email}
-                  onChange={onChange}
-                  error={errors?.email}
-                  sx={{ mb: 2, mt: 1 }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">@</InputAdornment>
-                    ),
-                  }}
-                />
+                <div className="text-input-top">
+                  <Textinput
+                    type="text"
+                    name="lastName"
+                    label="Last Name"
+                    placeholder="Enter Last Name"
+                    value={formState.lastName}
+                    onChange={onChange}
+                    error={errors?.lastName}
+                    sx={{ mb: 0, width: "100%" }}
+                  />
+                </div>
+                <div className="text-input-top">
+                  <Textinput
+                    fullWidth={true}
+                    size="small"
+                    type="email"
+                    name="email"
+                    label="Email"
+                    placeholder="Enter Email"
+                    value={formState.email}
+                    onChange={onChange}
+                    error={errors?.email}
+                    sx={{ mb: 0 }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">@</InputAdornment>
+                      ),
+                    }}
+                  />
+                </div>
               </>
             </ThemeDialog>
           );
