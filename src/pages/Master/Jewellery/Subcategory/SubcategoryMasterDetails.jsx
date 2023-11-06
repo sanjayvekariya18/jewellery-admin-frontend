@@ -183,7 +183,7 @@ const SubcategoryMasterDetails = ({
                       className="text-error"
                       style={{ padding: "0", margin: "0" }}
                     >
-                      The logo Url must be a file of type png,jpg,jpeg,svg,webp
+                      The logo Image must be a file of type png,jpg,jpeg,svg,webp
                     </p>
                   )}
                 </div>
@@ -193,7 +193,7 @@ const SubcategoryMasterDetails = ({
                       className="text-error"
                       style={{ padding: "0", margin: "0" }}
                     >
-                      The image Url must be a file of type png,jpg,jpeg,svg,webp
+                      The image must be a file of type png,jpg,jpeg,svg,webp
                     </p>
                   )}
                 </div>

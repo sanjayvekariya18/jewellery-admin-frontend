@@ -747,7 +747,7 @@ const CategoryMasterDetails = ({
                       className="text-error"
                       style={{ padding: "0", margin: "0" }}
                     >
-                      The logo Url must be a file of type png,jpg,jpeg,svg,webp
+                      The logo Image must be a file of type png,jpg,jpeg,svg,webp
                     </p>
                   )}
                 </div>
@@ -757,7 +757,7 @@ const CategoryMasterDetails = ({
                       className="text-error"
                       style={{ padding: "0", margin: "0" }}
                     >
-                      The Image Url must be a file of type png,jpg,jpeg,svg,webp
+                      The Image must be a file of type png,jpg,jpeg,svg,webp
                     </p>
                   )}
                 </div>

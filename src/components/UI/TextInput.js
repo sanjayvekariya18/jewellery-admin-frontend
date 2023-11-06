@@ -41,7 +41,7 @@ const Textinput = ({
             : ""
         }
         disabled={disabled}
-        inputProps={{ min: "0" }}
+        inputProps={{ min: "0", accept: "image/png,image/jpg,image/jpeg,image/webp,image/svg" }}
         id={id}
         onChange={(event) => {
           if (type == "file") {
@@ -56,7 +56,7 @@ const Textinput = ({
           }
         }}
         name={name}
-        // invalid={error ? true : false}
+      // invalid={error ? true : false}
       />
 
       <ValidationMessages errors={error} label={label} />
