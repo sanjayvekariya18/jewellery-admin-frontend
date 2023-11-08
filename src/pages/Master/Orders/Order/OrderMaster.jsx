@@ -234,12 +234,14 @@ const OrderMaster = () => {
               optionsMenu={[
                 {
                   key: "Cancel Order",
-                  color: "black",
+                  color: "red",
+                  icon: "cancel",
                   onClick: () => handleEdit(item.id),
                 },
                 {
                   key: "Approve Cancel Order",
-                  color: "black",
+                  color: "green",
+                  icon: "check_circle",
                   onClick: handleDelete,
                 },
               ]}
@@ -336,7 +338,7 @@ const OrderMaster = () => {
 
   return (
     <>
-      <div>
+      <div className="main-order-master-page">
         <Container>
           <Box
             className="breadcrumb"
