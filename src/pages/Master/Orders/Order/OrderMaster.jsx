@@ -636,7 +636,7 @@ const OrderMaster = () => {
               </Button>
             </div>
 
-            <div style={{ width: "250px" }}>
+            <div style={{ width: "260px" }}>
               <ReactSelect
                 placeholder="Select Status"
                 options={
@@ -654,25 +654,33 @@ const OrderMaster = () => {
               />
             </div>
           </div>
-          {/* {state.data?.length > 0 ? ( */}
-          <PaginationTable
-            header={COLUMNS}
-            rows={rows}
-            totalItems={state.total_items || 0}
-            perPage={state.rowsPerPage}
-            activePage={state.page}
-            checkboxColumn={false}
-            selectedRows={state.selectedRows}
-            enableOrder={true}
-            isLoader={state.loader}
-            emptyTableImg={<img src={error400cover} width="400px" />}
-            orderBy={state.orderby}
-            order={state.order}
-            {...otherTableActionProps}
-          ></PaginationTable>
-          {/* ) : (
-            <img src={error400cover} width="400px" />
-          )} */}
+          {state.data?.length > 0 ? (
+            <PaginationTable
+              header={COLUMNS}
+              rows={rows}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              orderBy={state.orderby}
+              order={state.order}
+              {...otherTableActionProps}
+            ></PaginationTable>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "50px",
+              }}
+            >
+              <img src={error400cover} width="420px" />
+            </div>
+          )}
         </Container>
         {open && (
           <OrderMasterDetail
