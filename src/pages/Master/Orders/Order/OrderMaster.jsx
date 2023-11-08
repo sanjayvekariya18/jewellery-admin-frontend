@@ -24,6 +24,7 @@ import "flatpickr/dist/themes/material_blue.css";
 import "flatpickr/dist/themes/airbnb.css";
 import MaxHeightMenu from "../../../../components/MaxHeightMenu";
 import OrderMasterDetail from "./OrderMasterDetail";
+import { pageRoutes } from "../../../../constants/routesList";
 
 const OrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -38,19 +39,19 @@ const OrderMaster = () => {
 
   // ----Pagination code------
   const COLUMNS = [
-    { title: "select Order", order: false },
+    { title: "Select Order", order: false },
     { title: "Order No", order: true, field: "orderNo" },
-    { title: "PayableAmount", order: false, field: "payableAmount" },
-    { title: "CustomerName", order: false, field: "customerName" },
-    { title: "OrderDate", order: false, field: "orderDate" },
-    { title: "PaymentStatus", order: false, field: "paymentStatus" },
-    { title: "TotalProducts", order: false, field: "totalProducts" },
+    { title: "Payable Amount", order: false, field: "payableAmount" },
+    { title: "Customer Name", order: false, field: "customerName" },
+    { title: "Order Date", order: false, field: "orderDate" },
+    { title: "Payment Status", order: false, field: "paymentStatus" },
+    { title: "Total Products", order: false, field: "totalProducts" },
     filter.orderStatus === "delivered"
       ? {
-        title: "TotalReturnProducts",
-        order: false,
-        field: "totalReturnProducts",
-      }
+          title: "TotalReturnProducts",
+          order: false,
+          field: "totalReturnProducts",
+        }
       : { title: "", order: false, field: "" },
     { title: "Actions", order: false, field: "Actions" },
   ];
@@ -75,20 +76,20 @@ const OrderMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-            .tz(
-              dateRange[0],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[0],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-            .tz(
-              dateRange[1],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[1],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -120,11 +121,11 @@ const OrderMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-              ...state,
-              ...(clear && clearStates),
-              ...(isNewFilter && newFilterState),
-              loader: false,
-            }),
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
           status: res.statuses,
@@ -185,17 +186,19 @@ const OrderMaster = () => {
   ]);
 
   const successLabel = {
-    backgroundColor: "rgb(233, 251, 240)",
-    border: "1px solid rgb(26 141 72)",
-    color: "rgb(42, 92, 62)",
-    padding: "5px",
+    backgroundColor: "#e9fbf0d6",
+    border: "1px solid #1a8d488f",
+    color: "#2a5c3edb",
+    padding: "6px 8px",
+    borderRadius: "20px",
   };
 
   const failLabel = {
     backgroundColor: "rgb(253, 237, 237)",
-    border: "1px solid rgb(95, 33, 32)",
-    color: "rgb(95, 33, 32)",
-    padding: "5px",
+    border: "1px solid #f16e5d9e",
+    color: "rgb(239 43 40)",
+    padding: "6px 8px",
+    borderRadius: "20px",
   };
 
   const rows = useMemo(() => {
@@ -216,7 +219,9 @@ const OrderMaster = () => {
           <span>{item.payableAmount}</span>,
           <span>{item.customerName}</span>,
           <span>{item.orderDate}</span>,
-          <span style={item.paymentStatus === "success" ? successLabel : failLabel}>
+          <span
+            style={item.paymentStatus === "success" ? successLabel : failLabel}
+          >
             {item.paymentStatus}
           </span>,
 
@@ -233,13 +238,12 @@ const OrderMaster = () => {
                   onClick: () => handleEdit(item.id),
                 },
                 {
-                  key: "Approve Cancel Order", 
+                  key: "Approve Cancel Order",
                   color: "black",
                   onClick: handleDelete,
                 },
               ]}
             />
-
           </span>,
         ],
       };
@@ -330,7 +334,6 @@ const OrderMaster = () => {
       });
   }
 
-
   return (
     <>
       <div>
@@ -343,32 +346,37 @@ const OrderMaster = () => {
               alignItems: "center",
             }}
           >
-            <Breadcrumb routeSegments={[{ name: "Gemstones" }]} />
+            <Breadcrumb
+              routeSegments={[
+                { name: "Masters", path: pageRoutes.master.user.user },
+                { name: "Orders" },
+              ]}
+            />
             <div>
-              <div>
-                <Tooltip title="Filter">
-                  <IconButton
-                    color="inherit"
-                    className="button"
-                    aria-label="Filter"
-                    onClick={togglePopupSearch}
-                  >
-                    <Icon>filter_list</Icon>
-                  </IconButton>
-                </Tooltip>
-              </div>
+              <Tooltip title="Filter">
+                <IconButton
+                  color="inherit"
+                  className="button"
+                  aria-label="Filter"
+                  onClick={togglePopupSearch}
+                >
+                  <Icon>filter_list</Icon>
+                </IconButton>
+              </Tooltip>
             </div>
             <SearchFilterDialog
               isOpen={openSearch}
               onClose={() => setOpenSearch(false)}
               reset={() => paginate(true)}
+              maxWidth="sm"
               // search={() => paginate(false, true)}
               search={() => {
                 paginate(false, true);
                 setOpenSearch(false); // Close the modal
               }}
             >
-              <div className="text-input-top">
+              <div style={{ height: "300px" }}>
+                {/* <div className="text-input-top"> */}
                 <Flatpickr
                   className="flatpickr-input"
                   placeholder="Select Date Range"
@@ -379,72 +387,83 @@ const OrderMaster = () => {
                     dateFormat: "Y-m-d",
                   }}
                 />
-              </div>
+                {/* </div> */}
 
-              <div>
-                <ReactSelect
-                  // label="Select Sort by Price"
-                  placeholder={
-                    _sortOptionPayment.find(
+                <div className="text-input-top">
+                  <ReactSelect
+                    // label="Select Sort by Price"
+                    placeholder={
+                      _sortOptionPayment.find(
+                        (option) => option.value === state.paymentStatus
+                      )?.label || "Select Payment Status"
+                    }
+                    options={_sortOptionPayment}
+                    value={_sortOptionPayment.find(
                       (option) => option.value === state.paymentStatus
-                    )?.label || "Select Payment Status"
-                  }
-                  options={_sortOptionPayment}
-                  value={_sortOptionPayment.find(
-                    (option) => option.value === state.paymentStatus
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedId = selectedSort.target.value;
-                    changeState("paymentStatus", selectedId);
-                  }}
-                  name="choices-multi-default"
-                />
-              </div>
+                    )}
+                    onChange={(selectedSort) => {
+                      const selectedId = selectedSort.target.value;
+                      changeState("paymentStatus", selectedId);
+                    }}
+                    name="choices-multi-default"
+                  />
+                </div>
 
-              <div>
-                <Select
-                  placeholder="Select Order No"
-                  options={_sortOptionsOrderNo}
-                  isMulti
-                  value={_sortOptionsOrderNo.filter(
-                    (option) =>
-                      state.orderNoArr &&
-                      state.orderNoArr.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("orderNoArr", selectedIds);
-                  }}
-                  name="choices-multi-default"
-                  id="orderNoArr"
-                />
-              </div>
+                <div className="text-input-top">
+                  <Select
+                    placeholder="Select Order No"
+                    options={_sortOptionsOrderNo}
+                    isMulti
+                    value={_sortOptionsOrderNo.filter(
+                      (option) =>
+                        state.orderNoArr &&
+                        state.orderNoArr.includes(option.value)
+                    )}
+                    onChange={(selectedSort) => {
+                      const selectedIds = selectedSort.map(
+                        (option) => option.value
+                      );
+                      changeState("orderNoArr", selectedIds);
+                    }}
+                    name="choices-multi-default"
+                    id="orderNoArr"
+                  />
+                </div>
 
-              <div>
-                <Select
-                  placeholder="Select Stock No"
-                  options={_sortOptionStockNo}
-                  isMulti
-                  value={_sortOptionStockNo.filter(
-                    (option) =>
-                      state.stockIds && state.stockIds.includes(option.value)
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedIds = selectedSort.map(
-                      (option) => option.value
-                    );
-                    changeState("stockIds", selectedIds);
-                  }}
-                  name="choices-multi-default"
-                  id="stockIds"
-                />
+                <div className="text-input-top">
+                  <Select
+                    placeholder="Select Stock No"
+                    options={_sortOptionStockNo}
+                    isMulti
+                    value={_sortOptionStockNo.filter(
+                      (option) =>
+                        state.stockIds && state.stockIds.includes(option.value)
+                    )}
+                    onChange={(selectedSort) => {
+                      const selectedIds = selectedSort.map(
+                        (option) => option.value
+                      );
+                      changeState("stockIds", selectedIds);
+                    }}
+                    name="choices-multi-default"
+                    id="stockIds"
+                  />
+                </div>
               </div>
             </SearchFilterDialog>
           </Box>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="main-buttons-handle">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              // marginBottom: "10px",
+              padding: "15px 10px",
+              background: "#a6a6a608",
+              border: "1px solid #a6a6a61a",
+            }}
+          >
+            <div className="main-buttons-handle-order">
               <Button
                 variant="outlined"
                 color="primary"
@@ -617,17 +636,17 @@ const OrderMaster = () => {
               </Button>
             </div>
 
-            <div style={{ width: "200px" }}>
+            <div style={{ width: "250px" }}>
               <ReactSelect
                 placeholder="Select Status"
                 options={
                   state.status && state.status.length !== 0
                     ? [
-                      {
-                        label: state.status[0],
-                        value: state.status[0],
-                      },
-                    ]
+                        {
+                          label: state.status[0],
+                          value: state.status[0],
+                        },
+                      ]
                     : []
                 }
                 onChange={editOrderStatus}
@@ -635,25 +654,25 @@ const OrderMaster = () => {
               />
             </div>
           </div>
-          {state.data?.length > 0 ? (
-            <PaginationTable
-              header={COLUMNS}
-              rows={rows}
-              totalItems={state.total_items || 0}
-              perPage={state.rowsPerPage}
-              activePage={state.page}
-              checkboxColumn={false}
-              selectedRows={state.selectedRows}
-              enableOrder={true}
-              isLoader={state.loader}
-              emptyTableImg={<img src={error400cover} width="400px" />}
-              orderBy={state.orderby}
-              order={state.order}
-              {...otherTableActionProps}
-            ></PaginationTable>
-          ) : (
+          {/* {state.data?.length > 0 ? ( */}
+          <PaginationTable
+            header={COLUMNS}
+            rows={rows}
+            totalItems={state.total_items || 0}
+            perPage={state.rowsPerPage}
+            activePage={state.page}
+            checkboxColumn={false}
+            selectedRows={state.selectedRows}
+            enableOrder={true}
+            isLoader={state.loader}
+            emptyTableImg={<img src={error400cover} width="400px" />}
+            orderBy={state.orderby}
+            order={state.order}
+            {...otherTableActionProps}
+          ></PaginationTable>
+          {/* ) : (
             <img src={error400cover} width="400px" />
-          )}
+          )} */}
         </Container>
         {open && (
           <OrderMasterDetail

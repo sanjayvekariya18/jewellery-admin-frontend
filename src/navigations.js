@@ -124,7 +124,7 @@ export const navigations = [
     ],
   },
   {
-    name: "Order Management",
+    name: "Orders Management",
     icon: "inventory2",
     children: [
       {

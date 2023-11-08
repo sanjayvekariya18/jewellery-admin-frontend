@@ -401,3 +401,9 @@ input::-webkit-inner-spin-button {
 .main-context-box {
     padding: 18px 0px 18px 15px !important;
 }
+
+.main-buttons-handle-order {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr auto;
+    align-items: center;
+}
