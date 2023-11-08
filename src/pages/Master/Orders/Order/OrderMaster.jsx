@@ -26,6 +26,7 @@ import MaxHeightMenu from "../../../../components/MaxHeightMenu";
 import OrderMasterDetail from "./OrderMasterDetail";
 import { pageRoutes } from "../../../../constants/routesList";
 import ApproveCancelOrder from "./ApproveCancelOrder";
+import moment from "moment-timezone";
 
 const OrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -180,7 +181,6 @@ const OrderMaster = () => {
     setApproveOrder(true);
   };
 
-
   useEffect(() => {
     paginate();
   }, [
@@ -225,7 +225,11 @@ const OrderMaster = () => {
           <span>{item.orderNo}</span>,
           <span>{item.payableAmount}</span>,
           <span>{item.customerName}</span>,
-          <span>{item.orderDate}</span>,
+          <span>
+            {moment(item.orderDate, "Do MMMM YYYY").format(
+              appConfig.dateDisplayFormat
+            )}
+          </span>,
           <span
             style={item.paymentStatus === "success" ? successLabel : failLabel}
           >
@@ -242,13 +246,13 @@ const OrderMaster = () => {
                 {
                   key: "Cancel Order",
                   color: "red",
-                  icon:"cancel",
+                  icon: "cancel",
                   onClick: () => handleCancelOrder(item.id),
                 },
                 {
                   key: "Approve Cancel Order",
                   color: "green",
-                  icon:"check_circle",
+                  icon: "check_circle",
                   onClick: () => approveCancelOrder(item.id),
                 },
               ]}
