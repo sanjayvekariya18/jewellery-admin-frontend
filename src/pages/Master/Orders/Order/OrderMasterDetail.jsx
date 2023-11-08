@@ -2,13 +2,10 @@ import React, { useState, useCallback } from "react";
 import Validators from "../../../../components/validations/Validator";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
-import { API, HELPER } from "../../../../services";
-import { apiConfig } from "../../../../config";
-import Textinput from "../../../../components/UI/TextInput";
-import Textarea from "../../../../components/UI/Textarea";
-import { Label } from "@mui/icons-material";
+import { API, HELPER } from '../../../../services';
+import { apiConfig } from '../../../../config';
+import Textinput from '../../../../components/UI/TextInput';
 
-// ----------initialValues----------------------------------------------------
 
 const OrderMasterDetail = ({ open, togglePopup, userData }) => {
   const initialValues = {
@@ -31,6 +28,7 @@ const OrderMasterDetail = ({ open, togglePopup, userData }) => {
     API.post(apiConfig.cancelOrder, data)
       .then((res) => {
         HELPER.toaster.success(res.message);
+        togglePopup();
       })
       .catch((e) => {
         HELPER.toaster.error(e);

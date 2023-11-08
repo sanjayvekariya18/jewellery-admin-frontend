@@ -25,11 +25,14 @@ import "flatpickr/dist/themes/airbnb.css";
 import MaxHeightMenu from "../../../../components/MaxHeightMenu";
 import OrderMasterDetail from "./OrderMasterDetail";
 import { pageRoutes } from "../../../../constants/routesList";
+import ApproveCancelOrder from "./ApproveCancelOrder";
 
 const OrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
+  const [approveCancel, setApproveCancel] = useState(null);
   const [openSearch, setOpenSearch] = useState(false);
   const [open, setOpen] = useState(false);
+  const [approveOrder, setApproveOrder] = useState(false);
   const [dropDown, setDropDown] = useState([]);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
@@ -166,14 +169,18 @@ const OrderMaster = () => {
     });
   };
 
-  const handleEdit = (data) => {
+  const handleCancelOrder = (data) => {
     setSelectedUserData(data);
     setOpen(true);
   };
 
-  const handleDelete = () => {
-    console.log("Delete option clicked");
+  const approveCancelOrder = (data) => {
+    console.log(data);
+    setApproveCancel(data);
+    setApproveOrder(true);
   };
+
+
   useEffect(() => {
     paginate();
   }, [
@@ -235,14 +242,14 @@ const OrderMaster = () => {
                 {
                   key: "Cancel Order",
                   color: "red",
-                  icon: "cancel",
-                  onClick: () => handleEdit(item.id),
+                  icon:"cancel",
+                  onClick: () => handleCancelOrder(item.id),
                 },
                 {
                   key: "Approve Cancel Order",
                   color: "green",
-                  icon: "check_circle",
-                  onClick: handleDelete,
+                  icon:"check_circle",
+                  onClick: () => approveCancelOrder(item.id),
                 },
               ]}
             />
@@ -263,6 +270,15 @@ const OrderMaster = () => {
     }
     setOpen(!open);
   };
+
+  const togglePopupApproveCancel = () => {
+    console.log("hello");
+    if (approveOrder) {
+      setSelectedUserData(null);
+    }
+    setApproveOrder(!approveOrder);
+  };
+
   const activeButtonStyle = {
     backgroundColor: "#1976d2", // You can set your desired background color here
     color: "white",
@@ -338,7 +354,7 @@ const OrderMaster = () => {
 
   return (
     <>
-      <div className="main-order-master-page">
+      <div>
         <Container>
           <Box
             className="breadcrumb"
@@ -693,6 +709,17 @@ const OrderMaster = () => {
             }}
             callBack={() => paginate(true)}
             userData={selectedUserData}
+          />
+        )}
+        {approveOrder && (
+          <ApproveCancelOrder
+            open={approveOrder}
+            togglePopup={() => {
+              togglePopupApproveCancel();
+              paginate();
+            }}
+            callBack={() => paginate(true)}
+            userData={approveCancel}
           />
         )}
       </div>
