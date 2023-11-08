@@ -4,7 +4,7 @@ import PaginationTable, {
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { API, HELPER } from "../../../../services";
 import { apiConfig, appConfig } from "../../../../config";
-import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
+import { Breadcrumb, Container } from "../../../../components";
 import _ from "lodash";
 import {
   Box,
@@ -12,7 +12,6 @@ import {
   Checkbox,
   Icon,
   IconButton,
-  Slider,
   Tooltip,
 } from "@mui/material";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
@@ -24,7 +23,6 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import "flatpickr/dist/themes/airbnb.css";
 import MaxHeightMenu from "../../../../components/MaxHeightMenu";
-import GemstoneMasterDetails from "../../Gemstone/Gemstones/GemstoneMasterDetails";
 import OrderMasterDetail from "./OrderMasterDetail";
 
 const OrderMaster = () => {
@@ -42,7 +40,6 @@ const OrderMaster = () => {
   const COLUMNS = [
     { title: "select Order", order: false },
     { title: "Order No", order: true, field: "orderNo" },
-    { title: "Order Status", order: false, field: "orderStatus" },
     { title: "PayableAmount", order: false, field: "payableAmount" },
     { title: "CustomerName", order: false, field: "customerName" },
     { title: "OrderDate", order: false, field: "orderDate" },
@@ -50,10 +47,10 @@ const OrderMaster = () => {
     { title: "TotalProducts", order: false, field: "totalProducts" },
     filter.orderStatus === "delivered"
       ? {
-          title: "TotalReturnProducts",
-          order: false,
-          field: "totalReturnProducts",
-        }
+        title: "TotalReturnProducts",
+        order: false,
+        field: "totalReturnProducts",
+      }
       : { title: "", order: false, field: "" },
     { title: "Actions", order: false, field: "Actions" },
   ];
@@ -78,20 +75,20 @@ const OrderMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-              .tz(
-                dateRange[0],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[0],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-              .tz(
-                dateRange[1],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[1],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -123,11 +120,11 @@ const OrderMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
           status: res.statuses,
@@ -168,16 +165,14 @@ const OrderMaster = () => {
     });
   };
 
+  const handleEdit = (data) => {
+    setSelectedUserData(data);
+    setOpen(true);
+  };
 
   const handleDelete = () => {
     console.log("Delete option clicked");
   };
-
-  const optionsMenu = [
-    { key: "Edit", icon: "edit", color: "blue", onClick: handleEdit },
-    { key: "Delete", icon: "delete", color: "red", onClick: handleDelete },
-    // Add more options as needed
-  ];
   useEffect(() => {
     paginate();
   }, [
@@ -188,6 +183,21 @@ const OrderMaster = () => {
     state.order,
     state.orderby,
   ]);
+
+  const successLabel = {
+    backgroundColor: "rgb(233, 251, 240)",
+    border: "1px solid rgb(26 141 72)",
+    color: "rgb(42, 92, 62)",
+    padding: "5px",
+  };
+
+  const failLabel = {
+    backgroundColor: "rgb(253, 237, 237)",
+    border: "1px solid rgb(95, 33, 32)",
+    color: "rgb(95, 33, 32)",
+    padding: "5px",
+  };
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -203,31 +213,33 @@ const OrderMaster = () => {
             />
           </span>,
           <span>{item.orderNo}</span>,
-          <span>{item.orderStatus}</span>,
           <span>{item.payableAmount}</span>,
           <span>{item.customerName}</span>,
           <span>{item.orderDate}</span>,
-          <span>{item.paymentStatus}</span>,
+          <span style={item.paymentStatus === "success" ? successLabel : failLabel}>
+            {item.paymentStatus}
+          </span>,
+
           <span>{item.totalProducts}</span>,
           item.orderStatus === "delivered" && (
             <span>{item.totalReturnProducts}</span>
           ),
-          // <span>
-          //   <MaxHeightMenu options={optionsMenu} />
-          //   {/* <Button variant="outlined" color="error">
-          //     Cancel Order
-          //   </Button> */}
-          // </span>,
-          <div>
-            <IconButton onClick={(e) => handleEdit(item)}>
-              <Icon color="primary">create</Icon>
-            </IconButton>
-          </div>,
           <span>
-            <MaxHeightMenu optionsMenu={optionsMenu} />
-            {/* <Button variant="outlined" color="error">
-              Cancel Order
-            </Button> */}
+            <MaxHeightMenu
+              optionsMenu={[
+                {
+                  key: "Cancel Order",
+                  color: "black",
+                  onClick: () => handleEdit(item.id),
+                },
+                {
+                  key: "Approve Cancel Order", 
+                  color: "black",
+                  onClick: handleDelete,
+                },
+              ]}
+            />
+
           </span>,
         ],
       };
@@ -288,7 +300,6 @@ const OrderMaster = () => {
   useEffect(() => {
     API.get(apiConfig.orderFilterDropDown)
       .then((res) => {
-        console.log("res", res.dropdowns);
         setDropDown({
           orderNo: res.dropdowns.orderNo,
           stockNo: res.dropdowns.stockNo,
@@ -319,10 +330,6 @@ const OrderMaster = () => {
       });
   }
 
-  const handleEdit = (data) => {
-    setSelectedUserData(data);
-    setOpen(true);
-  };
 
   return (
     <>
@@ -591,6 +598,23 @@ const OrderMaster = () => {
               >
                 Fail
               </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    orderStatus: "cancel_request",
+                  })
+                }
+                style={
+                  filter.orderStatus === "cancel_request"
+                    ? activeButtonStyle
+                    : buttonStyle
+                }
+              >
+                Customer Cancel Order
+              </Button>
             </div>
 
             <div style={{ width: "200px" }}>
@@ -599,11 +623,11 @@ const OrderMaster = () => {
                 options={
                   state.status && state.status.length !== 0
                     ? [
-                        {
-                          label: state.status[0],
-                          value: state.status[0],
-                        },
-                      ]
+                      {
+                        label: state.status[0],
+                        value: state.status[0],
+                      },
+                    ]
                     : []
                 }
                 onChange={editOrderStatus}

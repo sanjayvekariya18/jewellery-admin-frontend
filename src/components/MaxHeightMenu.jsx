@@ -31,7 +31,7 @@ function MaxHeightMenu({ optionsMenu }) {
         id="long-menu"
         anchorEl={anchorEl}
         onClose={handleClose}
-        PaperProps={{ style: { maxHeight: ITEM_HEIGHT * 4.5, width: 150 } }}
+        PaperProps={{ style: { maxHeight: ITEM_HEIGHT * 4.5, width: 160 } }}
       >
         {optionsMenu.map((optionItem) => (
           <MenuItem

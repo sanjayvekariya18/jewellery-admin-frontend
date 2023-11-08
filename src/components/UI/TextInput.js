@@ -18,6 +18,7 @@ const Textinput = ({
   id,
   onChange,
   focused,
+  multiline = false,
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -47,6 +48,9 @@ const Textinput = ({
             : ""
         }
         disabled={disabled}
+        multiline={multiline}
+        rows={4}
+
         inputProps={{
           min: "0",
           accept: "image/png,image/jpg,image/jpeg,image/webp,image/svg",
