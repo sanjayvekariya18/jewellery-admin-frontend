@@ -31,7 +31,7 @@ function MaxHeightMenu({ optionsMenu }) {
         id="long-menu"
         anchorEl={anchorEl}
         onClose={handleClose}
-        PaperProps={{ style: { maxHeight: ITEM_HEIGHT * 4.5, width: 200 } }}
+        PaperProps={{ style: { maxHeight: ITEM_HEIGHT * 4.5, width: 150 } }}
       >
         {optionsMenu.map((optionItem) => (
           <MenuItem
@@ -40,7 +40,13 @@ function MaxHeightMenu({ optionsMenu }) {
               optionItem.onClick();
               handleClose(); // Close the menu after an option is clicked
             }}
+            style={{
+              color: optionItem.color, // Set the text color based on the color property
+            }}
           >
+            {optionItem.icon && (
+              <Icon style={{ marginRight: "10px" }}>{optionItem.icon}</Icon>
+            )}
             {optionItem.key}
           </MenuItem>
         ))}
