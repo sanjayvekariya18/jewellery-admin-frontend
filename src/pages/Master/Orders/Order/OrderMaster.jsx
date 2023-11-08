@@ -43,13 +43,22 @@ const OrderMaster = () => {
 
   // ----Pagination code------
   const COLUMNS = [
-    filter.orderStatus === "pending" || filter.orderStatus === "approve" || filter.orderStatus === "processing" || filter.orderStatus === "packed" || filter.orderStatus === "dispatch"
-    ? {
-      title: "select Order",
-      order: false,
-      field: "totalReturnProducts",
-    }
-    : { title: "", order: false, field: "" },
+    filter.orderStatus === "pending" ||
+    filter.orderStatus === "approve" ||
+    filter.orderStatus === "processing" ||
+    filter.orderStatus === "packed" ||
+    filter.orderStatus === "dispatch"
+      ? {
+          title: "Select Order",
+          order: false,
+          field: "totalReturnProducts",
+        }
+      : {
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
     { title: "Order No", order: true, field: "orderNo" },
     { title: "Payable Amount", order: false, field: "payableAmount" },
     { title: "Customer Name", order: false, field: "customerName" },
@@ -58,11 +67,16 @@ const OrderMaster = () => {
     { title: "Total Products", order: false, field: "totalProducts" },
     filter.orderStatus === "delivered"
       ? {
-        title: "TotalReturnProducts",
-        order: false,
-        field: "totalReturnProducts",
-      }
-      : { title: "", order: false, field: "" },
+          title: "Total Return Products",
+          order: false,
+          field: "totalReturnProducts",
+        }
+      : {
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
     { title: "Actions", order: false, field: "Actions" },
   ];
 
@@ -86,20 +100,20 @@ const OrderMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-            .tz(
-              dateRange[0],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[0],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-            .tz(
-              dateRange[1],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[1],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -131,11 +145,11 @@ const OrderMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-              ...state,
-              ...(clear && clearStates),
-              ...(isNewFilter && newFilterState),
-              loader: false,
-            }),
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
           status: res.statuses,
@@ -220,14 +234,19 @@ const OrderMaster = () => {
         item: item,
         columns: [
           <span>
-           {( filter.orderStatus === "pending" || filter.orderStatus === "approve" || filter.orderStatus === "processing" || filter.orderStatus === "packed" || filter.orderStatus === "dispatch") && (
+            {(filter.orderStatus === "pending" ||
+              filter.orderStatus === "approve" ||
+              filter.orderStatus === "processing" ||
+              filter.orderStatus === "packed" ||
+              filter.orderStatus === "dispatch") && (
               <Checkbox
-                checked={selectedCheckboxes.some((selectedItem) => selectedItem === item.id)}
+                checked={selectedCheckboxes.some(
+                  (selectedItem) => selectedItem === item.id
+                )}
                 onChange={() => handleCheckbox(item.id)}
                 color="primary"
               />
             )}
-
           </span>,
           <span>{item.orderNo}</span>,
           <span>{item.payableAmount}</span>,
@@ -419,7 +438,6 @@ const OrderMaster = () => {
                 {/* </div> */}
 
                 <div className="text-input-top">
-
                   <ReactSelect
                     // label="Select Sort by Price"
                     placeholder={
@@ -437,8 +455,6 @@ const OrderMaster = () => {
                     }}
                     name="choices-multi-default"
                   />
-
-
                 </div>
 
                 <div className="text-input-top">
@@ -669,26 +685,28 @@ const OrderMaster = () => {
             </div>
 
             <div style={{ width: "260px" }}>
-
-
-              {( filter.orderStatus === "pending" || filter.orderStatus === "approve" || filter.orderStatus === "processing" || filter.orderStatus === "packed" || filter.orderStatus === "dispatch") && <ReactSelect
-                placeholder="Select Status"
-                isDisabled={state.data?.length > 0 ? false : true}
-                options={
-                  state.status && state.status.length !== 0
-                    ? [
-                      {
-                        label: state.status[0],
-                        value: state.status[0],
-                      },
-                    ]
-                    : []
-                }
-                onChange={editOrderStatus}
-                name="status-select"
-              />}
-
-
+              {(filter.orderStatus === "pending" ||
+                filter.orderStatus === "approve" ||
+                filter.orderStatus === "processing" ||
+                filter.orderStatus === "packed" ||
+                filter.orderStatus === "dispatch") && (
+                <ReactSelect
+                  placeholder="Select Status"
+                  isDisabled={state.data?.length > 0 ? false : true}
+                  options={
+                    state.status && state.status.length !== 0
+                      ? [
+                          {
+                            label: state.status[0],
+                            value: state.status[0],
+                          },
+                        ]
+                      : []
+                  }
+                  onChange={editOrderStatus}
+                  name="status-select"
+                />
+              )}
             </div>
           </div>
           {state.data?.length > 0 ? (

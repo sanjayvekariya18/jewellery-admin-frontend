@@ -411,3 +411,7 @@ input::-webkit-inner-spin-button {
 .main-order-master-page .css-11k801h .breadcrumb {
     margin-bottom: 20px !important;
 }
+
+.thead-width-zero {
+    width: 0 !important;
+}
