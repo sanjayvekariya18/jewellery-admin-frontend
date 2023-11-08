@@ -3,7 +3,7 @@ import React from "react";
 
 const ITEM_HEIGHT = 48;
 
-function MaxHeightMenu({ options }) {
+function MaxHeightMenu({ optionsMenu }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -33,13 +33,15 @@ function MaxHeightMenu({ options }) {
         onClose={handleClose}
         PaperProps={{ style: { maxHeight: ITEM_HEIGHT * 4.5, width: 200 } }}
       >
-        {options.map((option) => (
+        {optionsMenu.map((optionItem) => (
           <MenuItem
-            key={option}
-            selected={option === "Pyxis"}
-            onClick={handleClose}
+            key={optionItem.key}
+            onClick={() => {
+              optionItem.onClick();
+              handleClose(); // Close the menu after an option is clicked
+            }}
           >
-            {option}
+            {optionItem.key}
           </MenuItem>
         ))}
       </Menu>

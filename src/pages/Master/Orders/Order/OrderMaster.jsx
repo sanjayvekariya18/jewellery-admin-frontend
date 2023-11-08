@@ -164,7 +164,19 @@ const OrderMaster = () => {
     });
   };
 
-  const optionsMenu = ["None", "Atria", "Callisto"];
+  const handleEdit = () => {
+    console.log("Edit option clicked");
+  };
+
+  const handleDelete = () => {
+    console.log("Delete option clicked");
+  };
+
+  const optionsMenu = [
+    { key: "Edit", onClick: handleEdit },
+    { key: "Delete", onClick: handleDelete },
+    // Add more options as needed
+  ];
 
   useEffect(() => {
     paginate();
@@ -201,7 +213,7 @@ const OrderMaster = () => {
             <span>{item.totalReturnProducts}</span>
           ),
           <span>
-            <MaxHeightMenu options={optionsMenu} />
+            <MaxHeightMenu optionsMenu={optionsMenu} />
             {/* <Button variant="outlined" color="error">
               Cancel Order
             </Button> */}
