@@ -8,7 +8,6 @@ import PaginationTable, {
 } from "../../../components/UI/Pagination/PaginationTable";
 import { API, HELPER } from "../../../services";
 import Swal from "sweetalert2";
-import { pageRoutes } from "../../../constants/routesList";
 import Select from "react-select";
 import error400cover from "../../../assets/no-data-found-page.png";
 import _ from "lodash";
@@ -488,12 +487,7 @@ const DiamondMaster = () => {
               alignItems: "center",
             }}
           >
-            <Breadcrumb
-              routeSegments={[
-                // { name: "Masters", path: pageRoutes.master.user.user },
-                { name: "Diamonds" },
-              ]}
-            />
+            <Breadcrumb routeSegments={[{ name: "Diamonds" }]} />
             <div>
               <div>
                 <Tooltip title="Filter">
@@ -682,6 +676,7 @@ const DiamondMaster = () => {
                   gridTemplateColumns: "1fr 1fr ",
                   alignItems: "center",
                   gap: "12px 25px",
+                  padding: "0 10px",
                 }}
                 className="text-input-top"
               >
@@ -816,6 +811,7 @@ const DiamondMaster = () => {
                   gridTemplateColumns: "1fr 1fr ",
                   alignItems: "center",
                   gap: "12px 25px",
+                  padding: "0 10px",
                 }}
                 className="text-input-top"
               >

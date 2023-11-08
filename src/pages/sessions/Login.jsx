@@ -46,7 +46,7 @@ const JwtLogin = () => {
   // Validation rules
   const rules = {
     password: "required|min:6",
-    email: "required",
+    email: "required|email",
   };
 
   const navigate = useNavigate();
@@ -139,6 +139,12 @@ const JwtLogin = () => {
                         onChange={onChange}
                         error={errors?.email}
                         sx={{ mb: 0, width: "500px" }}
+                        onKeyPress={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault(); // Prevent form submission
+                            onSubmit(handleSubmit);
+                          }
+                        }}
                       />
                     </div>
                     <div className="text-input-top main-login-text-input">
@@ -152,6 +158,12 @@ const JwtLogin = () => {
                         onChange={onChange}
                         error={errors?.password}
                         sx={{ mb: 0, width: "500px" }}
+                        onKeyPress={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault(); // Prevent form submission
+                            onSubmit(handleSubmit);
+                          }
+                        }}
                       />
                     </div>
                     <div className="main-login-text-input">
