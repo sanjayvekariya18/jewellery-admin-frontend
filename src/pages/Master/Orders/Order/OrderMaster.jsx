@@ -174,11 +174,10 @@ const OrderMaster = () => {
   };
 
   const optionsMenu = [
-    { key: "Edit", onClick: handleEdit },
-    { key: "Delete", onClick: handleDelete },
+    { key: "Edit", icon: "edit", color: "blue", onClick: handleEdit },
+    { key: "Delete", icon: "delete", color: "red", onClick: handleDelete },
     // Add more options as needed
   ];
-
   useEffect(() => {
     paginate();
   }, [
