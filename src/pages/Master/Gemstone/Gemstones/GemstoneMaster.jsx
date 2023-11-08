@@ -354,10 +354,10 @@ const GemstoneMaster = () => {
     setOpenSearch(!openSearch);
   };
 
-  const handleEdit = (data) => {
-    setSelectedUserData(data);
-    setOpen(true);
-  };
+    const handleEdit = (data) => {
+      setSelectedUserData(data);
+      setOpen(true);
+    };
 
   const [activeDimension, setActiveDimension] = useState(null);
 

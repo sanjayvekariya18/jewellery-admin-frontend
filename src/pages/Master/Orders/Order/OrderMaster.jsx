@@ -24,9 +24,13 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import "flatpickr/dist/themes/airbnb.css";
 import MaxHeightMenu from "../../../../components/MaxHeightMenu";
+import GemstoneMasterDetails from "../../Gemstone/Gemstones/GemstoneMasterDetails";
+import OrderMasterDetail from "./OrderMasterDetail";
 
 const OrderMaster = () => {
+  const [selectedUserData, setSelectedUserData] = useState(null);
   const [openSearch, setOpenSearch] = useState(false);
+  const [open, setOpen] = useState(false);
   const [dropDown, setDropDown] = useState([]);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
@@ -164,7 +168,7 @@ const OrderMaster = () => {
     });
   };
 
-  const optionsMenu = ["None", "Atria", "Callisto"];
+  const optionsMenu = ["Cancel Order", "Atria", "Callisto"];
 
   useEffect(() => {
     paginate();
@@ -200,12 +204,17 @@ const OrderMaster = () => {
           item.orderStatus === "delivered" && (
             <span>{item.totalReturnProducts}</span>
           ),
-          <span>
-            <MaxHeightMenu options={optionsMenu} />
-            {/* <Button variant="outlined" color="error">
-              Cancel Order
-            </Button> */}
-          </span>,
+          // <span>
+          //   <MaxHeightMenu options={optionsMenu} />
+          //   {/* <Button variant="outlined" color="error">
+          //     Cancel Order
+          //   </Button> */}
+          // </span>,
+          <div>
+            <IconButton onClick={(e) => handleEdit(item)}>
+              <Icon color="primary">create</Icon>
+            </IconButton>
+          </div>,
         ],
       };
     });
@@ -216,6 +225,12 @@ const OrderMaster = () => {
     setOpenSearch(!openSearch);
   };
 
+  const togglePopup = () => {
+    if (open) {
+      setSelectedUserData(null);
+    }
+    setOpen(!open);
+  };
   const activeButtonStyle = {
     backgroundColor: "#1976d2", // You can set your desired background color here
     color: "white",
@@ -289,6 +304,11 @@ const OrderMaster = () => {
         return { label, value };
       });
   }
+
+  const handleEdit = (data) => {
+    setSelectedUserData(data);
+    setOpen(true);
+  };
 
   return (
     <>
@@ -597,6 +617,17 @@ const OrderMaster = () => {
             <img src={error400cover} width="400px" />
           )}
         </Container>
+        {open && (
+          <OrderMasterDetail
+            open={open}
+            togglePopup={() => {
+              togglePopup();
+              paginate();
+            }}
+            callBack={() => paginate(true)}
+            userData={selectedUserData}
+          />
+        )}
       </div>
     </>
   );
