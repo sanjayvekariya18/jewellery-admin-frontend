@@ -168,7 +168,16 @@ const OrderMaster = () => {
     });
   };
 
-  const optionsMenu = ["Cancel Order", "Atria", "Callisto"];
+
+  const handleDelete = () => {
+    console.log("Delete option clicked");
+  };
+
+  const optionsMenu = [
+    { key: "Edit", onClick: handleEdit },
+    { key: "Delete", onClick: handleDelete },
+    // Add more options as needed
+  ];
 
   useEffect(() => {
     paginate();
@@ -215,6 +224,12 @@ const OrderMaster = () => {
               <Icon color="primary">create</Icon>
             </IconButton>
           </div>,
+          <span>
+            <MaxHeightMenu optionsMenu={optionsMenu} />
+            {/* <Button variant="outlined" color="error">
+              Cancel Order
+            </Button> */}
+          </span>,
         ],
       };
     });
