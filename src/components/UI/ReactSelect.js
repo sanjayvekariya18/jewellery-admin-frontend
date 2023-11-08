@@ -11,6 +11,7 @@ const ReactSelect = ({
   name,
   optionHeight,
   error,
+  isDisabled
 }) => {
   // Ensure options is an array of objects with 'value' and 'label' properties
   options = options.map((option) => {
@@ -40,6 +41,7 @@ const ReactSelect = ({
         label={label}
         placeholder={placeholder}
         options={options}
+        isDisabled={isDisabled}
         value={selectedOption} // Use the selectedOption object
         onChange={(selectedOption) => {
           onChange({
