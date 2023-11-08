@@ -13,6 +13,11 @@ const OrderMasterDetail = ({ open, togglePopup, userData }) => {
     cancelReason: "",
     cancelAmount: "",
   };
+
+  const rules = {
+    cancelAmount: "required",
+    cancelReason: "required",
+  };
   const [formState, setFormState] = useState({ ...initialValues });
 
   const onChange = useCallback((e) => {
@@ -35,7 +40,7 @@ const OrderMasterDetail = ({ open, togglePopup, userData }) => {
       });
   };
   return (
-    <Validators formData={formState}>
+    <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
           title={`${formState?.id === "" ? "Order" : "Edit"} Cancel Order`}
@@ -90,6 +95,7 @@ const OrderMasterDetail = ({ open, togglePopup, userData }) => {
               type="text"
               placeholder="Enter Order Cancel Reason"
               value={formState.cancelReason}
+              error={errors?.cancelReason}
               onChange={onChange}
               sx={{ mb: 0, width: "100%" }}
             />

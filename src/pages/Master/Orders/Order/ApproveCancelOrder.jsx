@@ -11,6 +11,9 @@ const ApproveCancelOrder = ({ open, togglePopup, userData }) => {
     orderId: userData,
     cancelAmount: "",
   };
+    const rules = {
+    cancelAmount: "required",
+  };
   const [formState, setFormState] = useState({ ...initialValues });
 
   const onChange = useCallback((e) => {
@@ -33,7 +36,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData }) => {
       });
   };
   return (
-    <Validators formData={formState}>
+    <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
           title={`${
