@@ -1,5 +1,5 @@
-export const API_BASE_URL = "http://192.168.0.221:6363/api/v1";
-export const API_BASE_URL_IMG = "http://192.168.0.221:6363";
+export const API_BASE_URL = "https://7725-106-201-232-60.ngrok-free.app/api/v1";
+export const API_BASE_URL_IMG = "https://7725-106-201-232-60.ngrok-free.app";
 
 export const DEFAULT_IMG = "img/user.png";
 
