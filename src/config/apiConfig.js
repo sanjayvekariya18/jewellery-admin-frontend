@@ -116,7 +116,13 @@ const apiConfig = {
   productBulk: "product/bulk",
   findProduct: "product/productVariant/:productId",
   findProductVariant: "product/productVariant/moreDetail/:productVariantId",
-  productDownload: "product/template/:id"
+  productDownload: "product/template/:id",
+
+
+  // orders 
+  orders:"orders",
+  changeOrderStatus:"orders/change-status",
+  orderFilterDropDown :"orders/dropdowns"
 };
 
 export default apiConfig;
