@@ -1,5 +1,7 @@
-import React from "react";
-import { TextField } from "@mui/material";
+import React, { useState } from "react";
+import { TextField, IconButton, InputAdornment } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import ValidationMessages from "../validations/ValidationMessages";
 
 const Textinput = ({
@@ -18,10 +20,15 @@ const Textinput = ({
   focused,
   ...rest
 }) => {
-  //  const displayValue = value !== null && value !== undefined ? value : 0;
+  const [showPassword, setShowPassword] = useState(false);
 
   // Check if the type is "number" and the value is 0, then display "0"
   const displayValue = type === "number" && value === 0 ? "0" : value;
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="mb-3">
       <TextField
@@ -29,22 +36,24 @@ const Textinput = ({
         focused={focused}
         error={error ? true : false}
         sx={{ mb: 2, mt: 1, ml: 0.5, width: "49.5%" }}
-        type={type}
+        type={showPassword ? "text" : type} // Dynamically set the type
         {...rest}
         label={label}
         placeholder={placeholder}
         readOnly={readonly}
-        // value={value ? value : ""}
         value={
           displayValue !== null && displayValue !== undefined
             ? displayValue
             : ""
         }
         disabled={disabled}
-        inputProps={{ min: "0", accept: "image/png,image/jpg,image/jpeg,image/webp,image/svg" }}
+        inputProps={{
+          min: "0",
+          accept: "image/png,image/jpg,image/jpeg,image/webp,image/svg",
+        }}
         id={id}
         onChange={(event) => {
-          if (type == "file") {
+          if (type === "file") {
             onChange({
               target: {
                 name,
@@ -56,9 +65,19 @@ const Textinput = ({
           }
         }}
         name={name}
-      // invalid={error ? true : false}
+        InputProps={{
+          endAdornment: type === "password" && (
+            <InputAdornment position="end">
+              <div
+                onClick={togglePasswordVisibility}
+                style={{ cursor: "pointer", paddingTop: "5px" }}
+              >
+                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </div>
+            </InputAdornment>
+          ),
+        }}
       />
-
       <ValidationMessages errors={error} label={label} />
     </div>
   );

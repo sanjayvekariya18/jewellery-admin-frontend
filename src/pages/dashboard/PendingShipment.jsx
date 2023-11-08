@@ -14,8 +14,14 @@ import {
   TableRow,
   useTheme,
 } from "@mui/material";
-import { Paragraph } from "../../../components/Typography";
-import DateRangePicker from "../../../components/UI/DatePicker";
+import { Paragraph } from "../../components/Typography";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_green.css"; // Import a Flatpickr theme
+import "flatpickr/dist/flatpickr.css"; // Import the default Flatpickr styles
+import DateRangePicker from "../../components/UI/DatePicker";
+import Textinput from "../../components/UI/TextInput";
+import { useCallback } from "react";
+import ReactSelect from "../../components/UI/ReactSelect";
 
 const CardHeader = styled(Box)(() => ({
   display: "flex",
@@ -30,6 +36,7 @@ const Title = styled("span")(() => ({
   fontSize: "1rem",
   fontWeight: "500",
   textTransform: "capitalize",
+  marginBottom: "5px",
 }));
 
 const ProductTable = styled(Table)(() => ({
@@ -56,31 +63,84 @@ const Small = styled("small")(({ bgcolor }) => ({
   boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24)",
 }));
 
-const TopSellingTable = () => {
+const SubTitle = styled("span")(({ theme }) => ({
+  fontSize: "0.875rem",
+  color: theme.palette.text.secondary,
+}));
+
+const PendingShippment = () => {
   const { palette } = useTheme();
   const bgError = palette.error.main;
   const bgPrimary = palette.primary.main;
   const bgSecondary = palette.secondary.main;
-
   const handleDateRangeChange = (selectedDates) => {
     // Handle the selected date range in your parent component
     // console.log("Selected Date Range:", selectedDates);
   };
 
+  const onChange = useCallback((e) => {
+    return {
+      [e.target.name]: e.target.value,
+    };
+  }, []);
+
+  const optionsStatus = [
+    { label: "Apporoved ", value: 0 },
+    { label: "In Transit", value: 1 },
+    { label: "Out For Delivery", value: 2 },
+    { label: "Delivered", value: 3 },
+    { label: "Delivered Failed", value: 4 },
+  ];
+  let _sortOptionsStatus = optionsStatus.map((option) => ({
+    label: option.label,
+    value: option.value,
+  }));
+
   return (
     <Card elevation={3} sx={{ pt: "20px", mb: 3 }}>
       <CardHeader>
-        <Title>top selling products</Title>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Title>Pending Shipments</Title>
+          <SubTitle>Summary of pending shipments of November 2023</SubTitle>
+        </div>
+        <div
+          style={{ display: "grid", gridTemplateColumns: "400px 300px 1fr" }}
+        >
+          <div>
+            <Textinput
+              size="small"
+              type="text"
+              name="mLength"
+              placeholder="Search by anything..."
+              onChange={onChange}
+              sx={{ mb: 0, width: "100%" }}
+              InputProps={{
+                startAdornment: (
+                  <Icon position="start" style={{ marginRight: "10px" }}>
+                    search
+                  </Icon>
+                ),
+              }}
+            />
+          </div>
+          <div style={{ marginLeft: "20px" }}>
+            <DateRangePicker
+              placeholder="Select Date Range"
+              onChange={handleDateRangeChange}
+            />
+          </div>
+          <div style={{ marginLeft: "20px" }}>
+            <ReactSelect
+              placeholder="Select status"
+              onChange={onChange}
+              options={_sortOptionsStatus}
+            />
+          </div>
+        </div>
         {/* <Select size="small" defaultValue="this_month">
           <MenuItem value="this_month">This Month</MenuItem>
           <MenuItem value="last_month">Last Month</MenuItem>
         </Select> */}
-        <div style={{ width: "250px" }}>
-          <DateRangePicker
-            placeholder="Select Date Range"
-            onChange={handleDateRangeChange}
-          />
-        </div>
       </CardHeader>
 
       <Box overflow="auto">
@@ -88,13 +148,19 @@ const TopSellingTable = () => {
           <TableHead style={{ background: "##75ade412" }}>
             <TableRow>
               <TableCell sx={{ px: 3 }} colSpan={4}>
-                Name
+                Product Name
               </TableCell>
               <TableCell sx={{ px: 0 }} colSpan={2}>
-                Revenue
+                DATE
               </TableCell>
               <TableCell sx={{ px: 0 }} colSpan={2}>
-                Stock Status
+                Total Cost{" "}
+              </TableCell>
+              <TableCell sx={{ px: 0 }} colSpan={2}>
+                PAYMENT METHOD{" "}
+              </TableCell>
+              <TableCell sx={{ px: 0 }} colSpan={2}>
+                STATUS{" "}
               </TableCell>
               {/* <TableCell sx={{ px: 0 }} colSpan={1}>
                 Action
@@ -115,29 +181,36 @@ const TopSellingTable = () => {
                     <Paragraph sx={{ m: 0, ml: 4 }}>{product.name}</Paragraph>
                   </Box>
                 </TableCell>
-
                 <TableCell
-                  align="left"
                   colSpan={2}
                   sx={{ px: 0, textTransform: "capitalize" }}
                 >
-                  $
-                  {product.price > 999
-                    ? (product.price / 1000).toFixed(1) + "k"
-                    : product.price}
+                  <Paragraph>17/10/2023</Paragraph>
+                </TableCell>
+                <TableCell
+                  colSpan={2}
+                  sx={{ px: 0, textTransform: "capitalize" }}
+                >
+                  <Paragraph>₹ 981.00</Paragraph>
+                </TableCell>
+                <TableCell
+                  colSpan={2}
+                  sx={{ px: 0, textTransform: "capitalize" }}
+                >
+                  <Paragraph>Credit Card</Paragraph>
                 </TableCell>
 
                 <TableCell sx={{ px: 0 }} align="left" colSpan={2}>
                   {product.available ? (
                     product.available < 20 ? (
                       <Small bgcolor={bgSecondary}>
-                        {product.available} available
+                        {product.available} In Transit
                       </Small>
                     ) : (
-                      <Small bgcolor={bgPrimary}>in stock</Small>
+                      <Small bgcolor={bgPrimary}>Approved</Small>
                     )
                   ) : (
-                    <Small bgcolor={bgError}>out of stock</Small>
+                    <Small bgcolor={bgError}>Delivery Failed</Small>
                   )}
                 </TableCell>
 
@@ -188,4 +261,4 @@ const productList = [
   },
 ];
 
-export default TopSellingTable;
+export default PendingShippment;

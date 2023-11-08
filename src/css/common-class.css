@@ -98,7 +98,7 @@
 
 
 .text-error {
-    font-size: 12px;
+    /* font-size: 12px; */
     margin-top: 0.25rem;
     font-size: 0.875em;
     color: #ff3d57;
@@ -176,6 +176,10 @@ input::-webkit-inner-spin-button {
     width: 150px !important;
 }
 
+.thead-second-width-stock-numbers {
+    width: 160px !important;
+}
+
 .thead-second-width-stone {
     width: 120px !important;
 }
@@ -186,6 +190,10 @@ input::-webkit-inner-spin-button {
 
 .thead-second-width-action {
     width: 65px !important;
+}
+
+.thead-second-width-discount {
+    width: 80px !important;
 }
 
 .thead-second-width-action-index {
@@ -222,6 +230,14 @@ input::-webkit-inner-spin-button {
 
 .thead-second-width-title-subcategory {
     width: 500px !important;
+}
+
+.common-thead-second-width-title-description {
+    display: inline-block;
+    width: 145px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
 }
 
 .common-thead-second-width-title-subcategory {
@@ -343,6 +359,10 @@ input::-webkit-inner-spin-button {
     /* background-color: #222a44e7; */
 }
 
+.main-login-text-input .css-ulcmy6-MuiButtonBase-root-MuiButton-root:hover {
+    background-color: #344589f4;
+}
+
 .main-login-text-input input::placeholder {
     font-size: 16px;
 }
@@ -376,4 +396,8 @@ input::-webkit-inner-spin-button {
 
 .css-1ra94hr-MuiButtonBase-root-MuiFab-root {
     bottom: 118px !important;
+}
+
+.main-context-box {
+    padding: 18px 0px 18px 15px !important;
 }

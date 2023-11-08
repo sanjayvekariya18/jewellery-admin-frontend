@@ -27,7 +27,7 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
   const rules = {
     firstName: "required",
     lastName: "required",
-    email: "required",
+    email: "required|email",
     profile: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
 
@@ -81,6 +81,7 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
             <ThemeDialog
               title={`${formState?.id === "" ? "Add" : "Edit"} User`}
               isOpen={open}
+              maxWidth="sm"
               onClose={() => {
                 togglePopup();
                 resetValidation();
@@ -125,7 +126,8 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                             className="text-error"
                             style={{ padding: "0", margin: "0" }}
                           >
-                            The Profile image must be a file of type png,jpg,jpeg,svg,webp
+                            The Profile image must be a file of type
+                            png,jpg,jpeg,svg,webp
                           </p>
                         )}
                       </div>
@@ -191,11 +193,11 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                     onChange={onChange}
                     error={errors?.email}
                     sx={{ mb: 0 }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">@</InputAdornment>
-                      ),
-                    }}
+                    // InputProps={{
+                    //   startAdornment: (
+                    //     <InputAdornment position="start">@</InputAdornment>
+                    //   ),
+                    // }}
                   />
                 </div>
               </>

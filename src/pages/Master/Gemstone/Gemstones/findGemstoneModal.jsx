@@ -119,7 +119,9 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
                           fontWeight: "400",
                         }}
                       >
-                        {gemStoneData[info.key] || ""}
+                        {gemStoneData[info.key] === 0
+                          ? "0"
+                          : gemStoneData[info.key] || ""}
                       </span>
                     </div>
                   </div>

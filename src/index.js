@@ -12,13 +12,13 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-	<Provider store={store}>
-		<StyledEngineProvider injectFirst>
-			<BrowserRouter>
-				{/* <React.StrictMode> */}
-					<App />
-				{/* </React.StrictMode> */}
-			</BrowserRouter>
-		</StyledEngineProvider>
-	</Provider>
+  <Provider store={store}>
+    <StyledEngineProvider injectFirst>
+      <BrowserRouter>
+        {/* <React.StrictMode> */}
+        <App />
+        {/* </React.StrictMode> */}
+      </BrowserRouter>
+    </StyledEngineProvider>
+  </Provider>
 );

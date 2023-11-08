@@ -15,6 +15,7 @@ import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
 import { apiConfig } from "../../../../config";
 import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
+import error400cover from "../../../../assets/no-data-found-page.png";
 
 const UserPermissionsMaster = () => {
   const params = useParams();
@@ -158,14 +159,34 @@ const UserPermissionsMaster = () => {
           ]}
         />
       </Box>
-      {Object.keys(userPermissions).map((group, i) => (
+      {Object.keys(userPermissions).length === 0 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10px",
+          }}
+        >
+          <img src={error400cover} width="400px" alt="Error Image" />
+        </div>
+      ) : (
+        Object.keys(userPermissions).map((group, i) => (
+          <SimpleCard key={`group_${i}`} title={group} sx={{ mb: 2 }}>
+            <SimpleTable
+              data={userPermissions[group]}
+              headerColumns={userPermissionHeaderColumns}
+            />
+          </SimpleCard>
+        ))
+      )}
+      {/* {Object.keys(userPermissions).map((group, i) => (
         <SimpleCard key={`group_${i}`} title={group} sx={{ mb: 2 }}>
           <SimpleTable
             data={userPermissions[group]}
             headerColumns={userPermissionHeaderColumns}
           />
         </SimpleCard>
-      ))}
+      ))} */}
       <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"

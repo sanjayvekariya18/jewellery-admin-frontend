@@ -1,58 +1,125 @@
-import { Box, Card, Grid, Icon, IconButton, styled, Tooltip } from '@mui/material';
-import { Small } from '../../../components/Typography';
+import React, { useEffect, useMemo, useState } from "react";
+
+import {
+  Box,
+  Card,
+  Grid,
+  Icon,
+  IconButton,
+  styled,
+  Tooltip,
+} from "@mui/material";
+import { Small } from "../../../components/Typography";
+import { API } from "../../../services";
+import { apiConfig, appConfig } from "../../../config";
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '24px !important',
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: "24px !important",
   background: theme.palette.background.paper,
-  [theme.breakpoints.down('sm')]: { padding: '16px !important' },
+  [theme.breakpoints.down("sm")]: { padding: "16px !important" },
 }));
 
 const ContentBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'center',
-  '& small': { color: theme.palette.text.secondary },
-  '& .icon': { opacity: 0.6, fontSize: '44px', color: theme.palette.primary.main },
+  display: "flex",
+  flexWrap: "wrap",
+  alignItems: "center",
+  "& small": { color: theme.palette.text.secondary },
+  "& .icon": {
+    opacity: 0.6,
+    fontSize: "44px",
+    color: theme.palette.primary.main,
+  },
 }));
 
-const Heading = styled('h6')(({ theme }) => ({
+const Heading = styled("h6")(({ theme }) => ({
   margin: 0,
-  marginTop: '4px',
-  fontSize: '14px',
-  fontWeight: '500',
+  marginTop: "4px",
+  fontSize: "14px",
+  fontWeight: "500",
   color: theme.palette.primary.main,
 }));
 
 const StatCards = () => {
+  const [totalCustomer, setTotalCustomer] = useState(0);
+  const [totalProduct, setTotalProduct] = useState(0);
+  const [totalCategory, setTotalCategory] = useState(0);
+  // const [totalDiamond, setTotalDiamond] = useState(0);
+
+  //  Total Customer Count APi
+  useEffect(() => {
+    API.get(apiConfig.customer)
+      .then((res) => {
+        setTotalCustomer(res.count);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+  useEffect(() => {
+    API.get(apiConfig.product, {
+      page: 0,
+      rowsPerPage: 1,
+    })
+      .then((res) => {
+        setTotalProduct(res.count);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+  useEffect(() => {
+    API.get(apiConfig.category, {
+      page: 0,
+      rowsPerPage: 1,
+    })
+      .then((res) => {
+        setTotalCategory(res.count);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+  // useEffect(() => {
+  //   API.get(apiConfig.diamonds, {
+  //     page: 0,
+  //     rowsPerPage: 1,
+  //   })
+  //     .then((res) => {
+  //       setTotalDiamond(res.count);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, []);
+
   const cardList = [
-    { name: 'New Leads', amount: 3050, icon: 'group' },
-    { name: 'This week Sales', amount: '$80,500', icon: 'attach_money' },
-    { name: 'Inventory Status', amount: '8.5% Stock Surplus', icon: 'store' },
-    { name: 'Orders to deliver', amount: '305 Orders', icon: 'shopping_cart' },
+    { name: "Total Customer", amount: totalCustomer, icon: "group" },
+    { name: "Total Products", amount: totalProduct, icon: "shopping_cart" },
+    { name: "Total Category", amount: totalCategory, icon: "category" },
+    { name: "Total Orders", amount: 500, icon: "shopping_cart" },
   ];
 
   return (
-    <Grid container spacing={3} sx={{ mb: '24px' }}>
+    <Grid container spacing={3} sx={{ mb: "24px" }}>
       {cardList.map((item, index) => (
-        <Grid item xs={12} md={6} key={index}>
-          <StyledCard elevation={6}>
+        <Grid item xs={12} md={3} key={index}>
+          <StyledCard elevation={6} className="main-context-box">
             <ContentBox>
               <Icon className="icon">{item.icon}</Icon>
-              <Box ml="12px">
-                <Small>{item.name}</Small>
-                <Heading>{item.amount}</Heading>
+              <Box ml="15px">
+                <Small fontSize="18px">{item.name}</Small>
+                <Heading style={{ fontSize: "18px" }}>{item.amount}</Heading>
               </Box>
             </ContentBox>
-
-            <Tooltip title="View Details" placement="top">
+            {/* <Tooltip title="View Details" placement="top">
               <IconButton>
                 <Icon>arrow_right_alt</Icon>
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
           </StyledCard>
         </Grid>
       ))}

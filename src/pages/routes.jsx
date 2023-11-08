@@ -8,7 +8,7 @@ import { pageRoutes } from "../constants/routesList";
 
 // session pages
 const NotFound = Loadable(lazy(() => import("./sessions/NotFound")));
-const JwtLogin = Loadable(lazy(() => import("./sessions/JwtLogin")));
+const JwtLogin = Loadable(lazy(() => import("./sessions/Login")));
 const JwtRegister = Loadable(lazy(() => import("./sessions/JwtRegister")));
 const ForgotPassword = Loadable(
   lazy(() => import("./sessions/ForgotPassword"))

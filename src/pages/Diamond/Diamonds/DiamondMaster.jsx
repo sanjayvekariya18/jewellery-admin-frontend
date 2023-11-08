@@ -750,7 +750,7 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Carat :</label>
                   <Slider
-                    defaultValue={[
+                    value={[
                       state.fromCts === undefined
                         ? carat.minCarat
                         : state.fromCts,
@@ -888,7 +888,7 @@ const DiamondMaster = () => {
                 <div>
                   <label className="label-class">Table :</label>
                   <Slider
-                    defaultValue={[
+                    value={[
                       state.fromTable === undefined || state.fromTable === ""
                         ? table.minTable
                         : state.fromTable,

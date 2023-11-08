@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
 import Textinput from "../../components/UI/TextInput";
 import ReactSelect from "../../components/UI/ReactSelect";
+import Swal from "sweetalert2";
+import { toaster } from "../../services/helper";
 
 const ProductMaster = () => {
   const [bulkOpen, setBulkOpen] = useState(false);
@@ -24,7 +26,7 @@ const ProductMaster = () => {
 
   // ----Pagination code------
   const COLUMNS = [
-    { title: "Stock No", classNameWidth: "thead-second-width-stock-no" },
+    { title: "Stock No", classNameWidth: "thead-second-width-stock-numbers" },
     { title: "Product Name", classNameWidth: "common-width-apply-th" },
     { title: "SubCategory", classNameWidth: "thead-second-width-stock-no" },
     { title: "Gender", classNameWidth: "thead-second-width-address" },
@@ -35,8 +37,8 @@ const ProductMaster = () => {
     { title: "Insurance", classNameWidth: "thead-second-width-action-index" },
     { title: "Other Cost", classNameWidth: "thead-second-width-address" },
     { title: "Profit", classNameWidth: "thead-second-width-action-index" },
-    { title: "Discount", classNameWidth: "thead-second-width-action-index" },
-    { title: "Action", classNameWidth: "thead-second-width-action" },
+    { title: "Discount", classNameWidth: "thead-second-width-discount" },
+    { title: "Action", classNameWidth: "thead-second-width-address" },
   ];
 
   const {
@@ -53,6 +55,30 @@ const ProductMaster = () => {
 
   const handleButtonClick = (id) => {
     navigate(`${pageRoutes.variantProductId}/${id}`);
+  };
+
+  // ------------------------------- Delete Category ---------------------------------
+  const onClickDelete = (category_id) => {
+    Swal.fire({
+      title: "Are You Sure",
+      text: "Are you sure you want to remove this Category ?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "green",
+      cancelButtonColor: "red",
+      cancelButtonText: "No",
+      confirmButtonText: "Yes",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // API.destroy(`${apiConfig.category}/${category_id}`)
+        // .then((res) => {
+        toaster.error("Pending Backed Side");
+        // paginate();
+        // })
+        // .catch(console.error);
+      }
+    });
   };
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -151,7 +177,10 @@ const ProductMaster = () => {
 
           <div>
             <IconButton onClick={(e) => handleButtonClick(item.id)}>
-              <Icon color="error">remove_red_eye</Icon>
+              <Icon color="primary">remove_red_eye</Icon>
+            </IconButton>
+            <IconButton onClick={(e) => onClickDelete(item.id)}>
+              <Icon color="error">delete</Icon>
             </IconButton>
           </div>,
         ],
@@ -230,6 +259,7 @@ const ProductMaster = () => {
           </Box>
           <SearchFilterDialog
             isOpen={openSearch}
+            maxWidth="sm"
             onClose={() => setOpenSearch(false)}
             reset={() => paginate(true)}
             search={() => {

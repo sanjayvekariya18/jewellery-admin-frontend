@@ -14,7 +14,8 @@ import { useNavigate } from "react-router-dom/dist";
 
 const FindProductVariant = () => {
   const { productId } = useParams();
-  const { state, setState, changeState, ...otherTableActionProps } = usePaginationTable();
+  const { state, setState, changeState, ...otherTableActionProps } =
+    usePaginationTable();
   const navigate = useNavigate();
   const paginate = () => {
     changeState("loader", true);
@@ -24,7 +25,10 @@ const FindProductVariant = () => {
       rowsPerPage: state.rowsPerPage,
     };
 
-    API.get(apiConfig.findProduct.replace(":productId", productId), updatedFilter)
+    API.get(
+      apiConfig.findProduct.replace(":productId", productId),
+      updatedFilter
+    )
       .then((res) => {
         setState({
           ...state,
@@ -46,8 +50,6 @@ const FindProductVariant = () => {
         }
       });
   };
-
-
 
   const COLUMNS = [
     { title: "Index", classNameWidth: "thead-second-width-action-index" },
@@ -78,7 +80,7 @@ const FindProductVariant = () => {
           <span>{item.totalPrice}</span>,
           <div>
             <IconButton onClick={(e) => handleButtonClick(item.id)}>
-              <Icon color="error">remove_red_eye</Icon>
+              <Icon color="primary">remove_red_eye</Icon>
             </IconButton>
           </div>,
         ],

@@ -41,9 +41,9 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
     clarity: "required",
     colorName: "required",
     intensity: "required",
-    mDepth:"numeric|min:0",
-    mLength:"numeric|min:0",
-    mWidth:"numeric|min:0",
+    mDepth: "numeric|min:0",
+    mLength: "numeric|min:0",
+    mWidth: "numeric|min:0",
   };
 
   const onChange = useCallback((e) => {
@@ -225,7 +225,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               alignItems: "baseline",
               gap: "12px",
             }}
-            className="text-input-top"
+            // className="text-input-top"
           >
             <Textinput
               size="small"
@@ -236,7 +236,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               value={formState.stockId}
               onChange={onChange}
               error={errors?.stockId}
-              sx={{ mb: 0, width: "100%" }}
+              sx={{ mb: 0, mt: 1, width: "100%" }}
             />
             <Textinput
               size="small"
@@ -247,7 +247,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               value={formState.carat}
               onChange={onChange}
               error={errors?.carat}
-              sx={{ mb: 0, width: "100%" }}
+              sx={{ mb: 0, mt: 1, width: "100%" }}
             />
           </div>
 
@@ -369,7 +369,6 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               error={errors?.mLength}
               sx={{ mb: 0, width: "100%" }}
               InputProps={{ inputProps: { min: 0 } }}
-
             />
             <Textinput
               size="small"
@@ -382,7 +381,6 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               error={errors?.mWidth}
               sx={{ mb: 0, width: "100%" }}
               InputProps={{ inputProps: { min: 0 } }}
-
             />
             <Textinput
               size="small"
@@ -395,7 +393,6 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               error={errors?.mDepth}
               sx={{ mb: 0, width: "100%" }}
               InputProps={{ inputProps: { min: 0 } }}
-
             />
 
             <Textinput

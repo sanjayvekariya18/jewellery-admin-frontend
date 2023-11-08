@@ -179,12 +179,18 @@ const FindProductVariantMoreDetail = () => {
 
   // product variant Detail
   const COLUMNVARIANT = [
-    { title: "Index" },
-    { title: "Value" },
-    { title: "Detail Name" },
-    { title: "Details Group Name" },
-    { title: "Logo Image" },
-    { title: "Description" },
+    { title: "Index", classNameWidth: "thead-second-width-action-index" },
+    { title: "Value", classNameWidth: "thead-second-width-stock-numbers" },
+    {
+      title: "Detail Name",
+      classNameWidth: "thead-second-width-stock-numbers",
+    },
+    {
+      title: "Details Group Name",
+      classNameWidth: "thead-second-width-stock-no",
+    },
+    { title: "Logo Image", classNameWidth: "thead-second-width" },
+    { title: "Description", classNameWidth: "thead-second-width" },
   ];
   const productVariant = productData.productVariantDetails;
   const rowsVariant = useMemo(() => {

@@ -1,10 +1,20 @@
 import React, { useEffect, useMemo, useState } from "react";
-import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
+import PaginationTable, {
+  usePaginationTable,
+} from "../../../../components/UI/Pagination/PaginationTable";
 import { API, HELPER } from "../../../../services";
 import { apiConfig, appConfig } from "../../../../config";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import _ from "lodash";
-import { Box, Button, Checkbox, Icon, IconButton, Slider, Tooltip } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Icon,
+  IconButton,
+  Slider,
+  Tooltip,
+} from "@mui/material";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ReactSelect from "../../../../components/UI/ReactSelect";
@@ -13,6 +23,7 @@ import Select from "react-select";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import "flatpickr/dist/themes/airbnb.css";
+import MaxHeightMenu from "../../../../components/MaxHeightMenu";
 
 const OrderMaster = () => {
   const [openSearch, setOpenSearch] = useState(false);
@@ -33,12 +44,14 @@ const OrderMaster = () => {
     { title: "OrderDate", order: false, field: "orderDate" },
     { title: "PaymentStatus", order: false, field: "paymentStatus" },
     { title: "TotalProducts", order: false, field: "totalProducts" },
-    filter.orderStatus === 'delivered' ?
-      { title: "TotalReturnProducts", order: false, field: "totalReturnProducts" }
+    filter.orderStatus === "delivered"
+      ? {
+          title: "TotalReturnProducts",
+          order: false,
+          field: "totalReturnProducts",
+        }
       : { title: "", order: false, field: "" },
     { title: "Actions", order: false, field: "Actions" },
-
-
   ];
 
   // --------------------------------------- paginate  the results-------------------------
@@ -48,8 +61,7 @@ const OrderMaster = () => {
     getInitialStates,
     changeState,
     ...otherTableActionProps
-  } = usePaginationTable({
-  });
+  } = usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -62,20 +74,20 @@ const OrderMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-            .tz(
-              dateRange[0],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[0],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-            .tz(
-              dateRange[1],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[1],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -84,9 +96,8 @@ const OrderMaster = () => {
       orderBy: clear ? clearStates.orderby : state.orderby,
       orderNoArr: state.orderNoArr,
       stockIds: state.stockIds,
-      ...filter
+      ...filter,
     };
-
 
     let newFilterState = { ...appConfig.default_pagination_state };
     if (clear) {
@@ -108,11 +119,11 @@ const OrderMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-              ...state,
-              ...(clear && clearStates),
-              ...(isNewFilter && newFilterState),
-              loader: false,
-            }),
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
           status: res.statuses,
@@ -141,19 +152,30 @@ const OrderMaster = () => {
   // ----------------multiple checkBox select code ----------------
   const handleCheckbox = (itemId) => {
     setSelectedCheckboxes((prevSelectedCheckboxes) => {
-      if (prevSelectedCheckboxes.some((selectedItem) => selectedItem === itemId)) {
-        return prevSelectedCheckboxes.filter((selectedItem) => selectedItem !== itemId);
+      if (
+        prevSelectedCheckboxes.some((selectedItem) => selectedItem === itemId)
+      ) {
+        return prevSelectedCheckboxes.filter(
+          (selectedItem) => selectedItem !== itemId
+        );
       } else {
         return [...prevSelectedCheckboxes, itemId];
       }
     });
   };
 
-
+  const optionsMenu = ["None", "Atria", "Callisto"];
 
   useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage, filter, selectedCheckboxes, state.order, state.orderby]);
+  }, [
+    state.page,
+    state.rowsPerPage,
+    filter,
+    selectedCheckboxes,
+    state.order,
+    state.orderby,
+  ]);
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -161,11 +183,13 @@ const OrderMaster = () => {
         columns: [
           <span>
             <Checkbox
-              checked={selectedCheckboxes.some((selectedItem) => selectedItem === item.id)}
+              checked={selectedCheckboxes.some(
+                (selectedItem) => selectedItem === item.id
+              )}
               onChange={() => handleCheckbox(item.id)}
               color="primary"
             />
-          </span >,
+          </span>,
           <span>{item.orderNo}</span>,
           <span>{item.orderStatus}</span>,
           <span>{item.payableAmount}</span>,
@@ -173,12 +197,15 @@ const OrderMaster = () => {
           <span>{item.orderDate}</span>,
           <span>{item.paymentStatus}</span>,
           <span>{item.totalProducts}</span>,
-          item.orderStatus === 'delivered' && (
+          item.orderStatus === "delivered" && (
             <span>{item.totalReturnProducts}</span>
           ),
-          <span><Button variant="outlined" color="error">
-            Cancel Order
-          </Button></span>
+          <span>
+            <MaxHeightMenu options={optionsMenu} />
+            {/* <Button variant="outlined" color="error">
+              Cancel Order
+            </Button> */}
+          </span>,
         ],
       };
     });
@@ -189,34 +216,30 @@ const OrderMaster = () => {
     setOpenSearch(!openSearch);
   };
 
-
   const activeButtonStyle = {
     backgroundColor: "#1976d2", // You can set your desired background color here
     color: "white",
-    margin: "0px 5px" // Change the text color when the button is active
+    margin: "0px 5px", // Change the text color when the button is active
   };
 
   const buttonStyle = {
-    margin: "0px 5px"
-  }
+    margin: "0px 5px",
+  };
 
   // -------------Change the Oreder status --------------------
   const editOrderStatus = () => {
     const payload = {
       orderIds: selectedCheckboxes,
-      status: state.status[0]
-    }
+      status: state.status[0],
+    };
     API.put(apiConfig.changeOrderStatus, payload)
       .then((res) => {
-        paginate()
-        setSelectedCheckboxes([])
+        paginate();
+        setSelectedCheckboxes([]);
         HELPER.toaster.success(res.message);
       })
-      .catch((e) =>
-        HELPER.toaster.error(e.errors.orderIds[0])
-      );
-  }
-
+      .catch((e) => HELPER.toaster.error(e.errors.orderIds[0]));
+  };
 
   // ----------------Filter of the Payment Status ----------------
   const sortOptionPayment = [
@@ -228,7 +251,6 @@ const OrderMaster = () => {
     value: option.value,
   }));
 
-
   // -------------------DropDwon Api in OrderNo and stockNo------------------------
 
   let _sortOptionsOrderNo = [];
@@ -238,7 +260,10 @@ const OrderMaster = () => {
     API.get(apiConfig.orderFilterDropDown)
       .then((res) => {
         console.log("res", res.dropdowns);
-        setDropDown({ orderNo: res.dropdowns.orderNo, stockNo: res.dropdowns.stockNo });
+        setDropDown({
+          orderNo: res.dropdowns.orderNo,
+          stockNo: res.dropdowns.stockNo,
+        });
       })
       .catch((e) => {
         HELPER.toaster.error(e);
@@ -246,21 +271,24 @@ const OrderMaster = () => {
   }, []);
 
   if (Array.isArray(dropDown.orderNo)) {
-    _sortOptionsOrderNo = dropDown.orderNo && dropDown.orderNo.map((option) => {
-      const label = option
-      const value = option
-      return { label, value };
-    });
+    _sortOptionsOrderNo =
+      dropDown.orderNo &&
+      dropDown.orderNo.map((option) => {
+        const label = option;
+        const value = option;
+        return { label, value };
+      });
   }
 
   if (Array.isArray(dropDown.stockNo)) {
-    _sortOptionStockNo = dropDown.stockNo && dropDown.stockNo.map((option) => {
-      const label = option
-      const value = option
-      return { label, value };
-    });
+    _sortOptionStockNo =
+      dropDown.stockNo &&
+      dropDown.stockNo.map((option) => {
+        const label = option;
+        const value = option;
+        return { label, value };
+      });
   }
-
 
   return (
     <>
@@ -274,11 +302,7 @@ const OrderMaster = () => {
               alignItems: "center",
             }}
           >
-            <Breadcrumb
-              routeSegments={[
-                { name: "Gemstones" },
-              ]}
-            />
+            <Breadcrumb routeSegments={[{ name: "Gemstones" }]} />
             <div>
               <div>
                 <Tooltip title="Filter">
@@ -343,7 +367,8 @@ const OrderMaster = () => {
                   isMulti
                   value={_sortOptionsOrderNo.filter(
                     (option) =>
-                      state.orderNoArr && state.orderNoArr.includes(option.value)
+                      state.orderNoArr &&
+                      state.orderNoArr.includes(option.value)
                   )}
                   onChange={(selectedSort) => {
                     const selectedIds = selectedSort.map(
@@ -377,20 +402,19 @@ const OrderMaster = () => {
               </div>
             </SearchFilterDialog>
           </Box>
-          <div style={{ display: 'flex', justifyContent: "space-between" }}>
-            <div className="main-buttons-handle" >
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div className="main-buttons-handle">
               <Button
                 variant="outlined"
-
                 color="primary"
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "pending"
+                    orderStatus: "pending",
                   })
                 }
                 style={
-                  filter.orderStatus === 'pending'
+                  filter.orderStatus === "pending"
                     ? activeButtonStyle
                     : buttonStyle
                 }
@@ -403,11 +427,11 @@ const OrderMaster = () => {
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "approve"
+                    orderStatus: "approve",
                   })
                 }
                 style={
-                  filter.orderStatus === 'approve'
+                  filter.orderStatus === "approve"
                     ? activeButtonStyle
                     : buttonStyle
                 }
@@ -420,11 +444,11 @@ const OrderMaster = () => {
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "processing"
+                    orderStatus: "processing",
                   })
                 }
                 style={
-                  filter.orderStatus === 'processing'
+                  filter.orderStatus === "processing"
                     ? activeButtonStyle
                     : buttonStyle
                 }
@@ -433,16 +457,15 @@ const OrderMaster = () => {
               </Button>
               <Button
                 variant="outlined"
-
                 color="primary"
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "packed"
+                    orderStatus: "packed",
                   })
                 }
                 style={
-                  filter.orderStatus === 'packed'
+                  filter.orderStatus === "packed"
                     ? activeButtonStyle
                     : buttonStyle
                 }
@@ -451,16 +474,15 @@ const OrderMaster = () => {
               </Button>
               <Button
                 variant="outlined"
-
                 color="primary"
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "dispatch"
+                    orderStatus: "dispatch",
                   })
                 }
                 style={
-                  filter.orderStatus === 'dispatch'
+                  filter.orderStatus === "dispatch"
                     ? activeButtonStyle
                     : buttonStyle
                 }
@@ -469,16 +491,15 @@ const OrderMaster = () => {
               </Button>
               <Button
                 variant="outlined"
-
                 color="primary"
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "delivered"
+                    orderStatus: "delivered",
                   })
                 }
                 style={
-                  filter.orderStatus === 'delivered'
+                  filter.orderStatus === "delivered"
                     ? activeButtonStyle
                     : buttonStyle
                 }
@@ -491,11 +512,11 @@ const OrderMaster = () => {
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "cancel"
+                    orderStatus: "cancel",
                   })
                 }
                 style={
-                  filter.orderStatus === 'cancel'
+                  filter.orderStatus === "cancel"
                     ? activeButtonStyle
                     : buttonStyle
                 }
@@ -508,11 +529,11 @@ const OrderMaster = () => {
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "return"
+                    orderStatus: "return",
                   })
                 }
                 style={
-                  filter.orderStatus === 'return'
+                  filter.orderStatus === "return"
                     ? activeButtonStyle
                     : buttonStyle
                 }
@@ -521,23 +542,21 @@ const OrderMaster = () => {
               </Button>
               <Button
                 variant="outlined"
-
                 color="primary"
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "fail"
+                    orderStatus: "fail",
                   })
                 }
                 style={
-                  filter.orderStatus === 'fail'
+                  filter.orderStatus === "fail"
                     ? activeButtonStyle
                     : buttonStyle
                 }
               >
                 Fail
               </Button>
-
             </div>
 
             <div style={{ width: "200px" }}>
@@ -546,38 +565,37 @@ const OrderMaster = () => {
                 options={
                   state.status && state.status.length !== 0
                     ? [
-                      {
-                        label: state.status[0],
-                        value: state.status[0]
-                      }
-                    ]
+                        {
+                          label: state.status[0],
+                          value: state.status[0],
+                        },
+                      ]
                     : []
                 }
                 onChange={editOrderStatus}
                 name="status-select"
               />
-
-
             </div>
           </div>
-          {state.data?.length > 0 ? <PaginationTable
-            header={COLUMNS}
-            rows={rows}
-            totalItems={state.total_items || 0}
-            perPage={state.rowsPerPage}
-            activePage={state.page}
-            checkboxColumn={false}
-            selectedRows={state.selectedRows}
-            enableOrder={true}
-            isLoader={state.loader}
-            emptyTableImg={<img src={error400cover} width="400px" />}
-            orderBy={state.orderby}
-            order={state.order}
-            {...otherTableActionProps}
-          ></PaginationTable>
-            :
-            < img src={error400cover} width="400px" />
-          }
+          {state.data?.length > 0 ? (
+            <PaginationTable
+              header={COLUMNS}
+              rows={rows}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              orderBy={state.orderby}
+              order={state.order}
+              {...otherTableActionProps}
+            ></PaginationTable>
+          ) : (
+            <img src={error400cover} width="400px" />
+          )}
         </Container>
       </div>
     </>
