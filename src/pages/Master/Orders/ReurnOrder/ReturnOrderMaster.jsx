@@ -236,7 +236,7 @@ const ReturnOrderMaster = () => {
                     </span>,
                     <span>{item.returnReason}</span>,
                     <span>
-                        {filter.returnOrderStatus === "refund" &&
+                        {filter.returnOrderStatus === "refund" && item.refundDate &&
                             moment(item.refundDate).format(appConfig.dateAndTimeDisplayFormat)}
                     </span>,
                     <span>
@@ -521,7 +521,7 @@ const ReturnOrderMaster = () => {
                                         : buttonStyle
                                 }
                             >
-                                verified
+                                Verified
                             </Button>
                             <Button
                                 variant="outlined"
