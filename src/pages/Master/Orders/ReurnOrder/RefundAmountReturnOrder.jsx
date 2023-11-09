@@ -37,8 +37,7 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData }) => {
         <Validators formData={formState} rules={rules}>
             {({ onSubmit, errors, resetValidation }) => (
                 <ThemeDialog
-                    title={`${formState?.id === "" ? "Order" : "Edit"
-                        } Approve Cancel Order`}
+                    title={"Approve Order Refund Amount"}
                     isOpen={open}
                     maxWidth="sm"
                     onClose={() => {

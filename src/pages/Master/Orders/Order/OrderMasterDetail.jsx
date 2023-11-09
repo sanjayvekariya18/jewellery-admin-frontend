@@ -43,7 +43,7 @@ const OrderMasterDetail = ({ open, togglePopup, userData }) => {
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
-          title={`${formState?.id === "" ? "Order" : "Edit"} Cancel Order`}
+          title={"Cancel Order"}
           isOpen={open}
           maxWidth="sm"
           onClose={() => {

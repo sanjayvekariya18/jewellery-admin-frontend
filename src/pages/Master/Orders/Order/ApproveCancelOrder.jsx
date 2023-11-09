@@ -11,7 +11,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData }) => {
     orderId: userData,
     cancelAmount: "",
   };
-    const rules = {
+  const rules = {
     cancelAmount: "required",
   };
   const [formState, setFormState] = useState({ ...initialValues });
@@ -39,9 +39,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData }) => {
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
-          title={`${
-            formState?.id === "" ? "Order" : "Edit"
-          } Approve Cancel Order`}
+          title={"Approve Cancel Order"}
           isOpen={open}
           maxWidth="sm"
           onClose={() => {
