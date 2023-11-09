@@ -103,28 +103,32 @@ const MetalPriceMasterDetails = ({ open, togglePopup, userData }) => {
             value={formState.gold_price}
             onChange={onChange}
             error={errors?.gold_price}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
+            sx={{ mb: 0, mt: 1, width: "100%" }}
           />
-          <Textinput
-            size="small"
-            type="text"
-            name="platinum_price"
-            label="Platinum Name"
-            value={formState.platinum_price}
-            onChange={onChange}
-            error={errors?.platinum_price}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
-          />
-          <Textinput
-            size="small"
-            type="text"
-            name="silver_price"
-            label="Silve Price"
-            value={formState.silver_price}
-            onChange={onChange}
-            error={errors?.silver_price}
-            sx={{ mb: 2, mt: 1, width: "100%" }}
-          />
+          <div className="text-input-top">
+            <Textinput
+              size="small"
+              type="text"
+              name="platinum_price"
+              label="Platinum Price"
+              value={formState.platinum_price}
+              onChange={onChange}
+              error={errors?.platinum_price}
+              sx={{ mb: 0, width: "100%" }}
+            />
+          </div>
+          <div className="text-input-top">
+            <Textinput
+              size="small"
+              type="text"
+              name="silver_price"
+              label="Silve Price"
+              value={formState.silver_price}
+              onChange={onChange}
+              error={errors?.silver_price}
+              sx={{ mb: 0, width: "100%" }}
+            />
+          </div>
         </ThemeDialog>
       )}
     </Validators>

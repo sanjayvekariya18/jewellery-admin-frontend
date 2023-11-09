@@ -698,7 +698,7 @@ const CategoryMasterDetails = ({
                         <ImgUploadBoxInput
                           name="logoUrl"
                           onChange={onChange}
-                          value={formState?.logoUrl}
+                          value={formState?.logoUrl || null}
                           label="Logo Image"
                         />
                       </div>
@@ -713,7 +713,7 @@ const CategoryMasterDetails = ({
                         <ImgUploadBoxInput
                           name="imgUrl"
                           onChange={onChange}
-                          value={formState?.imgUrl}
+                          value={formState?.imgUrl || null}
                           label={"Image"}
                         />
                       </div>
@@ -747,7 +747,8 @@ const CategoryMasterDetails = ({
                       className="text-error"
                       style={{ padding: "0", margin: "0" }}
                     >
-                      The logo Image must be a file of type png,jpg,jpeg,svg,webp
+                      The logo Image must be a file of type
+                      png,jpg,jpeg,svg,webp
                     </p>
                   )}
                 </div>

@@ -1,29 +1,18 @@
-import React, { useEffect, useMemo } from "react";
+import React, { Fragment, useCallback, useEffect, useMemo } from "react";
 import PaginationTable, {
   usePaginationTable,
 } from "../../components/UI/Pagination/DashboardPaginationTable";
 import { API, HELPER } from "../../services";
 import { apiConfig, appConfig } from "../../config";
 import error400cover from "../../assets/no-data-found-page.png";
-import { Box, Card, Icon, IconButton, styled } from "@mui/material";
+import { Box, Card, Grid, TablePagination } from "@mui/material";
 
 const CustomerDashboard = () => {
-  const COLUMNS = [
-    { title: "Name", classNameWidth: "thead-second-width" },
-    { title: "Email", classNameWidth: "thead-second-width-stock-no" },
-    { title: "Country", classNameWidth: "thead-second-width-action-index" },
-    { title: "State", classNameWidth: "thead-second-width" },
-    { title: "City", classNameWidth: "thead-second-width-address" },
-  ];
+  const { state, setState, getInitialStates, changeState } = usePaginationTable(
+    {}
+  );
 
-  const {
-    state,
-    setState,
-    getInitialStates,
-    changeState,
-    ...otherTableActionProps
-  } = usePaginationTable({});
-
+  // Function to fetch and paginate customer data
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
@@ -32,7 +21,7 @@ const CustomerDashboard = () => {
 
     let newFilterState = { ...appConfig.default_pagination_state };
 
-    // ----------Get Gemstone Api------------
+    // Fetch customer data from an API
     API.get(apiConfig.customer, {
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -71,75 +60,104 @@ const CustomerDashboard = () => {
       });
   };
 
+  // Use useEffect to fetch data when page or rowsPerPage change
   useEffect(() => {
     paginate();
   }, [state.page, state.rowsPerPage]);
 
-  const CardHeader = styled(Box)(() => ({
-    display: "flex",
-    paddingLeft: "5px",
-    paddingRight: "0px",
-    marginBottom: "18px",
-    alignItems: "center",
-    justifyContent: "space-between",
-  }));
-  const Title = styled("span")(() => ({
-    fontSize: "18px",
-    fontWeight: "500",
-    textTransform: "capitalize",
-  }));
+  // Function to render each customer card
+  const renderCustomerCard = (item, id) => (
+    <Fragment key={id}>
+      <Card className="project-card" style={{ padding: "16px 40px 16px 20px" }}>
+        <Grid container alignItems="center">
+          <Grid item md={3} xs={7}>
+            <Box display="flex" alignItems="center">
+              <span>{item.firstName + " " + item.lastName}</span>
+            </Box>
+          </Grid>
+          <Grid item md={4} xs={4}>
+            <span>{item.email}</span>
+          </Grid>
+          <Grid item md={2} xs={4}>
+            <span>{item.country}</span>
+          </Grid>
+          <Grid item md={2} xs={4}>
+            <span>{item.pincode}</span>
+          </Grid>
+          <Grid item md={1} xs={4}>
+            <span>{item.telephone}</span>
+          </Grid>
+        </Grid>
+      </Card>
+      <Box py={1} />
+    </Fragment>
+  );
 
-  // ----------Get Gemstone List Api-------------
+  const TableHeader = () => (
+    <Card
+      className="project-card"
+      style={{
+        marginBottom: "10px",
+        border: "1px solid #6b6b6b26",
+        padding: "15px 40px 15px 20px",
+      }}
+    >
+      <Grid container alignItems="center">
+        <Grid item md={3} xs={7}>
+          <span className="dashboard-customer-span">Name</span>
+        </Grid>
+        <Grid item md={4} xs={4}>
+          <span className="dashboard-customer-span">Email</span>
+        </Grid>
+        <Grid item md={2} xs={4}>
+          <span className="dashboard-customer-span">Country</span>
+        </Grid>
+        <Grid item md={2} xs={4}>
+          <span className="dashboard-customer-span">Pincode</span>
+        </Grid>
+        <Grid item md={1} xs={4}>
+          <span className="dashboard-customer-span">Phone</span>
+        </Grid>
+      </Grid>
+    </Card>
+  );
+
+  const changeActivePage = useCallback(
+    (value) => {
+      changeState("page", value);
+    },
+    [changeState]
+  );
+
+  // Map the data to rows using useMemo
   const rows = useMemo(() => {
-    return state.data.map((item) => {
-      return {
-        item: item,
-        columns: [
-          <div className="span-permision">
-            <span>{item.firstName + " " + item.lastName}</span>
-          </div>,
-          <span>{item.email}</span>,
-          <span>{item.country}</span>,
-          <span>{item.state}</span>,
-          <span>{item.city}</span>,
-        ],
-      };
-    });
+    return state.data.map((item, id) => renderCustomerCard(item, id));
   }, [state.data]);
 
+  const renderContent = () => {
+    return state.data.length === 0 ? (
+      <Box textAlign="center" mt={4}>
+        <img src={error400cover} alt="No data found" width="350px" />
+      </Box>
+    ) : (
+      <>
+        <TableHeader />
+        {rows}
+        <TablePagination
+          component="div"
+          count={state.total_items || 0}
+          page={state.page}
+          labelRowsPerPage={false}
+          rowsPerPage={state.rowsPerPage}
+          rowsPerPageOptions={[]}
+          onPageChange={(_, pageNumber) => changeActivePage(pageNumber)}
+        />
+      </>
+    );
+  };
   return (
     <>
-      <Card style={{ padding: "20px 15px 10px 15px" }} sx={{ mb: 3 }}>
-        <CardHeader>
-          <div>
-            <Title>Recent Customers</Title>
-          </div>
-          <div>
-            <IconButton style={{ padding: "0px" }}>
-              <Icon style={{ fontSize: "25px", color: "#207fd6" }}>
-                open_in_new
-              </Icon>
-            </IconButton>
-          </div>
-        </CardHeader>
-        <div>
-          <PaginationTable
-            header={COLUMNS}
-            rows={rows}
-            totalItems={state.total_items || 0}
-            perPage={state.rowsPerPage}
-            activePage={state.page}
-            checkboxColumn={false}
-            selectedRows={state.selectedRows}
-            enableOrder={true}
-            isLoader={state.loader}
-            emptyTableImg={<img src={error400cover} width="400px" />}
-            {...otherTableActionProps}
-            orderBy={state.orderby}
-            order={state.order}
-          ></PaginationTable>
-        </div>
-      </Card>
+      <div>{renderContent()}</div>
     </>
   );
 };

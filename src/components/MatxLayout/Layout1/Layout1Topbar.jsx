@@ -21,6 +21,7 @@ import { Span } from "../../Typography";
 import { navigations } from "../../../navigations";
 import { Select } from "react-select-virtualized";
 import ChangePassword from "../../../pages/Master/User/User/ChangePassword";
+import { HELPER } from "../../../services";
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -85,7 +86,7 @@ const Layout1Topbar = () => {
   const [selectedData, setselectedData] = useState(null);
   const navigate = useNavigate();
   const { settings, updateSettings } = useSettings();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [openTable, setOpenTable] = useState(false);
   const updateSidebarMode = (sidebarSettings) => {
@@ -93,7 +94,6 @@ const Layout1Topbar = () => {
       layout1Settings: { leftSidebar: { ...sidebarSettings } },
     });
   };
-
   const handleSidebarToggle = () => {
     let { layout1Settings } = settings;
     let mode;
@@ -107,6 +107,11 @@ const Layout1Topbar = () => {
 
   const togglePopupTable = () => {
     setOpenTable(!openTable);
+  };
+
+  const handleLogout = () => {
+    logout();
+    // window.localStorage.removeItem(appConfig.localStorage.token);
   };
 
   // -------- Search Bar --------------------
@@ -195,12 +200,29 @@ const Layout1Topbar = () => {
           </NotificationProvider> */}
             <MatxMenu
               menuButton={
-                <UserMenu>
-                  <Avatar
-                    src="./assets/images/face-6.jpg"
-                    sx={{ cursor: "pointer" }}
-                  />
-                </UserMenu>
+                <div
+                  className="main-active-button-menu"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <UserMenu>
+                    <Avatar
+                      src={
+                        user && user.image
+                          ? HELPER.getImageUrl(user.image)
+                          : "./assets/images/face-6.jpg"
+                      }
+                      sx={{ cursor: "pointer", width: "40px", height: "40px" }}
+                    />
+                  </UserMenu>
+                  <div className="user-info user-name-div">
+                    {user && user.firstName && user.lastName && (
+                      <span className="first-name-span">{`${user.firstName} ${user.lastName}`}</span>
+                    )}
+                    {user && user.userRole && (
+                      <span className="user-role-span">{user.userRole}</span>
+                    )}
+                  </div>
+                </div>
               }
             >
               <StyledItem onClick={togglePopupTable}>
@@ -208,7 +230,7 @@ const Layout1Topbar = () => {
                 <Span> Change Password </Span>
               </StyledItem>
 
-              <StyledItem onClick={logout}>
+              <StyledItem onClick={handleLogout}>
                 <Icon> power_settings_new </Icon>
                 <Span> Logout </Span>
               </StyledItem>

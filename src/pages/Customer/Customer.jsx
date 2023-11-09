@@ -34,8 +34,9 @@ const Customer = () => {
   };
   /* Pagination code */
   const TITLE = [
-    { title: "Name", classNameWidth: "thead-second-width-title-email" },
-    { title: "Email", classNameWidth: "thead-second-width-title-email" },
+    { title: "Name", classNameWidth: "common-width-apply-th-new" },
+    { title: "Email", classNameWidth: "common-width-apply-th-new" },
+    { title: "Phone", classNameWidth: "thead-second-width-address " },
     { title: "Country", classNameWidth: "thead-second-width" },
     { title: "State", classNameWidth: "thead-second-width-stock-no" },
     { title: "City", classNameWidth: "thead-second-width" },
@@ -147,6 +148,7 @@ const Customer = () => {
         columns: [
           <span>{item.firstName + " " + item.lastName} </span>,
           <span>{item.email}</span>,
+          <span>{item.telephone}</span>,
           <span>{item.country}</span>,
           <span>{item.state}</span>,
           <span>{item.city}</span>,

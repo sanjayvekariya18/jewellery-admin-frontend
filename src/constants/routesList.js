@@ -21,7 +21,7 @@ export const pageRoutes = {
   },
   variantProductId: "/product-variant",
   productVariantId: "/product-variant/more-detail",
-  dashboard: "/dashboard/default",
+  dashboard: "/dashboard",
   diamond: "/diamonds",
   colorDiamond: "/color-diamond",
   product: "/product",
@@ -33,9 +33,9 @@ export const pageRoutes = {
       shape: "/master/diamond/shape",
       discount: "/master/diamond/discount",
     },
-    order: {
-      order: "/master/order",
-      returnOrder:"/master/order/returnOrder",
+    orders: {
+      orderPage: "/master/order",
+      returnOrder: "/master/orders/returnOrder",
     },
     gemstone: {
       gemstone: "/gemstone",

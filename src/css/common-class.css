@@ -164,6 +164,10 @@ input::-webkit-inner-spin-button {
     padding-bottom: 10px !important;
 }
 
+.common-width-apply-th-new {
+    width: 250px !important;
+}
+
 .common-width-apply-th {
     width: 235px !important;
 }
@@ -414,4 +418,38 @@ input::-webkit-inner-spin-button {
 
 .thead-width-zero {
     width: 0 !important;
+}
+
+.main-active-button-menu:hover {
+    background-color: transparent !important;
+}
+
+.user-name-div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.user-name-div:hover {
+    background-color: transparent !important;
+}
+
+.user-name-div .first-name-span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #222a44;
+}
+
+.user-name-div .user-role-span {
+    font-size: 15px;
+    font-weight: 400;
+    color: #4e609ada;
+}
+
+.dashboard-customer-span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #3b3b3b;
+    letter-spacing: 0.7px,
 }

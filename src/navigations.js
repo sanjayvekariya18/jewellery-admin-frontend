@@ -130,12 +130,12 @@ export const navigations = [
       {
         name: "Order Details",
         iconText: "OD",
-        path: pageRoutes.master.order.order,
+        path: pageRoutes.master.orders.orderPage,
       },
       {
         name: "Return Order Details",
         iconText: "ROD",
-        path: pageRoutes.master.order.returnOrder,
+        path: pageRoutes.master.orders.returnOrder,
       },
       // { name: "User", iconText: "CT", path: pageRoutes.master.user.user },
     ],

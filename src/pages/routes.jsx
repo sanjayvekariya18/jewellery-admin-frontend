@@ -194,11 +194,11 @@ const routes = [
         element: <UserPermissionsMaster />,
       },
       {
-        path: pageRoutes.master.order.order,
+        path: pageRoutes.master.orders.orderPage,
         element: <OrderMaster />,
       },
       {
-        path: pageRoutes.master.order.returnOrder,
+        path: pageRoutes.master.orders.returnOrder,
         element: <ReturnOrderMaster />,
       },
       {

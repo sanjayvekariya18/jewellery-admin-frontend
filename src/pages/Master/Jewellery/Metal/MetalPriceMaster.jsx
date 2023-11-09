@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
   Link,
+  Card,
   TableCell,
   TableSortLabel,
 } from "@mui/material";
@@ -46,146 +47,147 @@ const MetalPriceMaster = () => {
   };
 
   return (
-    <Container>
-      <Box>
-        <Box
-          className="breadcrumb"
-          sx={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Breadcrumb
-            routeSegments={[
-              { name: "Masters", path: pageRoutes.master.user.user },
-              { name: "Metal Price" },
-            ]}
-          />
-        </Box>
-        <div style={{ marginTop: "0px", marginLeft: "5px" }}>
-          {state && (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr auto",
-                gap: "6px",
-              }}
-            >
+    <Card style={{ margin: "40px 30px 0px 30px" }}>
+      <Container>
+        <Box>
+          <Box
+            className="breadcrumb"
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Breadcrumb
+              routeSegments={[
+                { name: "Masters", path: pageRoutes.master.user.user },
+                { name: "Metal Price" },
+              ]}
+            />
+          </Box>
+          <div style={{ marginTop: "0px", marginLeft: "5px" }}>
+            {state && (
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  justifyContent: "flex-start",
-                  border: "1px solid #3736363b",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr 1fr auto",
+                  gap: "6px",
                 }}
               >
-                <div style={{ marginRight: "10px" }}>
-                  <h3
-                    style={{
-                      fontSize: "17px",
-                      fontWeight: "500",
-                      color: "#373636de",
-                      padding: "9px 0px 9px 8px",
-                      margin: 0,
-                      maxWidth: "140px",
-                    }}
-                  >
-                    Gold Price :
-                  </h3>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    justifyContent: "flex-start",
+                    border: "1px solid #3736363b",
+                  }}
+                >
+                  <div style={{ marginRight: "10px" }}>
+                    <h3
+                      style={{
+                        fontSize: "17px",
+                        fontWeight: "500",
+                        color: "#373636de",
+                        padding: "9px 0px 9px 8px",
+                        margin: 0,
+                        maxWidth: "140px",
+                      }}
+                    >
+                      Gold Price :
+                    </h3>
+                  </div>
+                  <div>
+                    <span
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "400",
+                      }}
+                    >
+                      {state.gold_price}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: "400",
-                    }}
-                  >
-                    {state.gold_price}
-                  </span>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    justifyContent: "flex-start",
+                    border: "1px solid #3736363b",
+                  }}
+                >
+                  <div style={{ marginRight: "10px" }}>
+                    <h3
+                      style={{
+                        fontSize: "17px",
+                        fontWeight: "500",
+                        color: "#373636de",
+                        padding: "9px 0px 9px 8px",
+                        margin: 0,
+                        maxWidth: "140px",
+                      }}
+                    >
+                      Platinum Price :
+                    </h3>
+                  </div>
+                  <div>
+                    <span
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "400",
+                      }}
+                    >
+                      {state.platinum_price}
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  justifyContent: "flex-start",
-                  border: "1px solid #3736363b",
-                }}
-              >
-                <div style={{ marginRight: "10px" }}>
-                  <h3
-                    style={{
-                      fontSize: "17px",
-                      fontWeight: "500",
-                      color: "#373636de",
-                      padding: "9px 0px 9px 8px",
-                      margin: 0,
-                      maxWidth: "140px",
-                    }}
-                  >
-                    Platinum Price :
-                  </h3>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    justifyContent: "flex-start",
+                    border: "1px solid #3736363b",
+                  }}
+                >
+                  <div style={{ marginRight: "10px" }}>
+                    <h3
+                      style={{
+                        fontSize: "17px",
+                        fontWeight: "500",
+                        color: "#373636de",
+                        padding: "9px 0px 9px 8px",
+                        margin: 0,
+                        maxWidth: "140px",
+                      }}
+                    >
+                      Silver Price :
+                    </h3>
+                  </div>
+                  <div>
+                    <span
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "400",
+                      }}
+                    >
+                      {state.silver_price}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: "400",
-                    }}
-                  >
-                    {state.platinum_price}
-                  </span>
-                </div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  justifyContent: "flex-start",
-                  border: "1px solid #3736363b",
-                }}
-              >
-                <div style={{ marginRight: "10px" }}>
-                  <h3
-                    style={{
-                      fontSize: "17px",
-                      fontWeight: "500",
-                      color: "#373636de",
-                      padding: "9px 0px 9px 8px",
-                      margin: 0,
-                      maxWidth: "140px",
-                    }}
-                  >
-                    Silver Price :
-                  </h3>
-                </div>
-                <div>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: "400",
-                    }}
-                  >
-                    {state.silver_price}
-                  </span>
-                </div>
-              </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingLeft: "10px",
-                  border: "1px solid #3736363b",
-                }}
-              >
-                <div onClick={(e) => handleEdit(state)}>
-                  <IconButton>
-                    <Icon color="primary">edit</Icon>
-                  </IconButton>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    paddingLeft: "10px",
+                    border: "1px solid #3736363b",
+                  }}
+                >
+                  <div onClick={(e) => handleEdit(state)}>
+                    <IconButton>
+                      <Icon color="primary">edit</Icon>
+                    </IconButton>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-          {/* <TableCell className="list-inline hstack gap-2 mb-0">
+            )}
+            {/* <TableCell className="list-inline hstack gap-2 mb-0">
             <Link
               to="#"
               className="text-primary d-inline-block edit-item-btn"
@@ -196,10 +198,10 @@ const MetalPriceMaster = () => {
               </IconButton>
             </Link>
           </TableCell> */}
-        </div>
-      </Box>
+          </div>
+        </Box>
 
-      {/* <Box width="100%" overflow="auto">
+        {/* <Box width="100%" overflow="auto">
         <StyledTable>
           <TableHead>
             <TableRow>
@@ -238,15 +240,16 @@ const MetalPriceMaster = () => {
           </TableBody>
         </StyledTable>
       </Box> */}
-      <MetalPriceMasterDetails
-        open={open}
-        togglePopup={() => {
-          togglePopup();
-          getMetalPriceData();
-        }}
-        userData={selectedUserData}
-      />
-    </Container>
+        <MetalPriceMasterDetails
+          open={open}
+          togglePopup={() => {
+            togglePopup();
+            getMetalPriceData();
+          }}
+          userData={selectedUserData}
+        />
+      </Container>
+    </Card>
   );
 };
 

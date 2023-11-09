@@ -1,4 +1,13 @@
-import { Box, Grid, MenuItem, styled, Select, Card } from "@mui/material";
+import {
+  Box,
+  Grid,
+  MenuItem,
+  styled,
+  Select,
+  Card,
+  IconButton,
+  Icon,
+} from "@mui/material";
 import { Fragment } from "react";
 import StatCards from "./shared/StatCards";
 import { Breadcrumb } from "../../components";
@@ -15,27 +24,18 @@ import DeliveryStatusChart from "./Charts/DeliverdStatusCharts";
 import ProfitChart from "./Charts/ProfitCharts";
 import PendingShippment from "./PendingShipment";
 import DateRangePicker from "../../components/UI/DatePicker";
+import { useNavigate } from "react-router-dom";
+import { pageRoutes } from "../../constants/routesList";
 
 const ContentBox = styled("div")(({ theme }) => ({
   margin: "30px",
   [theme.breakpoints.down("sm")]: { margin: "16px" },
 }));
 
-const Title = styled("span")(() => ({
-  fontSize: "18px",
-  fontWeight: "500",
-  textTransform: "capitalize",
-}));
-
-const SubTitle = styled("span")(({ theme }) => ({
-  fontSize: "0.875rem",
-  color: theme.palette.text.secondary,
-}));
-
 const H4 = styled("h4")(({ theme }) => ({
-  fontSize: "1rem",
+  fontSize: "1.1rem",
   fontWeight: "500",
-  marginBottom: "16px",
+  marginBottom: "0",
   marginTop: "0",
   textTransform: "capitalize",
   color: theme.palette.text.secondary,
@@ -48,6 +48,12 @@ const handleDateRangeChange = (selectedDates) => {
 
 const Analytics = () => {
   const { palette } = useTheme();
+  const navigate = useNavigate();
+
+  const handleOnClick = () => {
+    navigate(pageRoutes.customer);
+  };
+
   return (
     <Fragment>
       <ContentBox className="analytics">
@@ -77,13 +83,36 @@ const Analytics = () => {
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 gap: "20px",
+                marginBottom: "25px",
               }}
             >
               {/* <div style={{ width: "40%" }}> */}
               <div>
                 <Grid item lg={12} md={12} sm={12} xs={12}>
-                  <H4>Top Customer</H4>
-                  <RowCards />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "18px",
+                      padding: "5px 5px 0 0",
+                    }}
+                  >
+                    <div>
+                      <H4>Top Customer</H4>
+                    </div>
+                    <div>
+                      <IconButton
+                        style={{ padding: "0", margin: "0" }}
+                        onClick={() => handleOnClick()}
+                      >
+                        <Icon style={{ padding: "0", margin: "0" }}>
+                          open_in_new
+                        </Icon>
+                      </IconButton>
+                    </div>
+                  </div>
+                  {/* <RowCards /> */}
+                  <CustomerDashboard />
                 </Grid>
               </div>
               {/* <CustomerDashboard /> */}

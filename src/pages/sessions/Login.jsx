@@ -115,7 +115,7 @@ const JwtLogin = () => {
                           fontSize: "26px",
                         }}
                       >
-                        Welcome To Jewellery ,
+                        Welcome To
                       </h2>
                       <h2
                         style={{
@@ -125,7 +125,7 @@ const JwtLogin = () => {
                           fontSize: "26px",
                         }}
                       >
-                        Admin ! 👋
+                        Jewellery ! 👋
                       </h2>
                     </div>
                     <div className="text-input-top main-login-text-input">
