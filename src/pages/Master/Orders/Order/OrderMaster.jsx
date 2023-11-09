@@ -504,6 +504,7 @@ const OrderMaster = () => {
               justifyContent: "space-between",
               alignItems: "center",
               // marginBottom: "10px",
+              height: "75px",
               padding: "15px 10px",
               background: "#a6a6a608",
               border: "1px solid #a6a6a61a",

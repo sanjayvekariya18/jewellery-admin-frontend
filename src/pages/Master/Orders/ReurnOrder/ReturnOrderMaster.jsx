@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
 import PaginationTable, {
-    usePaginationTable,
+  usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { API, HELPER } from "../../../../services";
 import { apiConfig, appConfig } from "../../../../config";
 import { Breadcrumb, Container } from "../../../../components";
 import _ from "lodash";
 import {
-    Box,
-    Button,
-    Checkbox,
-    Icon,
-    IconButton,
-    Tooltip,
+  Box,
+  Button,
+  Checkbox,
+  Icon,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
@@ -29,615 +29,640 @@ import ReturnRejectMaster from "./ReturnRejectMaster";
 import RefundAmountReturnOrder from "./RefundAmountReturnOrder";
 
 const ReturnOrderMaster = () => {
-    const [selectedUserData, setSelectedUserData] = useState(null);
-    const [refundAmountCancel, setRefundAmountCancel] = useState(null);
-    const [openSearch, setOpenSearch] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [refundAmount, setRefundAmount] = useState(false);
-    const [dropDown, setDropDown] = useState([]);
-    const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-    const [dateRange, setDateRange] = useState([null, null]);
-    const [statuses, setStatuses] = useState([]);
-    const [filter, setFilter] = useState({
-        returnOrderStatus: "request",
-    });
+  const [selectedUserData, setSelectedUserData] = useState(null);
+  const [refundAmountCancel, setRefundAmountCancel] = useState(null);
+  const [openSearch, setOpenSearch] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [refundAmount, setRefundAmount] = useState(false);
+  const [dropDown, setDropDown] = useState([]);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [statuses, setStatuses] = useState([]);
+  const [filter, setFilter] = useState({
+    returnOrderStatus: "request",
+  });
 
-    // ----Pagination code------
-    const COLUMNS = [
-        filter.returnOrderStatus === "request" ||
-            filter.returnOrderStatus === "approve" ||
-            filter.returnOrderStatus === "receive" ||
-            filter.returnOrderStatus !== "verified" &&
-            filter.returnOrderStatus !== "reject" &&
-            filter.returnOrderStatus !== "refund" ? {
-            title: "Select Order",
-            order: false,
-            field: "totalReturnProducts",
-        } : {
-            title: "",
-            order: false,
-            field: "",
-            classNameWidth: "thead-width-zero",
+  // ----Pagination code------
+  const COLUMNS = [
+    filter.returnOrderStatus === "request" ||
+    filter.returnOrderStatus === "approve" ||
+    filter.returnOrderStatus === "receive" ||
+    (filter.returnOrderStatus !== "verified" &&
+      filter.returnOrderStatus !== "reject" &&
+      filter.returnOrderStatus !== "refund")
+      ? {
+          title: "Select Order",
+          order: false,
+          field: "totalReturnProducts",
+        }
+      : {
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
         },
-        { title: "Order No", order: true, field: "orderNo" },
-        { title: "Title", order: false, field: "title" },
-        { title: "Price", order: false, field: "totalPrice" },
-        { title: "Return Date", order: false, field: "createdAt" },
-        { title: "Return Reason", order: false, field: "returnReason" },
-        filter.returnOrderStatus === "refund" ? { title: "Refund Date", order: false, field: "refundDate" } : { title: "", order: false, field: "", classNameWidth: "thead-width-zero" },
-        filter.returnOrderStatus === "refund" ? { title: "Refund Amount", order: false, field: "refundAmount" } : { title: "", order: false, field: "",  classNameWidth: "thead-width-zero"},
-        filter.returnOrderStatus === "delivered"
-            ? {
-                title: "Total Return Products",
-                order: false,
-                field: "totalReturnProducts",
-            }
+    { title: "Order No", order: true, field: "orderNo" },
+    { title: "Title", order: false, field: "title" },
+    { title: "Price", order: false, field: "totalPrice" },
+    { title: "Return Date", order: false, field: "createdAt" },
+    { title: "Return Reason", order: false, field: "returnReason" },
+    filter.returnOrderStatus === "refund"
+      ? { title: "Refund Date", order: false, field: "refundDate" }
+      : {
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
+    filter.returnOrderStatus === "refund"
+      ? { title: "Refund Amount", order: false, field: "refundAmount" }
+      : {
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
+    filter.returnOrderStatus === "delivered"
+      ? {
+          title: "Total Return Products",
+          order: false,
+          field: "totalReturnProducts",
+        }
+      : {
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
+    filter.returnOrderStatus === "verified"
+      ? { title: "Actions", order: false, field: "Actions" }
+      : {
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
+  ];
+
+  // --------------------------------------- paginate  the results-------------------------
+  const {
+    state,
+    setState,
+    getInitialStates,
+    changeState,
+    ...otherTableActionProps
+  } = usePaginationTable({});
+
+  const paginate = (clear = false, isNewFilter = false) => {
+    changeState("loader", true);
+    let clearStates = {
+      ...appConfig.default_pagination_state,
+    };
+
+    //      ------filters --------------------------------
+    let filterData = {
+      from_date:
+        !clear && dateRange[0]
+          ? momentTimezone
+              .tz(
+                dateRange[0],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
+          : null,
+      to_date:
+        !clear && dateRange[1]
+          ? momentTimezone
+              .tz(
+                dateRange[1],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
+          : null,
+      page: state.page,
+      rowsPerPage: state.rowsPerPage,
+      order: clear ? clearStates.order : state.order,
+      orderBy: clear ? clearStates.orderby : state.orderby,
+      orderNoArr: state.orderNoArr,
+      stockIds: state.stockIds,
+      ...filter,
+    };
+
+    let newFilterState = { ...appConfig.default_pagination_state };
+    if (clear) {
+      delete filterData.from_date;
+      delete filterData.to_date;
+      delete filterData.orderNoArr;
+      delete filterData.stockIds;
+      setDateRange([null, null]);
+    } else if (isNewFilter) {
+      filterData = _.merge(filterData, newFilterState);
+    }
+
+    // ----------Get Order Api------------
+
+    API.get(apiConfig.returnOrder, filterData)
+      .then((res) => {
+        setState({
+          ...(clear
+            ? { ...getInitialStates() }
             : {
-                title: "",
-                order: false,
-                field: "",
-                classNameWidth: "thead-width-zero",
-            },
-        filter.returnOrderStatus === "verified" ? { title: "Actions", order: false, field: "Actions" } : { title: "", order: false, field: "", classNameWidth: "thead-width-zero", }
-    ];
-
-    // --------------------------------------- paginate  the results-------------------------
-    const {
-        state,
-        setState,
-        getInitialStates,
-        changeState,
-        ...otherTableActionProps
-    } = usePaginationTable({});
-
-    const paginate = (clear = false, isNewFilter = false) => {
-        changeState("loader", true);
-        let clearStates = {
-            ...appConfig.default_pagination_state,
-        };
-
-        //      ------filters --------------------------------
-        let filterData = {
-            from_date:
-                !clear && dateRange[0]
-                    ? momentTimezone
-                        .tz(
-                            dateRange[0],
-                            Intl.DateTimeFormat().resolvedOptions().timeZone
-                        )
-                        .format(appConfig.dateDisplayEditFormat)
-                    : null,
-            to_date:
-                !clear && dateRange[1]
-                    ? momentTimezone
-                        .tz(
-                            dateRange[1],
-                            Intl.DateTimeFormat().resolvedOptions().timeZone
-                        )
-                        .format(appConfig.dateDisplayEditFormat)
-                    : null,
-            page: state.page,
-            rowsPerPage: state.rowsPerPage,
-            order: clear ? clearStates.order : state.order,
-            orderBy: clear ? clearStates.orderby : state.orderby,
-            orderNoArr: state.orderNoArr,
-            stockIds: state.stockIds,
-            ...filter,
-        };
-
-        let newFilterState = { ...appConfig.default_pagination_state };
-        if (clear) {
-            delete filterData.from_date;
-            delete filterData.to_date;
-            delete filterData.orderNoArr;
-            delete filterData.stockIds;
-            setDateRange([null, null]);
-        } else if (isNewFilter) {
-            filterData = _.merge(filterData, newFilterState);
-        }
-
-        // ----------Get Order Api------------
-
-        API.get(apiConfig.returnOrder, filterData)
-            .then((res) => {
-                setState({
-                    ...(clear
-                        ? { ...getInitialStates() }
-                        : {
-                            ...state,
-                            ...(clear && clearStates),
-                            ...(isNewFilter && newFilterState),
-                            loader: false,
-                        }),
-                    total_items: res.count,
-                    data: res.rows,
-                });
-                setStatuses(res.statuses);
-            })
-            .catch((err) => {
-                if (
-                    err.status === 400 ||
-                    err.status === 401 ||
-                    err.status === 409 ||
-                    err.status === 403
-                ) {
-                    HELPER.toaster.error(err.errors.message);
-                } else {
-                    console.error(err);
-                }
-                setState({
-                    ...state,
-                    ...(clear && clearStates),
-                    ...(isNewFilter && newFilterState),
-                    loader: false,
-                });
-            });
-    };
-
-    // ----------------multiple checkBox select code ----------------
-    const handleCheckbox = (itemId) => {
-        setSelectedCheckboxes((prevSelectedCheckboxes) => {
-            if (
-                prevSelectedCheckboxes.some((selectedItem) => selectedItem === itemId)
-            ) {
-                return prevSelectedCheckboxes.filter(
-                    (selectedItem) => selectedItem !== itemId
-                );
-            } else {
-                return [...prevSelectedCheckboxes, itemId];
-            }
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
+          total_items: res.count,
+          data: res.rows,
         });
-    };
-    const refundAmountOrder = (data) => {
-        setRefundAmountCancel(data);
-        setRefundAmount(true);
-    };
-
-    useEffect(() => {
-        paginate();
-    }, [
-        state.page,
-        state.rowsPerPage,
-        filter,
-        selectedCheckboxes,
-        state.order,
-        state.orderby,
-    ]);
-    const rows = useMemo(() => {
-        return state.data.map((item) => {
-            return {
-                item: item,
-                columns: [
-                    <span>
-                        {(
-                            filter.returnOrderStatus === "request" ||
-                            filter.returnOrderStatus === "approve" ||
-                            filter.returnOrderStatus === "receive" ||
-                            filter.returnOrderStatus !== "verified" &&
-                            filter.returnOrderStatus !== "refund" &&
-                            filter.returnOrderStatus !== "reject"
-                        ) && (
-                                <Checkbox
-                                    checked={selectedCheckboxes.some(
-                                        (selectedItem) => selectedItem === item.id
-                                    )}
-                                    onChange={() => handleCheckbox(item.id)}
-                                    color="primary"
-                                />
-                            )}
-                    </span>,
-                    <div className="span-permision">
-                        <span>{item.order.orderNo}</span>
-                    </div>,
-                    <span>{item.OrderProduct.ProductVariant.title}</span>,
-                    <span>{item.OrderProduct.ProductVariant.totalPrice}</span>,
-                    <span>
-                        {moment(item.createdAt).format(appConfig.dateAndTimeDisplayFormat)}
-                    </span>,
-                    <span>{item.returnReason}</span>,
-                    <span>
-                        {filter.returnOrderStatus === "refund" && item.refundDate &&
-                            moment(item.refundDate).format(appConfig.dateAndTimeDisplayFormat)}
-                    </span>,
-                    <span>
-                        {filter.returnOrderStatus === "refund" && item.refundAmount}
-                    </span>,
-
-                    <span>
-                        {filter.returnOrderStatus === "verified" && <MaxHeightMenu
-                            optionsMenu={[
-                                {
-                                    key: "Approve Order Refund Amount",
-                                    color: "green",
-                                    icon: "check_circle",
-                                    onClick: () => refundAmountOrder(item.id),
-                                },
-                            ]}
-                        />}
-                    </span>,
-                ],
-            };
+        setStatuses(res.statuses);
+      })
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403
+        ) {
+          HELPER.toaster.error(err.errors.message);
+        } else {
+          console.error(err);
+        }
+        setState({
+          ...state,
+          ...(clear && clearStates),
+          ...(isNewFilter && newFilterState),
+          loader: false,
         });
-    }, [state.data]);
+      });
+  };
 
-    // ------------------------Toggle Of The Search----------------------------------------
-    const togglePopupSearch = () => {
-        setOpenSearch(!openSearch);
-    };
+  // ----------------multiple checkBox select code ----------------
+  const handleCheckbox = (itemId) => {
+    setSelectedCheckboxes((prevSelectedCheckboxes) => {
+      if (
+        prevSelectedCheckboxes.some((selectedItem) => selectedItem === itemId)
+      ) {
+        return prevSelectedCheckboxes.filter(
+          (selectedItem) => selectedItem !== itemId
+        );
+      } else {
+        return [...prevSelectedCheckboxes, itemId];
+      }
+    });
+  };
+  const refundAmountOrder = (data) => {
+    setRefundAmountCancel(data);
+    setRefundAmount(true);
+  };
 
-    const togglePopup = () => {
-        if (open) {
-            setSelectedUserData(null);
-        }
-        setOpen(!open);
-    };
+  useEffect(() => {
+    paginate();
+  }, [
+    state.page,
+    state.rowsPerPage,
+    filter,
+    selectedCheckboxes,
+    state.order,
+    state.orderby,
+  ]);
+  const rows = useMemo(() => {
+    return state.data.map((item) => {
+      return {
+        item: item,
+        columns: [
+          <span>
+            {(filter.returnOrderStatus === "request" ||
+              filter.returnOrderStatus === "approve" ||
+              filter.returnOrderStatus === "receive" ||
+              (filter.returnOrderStatus !== "verified" &&
+                filter.returnOrderStatus !== "refund" &&
+                filter.returnOrderStatus !== "reject")) && (
+              <Checkbox
+                checked={selectedCheckboxes.some(
+                  (selectedItem) => selectedItem === item.id
+                )}
+                onChange={() => handleCheckbox(item.id)}
+                color="primary"
+              />
+            )}
+          </span>,
+          <div className="span-permision">
+            <span>{item.order.orderNo}</span>
+          </div>,
+          <span>{item.OrderProduct.ProductVariant.title}</span>,
+          <span>{item.OrderProduct.ProductVariant.totalPrice}</span>,
+          <span>
+            {moment(item.createdAt).format(appConfig.dateAndTimeDisplayFormat)}
+          </span>,
+          <span>{item.returnReason}</span>,
+          <span>
+            {filter.returnOrderStatus === "refund" &&
+              item.refundDate &&
+              moment(item.refundDate).format(
+                appConfig.dateAndTimeDisplayFormat
+              )}
+          </span>,
+          <span>
+            {filter.returnOrderStatus === "refund" && item.refundAmount}
+          </span>,
 
-    const togglePopupRefundAmount = () => {
-        if (refundAmount) {
-            setSelectedUserData(null);
-        }
-        setRefundAmount(!refundAmount);
-    };
+          <span>
+            {filter.returnOrderStatus === "verified" && (
+              <MaxHeightMenu
+                optionsMenu={[
+                  {
+                    key: "Approve Order Refund Amount",
+                    color: "green",
+                    icon: "check_circle",
+                    onClick: () => refundAmountOrder(item.id),
+                  },
+                ]}
+              />
+            )}
+          </span>,
+        ],
+      };
+    });
+  }, [state.data]);
 
-    const activeButtonStyle = {
-        backgroundColor: "#1976d2", 
-        color: "white",
-        margin: "0px 5px", 
-    };
+  // ------------------------Toggle Of The Search----------------------------------------
+  const togglePopupSearch = () => {
+    setOpenSearch(!openSearch);
+  };
 
-    const buttonStyle = {
-        margin: "0px 5px",
-    };
-
-    // -------------Change the Oreder status --------------------
-    const editOrderStatus = (event) => {
-        const selectedOption = event.target.value;
-        if (selectedOption === "reject") {
-            setSelectedUserData(selectedCheckboxes);
-            togglePopup()
-        }
-        else {
-            const payload = {
-                returnOrderProductIds: selectedCheckboxes,
-                status: selectedOption,
-            };
-            API.put(apiConfig.changeReturnOrderStatus, payload)
-                .then((res) => {
-                    paginate();
-                    setSelectedCheckboxes([]);
-                    HELPER.toaster.success(res.message);
-                })
-                .catch((e) => HELPER.toaster.error(e.errors.returnOrderProductIds[0]));
-        }
-    };
-    // -------------------DropDwon Api in OrderNo and stockNo------------------------
-
-    let _sortOptionsOrderNo = [];
-    let _sortOptionStockNo = [];
-
-    useEffect(() => {
-        API.get(apiConfig.orderFilterDropDown)
-            .then((res) => {
-                setDropDown({
-                    orderNo: res.dropdowns.orderNo,
-                    stockNo: res.dropdowns.stockNo,
-                });
-            })
-            .catch((e) => {
-                HELPER.toaster.error(e);
-            });
-    }, []);
-
-    if (Array.isArray(dropDown.orderNo)) {
-        _sortOptionsOrderNo =
-            dropDown.orderNo &&
-            dropDown.orderNo.map((option) => {
-                const label = option;
-                const value = option;
-                return { label, value };
-            });
+  const togglePopup = () => {
+    if (open) {
+      setSelectedUserData(null);
     }
+    setOpen(!open);
+  };
 
-    if (Array.isArray(dropDown.stockNo)) {
-        _sortOptionStockNo =
-            dropDown.stockNo &&
-            dropDown.stockNo.map((option) => {
-                const label = option;
-                const value = option;
-                return { label, value };
-            });
+  const togglePopupRefundAmount = () => {
+    if (refundAmount) {
+      setSelectedUserData(null);
     }
+    setRefundAmount(!refundAmount);
+  };
 
-    return (
-        <>
+  const activeButtonStyle = {
+    backgroundColor: "#1976d2",
+    color: "white",
+    margin: "0px 5px",
+  };
+
+  const buttonStyle = {
+    margin: "0px 5px",
+  };
+
+  // -------------Change the Oreder status --------------------
+  const editOrderStatus = (event) => {
+    const selectedOption = event.target.value;
+    if (selectedOption === "reject") {
+      setSelectedUserData(selectedCheckboxes);
+      togglePopup();
+    } else {
+      const payload = {
+        returnOrderProductIds: selectedCheckboxes,
+        status: selectedOption,
+      };
+      API.put(apiConfig.changeReturnOrderStatus, payload)
+        .then((res) => {
+          paginate();
+          setSelectedCheckboxes([]);
+          HELPER.toaster.success(res.message);
+        })
+        .catch((e) => HELPER.toaster.error(e.errors.returnOrderProductIds[0]));
+    }
+  };
+  // -------------------DropDwon Api in OrderNo and stockNo------------------------
+
+  let _sortOptionsOrderNo = [];
+  let _sortOptionStockNo = [];
+
+  useEffect(() => {
+    API.get(apiConfig.orderFilterDropDown)
+      .then((res) => {
+        setDropDown({
+          orderNo: res.dropdowns.orderNo,
+          stockNo: res.dropdowns.stockNo,
+        });
+      })
+      .catch((e) => {
+        HELPER.toaster.error(e);
+      });
+  }, []);
+
+  if (Array.isArray(dropDown.orderNo)) {
+    _sortOptionsOrderNo =
+      dropDown.orderNo &&
+      dropDown.orderNo.map((option) => {
+        const label = option;
+        const value = option;
+        return { label, value };
+      });
+  }
+
+  if (Array.isArray(dropDown.stockNo)) {
+    _sortOptionStockNo =
+      dropDown.stockNo &&
+      dropDown.stockNo.map((option) => {
+        const label = option;
+        const value = option;
+        return { label, value };
+      });
+  }
+
+  return (
+    <>
+      <div>
+        <Container>
+          <Box
+            className="breadcrumb"
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Breadcrumb
+              routeSegments={[
+                { name: "Masters", path: pageRoutes.master.user.returnOrder },
+                { name: "Return Order" },
+              ]}
+            />
             <div>
-                <Container>
-                    <Box
-                        className="breadcrumb"
-                        sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Breadcrumb
-                            routeSegments={[
-                                { name: "Masters", path: pageRoutes.master.user.returnOrder },
-                                { name: "Return Order" },
-                            ]}
-                        />
-                        <div>
-                            <Tooltip title="Filter">
-                                <IconButton
-                                    color="inherit"
-                                    className="button"
-                                    aria-label="Filter"
-                                    onClick={togglePopupSearch}
-                                >
-                                    <Icon>filter_list</Icon>
-                                </IconButton>
-                            </Tooltip>
-                        </div>
-                        <SearchFilterDialog
-                            isOpen={openSearch}
-                            onClose={() => setOpenSearch(false)}
-                            reset={() => paginate(true)}
-                            maxWidth="sm"
-                            search={() => {
-                                paginate(false, true);
-                                setOpenSearch(false); 
-                            }}
-                        >
-                            <div style={{ height: "300px" }}>
-                                <Flatpickr
-                                    className="flatpickr-input"
-                                    placeholder="Select Date Range"
-                                    onChange={(date) => setDateRange(date)}
-                                    value={dateRange}
-                                    options={{
-                                        mode: "range",
-                                        dateFormat: "Y-m-d",
-                                    }}
-                                />
-                                <div className="text-input-top">
-                                    <Select
-                                        placeholder="Select Order No"
-                                        options={_sortOptionsOrderNo}
-                                        isMulti
-                                        value={_sortOptionsOrderNo.filter(
-                                            (option) =>
-                                                state.orderNoArr &&
-                                                state.orderNoArr.includes(option.value)
-                                        )}
-                                        onChange={(selectedSort) => {
-                                            const selectedIds = selectedSort.map(
-                                                (option) => option.value
-                                            );
-                                            changeState("orderNoArr", selectedIds);
-                                        }}
-                                        name="choices-multi-default"
-                                        id="orderNoArr"
-                                    />
-                                </div>
-
-                                <div className="text-input-top">
-                                    <Select
-                                        placeholder="Select Stock No"
-                                        options={_sortOptionStockNo}
-                                        isMulti
-                                        value={_sortOptionStockNo.filter(
-                                            (option) =>
-                                                state.stockIds && state.stockIds.includes(option.value)
-                                        )}
-                                        onChange={(selectedSort) => {
-                                            const selectedIds = selectedSort.map(
-                                                (option) => option.value
-                                            );
-                                            changeState("stockIds", selectedIds);
-                                        }}
-                                        name="choices-multi-default"
-                                        id="stockIds"
-                                    />
-                                </div>
-                            </div>
-                        </SearchFilterDialog>
-                    </Box>
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            // marginBottom: "10px",
-                            padding: "15px 10px",
-                            background: "#a6a6a608",
-                            border: "1px solid #a6a6a61a",
-                        }}
-                    >
-                        <div className="main-buttons-handle-order">
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() =>
-                                    setFilter({
-                                        ...filter,
-                                        returnOrderStatus: "request",
-                                    })
-                                }
-                                style={
-                                    filter.returnOrderStatus === "request"
-                                        ? activeButtonStyle
-                                        : buttonStyle
-                                }
-                            >
-                                Request
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() =>
-                                    setFilter({
-                                        ...filter,
-                                        returnOrderStatus: "approve",
-                                    })
-                                }
-                                style={
-                                    filter.returnOrderStatus === "approve"
-                                        ? activeButtonStyle
-                                        : buttonStyle
-                                }
-                            >
-                                Approve
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() =>
-                                    setFilter({
-                                        ...filter,
-                                        returnOrderStatus: "receive",
-                                    })
-                                }
-                                style={
-                                    filter.returnOrderStatus === "receive"
-                                        ? activeButtonStyle
-                                        : buttonStyle
-                                }
-                            >
-                                Receive
-                            </Button>
-
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() =>
-                                    setFilter({
-                                        ...filter,
-                                        returnOrderStatus: "verified",
-                                    })
-                                }
-                                style={
-                                    filter.returnOrderStatus === "verified"
-                                        ? activeButtonStyle
-                                        : buttonStyle
-                                }
-                            >
-                                Verified
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() =>
-                                    setFilter({
-                                        ...filter,
-                                        returnOrderStatus: "refund",
-                                    })
-                                }
-                                style={
-                                    filter.returnOrderStatus === "refund"
-                                        ? activeButtonStyle
-                                        : buttonStyle
-                                }
-                            >
-                                Refund
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() =>
-                                    setFilter({
-                                        ...filter,
-                                        returnOrderStatus: "reject",
-                                    })
-                                }
-                                style={
-                                    filter.returnOrderStatus === "reject"
-                                        ? activeButtonStyle
-                                        : buttonStyle
-                                }
-                            >
-                                Reject
-                            </Button>
-                        </div>
-
-                        <div style={{ width: "260px" }}>
-                            {filter.returnOrderStatus === "request" ||
-                                filter.returnOrderStatus === "approve" ||
-                                filter.returnOrderStatus === "receive" ||
-                                filter.returnOrderStatus !== "verified" &&
-                                filter.returnOrderStatus !== "refund" &&
-                                filter.returnOrderStatus !== "reject" ? (
-                                <ReactSelect
-                                    placeholder="Select Status"
-                                    isDisabled={state.data?.length > 0 ? false : true}
-                                    options={
-                                        statuses && Array.isArray(statuses) && statuses.length > 0
-                                            ? statuses.map((status) => ({
-                                                label: status,
-                                                value: status,
-                                            }))
-                                            : []
-                                    }
-                                    onChange={(event) => editOrderStatus(event)}
-                                    name="status-select"
-                                />
-
-                            ) : null}
-                        </div>
-                    </div>
-                    {state.data?.length > 0 ? (
-                        <PaginationTable
-                            header={COLUMNS}
-                            rows={rows}
-                            totalItems={state.total_items || 0}
-                            perPage={state.rowsPerPage}
-                            activePage={state.page}
-                            checkboxColumn={false}
-                            selectedRows={state.selectedRows}
-                            enableOrder={true}
-                            isLoader={state.loader}
-                            emptyTableImg={<img src={error400cover} width="400px" />}
-                            orderBy={state.orderby}
-                            order={state.order}
-                            {...otherTableActionProps}
-                        ></PaginationTable>
-                    ) : (
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                marginTop: "50px",
-                            }}
-                        >
-                            <img src={error400cover} width="420px" />
-                        </div>
-                    )}
-                </Container>
-                {open && selectedUserData && (
-                    <ReturnRejectMaster
-                        open={open}
-                        togglePopup={() => {
-                            togglePopup();
-                            paginate();
-                        }}
-                        callBack={() => paginate(true)}
-                        userData={selectedUserData} 
-                    />
-                )}
-
-                {refundAmount && (
-                    <RefundAmountReturnOrder
-                        open={refundAmount}
-                        togglePopup={() => {
-                            togglePopupRefundAmount();
-                            paginate();
-                        }}
-                        callBack={() => paginate(true)}
-                        userData={refundAmountCancel}
-                    />
-                )}
+              <Tooltip title="Filter">
+                <IconButton
+                  color="inherit"
+                  className="button"
+                  aria-label="Filter"
+                  onClick={togglePopupSearch}
+                >
+                  <Icon>filter_list</Icon>
+                </IconButton>
+              </Tooltip>
             </div>
-        </>
-    );
+            <SearchFilterDialog
+              isOpen={openSearch}
+              onClose={() => setOpenSearch(false)}
+              reset={() => paginate(true)}
+              maxWidth="sm"
+              search={() => {
+                paginate(false, true);
+                setOpenSearch(false);
+              }}
+            >
+              <div style={{ height: "300px" }}>
+                <Flatpickr
+                  className="flatpickr-input"
+                  placeholder="Select Date Range"
+                  onChange={(date) => setDateRange(date)}
+                  value={dateRange}
+                  options={{
+                    mode: "range",
+                    dateFormat: "Y-m-d",
+                  }}
+                />
+                <div className="text-input-top">
+                  <Select
+                    placeholder="Select Order No"
+                    options={_sortOptionsOrderNo}
+                    isMulti
+                    value={_sortOptionsOrderNo.filter(
+                      (option) =>
+                        state.orderNoArr &&
+                        state.orderNoArr.includes(option.value)
+                    )}
+                    onChange={(selectedSort) => {
+                      const selectedIds = selectedSort.map(
+                        (option) => option.value
+                      );
+                      changeState("orderNoArr", selectedIds);
+                    }}
+                    name="choices-multi-default"
+                    id="orderNoArr"
+                  />
+                </div>
+
+                <div className="text-input-top">
+                  <Select
+                    placeholder="Select Stock No"
+                    options={_sortOptionStockNo}
+                    isMulti
+                    value={_sortOptionStockNo.filter(
+                      (option) =>
+                        state.stockIds && state.stockIds.includes(option.value)
+                    )}
+                    onChange={(selectedSort) => {
+                      const selectedIds = selectedSort.map(
+                        (option) => option.value
+                      );
+                      changeState("stockIds", selectedIds);
+                    }}
+                    name="choices-multi-default"
+                    id="stockIds"
+                  />
+                </div>
+              </div>
+            </SearchFilterDialog>
+          </Box>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              // marginBottom: "10px",
+              height: "75px",
+              padding: "15px 10px",
+              background: "#a6a6a608",
+              border: "1px solid #a6a6a61a",
+            }}
+          >
+            <div className="main-buttons-handle-order">
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    returnOrderStatus: "request",
+                  })
+                }
+                style={
+                  filter.returnOrderStatus === "request"
+                    ? activeButtonStyle
+                    : buttonStyle
+                }
+              >
+                Request
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    returnOrderStatus: "approve",
+                  })
+                }
+                style={
+                  filter.returnOrderStatus === "approve"
+                    ? activeButtonStyle
+                    : buttonStyle
+                }
+              >
+                Approve
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    returnOrderStatus: "receive",
+                  })
+                }
+                style={
+                  filter.returnOrderStatus === "receive"
+                    ? activeButtonStyle
+                    : buttonStyle
+                }
+              >
+                Receive
+              </Button>
+
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    returnOrderStatus: "verified",
+                  })
+                }
+                style={
+                  filter.returnOrderStatus === "verified"
+                    ? activeButtonStyle
+                    : buttonStyle
+                }
+              >
+                Verified
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    returnOrderStatus: "refund",
+                  })
+                }
+                style={
+                  filter.returnOrderStatus === "refund"
+                    ? activeButtonStyle
+                    : buttonStyle
+                }
+              >
+                Refund
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    returnOrderStatus: "reject",
+                  })
+                }
+                style={
+                  filter.returnOrderStatus === "reject"
+                    ? activeButtonStyle
+                    : buttonStyle
+                }
+              >
+                Reject
+              </Button>
+            </div>
+
+            <div style={{ width: "260px" }}>
+              {filter.returnOrderStatus === "request" ||
+              filter.returnOrderStatus === "approve" ||
+              filter.returnOrderStatus === "receive" ||
+              (filter.returnOrderStatus !== "verified" &&
+                filter.returnOrderStatus !== "refund" &&
+                filter.returnOrderStatus !== "reject") ? (
+                <ReactSelect
+                  placeholder="Select Status"
+                  isDisabled={state.data?.length > 0 ? false : true}
+                  options={
+                    statuses && Array.isArray(statuses) && statuses.length > 0
+                      ? statuses.map((status) => ({
+                          label: status,
+                          value: status,
+                        }))
+                      : []
+                  }
+                  onChange={(event) => editOrderStatus(event)}
+                  name="status-select"
+                />
+              ) : null}
+            </div>
+          </div>
+          {state.data?.length > 0 ? (
+            <PaginationTable
+              header={COLUMNS}
+              rows={rows}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              orderBy={state.orderby}
+              order={state.order}
+              {...otherTableActionProps}
+            ></PaginationTable>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "50px",
+              }}
+            >
+              <img src={error400cover} width="420px" />
+            </div>
+          )}
+        </Container>
+        {open && selectedUserData && (
+          <ReturnRejectMaster
+            open={open}
+            togglePopup={() => {
+              togglePopup();
+              paginate();
+            }}
+            callBack={() => paginate(true)}
+            userData={selectedUserData}
+          />
+        )}
+
+        {refundAmount && (
+          <RefundAmountReturnOrder
+            open={refundAmount}
+            togglePopup={() => {
+              togglePopupRefundAmount();
+              paginate();
+            }}
+            callBack={() => paginate(true)}
+            userData={refundAmountCancel}
+          />
+        )}
+      </div>
+    </>
+  );
 };
 
 export default ReturnOrderMaster;
