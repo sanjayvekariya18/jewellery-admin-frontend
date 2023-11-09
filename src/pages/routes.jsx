@@ -66,6 +66,9 @@ const GemstoneMaster = Loadable(
 const OrderMaster = Loadable(
   lazy(() => import("./Master/Orders/Order/OrderMaster"))
 );
+const ReturnOrderMaster = Loadable(
+  lazy(() => import("./Master/Orders/ReurnOrder/ReturnOrderMaster"))
+);
 const BlogCategoryMaster = Loadable(
   lazy(() => import("./Master/Jewellery/BlogCategory/BlogCategoryMaster"))
 );
@@ -193,6 +196,10 @@ const routes = [
       {
         path: pageRoutes.master.order.order,
         element: <OrderMaster />,
+      },
+      {
+        path: pageRoutes.master.order.returnOrder,
+        element: <ReturnOrderMaster />,
       },
       {
         path: pageRoutes.master.jewellery.metal,

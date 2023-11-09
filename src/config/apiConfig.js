@@ -125,6 +125,11 @@ const apiConfig = {
   orderFilterDropDown :"orders/dropdowns",
   cancelOrder:"orders/cancel-order",
   approveCancelOrder:"orders/cancel-order-request/approve",
+
+  // return order
+  returnOrder :"return-orders",
+  changeReturnOrderStatus:"return-orders/change-status",
+  refundReturnOrder:"return-orders/refund-amount"
 };
 
 export default apiConfig;

@@ -35,6 +35,7 @@ export const pageRoutes = {
     },
     order: {
       order: "/master/order",
+      returnOrder:"/master/order/returnOrder",
     },
     gemstone: {
       gemstone: "/gemstone",

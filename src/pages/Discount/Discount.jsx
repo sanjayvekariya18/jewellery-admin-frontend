@@ -19,6 +19,7 @@ const Discount = () => {
     { title: "High Size" },
     { title: "Low Size" },
     { title: "Discount" },
+    { title: "Lab Discount" },
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
@@ -89,6 +90,7 @@ const Discount = () => {
           <span>{item.highSize}</span>,
           <span>{item.lowSize}</span>,
           <span>{item.discount}</span>,
+          <span>{item.labDiscount}</span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
               <Icon color="primary">create</Icon>
