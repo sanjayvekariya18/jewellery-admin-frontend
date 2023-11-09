@@ -26,7 +26,6 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData }) => {
     const handleSubmit = (data) => {
         API.post(apiConfig.refundReturnOrder, data)
             .then((res) => {
-                console.log(res.message);
                 HELPER.toaster.success(res);
                 togglePopup();
             })

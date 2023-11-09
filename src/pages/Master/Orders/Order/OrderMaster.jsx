@@ -196,7 +196,6 @@ const OrderMaster = () => {
   };
 
   const approveCancelOrder = (data) => {
-    console.log(data);
     setApproveCancel(data);
     setApproveOrder(true);
   };
@@ -302,7 +301,6 @@ const OrderMaster = () => {
   };
 
   const togglePopupApproveCancel = () => {
-    console.log("hello");
     if (approveOrder) {
       setSelectedUserData(null);
     }

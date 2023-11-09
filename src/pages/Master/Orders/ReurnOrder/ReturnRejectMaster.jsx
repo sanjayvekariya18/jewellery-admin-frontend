@@ -7,7 +7,6 @@ import { apiConfig } from '../../../../config';
 import Textinput from "../../../../components/UI/TextInput";
 
 const ReturnRejectMaster = ({ open, togglePopup, userData }) => {
-    console.log(userData, "userData");
     const initialValues = {
         returnOrderProductIds: userData,
         rejectReason: "",

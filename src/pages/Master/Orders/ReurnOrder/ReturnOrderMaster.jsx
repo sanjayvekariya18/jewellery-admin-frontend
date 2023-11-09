@@ -38,7 +38,6 @@ const ReturnOrderMaster = () => {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [dateRange, setDateRange] = useState([null, null]);
     const [statuses, setStatuses] = useState([]);
-
     const [filter, setFilter] = useState({
         returnOrderStatus: "request",
     });
@@ -54,16 +53,19 @@ const ReturnOrderMaster = () => {
             title: "Select Order",
             order: false,
             field: "totalReturnProducts",
-        }
-            : {
-                title: "",
-                order: false,
-                field: "",
-                classNameWidth: "thead-width-zero",
-            },
+        } : {
+            title: "",
+            order: false,
+            field: "",
+            classNameWidth: "thead-width-zero",
+        },
         { title: "Order No", order: true, field: "orderNo" },
-        { title: "Return Reason", order: false, field: "returnReason" },
+        { title: "Title", order: false, field: "title" },
+        { title: "Price", order: false, field: "totalPrice" },
         { title: "Return Date", order: false, field: "createdAt" },
+        { title: "Return Reason", order: false, field: "returnReason" },
+        filter.returnOrderStatus === "refund" ? { title: "Refund Date", order: false, field: "refundDate" } : { title: "", order: false, field: "", classNameWidth: "thead-width-zero" },
+        filter.returnOrderStatus === "refund" ? { title: "Refund Amount", order: false, field: "refundAmount" } : { title: "", order: false, field: "",  classNameWidth: "thead-width-zero"},
         filter.returnOrderStatus === "delivered"
             ? {
                 title: "Total Return Products",
@@ -201,23 +203,6 @@ const ReturnOrderMaster = () => {
         state.order,
         state.orderby,
     ]);
-
-    const successLabel = {
-        backgroundColor: "#e9fbf0d6",
-        border: "1px solid #1a8d488f",
-        color: "#2a5c3edb",
-        padding: "6px 8px",
-        borderRadius: "20px",
-    };
-
-    const failLabel = {
-        backgroundColor: "rgb(253, 237, 237)",
-        border: "1px solid #f16e5d9e",
-        color: "rgb(239 43 40)",
-        padding: "6px 8px",
-        borderRadius: "20px",
-    };
-
     const rows = useMemo(() => {
         return state.data.map((item) => {
             return {
@@ -241,13 +226,23 @@ const ReturnOrderMaster = () => {
                                 />
                             )}
                     </span>,
-                     <div className="span-permision">
-                    <span>{item.order.orderNo}</span>
+                    <div className="span-permision">
+                        <span>{item.order.orderNo}</span>
                     </div>,
-                    <span>{item.returnReason}</span>,
+                    <span>{item.OrderProduct.ProductVariant.title}</span>,
+                    <span>{item.OrderProduct.ProductVariant.totalPrice}</span>,
                     <span>
                         {moment(item.createdAt).format(appConfig.dateAndTimeDisplayFormat)}
                     </span>,
+                    <span>{item.returnReason}</span>,
+                    <span>
+                        {filter.returnOrderStatus === "refund" &&
+                            moment(item.refundDate).format(appConfig.dateAndTimeDisplayFormat)}
+                    </span>,
+                    <span>
+                        {filter.returnOrderStatus === "refund" && item.refundAmount}
+                    </span>,
+
                     <span>
                         {filter.returnOrderStatus === "verified" && <MaxHeightMenu
                             optionsMenu={[
@@ -277,7 +272,6 @@ const ReturnOrderMaster = () => {
         setOpen(!open);
     };
 
-    console.log(selectedCheckboxes, "setSelectedUserData");
     const togglePopupRefundAmount = () => {
         if (refundAmount) {
             setSelectedUserData(null);
@@ -286,9 +280,9 @@ const ReturnOrderMaster = () => {
     };
 
     const activeButtonStyle = {
-        backgroundColor: "#1976d2", // You can set your desired background color here
+        backgroundColor: "#1976d2", 
         color: "white",
-        margin: "0px 5px", // Change the text color when the button is active
+        margin: "0px 5px", 
     };
 
     const buttonStyle = {
@@ -354,7 +348,6 @@ const ReturnOrderMaster = () => {
             });
     }
 
-    console.log(filter.returnOrderStatus, "filter.returnOrderStatus");
     return (
         <>
             <div>
@@ -369,8 +362,8 @@ const ReturnOrderMaster = () => {
                     >
                         <Breadcrumb
                             routeSegments={[
-                                { name: "Masters", path: pageRoutes.master.user.user },
-                                { name: "Orders" },
+                                { name: "Masters", path: pageRoutes.master.user.returnOrder },
+                                { name: "Return Order" },
                             ]}
                         />
                         <div>
@@ -390,14 +383,12 @@ const ReturnOrderMaster = () => {
                             onClose={() => setOpenSearch(false)}
                             reset={() => paginate(true)}
                             maxWidth="sm"
-                            // search={() => paginate(false, true)}
                             search={() => {
                                 paginate(false, true);
-                                setOpenSearch(false); // Close the modal
+                                setOpenSearch(false); 
                             }}
                         >
                             <div style={{ height: "300px" }}>
-                                {/* <div className="text-input-top"> */}
                                 <Flatpickr
                                     className="flatpickr-input"
                                     placeholder="Select Date Range"
@@ -408,8 +399,6 @@ const ReturnOrderMaster = () => {
                                         dateFormat: "Y-m-d",
                                     }}
                                 />
-                                {/* </div> */}
-
                                 <div className="text-input-top">
                                     <Select
                                         placeholder="Select Order No"
@@ -534,7 +523,7 @@ const ReturnOrderMaster = () => {
                             >
                                 verified
                             </Button>
-                            {(filter.returnOrderStatus === "verified" || filter.returnOrderStatus === "refund") && <Button
+                            <Button
                                 variant="outlined"
                                 color="primary"
                                 onClick={() =>
@@ -550,7 +539,7 @@ const ReturnOrderMaster = () => {
                                 }
                             >
                                 Refund
-                            </Button>}
+                            </Button>
                             <Button
                                 variant="outlined"
                                 color="primary"
@@ -588,7 +577,7 @@ const ReturnOrderMaster = () => {
                                             }))
                                             : []
                                     }
-                                    onChange={(event) => editOrderStatus(event)} // Pass the event to the editOrderStatus function
+                                    onChange={(event) => editOrderStatus(event)}
                                     name="status-select"
                                 />
 
@@ -631,7 +620,7 @@ const ReturnOrderMaster = () => {
                             paginate();
                         }}
                         callBack={() => paginate(true)}
-                        userData={selectedUserData} // Ensure selectedUserData is not undefined
+                        userData={selectedUserData} 
                     />
                 )}
 
