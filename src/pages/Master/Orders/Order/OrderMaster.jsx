@@ -27,9 +27,13 @@ import OrderMasterDetail from "./OrderMasterDetail";
 import { pageRoutes } from "../../../../constants/routesList";
 import ApproveCancelOrder from "./ApproveCancelOrder";
 import moment from "moment-timezone";
+import FindOneOrderDetail from "./FindOneOrderDetail";
 
 const OrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
+  const [orderDetail, setOrderDetail] = useState(null);
+  const [openOrderDetail, setOpenOrderDetail] = useState(null);
+  
   const [approveCancel, setApproveCancel] = useState(null);
   const [openSearch, setOpenSearch] = useState(false);
   const [open, setOpen] = useState(false);
@@ -48,22 +52,19 @@ const OrderMaster = () => {
     filter.orderStatus === "processing" ||
     filter.orderStatus === "packed" ||
     filter.orderStatus === "dispatch"
-      ? {
-          title: "Select Order",
-          order: false,
-          field: "totalReturnProducts",
-        }
-      : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+    ? {
+      title: "Select Order",
+      order: false,
+      field: "totalReturnProducts",
+    }
+    : {
+      title: "",
+      order: false,
+      field: "",
+      classNameWidth: "thead-width-zero",
+    },
     { title: "Order No", order: true, field: "orderNo" },
-    { title: "Payable Amount", order: false, field: "payableAmount" },
     { title: "Customer Name", order: false, field: "customerName" },
-    { title: "Order Date", order: false, field: "orderDate" },
-    { title: "Payment Status", order: false, field: "paymentStatus" },
     { title: "Total Products", order: false, field: "totalProducts" },
     filter.orderStatus === "delivered"
       ? {
@@ -77,6 +78,9 @@ const OrderMaster = () => {
           field: "",
           classNameWidth: "thead-width-zero",
         },
+    { title: "Amount", order: false, field: "payableAmount" },
+    { title: "Order Date", order: false, field: "orderDate" },
+    { title: "Payment Status", order: false, field: "paymentStatus" },
     { title: "Actions", order: false, field: "Actions" },
   ];
 
@@ -195,6 +199,15 @@ const OrderMaster = () => {
     setOpen(true);
   };
 
+  const handleOrderDetail = (id) => {
+    API.get(apiConfig.findOrder.replace(":id", id)).then((res) => {
+      console.log(res,"res");
+      setOrderDetail(res);
+      setOpenOrderDetail(true);
+    });
+  
+  };
+
   const approveCancelOrder = (data) => {
     setApproveCancel(data);
     setApproveOrder(true);
@@ -248,8 +261,12 @@ const OrderMaster = () => {
             )}
           </span>,
           <span>{item.orderNo}</span>,
-          <span>{item.payableAmount}</span>,
           <span>{item.customerName}</span>,
+          <span>{item.totalProducts}</span>,
+          item.orderStatus === "delivered" && (
+            <span>{item.totalReturnProducts}</span>
+          ),
+          <span>{item.payableAmount}</span>,
           <span>
             {moment(item.orderDate, "Do MMMM YYYY").format(
               appConfig.dateDisplayFormat
@@ -261,13 +278,15 @@ const OrderMaster = () => {
             {item.paymentStatus}
           </span>,
 
-          <span>{item.totalProducts}</span>,
-          item.orderStatus === "delivered" && (
-            <span>{item.totalReturnProducts}</span>
-          ),
           <span>
             <MaxHeightMenu
               optionsMenu={[
+                {
+                  key: "Order Details",
+                  color: "blue",
+                  icon: "remove_red_eye",
+                  onClick: () => handleOrderDetail(item.id),
+                },
                 {
                   key: "Cancel Order",
                   color: "red",
@@ -298,6 +317,13 @@ const OrderMaster = () => {
       setSelectedUserData(null);
     }
     setOpen(!open);
+  };
+
+  const togglePopupOrderDetail = () => {
+    if (openOrderDetail) {
+      setOrderDetail(null);
+    }
+    setOpenOrderDetail(!openOrderDetail);
   };
 
   const togglePopupApproveCancel = () => {
@@ -735,6 +761,17 @@ const OrderMaster = () => {
             </div>
           )}
         </Container>
+        {openOrderDetail && (
+          <FindOneOrderDetail
+            open={openOrderDetail}
+            togglePopup={() => {
+              togglePopupOrderDetail();
+              paginate();
+            }}
+            callBack={() => paginate(true)}
+            userData={orderDetail}
+          />
+        )}
         {open && (
           <OrderMasterDetail
             open={open}
