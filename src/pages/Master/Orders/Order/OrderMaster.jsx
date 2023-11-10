@@ -289,7 +289,7 @@ const OrderMaster = () => {
               optionsMenu={[
                 {
                   key: "Order Details",
-                  color: "blue",
+                  color: "#2d5ce8",
                   icon: "remove_red_eye",
                   onClick: () => handleOrderDetail(item.id),
                 },

@@ -464,3 +464,8 @@ input::-webkit-inner-spin-button {
     color: #3b3b3b;
     letter-spacing: 0.7px,
 }
+
+/* .main-order-details-table .MuiTableRow-root {
+    padding-left: 0px !important;
+    background-color: #222a4417;
+} */
