@@ -2,6 +2,8 @@ import React from 'react';
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
 import { Box, Button, TableCell, TableContainer, TableHead, TableRow, Paper, Table, TableBody, Typography, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { appConfig } from '../../../../config';
+import moment from 'moment';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
     console.log(userData.orderProducts, "userData");
     const productData = userData.orderProducts
+    const orderTracking = userData.orderTracking
     const classes = useStyles();
 
     return (
@@ -121,6 +124,24 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
 
 
                         </Box>
+                        <TableRow>
+                            <TableCell className={`${classes.billing} ${classes.noUnderline}`}>Order Tracking</TableCell>
+                        </TableRow>
+
+                        <TableRow>
+                            <TableCell className={`${classes.tableHeader} ${classes.noUnderline}`}>Sr No.</TableCell>
+                            <TableCell className={`${classes.tableHeader} ${classes.noUnderline}`}>Order Date</TableCell>
+                            <TableCell className={`${classes.tableHeader} ${classes.noUnderline}`}>Description</TableCell>
+                        </TableRow>
+                        <TableBody>
+                            {orderTracking.map((order, index) => (
+                                <TableRow key={index} className={classes.tableRow}>
+                                    <TableCell className={`${classes.tableHeader} ${classes.noUnderline}`}>{index + 1}</TableCell>
+                                    <TableCell className={classes.noUnderline}>  {moment(order.createdAt).format(appConfig.dateAndTimeDisplayFormat)}</TableCell>
+                                    <TableCell className={classes.noUnderline}>{order.description}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
                     </Table>
                 </TableContainer>
             </Box>
