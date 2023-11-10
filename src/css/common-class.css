@@ -184,6 +184,10 @@ input::-webkit-inner-spin-button {
     width: 160px !important;
 }
 
+.thead-second-width-order-date {
+    width: 180px !important;
+}
+
 .thead-second-width-stone {
     width: 120px !important;
 }
@@ -410,6 +414,13 @@ input::-webkit-inner-spin-button {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr auto;
     align-items: center;
+}
+
+.main-buttons-handle-order-return {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    width: 50%;
 }
 
 .main-order-master-page .css-11k801h .breadcrumb {

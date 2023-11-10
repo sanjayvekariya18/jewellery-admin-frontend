@@ -44,13 +44,13 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     color: "required",
     clarity: "required",
     origin: "required",
-    mDepth:"numeric|min:0",
-    mLength:"numeric|min:0",
-    mWidth:"numeric|min:0",
-    depth:"numeric|min:0",
+    mDepth: "numeric|min:0",
+    mLength: "numeric|min:0",
+    mWidth: "numeric|min:0",
+    depth: "numeric|min:0",
   };
 
-  // ------------------Get Shap API --------------------------------
+  // ------------------ Get Shap API --------------------------------
 
   useEffect(() => {
     API.get(apiConfig.shapeList, { is_public_url: true })
@@ -62,13 +62,13 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
       });
   }, []);
 
-  // -------------------Shap options --------------------------------
+  // ------------------- Shap options --------------------------------
   let _sortOptionsShap = shapMaster.map((option) => ({
     label: option.shape,
     value: option.id,
   }));
 
-  // ------------------Get Lab API --------------------------------
+  // ------------------ Get Lab API --------------------------------
 
   useEffect(() => {
     API.get(apiConfig.labList, { is_public_url: true })
@@ -86,7 +86,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.id,
   }));
 
-  // -------- handleSubmit-------------
+  // -------- handleSubmit -------------
   const handleSubmit = (data) => {
     let formateFields = ["carat", "mDepth", "mLength", "mWidth"];
     let _data = { ...data };
@@ -131,7 +131,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     });
   }, []);
 
-  // ------------------Option Color---------------
+  // ------------------ Option Color ---------------
   const sortOptionDcolor = [
     { label: "D", value: 0 },
     { label: "E", value: 1 },
@@ -150,7 +150,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.value,
   }));
 
-  // ------------------Option clarity---------------
+  // ------------------ Option clarity ---------------
 
   const sortOptionDclarity = [
     { label: "FL", value: 0 },
@@ -186,7 +186,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.value,
   }));
 
-  // ------------------Option Symmetry---------------
+  // ------------------ Option Symmetry ---------------
   const sortOptionsDsymmetry = [
     { label: "Excellent", value: 0 },
     { label: "Very_Good", value: 1 },
@@ -197,8 +197,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.value,
   }));
 
-  // ------------------Option Fluoresecence---------------
-
+  // ------------------ Option Fluoresecence ---------------
   const sortOptionsDfluorescence = [
     { label: "None", value: 0 },
     { label: "Faint", value: 1 },
@@ -212,7 +211,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.value,
   }));
 
-  // ------------------Option Girdle---------------
+  // ------------------ Option Girdle ---------------
   const sortOptionsDgirdle = [
     { label: "Extremely thin", value: "EXTREMELY_THIN" },
     { label: "Very thin", value: "VERY_THIN" },
@@ -225,8 +224,8 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     label: option.label,
     value: option.value,
   }));
-  // ------------------Option Culet---------------
 
+  // ------------------ Option Culet ---------------
   const sortOptionsDculet = [
     { label: "None", value: "NONE" },
     { label: "Very Small", value: "VERY_SMALL" },
@@ -252,6 +251,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     label: option.label,
     value: option.value,
   }));
+
   // ------------------Option Polish---------------
   const sortOptionsDpolish = [
     { label: "Excellent", value: 0 },
@@ -365,7 +365,6 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               id="idStatus"
               error={errors?.color}
             />
-
             <ReactSelect
               label={"Clarity"}
               placeholder="Select Clarity"
@@ -414,7 +413,6 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               error={errors?.fluorescence}
             />
           </div>
-
           <div
             style={{
               display: "grid",
@@ -522,7 +520,6 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               id="idStatus"
               error={errors?.symmetry}
             />
-
             <ReactSelect
               label={"Polish"}
               placeholder="Select Polish"
@@ -544,7 +541,6 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               error={errors?.girdle}
             />
           </div>
-
           <div
             style={{
               display: "grid",
@@ -564,7 +560,6 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               id="idStatus"
               error={errors?.culet}
             />
-
             <ReactSelect
               label={"Lab"}
               placeholder="Select Lab"

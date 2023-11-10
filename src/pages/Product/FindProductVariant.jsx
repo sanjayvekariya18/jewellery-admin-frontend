@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import error400cover from "../../assets/no-data-found-page.png";
 import PaginationTable, {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
 import { API, HELPER } from "../../services";
-import { apiConfig, appConfig } from "../../config";
+import { apiConfig } from "../../config";
 import _ from "lodash";
 import { useParams } from "react-router-dom";
 import { Breadcrumb, Container } from "../../components";

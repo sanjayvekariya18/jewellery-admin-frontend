@@ -26,6 +26,7 @@ import PendingShippment from "./PendingShipment";
 import DateRangePicker from "../../components/UI/DatePicker";
 import { useNavigate } from "react-router-dom";
 import { pageRoutes } from "../../constants/routesList";
+import ProductDashboard from "./DashboardProduct";
 
 const ContentBox = styled("div")(({ theme }) => ({
   margin: "30px",

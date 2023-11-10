@@ -27,6 +27,8 @@ import { pageRoutes } from "../../../../constants/routesList";
 import moment from "moment-timezone";
 import ReturnRejectMaster from "./ReturnRejectMaster";
 import RefundAmountReturnOrder from "./RefundAmountReturnOrder";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Textarea from "../../../../components/UI/Textarea";
 
 const ReturnOrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -38,9 +40,18 @@ const ReturnOrderMaster = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
   const [statuses, setStatuses] = useState([]);
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+
   const [filter, setFilter] = useState({
     returnOrderStatus: "request",
   });
+
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  const textModaltoggle = () => {
+    setTextModal(!textModal);
+  };
 
   // ----Pagination code------
   const COLUMNS = [
@@ -54,6 +65,7 @@ const ReturnOrderMaster = () => {
           title: "Select Order",
           order: false,
           field: "totalReturnProducts",
+          classNameWidth: "thead-second-width-address",
         }
       : {
           title: "",
@@ -61,13 +73,43 @@ const ReturnOrderMaster = () => {
           field: "",
           classNameWidth: "thead-width-zero",
         },
-    { title: "Order No", order: true, field: "orderNo" },
-    { title: "Title", order: false, field: "title" },
-    { title: "Price", order: false, field: "totalPrice" },
-    { title: "Return Date", order: false, field: "createdAt" },
-    { title: "Return Reason", order: false, field: "returnReason" },
+    {
+      title: "Order No",
+      order: true,
+      field: "orderNo",
+      classNameWidth: "thead-second-width-stone",
+    },
+    {
+      title: "Title",
+      order: false,
+      field: "title",
+      classNameWidth: "thead-second-width-title-answer",
+    },
+    {
+      title: "Price",
+      order: false,
+      field: "totalPrice",
+      classNameWidth: "thead-second-width-stone",
+    },
+    {
+      title: "Return Date",
+      order: false,
+      field: "createdAt",
+      classNameWidth: "thead-second-width-order-date",
+    },
+    {
+      title: "Return Reason",
+      order: false,
+      field: "returnReason",
+      classNameWidth: "thead-second-width-discount",
+    },
     filter.returnOrderStatus === "refund"
-      ? { title: "Refund Date", order: false, field: "refundDate" }
+      ? {
+          title: "Refund Date",
+          order: false,
+          field: "refundDate",
+          classNameWidth: "thead-second-width-order-date",
+        }
       : {
           title: "",
           order: false,
@@ -75,7 +117,12 @@ const ReturnOrderMaster = () => {
           classNameWidth: "thead-width-zero",
         },
     filter.returnOrderStatus === "refund"
-      ? { title: "Refund Amount", order: false, field: "refundAmount" }
+      ? {
+          title: "Refund Amount",
+          order: false,
+          field: "refundAmount",
+          classNameWidth: "thead-second-width-order-date",
+        }
       : {
           title: "",
           order: false,
@@ -87,6 +134,7 @@ const ReturnOrderMaster = () => {
           title: "Total Return Products",
           order: false,
           field: "totalReturnProducts",
+          classNameWidth: "thead-second-width-order-date",
         }
       : {
           title: "",
@@ -95,7 +143,12 @@ const ReturnOrderMaster = () => {
           classNameWidth: "thead-width-zero",
         },
     filter.returnOrderStatus === "verified"
-      ? { title: "Actions", order: false, field: "Actions" }
+      ? {
+          title: "Actions",
+          order: false,
+          field: "Actions",
+          classNameWidth: "thead-second-width-action",
+        }
       : {
           title: "",
           order: false,
@@ -203,10 +256,14 @@ const ReturnOrderMaster = () => {
       if (
         prevSelectedCheckboxes.some((selectedItem) => selectedItem === itemId)
       ) {
+        // If the checkbox is checked, disable the ReactSelect
+        setIsCheckboxChecked(false);
         return prevSelectedCheckboxes.filter(
           (selectedItem) => selectedItem !== itemId
         );
       } else {
+        // If the checkbox is unchecked, enable the ReactSelect
+        setIsCheckboxChecked(true);
         return [...prevSelectedCheckboxes, itemId];
       }
     });
@@ -255,7 +312,20 @@ const ReturnOrderMaster = () => {
           <span>
             {moment(item.createdAt).format(appConfig.dateAndTimeDisplayFormat)}
           </span>,
-          <span>{item.returnReason}</span>,
+          // <div onClick={() => showAddressInDialog(item)}>
+          //   <span>{item.returnReason}</span>
+          // </div>
+
+          <div style={{ width: "80px" }}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => showAddressInDialog(item)}
+              sx={{ width: "100%", borderRadius: 1 }}
+            >
+              View
+            </Button>
+          </div>,
           <span>
             {filter.returnOrderStatus === "refund" &&
               item.refundDate &&
@@ -373,6 +443,11 @@ const ReturnOrderMaster = () => {
       });
   }
 
+  const showAddressInDialog = (item) => {
+    const address = item.returnReason;
+    setAddressText(address); // Set the address text
+    textModaltoggle(); // Show the dialog
+  };
   return (
     <>
       <div>
@@ -479,7 +554,7 @@ const ReturnOrderMaster = () => {
               border: "1px solid #a6a6a61a",
             }}
           >
-            <div className="main-buttons-handle-order">
+            <div className="main-buttons-handle-order-return">
               <Button
                 variant="outlined"
                 color="primary"
@@ -594,7 +669,8 @@ const ReturnOrderMaster = () => {
                 filter.returnOrderStatus !== "reject") ? (
                 <ReactSelect
                   placeholder="Select Status"
-                  isDisabled={state.data?.length > 0 ? false : true}
+                  isDisabled={!isCheckboxChecked}
+                  value={selectedStatus}
                   options={
                     statuses && Array.isArray(statuses) && statuses.length > 0
                       ? statuses.map((status) => ({
@@ -603,7 +679,10 @@ const ReturnOrderMaster = () => {
                         }))
                       : []
                   }
-                  onChange={(event) => editOrderStatus(event)}
+                  onChange={(selectedOption) => {
+                    setSelectedStatus(selectedOption);
+                    editOrderStatus(selectedOption);
+                  }}
                   name="status-select"
                 />
               ) : null}
@@ -659,6 +738,35 @@ const ReturnOrderMaster = () => {
             callBack={() => paginate(true)}
             userData={refundAmountCancel}
           />
+        )}
+
+        {textModal && (
+          <ThemeDialog
+            title="Return Order Reason"
+            id="showModal"
+            isOpen={textModal}
+            toggle={textModaltoggle}
+            centered
+            maxWidth="sm"
+            actionBtns={
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={textModaltoggle}
+              >
+                Close
+              </Button>
+            }
+          >
+            <div style={{ padding: "0px", margin: "0px" }}>
+              <Textarea
+                className="form-control"
+                rows="5"
+                value={addressText}
+                readOnly
+              ></Textarea>
+            </div>
+          </ThemeDialog>
         )}
       </div>
     </>

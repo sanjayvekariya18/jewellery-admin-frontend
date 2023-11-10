@@ -33,7 +33,7 @@ const OrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [orderDetail, setOrderDetail] = useState(null);
   const [openOrderDetail, setOpenOrderDetail] = useState(null);
-  
+
   const [approveCancel, setApproveCancel] = useState(null);
   const [openSearch, setOpenSearch] = useState(false);
   const [open, setOpen] = useState(false);
@@ -52,17 +52,17 @@ const OrderMaster = () => {
     filter.orderStatus === "processing" ||
     filter.orderStatus === "packed" ||
     filter.orderStatus === "dispatch"
-    ? {
-      title: "Select Order",
-      order: false,
-      field: "totalReturnProducts",
-    }
-    : {
-      title: "",
-      order: false,
-      field: "",
-      classNameWidth: "thead-width-zero",
-    },
+      ? {
+          title: "Select Order",
+          order: false,
+          field: "totalReturnProducts",
+        }
+      : {
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
     { title: "Order No", order: true, field: "orderNo" },
     { title: "Customer Name", order: false, field: "customerName" },
     { title: "Total Products", order: false, field: "totalProducts" },
@@ -201,11 +201,10 @@ const OrderMaster = () => {
 
   const handleOrderDetail = (id) => {
     API.get(apiConfig.findOrder.replace(":id", id)).then((res) => {
-      console.log(res,"res");
+      console.log(res, "res");
       setOrderDetail(res);
       setOpenOrderDetail(true);
     });
-  
   };
 
   const approveCancelOrder = (data) => {
@@ -228,7 +227,11 @@ const OrderMaster = () => {
     backgroundColor: "#e9fbf0d6",
     border: "1px solid #1a8d488f",
     color: "#2a5c3edb",
-    padding: "6px 8px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80px",
+    height: "32px",
     borderRadius: "20px",
   };
 
@@ -236,7 +239,11 @@ const OrderMaster = () => {
     backgroundColor: "rgb(253, 237, 237)",
     border: "1px solid #f16e5d9e",
     color: "rgb(239 43 40)",
-    padding: "6px 8px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80px",
+    height: "32px",
     borderRadius: "20px",
   };
 
@@ -272,12 +279,11 @@ const OrderMaster = () => {
               appConfig.dateDisplayFormat
             )}
           </span>,
-          <span
+          <div
             style={item.paymentStatus === "success" ? successLabel : failLabel}
           >
-            {item.paymentStatus}
-          </span>,
-
+            <span>{item.paymentStatus}</span>
+          </div>,
           <span>
             <MaxHeightMenu
               optionsMenu={[

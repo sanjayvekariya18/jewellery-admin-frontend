@@ -3,7 +3,7 @@ import Validators from "../../../../components/validations/Validator";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
 import Textinput from "../../../../components/UI/TextInput";
-import { apiConfig, appConfig } from "../../../../config";
+import { apiConfig } from "../../../../config";
 import { API, HELPER } from "../../../../services";
 import ReactSelect from "../../../../components/UI/ReactSelect";
 import Textarea from "../../../../components/UI/Textarea";
@@ -43,7 +43,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
   };
 
   // ------------------Get Shape API --------------------------------
-
   useEffect(() => {
     API.get(apiConfig.shapeList, { is_public_url: true })
       .then((res) => {
@@ -60,7 +59,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.id,
   }));
 
-  // -----------------handle Submitted------------------------
+  // ----------------- handle Submitted ------------------------
   const handleSubmit = (data) => {
     let formateFields = ["carat", "mDepth", "mLength", "mWidth"];
     let _data = { ...data };
@@ -97,6 +96,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
         }
       });
   };
+
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
       return {
@@ -106,7 +106,8 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     });
   }, []);
 
-  // -----------------Gemstonetype Options ----------------
+  // ----------------- Gemstonetype Options ----------------
+
   const sortOptionsGemstoneType = [
     { label: "Moissanite", value: "Moissanite" },
     { label: "Sapphire", value: "Sapphire" },
@@ -130,7 +131,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.value,
   }));
 
-  // ---------------------Origin Options --------------------
+  // --------------------- Origin Options --------------------
   const sortOptionsOrigin = [
     { label: "Lab", value: "Lab" },
     { label: "Natural", value: "Natural" },
@@ -141,7 +142,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     value: option.value,
   }));
 
-  // -------------------Color Options ----------------
+  // ------------------- Color Options ----------------
   const sortOptionsColor = [
     { label: "Blue", value: "Blue" },
     { label: "White", value: "White" },
@@ -301,7 +302,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
                 error={errors?.color}
               />
             </div>
-
             <div className="text-input-top">
               <ReactSelect
                 label={"Select Origin"}
@@ -397,7 +397,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
               />
             </div>
           </div>
-
           <div className="text-input-top">
             <Textarea
               size="small"

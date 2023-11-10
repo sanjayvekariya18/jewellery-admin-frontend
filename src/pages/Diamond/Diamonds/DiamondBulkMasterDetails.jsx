@@ -20,10 +20,8 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
   const rules = {
     diamondData: "required",
   };
-  const [isLoader, setIsLoader] = useState(false);
   const handleSubmit = () => {
     if (selectedFile) {
-      setIsLoader(true);
       const formData = new FormData();
       formData.append("diamondData", selectedFile);
 
@@ -52,9 +50,6 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
             );
             setErrorModel(true);
           }
-        })
-        .finally(() => {
-          setIsLoader(false);
         });
     }
   };

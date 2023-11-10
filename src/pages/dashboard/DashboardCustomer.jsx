@@ -79,13 +79,13 @@ const CustomerDashboard = () => {
             <span>{item.email}</span>
           </Grid>
           <Grid item md={2} xs={4}>
-            <span>{item.country}</span>
+            <span>{item.telephone}</span>
           </Grid>
           <Grid item md={2} xs={4}>
-            <span>{item.pincode}</span>
+            <span>{item.country}</span>
           </Grid>
           <Grid item md={1} xs={4}>
-            <span>{item.telephone}</span>
+            <span>{item.pincode}</span>
           </Grid>
         </Grid>
       </Card>
@@ -110,13 +110,13 @@ const CustomerDashboard = () => {
           <span className="dashboard-customer-span">Email</span>
         </Grid>
         <Grid item md={2} xs={4}>
-          <span className="dashboard-customer-span">Country</span>
+          <span className="dashboard-customer-span">Phone</span>
         </Grid>
         <Grid item md={2} xs={4}>
-          <span className="dashboard-customer-span">Pincode</span>
+          <span className="dashboard-customer-span">Country</span>
         </Grid>
         <Grid item md={1} xs={4}>
-          <span className="dashboard-customer-span">Phone</span>
+          <span className="dashboard-customer-span">Pincode</span>
         </Grid>
       </Grid>
     </Card>
@@ -137,7 +137,7 @@ const CustomerDashboard = () => {
   const renderContent = () => {
     return state.data.length === 0 ? (
       <Box textAlign="center" mt={4}>
-        <img src={error400cover} alt="No data found" width="350px" />
+        <img src={error400cover} width="350px" />
       </Box>
     ) : (
       <>

@@ -48,14 +48,7 @@ const GemstoneMaster = () => {
     getInitialStates,
     changeState,
     ...otherTableActionProps
-  } = usePaginationTable({
-    // shape: "",
-    // color: "",
-    // origin: "",
-    // gemstoneType: "",
-    // fromDimension: 0.05,
-    // toDimension: 10.0,
-  });
+  } = usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -68,7 +61,6 @@ const GemstoneMaster = () => {
       rowsPerPage: state.rowsPerPage,
       shape: clear ? clearStates.shape : state.shape,
       color: clear ? clearStates.color : state.color,
-      // sortBy: state.sortBy,
       origin: clear ? clearStates.origin : state.origin,
       gemstoneType: clear ? clearStates.gemstoneType : state.gemstoneType,
       fromPrice: clear ? clearStates.fromPrice : state.fromPrice,
@@ -87,7 +79,6 @@ const GemstoneMaster = () => {
       delete filter.color;
       delete filter.origin;
       delete filter.gemstoneType;
-      // console.log("hello");
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
@@ -127,11 +118,6 @@ const GemstoneMaster = () => {
           loader: false,
         });
       });
-    // .finally(() => {
-    //   if (openSearch == true) {
-    //     setOpenSearch(false);
-    //   }
-    // });
   };
 
   // ------------------Get Shap API --------------------------------
@@ -152,7 +138,7 @@ const GemstoneMaster = () => {
     value: option.id,
   }));
 
-  // ---------------Visiblility Gemstone Api----------------------
+  // --------------- Visiblility Gemstone Api ----------------------
 
   const hiddenVisibleGemstone = (Id) => {
     API.put(apiConfig.visibility_gemstone.replace(":id", Id)).then((res) => {
@@ -189,7 +175,7 @@ const GemstoneMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage]);
 
-  // -------------------Get Price---------------------------------
+  // ------------------- Get Price ---------------------------------
   useEffect(() => {
     API.get(apiConfig.gemstonePriceRange, { is_public_url: true })
       .then((res) => {
@@ -200,18 +186,13 @@ const GemstoneMaster = () => {
       });
   }, []);
 
-  // ---------------Price Filter----------------------
+  // --------------- Price Filter ----------------------
   const handleChangePrice = (event, newValue) => {
     changeState("fromPrice", newValue[0]);
     changeState("toPrice", newValue[1]);
   };
-  // -------------Dimension Filter-----------------
-  const handleChangeDimension = (event, newValue) => {
-    changeState("fromDimension", newValue[0]);
-    changeState("toDimension", newValue[1]);
-  };
 
-  // ----------------Origin Filter----------------
+  // ---------------- Origin Filter ----------------
   const sortOptionsOrigin = [
     { label: "Lab", value: "Lab" },
     { label: "Natural", value: "Natural" },
@@ -265,16 +246,6 @@ const GemstoneMaster = () => {
     value: option.value,
   }));
 
-  // -----------------SortBy Filter----------------
-  // const sortOptionsSortBy = [
-  //   { label: "Newest", value: "newest" },
-  //   { label: "Lowest Price", value: "lPrice" },
-  //   { label: "Highest Price", value: "hPrice" },
-  // ];
-  // let _sortOptionsSortBy = sortOptionsSortBy.map((option) => ({
-  //   label: option.label,
-  //   value: option.value,
-  // }));
   const toggleGemstonePopup = () => {
     if (findGemstone) {
       setGemstoneData(null); // Reset gemStoneData when closing the modal
@@ -290,6 +261,7 @@ const GemstoneMaster = () => {
   };
 
   // ----------Get Gemstone List Api-------------
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -297,12 +269,7 @@ const GemstoneMaster = () => {
         columns: [
           <span>{item.stockId}</span>,
           <div className="common-thead-second-width-title">
-            <span
-              style={{ fontWeight: 500 }}
-              // onClick={() => showAddressInDialog(item)}
-            >
-              {item.title}
-            </span>
+            <span>{item.title}</span>
           </div>,
           <span>{item.gemstoneType}</span>,
           <span>{item.shapeName}</span>,
@@ -311,7 +278,6 @@ const GemstoneMaster = () => {
           <span>{item.clarity}</span>,
           <span>{item.origin}</span>,
           <span>{item.price}</span>,
-
           <span>
             <ThemeSwitch
               checked={item.isVisible}
@@ -345,25 +311,15 @@ const GemstoneMaster = () => {
   };
 
   const togglePopupBulk = () => {
-    // if (bulkOpen) {
-    //     setSelectedUserData(null);
-    // }
     setBulkOpen(!bulkOpen);
   };
   const togglePopupSearch = () => {
     setOpenSearch(!openSearch);
   };
 
-    const handleEdit = (data) => {
-      setSelectedUserData(data);
-      setOpen(true);
-    };
-
-  const [activeDimension, setActiveDimension] = useState(null);
-
-  // Function to set the active dimension
-  const setActive = (dimension) => {
-    setActiveDimension(dimension);
+  const handleEdit = (data) => {
+    setSelectedUserData(data);
+    setOpen(true);
   };
 
   const activeButtonStyle = {
@@ -383,12 +339,7 @@ const GemstoneMaster = () => {
               alignItems: "center",
             }}
           >
-            <Breadcrumb
-              routeSegments={[
-                // { name: "Masters", path: pageRoutes.master.user.user },
-                { name: "Gemstones" },
-              ]}
-            />
+            <Breadcrumb routeSegments={[{ name: "Gemstones" }]} />
             <div>
               <div>
                 <Tooltip title="Filter">
@@ -421,25 +372,6 @@ const GemstoneMaster = () => {
               }}
             >
               <div style={{ height: "350px" }}>
-                {/* <div>
-                  <ReactSelect
-                    // label="Select Sort by Price"
-                    placeholder={
-                      _sortOptionsSortBy.find(
-                        (option) => option.value === state.sortBy
-                      )?.label || "Sort by Price"
-                    }
-                    options={_sortOptionsSortBy}
-                    value={_sortOptionsSortBy.find(
-                      (option) => option.value === state.sortBy
-                    )}
-                    onChange={(selectedSort) => {
-                      const selectedId = selectedSort.target.value;
-                      changeState("sortBy", selectedId);
-                    }}
-                    name="choices-multi-default"
-                  />
-                </div> */}
                 <div
                   style={{
                     display: "grid",
@@ -610,66 +542,6 @@ const GemstoneMaster = () => {
                       />
                     </div>
                   </div>
-                  {/* <div>
-                    <label
-                      className="label-class"
-                      htmlFor="product-price-input"
-                    >
-                      Dimension :
-                    </label>
-                    <Slider
-                      value={[
-                        state.fromDimension === "" ? 0.05 : state.fromDimension,
-                        state.toDimension === "" ? 10.0 : state.toDimension,
-                      ]}
-                      onChange={handleChangeDimension}
-                      valueLabelDisplay="auto"
-                      min={0.05}
-                      max={10.0}
-                      step={0.01}
-                    />
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Textinput
-                        className="form-control"
-                        type="text"
-                        id="minCost"
-                        // value={state.fromDimension === undefined ? 0.5 : state.fromDimension}
-                        value={state.fromDimension} // Use the "value" prop for a controlled input
-                        placeholder="Start Dimension"
-                        name="fromDimension"
-                        onChange={(e) =>
-                          changeState("fromDimension", e.target.value)
-                        }
-                        disabled={true}
-                        style={{ width: "140px" }}
-                      />
-
-                      <span
-                        style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
-                      >
-                        To
-                      </span>
-                      <Textinput
-                        type="text"
-                        id="maxCost"
-                        // value={state.toDimension === undefined ? 10.0 : state.toDimension}
-                        value={state.toDimension} // Use the "value" prop for a controlled input
-                        placeholder="End Dimension"
-                        name="toDimension"
-                        onChange={(e) =>
-                          changeState("toDimension", e.target.value)
-                        }
-                        disabled={true}
-                        style={{ width: "140px" }}
-                      />
-                    </div>
-                  </div> */}
                   <div>
                     <div style={{ paddingBottom: "10px" }}>
                       <label className="label-class">Dimension :</label>
@@ -805,6 +677,8 @@ const GemstoneMaster = () => {
               <Icon>add</Icon>
             </StyledAddButton>
           </Tooltip>
+
+          {/* Gem Stone Details Modal */}
           {open && (
             <GemstoneMasterDetails
               open={open}
@@ -816,6 +690,8 @@ const GemstoneMaster = () => {
               userData={selectedUserData}
             />
           )}
+
+          {/* Gem Stone Bulk Details Modal */}
           <GemstoneBulkMasterDetails
             open={bulkOpen}
             togglePopup={() => {
@@ -823,8 +699,9 @@ const GemstoneMaster = () => {
               paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
           />
+
+          {/* Find Gem Stone Bulk Details Modal */}
           <FindGemstoneModal
             open={findGemstone}
             togglePopup={() => {

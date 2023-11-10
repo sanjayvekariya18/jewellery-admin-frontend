@@ -31,7 +31,7 @@ const DiamondMaster = () => {
   const [findDiamond, setFindDiamond] = useState(false);
   const [gemDiamondData, setDiamondData] = useState(null);
 
-  // ----Pagination code------
+  // ------------------ Pagination code ----------
   const COLUMNS = [
     { title: "Stock No", classNameWidth: "thead-second-width-stone" },
     { title: "Shape", classNameWidth: "thead-second-width-address" },
@@ -54,6 +54,7 @@ const DiamondMaster = () => {
     }
     setFindDiamond(!findDiamond); // Toggle modal visibility
   };
+
   const getDataDiamond = (id) => {
     API.get(apiConfig.findDiamond.replace(":id", id)).then((res) => {
       setDiamondData(res); // Update gemStoneData when fetching data
@@ -67,18 +68,7 @@ const DiamondMaster = () => {
     getInitialStates,
     changeState,
     ...otherTableActionProps
-  } = usePaginationTable({
-    // shape: "",
-    // lab: "",
-    // fromPrice: price.minPrice,
-    // toPrice: price.maxPrice,
-    // fromCts: carat.minCarat,
-    // toCts: carat.maxCarat,
-    // fromTable: table.minTable,
-    // toTable: table.maxTable,
-    // fromDepth: depth.minDepth,
-    // toDepth: depth.maxDepth,
-  });
+  } = usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -112,6 +102,7 @@ const DiamondMaster = () => {
       toPrice: clear ? clearStates.toPrice : state.toPrice,
       lab: state.lab,
     };
+
     let newFilterState = { ...appConfig.default_pagination_state };
 
     if (clear) {
@@ -179,11 +170,6 @@ const DiamondMaster = () => {
           loader: false,
         });
       });
-    // .finally(() => {
-    //   if (openSearch == true) {
-    //     setOpenSearch(false);
-    //   }
-    // });
   };
 
   // ------------------Get Shap API --------------------------------
@@ -415,7 +401,6 @@ const DiamondMaster = () => {
     return state.data.map((item) => {
       return {
         item: item,
-
         columns: [
           <span>{item.stockId}</span>,
           <span>{item.shapeName}</span>,
@@ -461,9 +446,6 @@ const DiamondMaster = () => {
   };
 
   const togglePopupBulk = () => {
-    // if (bulkOpen) {
-    //     setSelectedUserData(null);
-    // }
     setBulkOpen(!bulkOpen);
   };
   const togglePopupSearch = () => {
@@ -515,7 +497,7 @@ const DiamondMaster = () => {
               reset={() => paginate(true)}
               search={() => {
                 paginate(false, true);
-                setOpenSearch(false); // Close the modal
+                setOpenSearch(false);
               }}
             >
               <div>
@@ -691,7 +673,6 @@ const DiamondMaster = () => {
                         ? price.maxPrice
                         : state.toPrice,
                     ]}
-                    // value={[state.fromPrice, state.toPrice]}
                     onChange={handleChangePrice}
                     valueLabelDisplay="auto"
                     min={price.minPrice}
@@ -973,6 +954,8 @@ const DiamondMaster = () => {
               <Icon>add</Icon>
             </StyledAddButton>
           </Tooltip>
+
+          {/* Diamond Master Details Modal */}
           {open && (
             <DiamondMasterDetails
               open={open}
@@ -984,6 +967,8 @@ const DiamondMaster = () => {
               userData={selectedUserData}
             />
           )}
+
+          {/* Find Diamond Modal */}
           <FindDiamondModal
             open={findDiamond}
             togglePopup={() => {
@@ -992,6 +977,8 @@ const DiamondMaster = () => {
             }}
             gemDiamondData={gemDiamondData}
           />
+
+          {/* Diamond Bulk Master Details Modal */}
           {bulkOpen && (
             <DiamondBulkMasterDetails
               open={bulkOpen}
@@ -1000,7 +987,6 @@ const DiamondMaster = () => {
                 paginate();
               }}
               callBack={() => paginate(true)}
-              //   userData={selectedUserData}
             />
           )}
         </Container>

@@ -20,50 +20,9 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
   const rules = {
     gemstoneData: "required",
   };
-  const [isLoader, setIsLoader] = useState(false);
-
-  // const handleSubmit = () => {
-  //   if (selectedFile) {
-  //     setIsLoader(true);
-  //     const formData = new FormData();
-  //     formData.append("gemstoneData", selectedFile);
-
-  //     API.post(apiConfig.gemstoneBulk, formData, {
-  //       headers: { "Content-Type": "multipart/form-data" },
-  //     })
-  //       .then((res) => {
-  //         HELPER.toaster.success("GemStone Bulk added successfully");
-  //         togglePopup();
-  //       })
-  //       .catch((error) => {
-  //         HELPER.toaster.error("Please Check your Excel sheet...");
-  //         if (
-  //           error.errors &&
-  //           error.errors.message &&
-  //           typeof error.errors.message === "object"
-  //         ) {
-  //           setErrorState(error.errors.message);
-  //           setErrorModel(true);
-  //           // togglePopup();
-  //           console.log("hello");
-  //         } else {
-  //           setErr(
-  //             error.errors && error.errors.message ? error.errors.message : error
-  //           );
-  //           togglePopup();
-  //           setErrorModel(true);
-  //           console.log(errorModel,"sadew");
-  //         }
-  //       })
-  //       .finally(() => {
-  //         setIsLoader(false);
-  //       });
-  //   }
-  // };
 
   const handleSubmit = () => {
     if (selectedFile) {
-      setIsLoader(true);
       const formData = new FormData();
       formData.append("gemstoneData", selectedFile);
 
@@ -92,9 +51,6 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
             );
             setErrorModel(true);
           }
-        })
-        .finally(() => {
-          setIsLoader(false);
         });
     }
   };

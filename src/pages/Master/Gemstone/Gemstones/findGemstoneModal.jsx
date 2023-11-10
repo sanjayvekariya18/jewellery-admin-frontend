@@ -1,11 +1,9 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-import Textarea from "../../../../components/UI/Textarea";
 
 const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
   const gemstoneInfo = [
-    // { label: "Title : ", key: "title" },
     { label: "Gemstone Type : ", key: "gemstoneType" },
     { label: "Shape Name : ", key: "shapeName" },
     { label: "Carat : ", key: "carat" },
@@ -15,8 +13,6 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
     { label: "M-Length : ", key: "mLength" },
     { label: "M-Width : ", key: "mWidth" },
     { label: "M-Depth : ", key: "mDepth" },
-    // { label: "Table : ", key: "table" },
-    // { label: "Depth : ", key: "depth" },
     { label: "Price : ", key: "price" },
   ];
 

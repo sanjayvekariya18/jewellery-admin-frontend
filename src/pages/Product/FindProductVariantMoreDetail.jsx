@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import PaginationTable, {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
-import { Navigate, useNavigate, useParams } from "react-router-dom/dist";
+import { useNavigate, useParams } from "react-router-dom/dist";
 import { apiConfig } from "../../config";
 import { API, HELPER } from "../../services";
 import { Box, Button } from "@mui/material";
@@ -39,8 +39,8 @@ const FindProductVariantMoreDetail = () => {
 
   const showAddressInDialog = (item) => {
     const address = item.description;
-    setAddressText(address); // Set the address text
-    textModaltoggle(); // Show the dialog
+    setAddressText(address);
+    textModaltoggle();
   };
 
   const { state, setState, changeState, ...otherTableActionProps } =
@@ -55,7 +55,6 @@ const FindProductVariantMoreDetail = () => {
     )
       .then((res) => {
         setProductData(res);
-        // setProductData(res.rows);
         setState({
           ...state,
           total_items: res.count,
@@ -86,6 +85,7 @@ const FindProductVariantMoreDetail = () => {
     { title: "Clarity" },
     { title: "Price" },
   ];
+
   // row in data in diamond
   const productVariantDiamond = productData.ProductVariantDiamonds;
   const rowsDiamond = useMemo(() => {
@@ -387,8 +387,8 @@ const FindProductVariantMoreDetail = () => {
           </div>
         </div>
       </Box>
-      {/* ThemeDialog Component */}
 
+      {/* ThemeDialog Component */}
       {/* Product Variant Diamonds */}
       <ThemeDialog
         isOpen={diamondModel}

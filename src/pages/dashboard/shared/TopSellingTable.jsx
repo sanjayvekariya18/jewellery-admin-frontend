@@ -2,10 +2,6 @@ import {
   Avatar,
   Box,
   Card,
-  Icon,
-  IconButton,
-  MenuItem,
-  Select,
   styled,
   Table,
   TableBody,
@@ -62,19 +58,13 @@ const TopSellingTable = () => {
   const bgPrimary = palette.primary.main;
   const bgSecondary = palette.secondary.main;
 
-  const handleDateRangeChange = (selectedDates) => {
-    // Handle the selected date range in your parent component
-    // console.log("Selected Date Range:", selectedDates);
-  };
+  const handleDateRangeChange = (selectedDates) => {};
 
   return (
     <Card elevation={3} sx={{ pt: "20px", mb: 2 }}>
       <CardHeader>
         <Title>top selling products</Title>
-        {/* <Select size="small" defaultValue="this_month">
-          <MenuItem value="this_month">This Month</MenuItem>
-          <MenuItem value="last_month">Last Month</MenuItem>
-        </Select> */}
+
         <div style={{ width: "250px" }}>
           <DateRangePicker
             placeholder="Select Date Range"
@@ -140,12 +130,6 @@ const TopSellingTable = () => {
                     <Small bgcolor={bgError}>out of stock</Small>
                   )}
                 </TableCell>
-
-                {/* <TableCell sx={{ px: 0 }} colSpan={1}>
-                  <IconButton>
-                    <Icon color="primary">edit</Icon>
-                  </IconButton>
-                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
