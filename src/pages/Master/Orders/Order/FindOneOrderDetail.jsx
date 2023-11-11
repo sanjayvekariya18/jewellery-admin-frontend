@@ -88,21 +88,25 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
                 </TableCell>
                 <TableCell
                   className={`${classes.tableHeader} ${classes.noUnderline}`}
+                  style={{ paddingLeft: "0" }}
                 >
                   Price
                 </TableCell>
                 <TableCell
                   className={`${classes.tableHeader} ${classes.noUnderline}`}
+                  style={{ paddingLeft: "0" }}
                 >
                   Quantity
                 </TableCell>
                 <TableCell
                   className={`${classes.tableHeader} ${classes.noUnderline}`}
+                  style={{ paddingLeft: "0" }}
                 >
                   Total
                 </TableCell>
                 <TableCell
                   className={`${classes.tableHeader} ${classes.noUnderline}`}
+                  style={{ paddingLeft: "0" }}
                 >
                   Status
                 </TableCell>
@@ -136,15 +140,19 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
             display: "grid",
             gridTemplateColumns: "auto auto",
             alignItems: "baseline",
-            marginTop: "20px",
+            marginTop: "25px",
+            marginBottom: "25px",
           }}
         >
-          <div>
+          <div className="main-billing-address-div">
             <Typography
               className={classes.billing}
-              style={{ fontSize: "18px", fontWeight: "600" }}
+              style={{
+                fontSize: "18px",
+                fontWeight: "600",
+              }}
             >
-              Billing Address:
+              Billing Address :
             </Typography>
             <Typography className={classes.billing}>
               {userData.order.customer.billing_addressLine1}
@@ -169,48 +177,92 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
               flexDirection: "column",
               alignItems: "end",
             }}
+            className="pricing-main-div"
           >
             <div
               style={{
                 display: "flex",
+                justifyContent: "space-between",
+                width: "45%",
+                alignItems: "center",
               }}
             >
               <Typography
                 className={classes.billing}
-                style={{ fontSize: "16px", fontWeight: "600" }}
+                style={{
+                  fontSize: "15px",
+                  fontWeight: "500",
+                  color: "#000000d9",
+                }}
               >
                 Sub Total :
               </Typography>
-              <Typography className={classes.billing}>
+              <Typography
+                className={classes.billing}
+                style={{
+                  fontSize: "15px",
+                  fontWeight: "500",
+                }}
+              >
                 ₹{userData.order.total}
               </Typography>
             </div>
             <div
               style={{
                 display: "flex",
+                justifyContent: "space-between",
+                width: "45%",
+                alignItems: "center",
               }}
             >
               <Typography
                 className={classes.billing}
-                style={{ fontSize: "16px", fontWeight: "600" }}
+                style={{
+                  fontSize: "15px",
+                  fontWeight: "500",
+                  color: "#000000d9",
+                }}
               >
-                Discount:
+                Discount :
               </Typography>
-              <Typography className={classes.billing}>- ₹{0}</Typography>
+              <Typography
+                className={classes.billing}
+                style={{
+                  fontSize: "15px",
+                  fontWeight: "500",
+                }}
+              >
+                - ₹{0}
+              </Typography>
             </div>
             {/* <Divider /> */}
             <div
               style={{
                 display: "flex",
+                justifyContent: "space-between",
+                width: "45%",
+                alignItems: "center",
+                paddingTop: "6px",
+                borderTop: "1px solid #8080802b",
               }}
             >
               <Typography
                 className={classes.billing}
-                style={{ fontSize: "16px", fontWeight: "600" }}
+                style={{
+                  fontSize: "15px",
+                  fontWeight: "500",
+                  color: "#000000d9",
+                }}
               >
-                Estimate Total*:
+                Estimate Total *:
               </Typography>
-              <Typography className={classes.billing}>
+              <Typography
+                className={classes.billing}
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "500",
+                }}
+              >
                 ₹{userData.order.payableAmount}
               </Typography>
             </div>

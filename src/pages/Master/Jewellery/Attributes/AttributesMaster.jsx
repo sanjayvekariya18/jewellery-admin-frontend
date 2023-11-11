@@ -34,22 +34,17 @@ const AttributesMaster = () => {
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
-    usePaginationTable({
-   
-    });
+    usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
- 
       ...appConfig.default_pagination_state,
     };
 
     let filter = {
       page: state.page,
-    
       rowsPerPage: state.rowsPerPage,
-    
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
@@ -98,8 +93,8 @@ const AttributesMaster = () => {
 
   const showAddressInDialog = (item) => {
     const address = item.details;
-    setAddressText(address); // Set the address text
-    textModaltoggle(); // Show the dialog
+    setAddressText(address);
+    textModaltoggle();
   };
 
   const rows = useMemo(() => {
@@ -195,28 +190,28 @@ const AttributesMaster = () => {
     }
   }, [selectedUserData]);
   // ------------------------------- Delete Shape ---------------------------------
-  const onClickDelete = (id) => {
-    Swal.fire({
-      title: "Are You Sure",
-      text: "Are you sure you want to remove this Attributes ?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "green",
-      cancelButtonColor: "red",
-      cancelButtonText: "No",
-      confirmButtonText: "Yes",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        API.destroy(apiConfig.attributesId.replace(":id", id))
-          .then((res) => {
-            toaster.success("Deleted Successfully");
-            paginate();
-          })
-          .catch(console.error);
-      }
-    });
-  };
+  // const onClickDelete = (id) => {
+  //   Swal.fire({
+  //     title: "Are You Sure",
+  //     text: "Are you sure you want to remove this Attributes ?",
+  //     icon: "question",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "green",
+  //     cancelButtonColor: "red",
+  //     cancelButtonText: "No",
+  //     confirmButtonText: "Yes",
+  //     reverseButtons: true,
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       API.destroy(apiConfig.attributesId.replace(":id", id))
+  //         .then((res) => {
+  //           toaster.success("Deleted Successfully");
+  //           paginate();
+  //         })
+  //         .catch(console.error);
+  //     }
+  //   });
+  // };
 
   return (
     <Container>

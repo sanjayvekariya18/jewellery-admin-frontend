@@ -41,6 +41,8 @@ const OrderMaster = () => {
   const [dropDown, setDropDown] = useState([]);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
+  const [isSelectEnabled, setIsSelectEnabled] = useState(false);
+
   const [filter, setFilter] = useState({
     orderStatus: "pending",
   });
@@ -182,15 +184,19 @@ const OrderMaster = () => {
   // ----------------multiple checkBox select code ----------------
   const handleCheckbox = (itemId) => {
     setSelectedCheckboxes((prevSelectedCheckboxes) => {
-      if (
-        prevSelectedCheckboxes.some((selectedItem) => selectedItem === itemId)
-      ) {
-        return prevSelectedCheckboxes.filter(
-          (selectedItem) => selectedItem !== itemId
-        );
+      const newSelectedCheckboxes = [...prevSelectedCheckboxes];
+
+      if (newSelectedCheckboxes.includes(itemId)) {
+        // If the checkbox is already selected, unselect it
+        const index = newSelectedCheckboxes.indexOf(itemId);
+        newSelectedCheckboxes.splice(index, 1);
       } else {
-        return [...prevSelectedCheckboxes, itemId];
+        // If the checkbox is newly selected, add it
+        newSelectedCheckboxes.push(itemId);
       }
+
+      setIsSelectEnabled(newSelectedCheckboxes.length > 0);
+      return newSelectedCheckboxes;
     });
   };
 
@@ -723,7 +729,7 @@ const OrderMaster = () => {
                 filter.orderStatus === "dispatch") && (
                 <ReactSelect
                   placeholder="Select Status"
-                  isDisabled={state.data?.length > 0 ? false : true}
+                  isDisabled={!isSelectEnabled}
                   options={
                     state.status && state.status.length !== 0
                       ? [
