@@ -28,6 +28,7 @@ import { pageRoutes } from "../../../../constants/routesList";
 import ApproveCancelOrder from "./ApproveCancelOrder";
 import moment from "moment-timezone";
 import FindOneOrderDetail from "./FindOneOrderDetail";
+import { useNavigate } from "react-router-dom";
 
 const OrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -41,7 +42,7 @@ const OrderMaster = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
   const [isSelectEnabled, setIsSelectEnabled] = useState(false);
-
+  const navigate = useNavigate();
   const [filter, setFilter] = useState({
     orderStatus: "pending",
   });
@@ -205,10 +206,11 @@ const OrderMaster = () => {
   };
 
   const handleOrderDetail = (id) => {
-    API.get(apiConfig.findOrder.replace(":id", id)).then((res) => {
-      setOrderDetail(res);
-      setOpenOrderDetail(true);
-    });
+    // API.get(apiConfig.findOrder.replace(":id", id)).then((res) => {
+    //   setOrderDetail(res);
+      // setOpenOrderDetail(true);
+      navigate(`${pageRoutes.findOrder}/${id}`);
+    // });
   };
 
   const approveCancelOrder = (data) => {
@@ -251,34 +253,34 @@ const OrderMaster = () => {
     borderRadius: "20px",
   };
 
-  
+
 
   const rows = useMemo(() => {
     return state.data.map((item) => {
       let optionsArray = [
-    {
-      key: "Order Details",
-      color: "#2d5ce8",
-      icon: "remove_red_eye",
-      onClick: () => handleOrderDetail(item.id),
-    },
-    {
-      key: "Cancel Order",
-      color: "red",
-      icon: "cancel",
-      onClick: () => handleCancelOrder(item.id),
-    }
-  ];
+        {
+          key: "Order Details",
+          color: "#2d5ce8",
+          icon: "remove_red_eye",
+          onClick: () => handleOrderDetail(item.id),
+        },
+        {
+          key: "Cancel Order",
+          color: "red",
+          icon: "cancel",
+          onClick: () => handleCancelOrder(item.id),
+        }
+      ];
 
-  // Conditionally add "Cancel Order" option based on filter.orderStatus
-  if (filter.orderStatus === "cancel_request") {
-    optionsArray.splice(1, 0, {
-      key: "Approve Cancel Order",
-        color: "green",
-        icon: "check_circle",
-        onClick: () => approveCancelOrder(item.id),
-    });
-  }
+      // Conditionally add "Cancel Order" option based on filter.orderStatus
+      if (filter.orderStatus === "cancel_request") {
+        optionsArray.splice(1, 0, {
+          key: "Approve Cancel Order",
+          color: "green",
+          icon: "check_circle",
+          onClick: () => approveCancelOrder(item.id),
+        });
+      }
       return {
         item: item,
         columns: [

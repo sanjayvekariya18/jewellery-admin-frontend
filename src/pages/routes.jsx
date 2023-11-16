@@ -94,6 +94,9 @@ const FindProductVariantMoreDetail = Loadable(
 const FindProductVariant = Loadable(
   lazy(() => import("./Product/FindProductVariant"))
 );
+const FindOneOrderDetail = Loadable(
+  lazy(() => import("./Master/Orders/Order/FindOneOrderDetail"))
+);
 
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
@@ -121,6 +124,10 @@ const routes = [
       {
         path: `${pageRoutes.variantProductId}/:productId`,
         element: <FindProductVariant />,
+      },
+      {
+        path: `${pageRoutes.findOrder}/:Id`,
+        element: <FindOneOrderDetail />,
       },
       {
         path: `${pageRoutes.productVariantId}/:productVariantId`,

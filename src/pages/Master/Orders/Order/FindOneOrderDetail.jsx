@@ -1,8 +1,6 @@
-import React from "react";
-import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   TableCell,
   TableContainer,
   TableHead,
@@ -11,10 +9,16 @@ import {
   Table,
   TableBody,
   Typography,
-  Divider,
+
+
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import moment from "moment";
+import { API } from "../../../../services";
+import { useParams } from "react-router-dom";
+import { apiConfig } from "../../../../config";
+import { Breadcrumb, Container } from "../../../../components";
+import { pageRoutes } from "../../../../constants/routesList";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -44,12 +48,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
-  console.log(userData.orderProducts, "userData");
-  const productData = userData.orderProducts;
-  const orderTracking = userData.orderTracking;
+const FindOneOrderDetail = () => {
+  const { Id } = useParams();
+  const [orderDetail, setOrderDetail] = useState({});
+  useEffect(() => {
+    API.get(apiConfig.findOrder.replace(":Id", Id))
+      .then((res) => {
+        setOrderDetail(res)
+      })
+  }, [])
+
+  const productData = orderDetail.orderProducts;
+  const orderTracking = orderDetail.orderTracking;
   const classes = useStyles();
-  const totalSubtotal = productData.reduce((accumulator, product) => {
+  const totalSubtotal = productData && productData.reduce((accumulator, product) => {
     const subtotal =
       product.productVariant && product.gemstone
         ? ((product.productVariant.totalPrice || 0) + product.gemstone.price) * product.quantity
@@ -65,28 +77,19 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
   }, 0);
 
   return (
-    <ThemeDialog
-      title="Order Details"
-      isOpen={open}
-      fullWidth
-      maxWidth="lg"
-      onClose={() => {
-        togglePopup();
-      }}
-      actionBtns={
-        <Box>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              togglePopup();
-            }}
-          >
-            Close
-          </Button>
-        </Box>
-      }
-    >
+    <Container>
+      <Box
+        className="breadcrumb"
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Breadcrumb
+          routeSegments={[
+            { name: "Masters", path: pageRoutes.orders },
+            { name: "Order", path: pageRoutes.master.orders.orderPage },
+            { name: "Order Detail" },
+          ]}
+        />
+      </Box>
       <Box>
         <TableContainer component={Paper}>
           <Table
@@ -129,7 +132,7 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
             </TableHead>
             <TableBody>
 
-              {productData.map((product, index) => {
+              {productData && productData.map((product, index) => {
                 return (
                   <TableRow key={index} className={classes.tableRow}>
                     <TableCell className={`${classes.noUnderline}`}>
@@ -188,20 +191,20 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
               Billing Address :
             </Typography>
             <Typography className={classes.billing}>
-              {userData.order.customer.billing_addressLine1}
+              {orderDetail.order?.customer?.billing_addressLine1}
             </Typography>
             <Typography className={classes.billing}>
-              {userData.order.customer.billing_addressLine2}
+              {orderDetail.order?.customer.billing_addressLine2}
             </Typography>
             <Typography className={classes.billing}>
-              {userData.order.customer.billing_city +
+              {orderDetail.order?.customer.billing_city +
                 "," +
-                userData.order.customer.billing_state}
+                orderDetail.order?.customer.billing_state}
             </Typography>
             <Typography className={classes.billing}>
-              {userData.order.customer.billing_country +
+              {orderDetail.order?.customer.billing_country +
                 "," +
-                userData.order.customer.billing_pincode}
+                orderDetail.order?.customer.billing_pincode}
             </Typography>
           </div>
           <div
@@ -296,12 +299,12 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
                   fontWeight: "500",
                 }}
               >
-                ₹{userData.order.payableAmount}
+                ₹{orderDetail.order?.payableAmount}
               </Typography>
             </div>
           </div>
         </div>
-        {orderTracking.length > 0 ? (
+        {orderTracking && orderTracking.length > 0 ? (
           <Box>
             <Typography variant="h6" className={classes.billing}>
               Order Tracking
@@ -327,7 +330,7 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {orderTracking.map((order, index) => (
+                {orderTracking && orderTracking.map((order, index) => (
                   <TableRow key={index} className={classes.tableRow}>
                     <TableCell className={`${classes.noUnderline}`}>
                       {index + 1}
@@ -349,7 +352,7 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
           </Typography>
         )}
       </Box>
-    </ThemeDialog>
+    </Container>
   );
 };
 

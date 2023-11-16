@@ -125,7 +125,7 @@ const apiConfig = {
   orderFilterDropDown :"orders/dropdowns",
   cancelOrder:"orders/cancel-order",
   approveCancelOrder:"orders/cancel-order-request/approve",
-  findOrder: "orders/:id",
+  findOrder: "orders/:Id",
 
   // return order
   returnOrder :"return-orders",

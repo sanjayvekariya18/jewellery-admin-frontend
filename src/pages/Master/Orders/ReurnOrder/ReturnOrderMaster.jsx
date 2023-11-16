@@ -320,10 +320,6 @@ const ReturnOrderMaster = () => {
           <span>
             {moment(item.createdAt).format(appConfig.dateAndTimeDisplayFormat)}
           </span>,
-          // <div onClick={() => showAddressInDialog(item)}>
-          //   <span>{item.returnReason}</span>
-          // </div>
-
           <div style={{ width: "80px" }}>
             <Button
               color="primary"
