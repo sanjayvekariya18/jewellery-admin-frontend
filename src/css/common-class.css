@@ -412,7 +412,7 @@ input::-webkit-inner-spin-button {
 
 .main-buttons-handle-order {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr auto;
+    grid-template-columns: 1fr auto 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     align-items: center;
 }
 

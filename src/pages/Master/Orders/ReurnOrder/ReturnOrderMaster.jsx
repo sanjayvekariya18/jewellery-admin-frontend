@@ -307,8 +307,8 @@ const ReturnOrderMaster = () => {
           <div className="span-permision">
             <span>{item.order.orderNo}</span>
           </div>,
-          <span>{item.OrderProduct.ProductVariant.title}</span>,
-          <span>{item.OrderProduct.ProductVariant.totalPrice}</span>,
+          <span>{item.OrderProduct.ProductVariant?.title}</span>,
+          <span>{item.OrderProduct.ProductVariant?.totalPrice}</span>,
           <span>
             {moment(item.createdAt).format(appConfig.dateAndTimeDisplayFormat)}
           </span>,

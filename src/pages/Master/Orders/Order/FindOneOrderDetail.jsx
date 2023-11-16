@@ -49,6 +49,20 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
   const productData = userData.orderProducts;
   const orderTracking = userData.orderTracking;
   const classes = useStyles();
+  const totalSubtotal = productData.reduce((accumulator, product) => {
+    const subtotal =
+      product.productVariant && product.gemstone
+        ? ((product.productVariant.totalPrice || 0) + product.gemstone.price) * product.quantity
+        : product.productVariant
+          ? (product.productVariant.totalPrice || 0) * product.quantity
+          : product.gemstone
+            ? product.gemstone.price * product.quantity
+            : product.diamond
+              ? product.diamond.price * product.quantity
+              : 0;
+
+    return accumulator + subtotal;
+  }, 0);
 
   return (
     <ThemeDialog
@@ -102,36 +116,55 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
                   className={`${classes.tableHeader} ${classes.noUnderline}`}
                   style={{ paddingLeft: "0" }}
                 >
-                  Total
+                  Status
                 </TableCell>
                 <TableCell
                   className={`${classes.tableHeader} ${classes.noUnderline}`}
                   style={{ paddingLeft: "0" }}
                 >
-                  Status
+                  Total
                 </TableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
-              {productData.map((product, index) => (
-                <TableRow key={index} className={classes.tableRow}>
-                  <TableCell className={`${classes.noUnderline}`}>
-                    {product.title}
-                  </TableCell>
-                  <TableCell className={classes.noUnderline}>
-                    {product.makingPrice}
-                  </TableCell>
-                  <TableCell className={classes.noUnderline}>
-                    {product.quantity}
-                  </TableCell>
-                  <TableCell className={classes.noUnderline}>
-                    {product.totalPrice}
-                  </TableCell>
-                  <TableCell className={classes.noUnderline}>
-                    {product.orderStatus}
-                  </TableCell>
-                </TableRow>
-              ))}
+
+              {productData.map((product, index) => {
+                return (
+                  <TableRow key={index} className={classes.tableRow}>
+                    <TableCell className={`${classes.noUnderline}`}>
+                      {product.productVariant ? product.productVariant.title : ''}
+                      {product.productVariant && product.gemstone ? ` (${product.gemstone.title})` : product.gemstone?.title}
+                      {product.productVariant && product.diamond ? ` (${product.diamond.carat} Carat ${product.diamond.ShapeMaster ? product.diamond.ShapeMaster.shape : ''})` : (product.diamond ? ` ${product.diamond.carat} Carat ${product.diamond.ShapeMaster ? product.diamond.ShapeMaster.shape : ''}` : '')}
+                      {!product.productVariant && !product.gemstone && !product.diamond ? 'No details available' : ''}
+                    </TableCell>
+
+                    <TableCell className={classes.noUnderline}>
+                      {`${product.productVariant ? product.productVariant.totalPrice : ''}`}
+                      {product.productVariant ? product.gemstone && !product.diamond && `(${product.gemstone.price})` : product.gemstone?.price}
+                      {product.productVariant ? !product.gemstone && product.diamond && ` (${product.diamond.price})` : product.diamond?.price}
+                    </TableCell>
+                    <TableCell className={classes.noUnderline}>
+                      {product.quantity}
+                    </TableCell>
+                    <TableCell className={classes.noUnderline}>
+                      {product.orderStatus}
+                    </TableCell>
+                    <TableCell className={classes.noUnderline}>
+                      {product.productVariant && product.gemstone ?
+                        ((product.productVariant.totalPrice || 0) + product.gemstone.price) * product.quantity :
+                        product.productVariant ?
+                          (product.productVariant.totalPrice || 0) * product.quantity :
+                          product.gemstone ?
+                            product.gemstone.price * product.quantity :
+                            product.diamond ?
+                              product.diamond.price * product.quantity :
+                              ''}
+                    </TableCell>
+
+                  </TableRow>
+                )
+              })}
             </TableBody>
           </Table>
         </TableContainer>
@@ -204,7 +237,7 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
                   fontWeight: "500",
                 }}
               >
-                ₹{userData.order.total}
+                ₹{totalSubtotal}
               </Typography>
             </div>
             <div
@@ -268,47 +301,53 @@ const FindOneOrderDetail = ({ open, togglePopup, userData }) => {
             </div>
           </div>
         </div>
-        <Box>
-          <Typography variant="h6" className={classes.billing}>
-            Order Tracking
-          </Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  className={`${classes.tableHeader} ${classes.noUnderline}`}
-                >
-                  Sr No.
-                </TableCell>
-                <TableCell
-                  className={`${classes.tableHeader} ${classes.noUnderline}`}
-                >
-                  Order Date
-                </TableCell>
-                <TableCell
-                  className={`${classes.tableHeader} ${classes.noUnderline}`}
-                >
-                  Description
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {orderTracking.map((order, index) => (
-                <TableRow key={index} className={classes.tableRow}>
-                  <TableCell className={`${classes.noUnderline}`}>
-                    {index + 1}
+        {orderTracking.length > 0 ? (
+          <Box>
+            <Typography variant="h6" className={classes.billing}>
+              Order Tracking
+            </Typography>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    className={`${classes.tableHeader} ${classes.noUnderline}`}
+                  >
+                    Sr No.
                   </TableCell>
-                  <TableCell className={classes.noUnderline}>
-                    {moment(order.updatedAt).format("DD/MM/YYYY")}
+                  <TableCell
+                    className={`${classes.tableHeader} ${classes.noUnderline}`}
+                  >
+                    Order Date
                   </TableCell>
-                  <TableCell className={classes.noUnderline}>
-                    {order.description}
+                  <TableCell
+                    className={`${classes.tableHeader} ${classes.noUnderline}`}
+                  >
+                    Description
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
+              </TableHead>
+              <TableBody>
+                {orderTracking.map((order, index) => (
+                  <TableRow key={index} className={classes.tableRow}>
+                    <TableCell className={`${classes.noUnderline}`}>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell className={classes.noUnderline}>
+                      {moment(order.updatedAt).format("DD/MM/YYYY")}
+                    </TableCell>
+                    <TableCell className={classes.noUnderline}>
+                      {order.description}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        ) : (
+          <Typography variant="h6" className={classes.billing}>
+            No order tracking data available.
+          </Typography>
+        )}
       </Box>
     </ThemeDialog>
   );

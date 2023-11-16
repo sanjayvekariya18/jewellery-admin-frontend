@@ -33,7 +33,6 @@ const OrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [orderDetail, setOrderDetail] = useState(null);
   const [openOrderDetail, setOpenOrderDetail] = useState(null);
-
   const [approveCancel, setApproveCancel] = useState(null);
   const [openSearch, setOpenSearch] = useState(false);
   const [open, setOpen] = useState(false);
@@ -50,36 +49,36 @@ const OrderMaster = () => {
   // ----Pagination code------
   const COLUMNS = [
     filter.orderStatus === "pending" ||
-    filter.orderStatus === "approve" ||
-    filter.orderStatus === "processing" ||
-    filter.orderStatus === "packed" ||
-    filter.orderStatus === "dispatch"
+      filter.orderStatus === "approve" ||
+      filter.orderStatus === "processing" ||
+      filter.orderStatus === "packed" ||
+      filter.orderStatus === "dispatch"
       ? {
-          title: "Select Order",
-          order: false,
-          field: "totalReturnProducts",
-        }
+        title: "Select Order",
+        order: false,
+        field: "totalReturnProducts",
+      }
       : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
+      },
     { title: "Order No", order: true, field: "orderNo" },
     { title: "Customer Name", order: false, field: "customerName" },
     { title: "Total Products", order: false, field: "totalProducts" },
     filter.orderStatus === "delivered"
       ? {
-          title: "Total Return Products",
-          order: false,
-          field: "totalReturnProducts",
-        }
+        title: "Total Return Products",
+        order: false,
+        field: "totalReturnProducts",
+      }
       : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
+      },
     { title: "Amount", order: false, field: "payableAmount" },
     { title: "Order Date", order: false, field: "orderDate" },
     { title: "Payment Status", order: false, field: "paymentStatus" },
@@ -106,20 +105,20 @@ const OrderMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-              .tz(
-                dateRange[0],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[0],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-              .tz(
-                dateRange[1],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[1],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -151,11 +150,11 @@ const OrderMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
           status: res.statuses,
@@ -207,7 +206,6 @@ const OrderMaster = () => {
 
   const handleOrderDetail = (id) => {
     API.get(apiConfig.findOrder.replace(":id", id)).then((res) => {
-      console.log(res, "res");
       setOrderDetail(res);
       setOpenOrderDetail(true);
     });
@@ -253,8 +251,34 @@ const OrderMaster = () => {
     borderRadius: "20px",
   };
 
+  
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
+      let optionsArray = [
+    {
+      key: "Order Details",
+      color: "#2d5ce8",
+      icon: "remove_red_eye",
+      onClick: () => handleOrderDetail(item.id),
+    },
+    {
+      key: "Cancel Order",
+      color: "red",
+      icon: "cancel",
+      onClick: () => handleCancelOrder(item.id),
+    }
+  ];
+
+  // Conditionally add "Cancel Order" option based on filter.orderStatus
+  if (filter.orderStatus === "cancel_request") {
+    optionsArray.splice(1, 0, {
+      key: "Approve Cancel Order",
+        color: "green",
+        icon: "check_circle",
+        onClick: () => approveCancelOrder(item.id),
+    });
+  }
       return {
         item: item,
         columns: [
@@ -264,14 +288,14 @@ const OrderMaster = () => {
               filter.orderStatus === "processing" ||
               filter.orderStatus === "packed" ||
               filter.orderStatus === "dispatch") && (
-              <Checkbox
-                checked={selectedCheckboxes.some(
-                  (selectedItem) => selectedItem === item.id
-                )}
-                onChange={() => handleCheckbox(item.id)}
-                color="primary"
-              />
-            )}
+                <Checkbox
+                  checked={selectedCheckboxes.some(
+                    (selectedItem) => selectedItem === item.id
+                  )}
+                  onChange={() => handleCheckbox(item.id)}
+                  color="primary"
+                />
+              )}
           </span>,
           <span>{item.orderNo}</span>,
           <span>{item.customerName}</span>,
@@ -291,29 +315,8 @@ const OrderMaster = () => {
             <span>{item.paymentStatus}</span>
           </div>,
           <span>
-            <MaxHeightMenu
-              optionsMenu={[
-                {
-                  key: "Order Details",
-                  color: "#2d5ce8",
-                  icon: "remove_red_eye",
-                  onClick: () => handleOrderDetail(item.id),
-                },
-                {
-                  key: "Cancel Order",
-                  color: "red",
-                  icon: "cancel",
-                  onClick: () => handleCancelOrder(item.id),
-                },
-                {
-                  key: "Approve Cancel Order",
-                  color: "green",
-                  icon: "check_circle",
-                  onClick: () => approveCancelOrder(item.id),
-                },
-              ]}
-            />
-          </span>,
+            <MaxHeightMenu optionsMenu={optionsArray} />
+          </span>
         ],
       };
     });
@@ -572,6 +575,23 @@ const OrderMaster = () => {
                 onClick={() =>
                   setFilter({
                     ...filter,
+                    orderStatus: "cancel_request",
+                  })
+                }
+                style={
+                  filter.orderStatus === "cancel_request"
+                    ? activeButtonStyle
+                    : buttonStyle
+                }
+              >
+                Cancel request
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  setFilter({
+                    ...filter,
                     orderStatus: "approve",
                   })
                 }
@@ -702,23 +722,7 @@ const OrderMaster = () => {
               >
                 Fail
               </Button>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() =>
-                  setFilter({
-                    ...filter,
-                    orderStatus: "cancel_request",
-                  })
-                }
-                style={
-                  filter.orderStatus === "cancel_request"
-                    ? activeButtonStyle
-                    : buttonStyle
-                }
-              >
-                Customer Cancel Order
-              </Button>
+
             </div>
 
             <div style={{ width: "260px" }}>
@@ -727,23 +731,23 @@ const OrderMaster = () => {
                 filter.orderStatus === "processing" ||
                 filter.orderStatus === "packed" ||
                 filter.orderStatus === "dispatch") && (
-                <ReactSelect
-                  placeholder="Select Status"
-                  isDisabled={!isSelectEnabled}
-                  options={
-                    state.status && state.status.length !== 0
-                      ? [
+                  <ReactSelect
+                    placeholder="Select Status"
+                    isDisabled={!isSelectEnabled}
+                    options={
+                      state.status && state.status.length !== 0
+                        ? [
                           {
                             label: state.status[0],
                             value: state.status[0],
                           },
                         ]
-                      : []
-                  }
-                  onChange={editOrderStatus}
-                  name="status-select"
-                />
-              )}
+                        : []
+                    }
+                    onChange={editOrderStatus}
+                    name="status-select"
+                  />
+                )}
             </div>
           </div>
           {state.data?.length > 0 ? (
