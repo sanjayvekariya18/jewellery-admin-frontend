@@ -1,13 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
-import { Box, Button, Table, TableBody, TableHead, TableRow, TableCell } from '@mui/material';
+import { Box, Button, Table, TableBody, TableContainer, TableRow, TableCell } from '@mui/material';
 import { apiConfig, appConfig } from '../../../../config';
 import { API } from '../../../../services';
 import _ from "lodash";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import PaginationTable, { usePaginationTable } from '../../../../components/UI/Pagination/PaginationTable';
 import Textarea from "../../../../components/UI/Textarea";
-
 
 const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     const [productDetail, setProductDetail] = useState("");
@@ -18,7 +17,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     const textModaltoggle = () => {
         setTextModal(!textModal);
     };
-    const TITLE = [
+    const PRODUCTVARIANT = [
         { title: "Stock No", classNameWidth: "thead-second-width" },
         { title: "Description", classNameWidth: "thead-second-width-title" },
         { title: "Title", classNameWidth: "thead-second-width-title" },
@@ -32,73 +31,11 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
         { title: "Total Price", classNameWidth: "thead-second-width" },
         { title: "Attribute", classNameWidth: "thead-second-width" },
     ];
-    const GEMSTONE = [
-        { title: "Sr no", classNameWidth: "thead-second-width" },
-        { title: "Title", classNameWidth: "thead-second-width-title" },
-        { title: "Description", classNameWidth: "thead-second-width-title" },
-        { title: "Origin", classNameWidth: "thead-second-width" },
-        { title: "Color", classNameWidth: "thead-second-width" },
-        { title: "MLength", classNameWidth: "thead-second-width" },
-        { title: "MWidth", classNameWidth: "thead-second-width" },
-        { title: "MDepth", classNameWidth: "thead-second-width" },
-        { title: "Clarity", classNameWidth: "thead-second-width" },
-        { title: "Price", classNameWidth: "thead-second-width" },
-    ];
-    const gemstone = [
-        {
-            item: productDetail?.orderProduct?.Gemstone,
-            columns: [
-                <span key="sr-no">{1}</span>,
-                <div className="common-thead-second-width-title">
-                    <span>{productDetail?.orderProduct?.Gemstone?.title}</span>
-                </div>,
-                <span
-                    className="common-thead-second-width-title-answer"
-                    style={{ fontWeight: "500", cursor: "pointer" }}
-                    onClick={() => showAddressInDialog(productDetail?.orderProduct?.Gemstone)}
-                >
-                    {productDetail?.orderProduct?.Gemstone?.description}
-                </span>,
-                <span>{productDetail?.orderProduct?.Gemstone?.origin}</span>,
-                <span>{productDetail?.orderProduct?.Gemstone?.color}</span>,
-                <span>{productDetail?.orderProduct?.Gemstone?.mLength}</span>,
-                <span>{productDetail?.orderProduct?.Gemstone?.mWidth}</span>,
-                <span>{productDetail?.orderProduct?.Gemstone?.mDepth}</span>,
-                <span>{productDetail?.orderProduct?.Gemstone?.clarity}</span>,
-                <span>{productDetail?.orderProduct?.Gemstone?.price}</span>,
-            ],
-        },
-    ];
-    const showAddressInDialog = (productDetail) => {
-        const description = productDetail.description;
-        setAddressText(description);
-        textModaltoggle();
-    };
-
-    const {
-        state,
-        setState,
-        changeState,
-        getInitialStates,
-        ...otherTableActionProps
-    } = usePaginationTable({});
-
-    const paginate = (clear = false, isNewFilter = false) => {
-        changeState("loader", true);
-        API.get(apiConfig.findProductDetail.replace(":id", productDetailData))
-            .then((res) => {
-                setProductDetail(res); // Update this line
-            })
-    };
-
-    useEffect(() => {
-        paginate();
-    }, [state.page, state.rowsPerPage]);
-    const rows = [
+    const rowsProductVariant = [
         {
             item: productDetail?.productVariant,
             columns: [
-                <span key="sr-no">{productDetail?.productVariant?.Product?.stockId}</span>,
+                <span key="sr-no">{1}</span>,
                 <span
                     className="common-thead-second-width-title-answer"
                     style={{ fontWeight: "500", cursor: "pointer" }}
@@ -126,6 +63,47 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
             ],
         },
     ];
+
+    // gemstone details display
+
+    const GEMSTONE = [
+        { title: "Sr no", classNameWidth: "thead-second-width" },
+        { title: "Title", classNameWidth: "thead-second-width-title" },
+        { title: "Description", classNameWidth: "thead-second-width-title" },
+        { title: "Origin", classNameWidth: "thead-second-width" },
+        { title: "Color", classNameWidth: "thead-second-width" },
+        { title: "MLength", classNameWidth: "thead-second-width" },
+        { title: "MWidth", classNameWidth: "thead-second-width" },
+        { title: "MDepth", classNameWidth: "thead-second-width" },
+        { title: "Clarity", classNameWidth: "thead-second-width" },
+        { title: "Price", classNameWidth: "thead-second-width" },
+    ];
+    const rowsGemstone = [
+        {
+            item: productDetail?.orderProduct?.Gemstone,
+            columns: [
+                <div className="common-thead-second-width-title">
+                    <span>{productDetail?.orderProduct?.Gemstone?.title}</span>
+                </div>,
+                <span
+                    className="common-thead-second-width-title-answer"
+                    style={{ fontWeight: "500", cursor: "pointer" }}
+                    onClick={() => showAddressInDialog(productDetail?.orderProduct?.Gemstone)}
+                >
+                    {productDetail?.orderProduct?.Gemstone?.description}
+                </span>,
+                <span>{productDetail?.orderProduct?.Gemstone?.origin}</span>,
+                <span>{productDetail?.orderProduct?.Gemstone?.color}</span>,
+                <span>{productDetail?.orderProduct?.Gemstone?.mLength}</span>,
+                <span>{productDetail?.orderProduct?.Gemstone?.mWidth}</span>,
+                <span>{productDetail?.orderProduct?.Gemstone?.mDepth}</span>,
+                <span>{productDetail?.orderProduct?.Gemstone?.clarity}</span>,
+                <span>{productDetail?.orderProduct?.Gemstone?.price}</span>,
+            ],
+        },
+    ];
+
+    // attributes detail
     const productVariantGemstone = productDetail?.productVariant?.attributes;
     const COLUMNSATTRIBUTES = [
         { title: "Index" },
@@ -147,10 +125,77 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
             })
         );
     }, [productVariantGemstone]);
+
+
+    // diamond detail
+
+    const DIAMOND = [
+        { title: "StockId", classNameWidth: "thead-second-width" },
+        { title: "Carat", classNameWidth: "thead-second-width-title" },
+        { title: "ShapeName", classNameWidth: "thead-second-width-title" },
+        { title: "Color", classNameWidth: "thead-second-width" },
+        { title: "Clarity", classNameWidth: "thead-second-width" },
+        { title: "Origin", classNameWidth: "thead-second-width" },
+        { title: "MLength", classNameWidth: "thead-second-width" },
+        { title: "MWidth", classNameWidth: "thead-second-width" },
+        { title: "MDepth", classNameWidth: "thead-second-width" },
+        { title: "LabName", classNameWidth: "thead-second-width" },
+        { title: "Price", classNameWidth: "thead-second-width" },
+    ]
+    console.log(productDetail.diamond, "productDetail");
+    const rowsDiamond = [
+        {
+            item: productDetail?.diamond,
+            columns: [
+                <div className="common-thead-second-width-title">
+                    <span>{productDetail?.diamond?.stockId}</span>
+                </div>,
+                <span>{productDetail?.diamond?.carat}</span>,
+                <span>{productDetail?.diamond?.shapeName}</span>,
+                <span>{productDetail?.diamond?.color}</span>,
+                <span>{productDetail?.diamond?.clarity}</span>,
+                <span>{productDetail?.diamond?.origin}</span>,
+                <span>{productDetail?.diamond?.mLength}</span>,
+                <span>{productDetail?.diamond?.mWidth}</span>,
+                <span>{productDetail?.diamond?.mDepth}</span>,
+                <span>{productDetail?.diamond?.labName}</span>,
+                <span>{productDetail?.diamond?.price}</span>,
+            ],
+        },
+    ];
+
+
+    const showAddressInDialog = (productDetail) => {
+        const description = productDetail.description;
+        setAddressText(description);
+        textModaltoggle();
+    };
+
+    const {
+        state,
+        setState,
+        changeState,
+        getInitialStates,
+        ...otherTableActionProps
+    } = usePaginationTable({});
+
+    const paginate = (clear = false, isNewFilter = false) => {
+        changeState("loader", true);
+        API.get(apiConfig.findProductDetail.replace(":id", productDetailData))
+            .then((res) => {
+                setProductDetail(res);
+            })
+    };
+
+    useEffect(() => {
+        paginate();
+    }, [state.page, state.rowsPerPage]);
+
+
     return (
         <>
             <ThemeDialog
-                title={`Product Details: ${productDetailData?.productVariant?.Product?.stockId || ""}`}
+                title={"Product Details"}
                 isOpen={open}
                 maxWidth="lg"
                 onClose={togglePopup}
@@ -162,63 +207,63 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                     </Box>
                 }
             >
-                {Object.keys(productDetail).length !== 0 && (
-                    <>
-                        <h3>Product Variant Detail</h3>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    {/* Render Table Headers */}
-                                    {TITLE.map((header, index) => (
-                                        <TableCell key={index} className={header.classNameWidth} style={{ backgroundColor: '#f0f0f0' }}>
-                                            {header.title}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {rows.map((row, index) => (
-                                    <TableRow key={index}>
-                                        {row.columns.map((cell, cellIndex) => (
-                                            <TableCell key={cellIndex}>
-                                                {cell}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </>
-                )}
 
                 {Object.keys(productDetail).length !== 0 && (
-                    <>
-                        <h3>Gemstone detail</h3>
+                    <TableContainer style={{ overflow: "hidden" }}>
                         <Table>
-                            <TableHead>
-                                <TableRow>
-                                    {/* Render Table Headers */}
-                                    {GEMSTONE.map((header, index) => (
-                                        <TableCell key={index} className={header.classNameWidth} style={{ backgroundColor: '#f0f0f0' }}>
-                                            {header.title}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
                             <TableBody>
-                                {gemstone.map((row, index) => (
+                                <TableRow>
+                                    {/* Product Variant Details */}
+                                    {rowsProductVariant[0] && Object.keys(rowsProductVariant[0]?.item || {}).length > 0 && (
+                                        <TableCell colSpan={8} align="center">
+                                            <h3>Product Variant Details</h3>
+                                        </TableCell>
+                                    )}
+                                    {/* Gemstone Details */}
+                                    {rowsGemstone[0] && Object.keys(rowsGemstone[0]?.item || {}).length > 0 && (
+                                        <TableCell colSpan={4} align="center">
+                                            <h3>Gemstone Details</h3>
+                                        </TableCell>
+                                    )}
+                                    {/* Diamond Details */}
+                                    {rowsDiamond[0] && Object.keys(rowsDiamond[0]?.item || {}).length > 0 && (
+                                        <TableCell colSpan={4} align="center">
+                                            <h3>Diamond Details</h3>
+                                        </TableCell>
+                                    )}
+                                </TableRow>
+                                {/* Displaying details for each section */}
+                                {PRODUCTVARIANT.map((header, index) => (
                                     <TableRow key={index}>
-                                        {row.columns.map((cell, cellIndex) => (
-                                            <TableCell key={cellIndex}>
-                                                {cell}
-                                            </TableCell>
-                                        ))}
+                                        {/* Product Variant Details */}
+                                        <TableCell style={{ fontWeight: 'bold' }} colSpan={2}>
+                                            {header?.title}:
+                                        </TableCell>
+                                        <TableCell colSpan={2}>
+                                            {rowsProductVariant[0]?.columns[index]}
+                                        </TableCell>
+                                        {/* Gemstone Details */}
+                                        <TableCell style={{ fontWeight: 'bold' }} colSpan={2}>
+                                            {rowsGemstone[0] && Object.keys(rowsGemstone[0]?.item || {}).length > 0 && GEMSTONE[index]?.title && `${GEMSTONE[index].title}:`}
+                                        </TableCell>
+                                        <TableCell colSpan={2}>
+                                            {rowsGemstone[0]?.columns[index]}
+                                        </TableCell>
+                                        {/* Diamond Details */}
+                                        <TableCell style={{ fontWeight: 'bold' }} colSpan={2}>
+                                            {rowsDiamond[0] && Object.keys(rowsDiamond[0]?.item || {}).length > 0 && DIAMOND[index]?.title && `${DIAMOND[index].title}:`}
+                                        </TableCell>
+                                        <TableCell colSpan={2}>
+                                            {rowsDiamond[0]?.columns[index]}
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
-                    </>
+                    </TableContainer>
                 )}
+
+
 
                 {textModal && (
                     <ThemeDialog
