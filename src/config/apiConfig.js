@@ -126,6 +126,7 @@ const apiConfig = {
   cancelOrder:"orders/cancel-order",
   approveCancelOrder:"orders/cancel-order-request/approve",
   findOrder: "orders/:Id",
+  findProductDetail :"orders/order-product/:id",
 
   // return order
   returnOrder :"return-orders",

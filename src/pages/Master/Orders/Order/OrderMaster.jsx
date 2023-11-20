@@ -271,8 +271,6 @@ const OrderMaster = () => {
           onClick: () => handleCancelOrder(item.id),
         }
       ];
-
-      // Conditionally add "Cancel Order" option based on filter.orderStatus
       if (filter.orderStatus === "cancel_request") {
         optionsArray.splice(1, 0, {
           key: "Approve Cancel Order",
@@ -281,6 +279,7 @@ const OrderMaster = () => {
           onClick: () => approveCancelOrder(item.id),
         });
       }
+      
       return {
         item: item,
         columns: [
