@@ -56,23 +56,23 @@ const ReturnOrderMaster = () => {
   // ----Pagination code------
   const COLUMNS = [
     filter.returnOrderStatus === "request" ||
-      filter.returnOrderStatus === "approve" ||
-      filter.returnOrderStatus === "receive" ||
-      (filter.returnOrderStatus !== "verified" &&
-        filter.returnOrderStatus !== "reject" &&
-        filter.returnOrderStatus !== "refund")
+    filter.returnOrderStatus === "approve" ||
+    filter.returnOrderStatus === "receive" ||
+    (filter.returnOrderStatus !== "verified" &&
+      filter.returnOrderStatus !== "reject" &&
+      filter.returnOrderStatus !== "refund")
       ? {
-        title: "Select Order",
-        order: false,
-        field: "totalReturnProducts",
-        classNameWidth: "thead-second-width-address",
-      }
+          title: "Select Order",
+          order: false,
+          field: "totalReturnProducts",
+          classNameWidth: "thead-second-width-address",
+        }
       : {
-        title: "",
-        order: false,
-        field: "",
-        classNameWidth: "thead-width-zero",
-      },
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
     {
       title: "Order No",
       order: true,
@@ -105,56 +105,56 @@ const ReturnOrderMaster = () => {
     },
     filter.returnOrderStatus === "refund"
       ? {
-        title: "Refund Date",
-        order: false,
-        field: "refundDate",
-        classNameWidth: "thead-second-width-order-date",
-      }
+          title: "Refund Date",
+          order: false,
+          field: "refundDate",
+          classNameWidth: "thead-second-width-order-date",
+        }
       : {
-        title: "",
-        order: false,
-        field: "",
-        classNameWidth: "thead-width-zero",
-      },
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
     filter.returnOrderStatus === "refund"
       ? {
-        title: "Refund Amount",
-        order: false,
-        field: "refundAmount",
-        classNameWidth: "thead-second-width-order-date",
-      }
+          title: "Refund Amount",
+          order: false,
+          field: "refundAmount",
+          classNameWidth: "thead-second-width-order-date",
+        }
       : {
-        title: "",
-        order: false,
-        field: "",
-        classNameWidth: "thead-width-zero",
-      },
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
     filter.returnOrderStatus === "delivered"
       ? {
-        title: "Total Return Products",
-        order: false,
-        field: "totalReturnProducts",
-        classNameWidth: "thead-second-width-order-date",
-      }
+          title: "Total Return Products",
+          order: false,
+          field: "totalReturnProducts",
+          classNameWidth: "thead-second-width-order-date",
+        }
       : {
-        title: "",
-        order: false,
-        field: "",
-        classNameWidth: "thead-width-zero",
-      },
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
     filter.returnOrderStatus === "verified"
       ? {
-        title: "Actions",
-        order: false,
-        field: "Actions",
-        classNameWidth: "thead-second-width-action",
-      }
+          title: "Actions",
+          order: false,
+          field: "Actions",
+          classNameWidth: "thead-second-width-action",
+        }
       : {
-        title: "",
-        order: false,
-        field: "",
-        classNameWidth: "thead-width-zero",
-      },
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
   ];
 
   // --------------------------------------- paginate  the results-------------------------
@@ -167,7 +167,6 @@ const ReturnOrderMaster = () => {
   } = usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
-
     changeState("loader", true);
     let clearStates = {
       ...appConfig.default_pagination_state,
@@ -178,20 +177,20 @@ const ReturnOrderMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-            .tz(
-              dateRange[0],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[0],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-            .tz(
-              dateRange[1],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[1],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -217,23 +216,23 @@ const ReturnOrderMaster = () => {
     setLoading(true);
     API.get(apiConfig.returnOrder, filterData)
       .then((res) => {
-        setLoading(false)
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
             : {
-              ...state,
-              ...(clear && clearStates),
-              ...(isNewFilter && newFilterState),
-              loader: false,
-            }),
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
         });
         setStatuses(res.statuses);
       })
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -296,27 +295,48 @@ const ReturnOrderMaster = () => {
               (filter.returnOrderStatus !== "verified" &&
                 filter.returnOrderStatus !== "refund" &&
                 filter.returnOrderStatus !== "reject")) && (
-                <Checkbox
-                  checked={selectedCheckboxes.some(
-                    (selectedItem) => selectedItem === item.id
-                  )}
-                  onChange={() => handleCheckbox(item.id)}
-                  color="primary"
-                />
-              )}
+              <Checkbox
+                checked={selectedCheckboxes.some(
+                  (selectedItem) => selectedItem === item.id
+                )}
+                onChange={() => handleCheckbox(item.id)}
+                color="primary"
+              />
+            )}
           </span>,
           <div className="span-permision">
             <span>{item.order.orderNo}</span>
           </div>,
           <span>
             {item.OrderProduct.ProductVariant?.title}
-            {item.productVariant ? item.productVariant.title : ''}
-            {item.OrderProduct.Gemstone ? ` ${item.OrderProduct.Gemstone?.title}` : item.Gemstone?.title}
-            {item.OrderProduct && item.OrderProduct.Diamond ? ` ${item.OrderProduct.Diamond.carat} Carat ${item.OrderProduct.Diamond.ShapeMaster ? item.OrderProduct.Diamond.ShapeMaster.shape : ''}` : (item.OrderProduct.Diamond ? ` ${item.OrderProduct.Diamond.carat} Carat ${item.OrderProduct.Diamond.ShapeMaster ? item.OrderProduct.Diamond.ShapeMaster.shape : ''}` : '')}
-            {!item.OrderProduct && !item.gemstone && !item.diamond ? 'No details available' : ''}
+            {item.productVariant ? item.productVariant.title : ""}
+            {item.OrderProduct.Gemstone
+              ? ` ${item.OrderProduct.Gemstone?.title}`
+              : item.Gemstone?.title}
+            {item.OrderProduct && item.OrderProduct.Diamond
+              ? ` ${item.OrderProduct.Diamond.carat} Carat ${
+                  item.OrderProduct.Diamond.ShapeMaster
+                    ? item.OrderProduct.Diamond.ShapeMaster.shape
+                    : ""
+                }`
+              : item.OrderProduct.Diamond
+              ? ` ${item.OrderProduct.Diamond.carat} Carat ${
+                  item.OrderProduct.Diamond.ShapeMaster
+                    ? item.OrderProduct.Diamond.ShapeMaster.shape
+                    : ""
+                }`
+              : ""}
+            {!item.OrderProduct && !item.gemstone && !item.diamond
+              ? "No details available"
+              : ""}
           </span>,
           <span>
-            {(!isNaN(item.OrderProduct.Gemstone?.price) ? item.OrderProduct.Gemstone.price : 0) + (!isNaN(item.OrderProduct.ProductVariant?.totalPrice) ? item.OrderProduct.ProductVariant.totalPrice : "")}
+            {(!isNaN(item.OrderProduct.Gemstone?.price)
+              ? item.OrderProduct.Gemstone.price
+              : 0) +
+              (!isNaN(item.OrderProduct.ProductVariant?.totalPrice)
+                ? item.OrderProduct.ProductVariant.totalPrice
+                : "")}
           </span>,
           <span>
             {moment(item.createdAt).format(appConfig.dateAndTimeDisplayFormat)}
@@ -666,69 +686,73 @@ const ReturnOrderMaster = () => {
               </Button>
             </div>
 
-            {state.data?.length > 0 && <div style={{ width: "260px" }}>
-              {filter.returnOrderStatus === "request" ||
+            {state.data?.length > 0 && (
+              <div style={{ width: "260px" }}>
+                {filter.returnOrderStatus === "request" ||
                 filter.returnOrderStatus === "approve" ||
                 filter.returnOrderStatus === "receive" ||
                 (filter.returnOrderStatus !== "verified" &&
                   filter.returnOrderStatus !== "refund" &&
                   filter.returnOrderStatus !== "reject") ? (
-                <ReactSelect
-                  placeholder="Select Status"
-                  // isDisabled={!isCheckboxChecked}
-                  value={selectedStatus}
-                  options={
-                    statuses && Array.isArray(statuses) && statuses.length > 0
-                      ? statuses.map((status) => ({
-                        label: status,
-                        value: status,
-                      }))
-                      : []
-                  }
-                  onChange={(selectedOption) => {
-                    setSelectedStatus(selectedOption);
-                    editOrderStatus(selectedOption);
-                  }}
-                  name="status-select"
-                />
-              ) : null}
-            </div>}
+                  <ReactSelect
+                    placeholder="Select Status"
+                    // isDisabled={!isCheckboxChecked}
+                    value={selectedStatus}
+                    options={
+                      statuses && Array.isArray(statuses) && statuses.length > 0
+                        ? statuses.map((status) => ({
+                            label: status,
+                            value: status,
+                          }))
+                        : []
+                    }
+                    onChange={(selectedOption) => {
+                      setSelectedStatus(selectedOption);
+                      editOrderStatus(selectedOption);
+                    }}
+                    name="status-select"
+                  />
+                ) : null}
+              </div>
+            )}
           </div>
           {loading ? (
-            <div style={{ margin: "10px  auto", textAlign: "center" }}>
-              <img src="../../../../../../assets/loading.gif" alt="" srcSet="" height={28}
-                width={28} />
+            <div style={{ margin: "25px  auto", textAlign: "center" }}>
+              <img
+                src="../../../../../../assets/loading.gif"
+                alt=""
+                srcSet=""
+                height={28}
+                width={28}
+              />
             </div>
+          ) : state.data?.length > 0 ? (
+            <PaginationTable
+              header={COLUMNS}
+              rows={rows}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              orderBy={state.orderby}
+              order={state.order}
+              {...otherTableActionProps}
+            ></PaginationTable>
           ) : (
-            state.data?.length > 0 ? (
-              <PaginationTable
-                header={COLUMNS}
-                rows={rows}
-                totalItems={state.total_items || 0}
-                perPage={state.rowsPerPage}
-                activePage={state.page}
-                checkboxColumn={false}
-                selectedRows={state.selectedRows}
-                enableOrder={true}
-                isLoader={state.loader}
-                emptyTableImg={<img src={error400cover} width="400px" />}
-                orderBy={state.orderby}
-                order={state.order}
-                {...otherTableActionProps}
-              ></PaginationTable>
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "50px",
-                }}
-              >
-                <img src={error400cover} width="420px" />
-              </div>
-            )
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "50px",
+              }}
+            >
+              <img src={error400cover} width="420px" />
+            </div>
           )}
-
         </Container>
         {open && selectedUserData && (
           <ReturnRejectMaster
