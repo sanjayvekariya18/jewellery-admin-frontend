@@ -21,7 +21,6 @@ import { useParams } from "react-router-dom";
 import { apiConfig, appConfig } from "../../../../config";
 import { Breadcrumb, Container } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
-import MaxHeightMenu from "../../../../components/MaxHeightMenu";
 import ProductDetail from "./ProductDetail";
 
 const useStyles = makeStyles((theme) => ({
@@ -116,10 +115,17 @@ const FindOneOrderDetail = () => {
   const [productDetail, setProductDetail] = useState(null);
   const [findProduct, setFindProduct] = useState(false);
   const [orderDetail, setOrderDetail] = useState({});
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     API.get(apiConfig.findOrder.replace(":Id", Id)).then((res) => {
+      setLoading(false);
       setOrderDetail(res);
-    });
+    })
+      .catch((e) => {
+        setLoading(false)
+      })
+
   }, []);
 
   const toggleGemstonePopup = () => {
@@ -137,15 +143,15 @@ const FindOneOrderDetail = () => {
       const subtotal =
         product.productVariant && product.gemstone
           ? ((product.productVariant.totalPrice || 0) +
-              product.gemstone.price) *
-            product.quantity
+            product.gemstone.price) *
+          product.quantity
           : product.productVariant
-          ? (product.productVariant.totalPrice || 0) * product.quantity
-          : product.gemstone
-          ? product.gemstone.price * product.quantity
-          : product.diamond
-          ? product.diamond.price * product.quantity
-          : 0;
+            ? (product.productVariant.totalPrice || 0) * product.quantity
+            : product.gemstone
+              ? product.gemstone.price * product.quantity
+              : product.diamond
+                ? product.diamond.price * product.quantity
+                : 0;
 
       return accumulator + subtotal;
     }, 0);
@@ -296,567 +302,583 @@ const FindOneOrderDetail = () => {
           </div>
         </div>
       </div> */}
-      <div
-        id="order-details"
-        style={{
-          margin: "20px",
-          padding: "20px",
-          background: "#00060c03",
-          border: "1px solid #00060c0f",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "auto auto",
-            alignItems: "baseline",
-            // paddingTop: "10px",
-            // paddingBottom: "10px",
-            // borderTop: " 1px solid #8080802b",
-            // borderBottom: " 1px solid #8080802b",
-            marginBottom: "25px",
-          }}
-        >
-          <div className="main-billing-address-div">
-            <Typography
-              className={classes.billing}
-              style={{
-                fontSize: "16px",
-                fontWeight: "600",
-                paddingBottom: "0",
-              }}
-            >
-              Bill From
-            </Typography>
-
-            <Typography
-              className={classes.billing}
-              style={{ paddingBottom: "0px", color: "#000000de" }}
-            >
-              <span
-                style={{
-                  color: "#000000",
-                }}
-              >
-                Name :
-              </span>{" "}
-              {` `}
-              {orderDetail.order?.customer?.fullName}
-            </Typography>
-            <Typography
-              className={classes.billing}
-              style={{
-                paddingBottom: "0px",
-                paddingTop: "6px",
-                color: "#000000de",
-              }}
-            >
-              <span
-                style={{
-                  color: "#000000",
-                }}
-              >
-                Email :
-              </span>
-              {` `}
-
-              {orderDetail.order?.customer?.email}
-            </Typography>
-            <Typography
-              style={{
-                paddingBottom: "0px",
-                paddingTop: "6px",
-                color: "#000000",
-              }}
-              className={classes.billing}
-            >
-              <span
-                style={{
-                  color: "#000000",
-                }}
-              >
-                {" "}
-                Address :{" "}
-              </span>
-              {orderDetail.order?.customer?.billing_addressLine1}
-              {` `}
-              {orderDetail.order?.customer.billing_addressLine2}
-            </Typography>
-            <Typography
-              className={classes.billing}
-              style={{
-                paddingBottom: "0px",
-                paddingTop: "5px",
-                color: "#000000",
-              }}
-            >
-              {orderDetail.order?.customer.billing_city +
-                "," +
-                orderDetail.order?.customer.billing_state +
-                "," +
-                orderDetail.order?.customer.billing_country +
-                "," +
-                orderDetail.order?.customer.billing_pincode}
-            </Typography>
-
-            <Typography
-              className={classes.billing}
-              style={{
-                paddingBottom: "0px",
-                paddingTop: "8px",
-                fontSize: "14px",
-              }}
-            >
-              <span
-                style={{
-                  color: "#000000",
-                }}
-              >
-                {" "}
-                Phone Number :
-              </span>{" "}
-              {orderDetail.order?.customer.telephone}
-            </Typography>
+      {
+        loading ? (
+          <div style={{ margin: "40px  auto", textAlign: "center" }}>
+            <img
+              src="../../../../../../assets/loading.gif"
+              alt=""
+              srcSet=""
+              height={50}
+              width={50}
+            />
           </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "end",
-            }}
-            className="pricing-main-div"
-          >
-            <Typography
-              className={classes.billing}
+        ) : (
+          <>
+            <div
+              id="order-details"
               style={{
-                fontSize: "16px",
-                fontWeight: "600",
-                paddingBottom: "5px",
+                margin: "20px",
+                padding: "20px",
+                background: "#00060c03",
+                border: "1px solid #00060c0f",
               }}
             >
-              Order Info
-            </Typography>
-
-            <Typography
-              className={classes.billing}
-              style={{
-                paddingBottom: "0px",
-                paddingTop: "6px",
-                color: "#000000de",
-              }}
-            >
-              <span
+              <div
                 style={{
-                  color: "#000000",
+                  display: "grid",
+                  gridTemplateColumns: "auto auto",
+                  alignItems: "baseline",
+                  // paddingTop: "10px",
+                  // paddingBottom: "10px",
+                  // borderTop: " 1px solid #8080802b",
+                  // borderBottom: " 1px solid #8080802b",
+                  marginBottom: "25px",
                 }}
               >
-                Order Number :
-              </span>
-              {` `}
+                <div className="main-billing-address-div">
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      paddingBottom: "0",
+                    }}
+                  >
+                    Bill From
+                  </Typography>
 
-              {orderDetail.order?.orderNo}
-            </Typography>
-            <Typography
-              className={classes.billing}
-              style={{
-                paddingBottom: "0px",
-                paddingTop: "6px",
-                color: "#000000de",
-              }}
-            >
-              <span
-                style={{
-                  color: "#000000",
-                }}
-              >
-                Order Status :
-              </span>
-              {` `}
+                  <Typography
+                    className={classes.billing}
+                    style={{ paddingBottom: "0px", color: "#000000de" }}
+                  >
+                    <span
+                      style={{
+                        color: "#000000",
+                      }}
+                    >
+                      Name :
+                    </span>{" "}
+                    {` `}
+                    {orderDetail.order?.customer?.fullName}
+                  </Typography>
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      paddingBottom: "0px",
+                      paddingTop: "6px",
+                      color: "#000000de",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#000000",
+                      }}
+                    >
+                      Email :
+                    </span>
+                    {` `}
 
-              {orderDetail.order?.status}
-            </Typography>
+                    {orderDetail.order?.customer?.email}
+                  </Typography>
+                  <Typography
+                    style={{
+                      paddingBottom: "0px",
+                      paddingTop: "6px",
+                      color: "#000000",
+                    }}
+                    className={classes.billing}
+                  >
+                    <span
+                      style={{
+                        color: "#000000",
+                      }}
+                    >
+                      {" "}
+                      Address :{" "}
+                    </span>
+                    {orderDetail.order?.customer?.billing_addressLine1}
+                    {` `}
+                    {orderDetail.order?.customer.billing_addressLine2}
+                  </Typography>
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      paddingBottom: "0px",
+                      paddingTop: "5px",
+                      color: "#000000",
+                    }}
+                  >
+                    {orderDetail.order?.customer.billing_city +
+                      "," +
+                      orderDetail.order?.customer.billing_state +
+                      "," +
+                      orderDetail.order?.customer.billing_country +
+                      "," +
+                      orderDetail.order?.customer.billing_pincode}
+                  </Typography>
 
-            <Typography
-              className={classes.billing}
-              style={{
-                paddingBottom: "0px",
-                paddingTop: "6px",
-                color: "#000000de",
-              }}
-            >
-              <span
-                style={{
-                  color: "#000000",
-                }}
-              >
-                Order Date :
-              </span>
-              {` `}
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      paddingBottom: "0px",
+                      paddingTop: "8px",
+                      fontSize: "14px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#000000",
+                      }}
+                    >
+                      {" "}
+                      Phone Number :
+                    </span>{" "}
+                    {orderDetail.order?.customer.telephone}
+                  </Typography>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "end",
+                  }}
+                  className="pricing-main-div"
+                >
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      paddingBottom: "5px",
+                    }}
+                  >
+                    Order Info
+                  </Typography>
 
-              {moment(orderDetail.order?.updatedAt).format(
-                appConfig.dateDisplayFormat
-              )}
-            </Typography>
-          </div>
-        </div>
-        <div>
-          <Box>
-            <TableContainer component={Paper}>
-              <Table
-                className={classes.table}
-                aria-label="product orders table main-order-details-table"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      paddingBottom: "0px",
+                      paddingTop: "6px",
+                      color: "#000000de",
+                    }}
+                  >
+                    <span
                       style={{
-                        paddingLeft: "20px",
-                        paddingTop: "11px",
-                        paddingBottom: "11px",
-                      }}
-                      className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
-                    >
-                      Product
-                    </TableCell>
-                    <TableCell
-                      className={`${classes.tableHeader} ${classes.noUnderline} thead-second-width-action`}
-                      style={{
-                        paddingLeft: "0",
-                        paddingTop: "11px",
-                        paddingBottom: "11px",
+                        color: "#000000",
                       }}
                     >
-                      Price
-                    </TableCell>
-                    <TableCell
-                      className={`${classes.tableHeader} ${classes.noUnderline}  thead-second-width-action`}
+                      Order Number :
+                    </span>
+                    {` `}
+
+                    {orderDetail.order?.orderNo}
+                  </Typography>
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      paddingBottom: "0px",
+                      paddingTop: "6px",
+                      color: "#000000de",
+                    }}
+                  >
+                    <span
                       style={{
-                        paddingLeft: "0",
-                        paddingTop: "11px",
-                        paddingBottom: "11px",
+                        color: "#000000",
                       }}
                     >
-                      Quantity
-                    </TableCell>
-                    <TableCell
-                      className={`${classes.tableHeader} ${classes.noUnderline}  thead-second-width-action`}
+                      Order Status :
+                    </span>
+                    {` `}
+
+                    {orderDetail.order?.status}
+                  </Typography>
+
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      paddingBottom: "0px",
+                      paddingTop: "6px",
+                      color: "#000000de",
+                    }}
+                  >
+                    <span
                       style={{
-                        paddingLeft: "0",
-                        paddingTop: "11px",
-                        paddingBottom: "11px",
+                        color: "#000000",
                       }}
                     >
-                      Status
-                    </TableCell>
-                    <TableCell
-                      className={`${classes.tableHeader} ${classes.noUnderline} thead-second-width-action`}
-                      style={{
-                        paddingLeft: "0",
-                        paddingTop: "11px",
-                        paddingBottom: "11px",
-                      }}
+                      Order Date :
+                    </span>
+                    {` `}
+
+                    {moment(orderDetail.order?.updatedAt).format(
+                      appConfig.dateDisplayFormat
+                    )}
+                  </Typography>
+                </div>
+              </div>
+              <div>
+                <Box>
+                  <TableContainer component={Paper}>
+                    <Table
+                      className={classes.table}
+                      aria-label="product orders table main-order-details-table"
                     >
-                      Total
-                    </TableCell>
-                    <TableCell
-                      className={`${classes.tableHeader} ${classes.noUnderline} thead-second-width-action-35`}
-                      style={{
-                        paddingLeft: "0",
-                        paddingTop: "11px",
-                        paddingBottom: "11px",
-                      }}
-                    >
-                      Action
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {productData &&
-                    productData.map((product, index) => {
-                      return (
-                        <TableRow key={index} className={classes.tableRow}>
+                      <TableHead>
+                        <TableRow>
                           <TableCell
-                            className={`${classes.noUnderline}  product-th-tag`}
+                            style={{
+                              paddingLeft: "20px",
+                              paddingTop: "11px",
+                              paddingBottom: "11px",
+                            }}
+                            className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
                           >
-                            {product.productVariant
-                              ? product.productVariant.title
-                              : ""}
-                            {product.productVariant && product.gemstone
-                              ? ` (${product.gemstone.title})`
-                              : product.gemstone?.title}
-                            {product.productVariant && product.diamond
-                              ? ` (${product.diamond.carat} Carat ${
-                                  product.diamond.ShapeMaster
-                                    ? product.diamond.ShapeMaster.shape
-                                    : ""
-                                })`
-                              : product.diamond
-                              ? ` ${product.diamond.carat} Carat ${
-                                  product.diamond.ShapeMaster
-                                    ? product.diamond.ShapeMaster.shape
-                                    : ""
-                                }`
-                              : ""}
-                            {!product.productVariant &&
-                            !product.gemstone &&
-                            !product.diamond
-                              ? "No details available"
-                              : ""}
+                            Product
                           </TableCell>
-
-                          <TableCell className={classes.noUnderline}>
-                            {`${
-                              product.productVariant
-                                ? product.productVariant.totalPrice
-                                : ""
-                            }`}
-                            {product.productVariant
-                              ? product.gemstone &&
-                                !product.diamond &&
-                                `(${product.gemstone.price})`
-                              : product.gemstone?.price}
-                            {product.productVariant
-                              ? !product.gemstone &&
-                                product.diamond &&
-                                ` (${product.diamond.price})`
-                              : product.diamond?.price}
+                          <TableCell
+                            className={`${classes.tableHeader} ${classes.noUnderline} thead-second-width-action`}
+                            style={{
+                              paddingLeft: "0",
+                              paddingTop: "11px",
+                              paddingBottom: "11px",
+                            }}
+                          >
+                            Price
                           </TableCell>
-                          <TableCell className={classes.noUnderline}>
-                            {product.quantity}
+                          <TableCell
+                            className={`${classes.tableHeader} ${classes.noUnderline}  thead-second-width-action`}
+                            style={{
+                              paddingLeft: "0",
+                              paddingTop: "11px",
+                              paddingBottom: "11px",
+                            }}
+                          >
+                            Quantity
                           </TableCell>
-                          <TableCell className={classes.noUnderline}>
-                            {product.orderStatus}
+                          <TableCell
+                            className={`${classes.tableHeader} ${classes.noUnderline}  thead-second-width-action`}
+                            style={{
+                              paddingLeft: "0",
+                              paddingTop: "11px",
+                              paddingBottom: "11px",
+                            }}
+                          >
+                            Status
                           </TableCell>
-                          <TableCell className={classes.noUnderline}>
-                            {product.productVariant && product.gemstone
-                              ? ((product.productVariant.totalPrice || 0) +
-                                  product.gemstone.price) *
-                                product.quantity
-                              : product.productVariant
-                              ? (product.productVariant.totalPrice || 0) *
-                                product.quantity
-                              : product.gemstone
-                              ? product.gemstone.price * product.quantity
-                              : product.diamond
-                              ? product.diamond.price * product.quantity
-                              : ""}
+                          <TableCell
+                            className={`${classes.tableHeader} ${classes.noUnderline} thead-second-width-action`}
+                            style={{
+                              paddingLeft: "0",
+                              paddingTop: "11px",
+                              paddingBottom: "11px",
+                            }}
+                          >
+                            Total
                           </TableCell>
-                          <TableCell className="main-icon-details-button thead-second-width-action-35">
-                            <IconButton
-                              onClick={(e) => getProductDetail(product.id)}
-                            >
-                              <Icon color="error">remove_red_eye</Icon>
-                            </IconButton>
+                          <TableCell
+                            className={`${classes.tableHeader} ${classes.noUnderline} thead-second-width-action-35`}
+                            style={{
+                              paddingLeft: "0",
+                              paddingTop: "11px",
+                              paddingBottom: "11px",
+                            }}
+                          >
+                            Action
                           </TableCell>
                         </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                      </TableHead>
+                      <TableBody>
+                        {productData &&
+                          productData.map((product, index) => {
+                            return (
+                              <TableRow key={index} className={classes.tableRow}>
+                                <TableCell
+                                  className={`${classes.noUnderline}  product-th-tag`}
+                                >
+                                  {product.productVariant
+                                    ? product.productVariant.title
+                                    : ""}
+                                  {product.productVariant && product.gemstone
+                                    ? ` (${product.gemstone.title})`
+                                    : product.gemstone?.title}
+                                  {product.productVariant && product.diamond
+                                    ? ` (${product.diamond.carat} Carat ${product.diamond.ShapeMaster
+                                      ? product.diamond.ShapeMaster.shape
+                                      : ""
+                                    })`
+                                    : product.diamond
+                                      ? ` ${product.diamond.carat} Carat ${product.diamond.ShapeMaster
+                                        ? product.diamond.ShapeMaster.shape
+                                        : ""
+                                      }`
+                                      : ""}
+                                  {!product.productVariant &&
+                                    !product.gemstone &&
+                                    !product.diamond
+                                    ? "No details available"
+                                    : ""}
+                                </TableCell>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "end",
-                paddingTop: "15px",
-                marginRight: "5px",
-              }}
-              className="pricing-main-div"
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "250px",
-                }}
-              >
-                <Typography
+                                <TableCell className={classes.noUnderline}>
+                                  {`${product.productVariant
+                                    ? product.productVariant.totalPrice
+                                    : ""
+                                    }`}
+                                  {product.productVariant
+                                    ? product.gemstone &&
+                                    !product.diamond &&
+                                    `(${product.gemstone.price})`
+                                    : product.gemstone?.price}
+                                  {product.productVariant
+                                    ? !product.gemstone &&
+                                    product.diamond &&
+                                    ` (${product.diamond.price})`
+                                    : product.diamond?.price}
+                                </TableCell>
+                                <TableCell className={classes.noUnderline}>
+                                  {product.quantity}
+                                </TableCell>
+                                <TableCell className={classes.noUnderline}>
+                                  {product.orderStatus}
+                                </TableCell>
+                                <TableCell className={classes.noUnderline}>
+                                  {product.productVariant && product.gemstone
+                                    ? ((product.productVariant.totalPrice || 0) +
+                                      product.gemstone.price) *
+                                    product.quantity
+                                    : product.productVariant
+                                      ? (product.productVariant.totalPrice || 0) *
+                                      product.quantity
+                                      : product.gemstone
+                                        ? product.gemstone.price * product.quantity
+                                        : product.diamond
+                                          ? product.diamond.price * product.quantity
+                                          : ""}
+                                </TableCell>
+                                <TableCell className="main-icon-details-button thead-second-width-action-35">
+                                  <IconButton
+                                    onClick={(e) => getProductDetail(product.id)}
+                                  >
+                                    <Icon color="error">remove_red_eye</Icon>
+                                  </IconButton>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "end",
+                      paddingTop: "15px",
+                      marginRight: "5px",
+                    }}
+                    className="pricing-main-div"
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "250px",
+                      }}
+                    >
+                      <Typography
+                        className={classes.billing}
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#000000d9",
+                          paddingBottom: "0",
+                        }}
+                      >
+                        Sub Total :
+                      </Typography>
+                      <Typography
+                        className={classes.billing}
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          paddingBottom: "0",
+                        }}
+                      >
+                        ${totalSubtotal}
+                      </Typography>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        paddingBottom: "0",
+                        width: "250px",
+                      }}
+                    >
+                      <Typography
+                        className={classes.billing}
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#000000d9",
+                          paddingBottom: "10px",
+                        }}
+                      >
+                        Discount :
+                      </Typography>
+                      <Typography
+                        className={classes.billing}
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          paddingBottom: "10px",
+                        }}
+                      >
+                        - ${0}
+                      </Typography>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        paddingTop: "6px",
+                        width: "250px",
+                        borderTop: "1px solid #8080802b",
+                      }}
+                    >
+                      <Typography
+                        className={classes.billing}
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#000000d9",
+                          paddingTop: "3px",
+                        }}
+                      >
+                        Estimate Total *:
+                      </Typography>
+                      <Typography
+                        className={classes.billing}
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          paddingTop: "3px",
+                        }}
+                      >
+                        ${orderDetail.order?.payableAmount}
+                      </Typography>
+                    </div>
+                  </div>
+
+                  {orderTracking && orderTracking.length > 0 ? (
+                    <Box>
+                      <Typography
+                        variant="h5"
+                        className={classes.billing}
+                        style={{
+                          fontSize: "17px",
+                          fontWeight: "500",
+                          marginBottom: "10px",
+                        }}
+                      >
+                        Order Tracking
+                      </Typography>
+                      <Table
+                        className={classes.table}
+                        aria-label="product orders table main-order-details-table"
+                      >
+                        <TableHead>
+                          <TableRow>
+                            <TableCell
+                              style={{
+                                paddingLeft: "20px",
+                                paddingTop: "11px",
+                                paddingBottom: "11px",
+                              }}
+                              className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
+                            >
+                              Sr No.
+                            </TableCell>
+                            <TableCell
+                              style={{
+                                paddingLeft: "20px",
+                                paddingTop: "11px",
+                                paddingBottom: "11px",
+                              }}
+                              className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
+                            >
+                              Order Date
+                            </TableCell>
+                            <TableCell
+                              style={{
+                                paddingLeft: "20px",
+                                paddingTop: "11px",
+                                paddingBottom: "11px",
+                              }}
+                              className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
+                            >
+                              Description
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {orderTracking &&
+                            orderTracking.map((order, index) => (
+                              <TableRow key={index} className={classes.tableRow}>
+                                <TableCell className={`${classes.noUnderline}  `}>
+                                  {index + 1}
+                                </TableCell>
+                                <TableCell className={classes.noUnderline}>
+                                  {moment(order.updatedAt).format("DD/MM/YYYY")}
+                                </TableCell>
+                                <TableCell className={classes.noUnderline}>
+                                  {order.description}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                        </TableBody>
+                      </Table>
+                    </Box>
+                  ) : (
+                    <>
+                      <></>
+                      {/* <Typography
+                  variant="h6"
                   className={classes.billing}
                   style={{
-                    fontSize: "14px",
+                    fontSize: "15px",
                     fontWeight: "500",
-                    color: "#000000d9",
-                    paddingBottom: "0",
                   }}
                 >
-                  Sub Total :
-                </Typography>
-                <Typography
-                  className={classes.billing}
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    paddingBottom: "0",
-                  }}
-                >
-                  ${totalSubtotal}
-                </Typography>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  paddingBottom: "0",
-                  width: "250px",
-                }}
-              >
-                <Typography
-                  className={classes.billing}
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    color: "#000000d9",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  Discount :
-                </Typography>
-                <Typography
-                  className={classes.billing}
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  - ${0}
-                </Typography>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  paddingTop: "6px",
-                  width: "250px",
-                  borderTop: "1px solid #8080802b",
-                }}
-              >
-                <Typography
-                  className={classes.billing}
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    color: "#000000d9",
-                    paddingTop: "3px",
-                  }}
-                >
-                  Estimate Total *:
-                </Typography>
-                <Typography
-                  className={classes.billing}
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    paddingTop: "3px",
-                  }}
-                >
-                  ${orderDetail.order?.payableAmount}
-                </Typography>
+                  No order tracking data available.
+                </Typography> */}
+                    </>
+                  )}
+                </Box>
               </div>
             </div>
+          </>
+        )
+      }
 
-            {orderTracking && orderTracking.length > 0 ? (
-              <Box>
-                <Typography
-                  variant="h5"
-                  className={classes.billing}
-                  style={{
-                    fontSize: "17px",
-                    fontWeight: "500",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Order Tracking
-                </Typography>
-                <Table
-                  className={classes.table}
-                  aria-label="product orders table main-order-details-table"
-                >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell
-                        style={{
-                          paddingLeft: "20px",
-                          paddingTop: "11px",
-                          paddingBottom: "11px",
-                        }}
-                        className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
-                      >
-                        Sr No.
-                      </TableCell>
-                      <TableCell
-                        style={{
-                          paddingLeft: "20px",
-                          paddingTop: "11px",
-                          paddingBottom: "11px",
-                        }}
-                        className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
-                      >
-                        Order Date
-                      </TableCell>
-                      <TableCell
-                        style={{
-                          paddingLeft: "20px",
-                          paddingTop: "11px",
-                          paddingBottom: "11px",
-                        }}
-                        className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
-                      >
-                        Description
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {orderTracking &&
-                      orderTracking.map((order, index) => (
-                        <TableRow key={index} className={classes.tableRow}>
-                          <TableCell className={`${classes.noUnderline}  `}>
-                            {index + 1}
-                          </TableCell>
-                          <TableCell className={classes.noUnderline}>
-                            {moment(order.updatedAt).format("DD/MM/YYYY")}
-                          </TableCell>
-                          <TableCell className={classes.noUnderline}>
-                            {order.description}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            ) : (
-              <>
-                <></>
-                {/* <Typography
-                variant="h6"
-                className={classes.billing}
-                style={{
-                  fontSize: "15px",
-                  fontWeight: "500",
-                }}
-              >
-                No order tracking data available.
-              </Typography> */}
-              </>
-            )}
-          </Box>
-        </div>
-      </div>
-      {findProduct && (
-        <ProductDetail
-          open={findProduct}
-          togglePopup={() => {
-            toggleGemstonePopup();
-          }}
-          productDetailData={productDetail}
-        />
-      )}
-    </Container>
+      {
+        findProduct && (
+          <ProductDetail
+            open={findProduct}
+            togglePopup={() => {
+              toggleGemstonePopup();
+            }}
+            productDetailData={productDetail}
+          />
+        )
+      }
+    </Container >
   );
 };
 

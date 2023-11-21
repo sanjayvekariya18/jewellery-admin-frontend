@@ -9,7 +9,7 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
-import { apiConfig, appConfig } from "../../../../config";
+import { apiConfig } from "../../../../config";
 import { API } from "../../../../services";
 import _ from "lodash";
 import error400cover from "../../../../assets/no-data-found-page.png";
@@ -23,6 +23,8 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
   const [addressText, setAddressText] = useState("");
   const [gemstoneModel, setGemstoneModel] = useState(false);
   const [textModal, setTextModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+
 
   const textModaltoggle = () => {
     setTextModal(!textModal);
@@ -189,11 +191,14 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
-    API.get(apiConfig.findProductDetail.replace(":id", productDetailData)).then(
-      (res) => {
+    API.get(apiConfig.findProductDetail.replace(":id", productDetailData))
+      .then((res) => {
         setProductDetail(res);
-      }
-    );
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+      })
   };
 
   useEffect(() => {
@@ -215,70 +220,87 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
           </Box>
         }
       >
-        {Object.keys(productDetail).length !== 0 && (
-          <TableContainer style={{ overflow: "hidden" }}>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  {/* Product Variant Details */}
-                  {rowsProductVariant[0] &&
-                    Object.keys(rowsProductVariant[0]?.item || {}).length >
-                      0 && (
-                      <TableCell colSpan={8} align="center">
-                        <h3>Product Variant Details</h3>
-                      </TableCell>
-                    )}
-                  {/* Gemstone Details */}
-                  {rowsGemstone[0] &&
-                    Object.keys(rowsGemstone[0]?.item || {}).length > 0 && (
-                      <TableCell colSpan={4} align="center">
-                        <h3>Gemstone Details</h3>
-                      </TableCell>
-                    )}
-                  {/* Diamond Details */}
-                  {rowsDiamond[0] &&
-                    Object.keys(rowsDiamond[0]?.item || {}).length > 0 && (
-                      <TableCell colSpan={4} align="center">
-                        <h3>Diamond Details</h3>
-                      </TableCell>
-                    )}
-                </TableRow>
-                {/* Displaying details for each section */}
-                {PRODUCTVARIANT.map((header, index) => (
-                  <TableRow key={index}>
-                    {/* Product Variant Details */}
-                    <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
-                      {header?.title}:
-                    </TableCell>
-                    <TableCell colSpan={2}>
-                      {rowsProductVariant[0]?.columns[index]}
-                    </TableCell>
-                    {/* Gemstone Details */}
-                    <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
-                      {rowsGemstone[0] &&
-                        Object.keys(rowsGemstone[0]?.item || {}).length > 0 &&
-                        GEMSTONE[index]?.title &&
-                        `${GEMSTONE[index].title}:`}
-                    </TableCell>
-                    <TableCell colSpan={2}>
-                      {rowsGemstone[0]?.columns[index]}
-                    </TableCell>
-                    {/* Diamond Details */}
-                    <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
-                      {rowsDiamond[0] &&
-                        Object.keys(rowsDiamond[0]?.item || {}).length > 0 &&
-                        DIAMOND[index]?.title &&
-                        `${DIAMOND[index].title}:`}
-                    </TableCell>
-                    <TableCell colSpan={2}>
-                      {rowsDiamond[0]?.columns[index]}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
+        {
+          loading ? (
+            <div style={{ margin: "40px  auto", textAlign: "center" }}>
+              <img
+                src="../../../../../../assets/loading.gif"
+                alt=""
+                srcSet=""
+                height={50}
+                width={50}
+              />
+            </div>
+          ) : (
+            <>
+              {Object.keys(productDetail).length !== 0 && (
+                <TableContainer style={{ overflow: "hidden" }}>
+                  <Table>
+                    <TableBody>
+                      <TableRow>
+                        {/* Product Variant Details */}
+                        {rowsProductVariant[0] &&
+                          Object.keys(rowsProductVariant[0]?.item || {}).length >
+                          0 && (
+                            <TableCell colSpan={8} align="center">
+                              <h3>Product Variant Details</h3>
+                            </TableCell>
+                          )}
+                        {/* Gemstone Details */}
+                        {rowsGemstone[0] &&
+                          Object.keys(rowsGemstone[0]?.item || {}).length > 0 && (
+                            <TableCell colSpan={4} align="center">
+                              <h3>Gemstone Details</h3>
+                            </TableCell>
+                          )}
+                        {/* Diamond Details */}
+                        {rowsDiamond[0] &&
+                          Object.keys(rowsDiamond[0]?.item || {}).length > 0 && (
+                            <TableCell colSpan={4} align="center">
+                              <h3>Diamond Details</h3>
+                            </TableCell>
+                          )}
+                      </TableRow>
+                      {/* Displaying details for each section */}
+                      {PRODUCTVARIANT.map((header, index) => (
+                        <TableRow key={index}>
+                          {/* Product Variant Details */}
+                          <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
+                            {header?.title}:
+                          </TableCell>
+                          <TableCell colSpan={2}>
+                            {rowsProductVariant[0]?.columns[index]}
+                          </TableCell>
+                          {/* Gemstone Details */}
+                          <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
+                            {rowsGemstone[0] &&
+                              Object.keys(rowsGemstone[0]?.item || {}).length > 0 &&
+                              GEMSTONE[index]?.title &&
+                              `${GEMSTONE[index].title}:`}
+                          </TableCell>
+                          <TableCell colSpan={2}>
+                            {rowsGemstone[0]?.columns[index]}
+                          </TableCell>
+                          {/* Diamond Details */}
+                          <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
+                            {rowsDiamond[0] &&
+                              Object.keys(rowsDiamond[0]?.item || {}).length > 0 &&
+                              DIAMOND[index]?.title &&
+                              `${DIAMOND[index].title}:`}
+                          </TableCell>
+                          <TableCell colSpan={2}>
+                            {rowsDiamond[0]?.columns[index]}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
+            </>
+          )
+        }
+
 
         {textModal && (
           <ThemeDialog
@@ -308,7 +330,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
             </div>
           </ThemeDialog>
         )}
-      </ThemeDialog>
+      </ThemeDialog >
       <ThemeDialog
         isOpen={gemstoneModel}
         onClose={() => setGemstoneModel(false)}
@@ -337,7 +359,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
               checkboxColumn={false}
               selectedRows={state.selectedRows}
               enableOrder={true}
-              isLoader={state.loader}
+              isLoader={loading}
               emptyTableImg={<img src={error400cover} width="400px" />}
               {...otherTableActionProps}
               orderBy={state.orderby}

@@ -40,8 +40,8 @@ const ReturnOrderMaster = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
   const [statuses, setStatuses] = useState([]);
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [filter, setFilter] = useState({
     returnOrderStatus: "request",
@@ -167,6 +167,7 @@ const ReturnOrderMaster = () => {
   } = usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
+
     changeState("loader", true);
     let clearStates = {
       ...appConfig.default_pagination_state,
@@ -213,9 +214,10 @@ const ReturnOrderMaster = () => {
     }
 
     // ----------Get Order Api------------
-
+    setLoading(true);
     API.get(apiConfig.returnOrder, filterData)
       .then((res) => {
+        setLoading(false)
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -231,6 +233,7 @@ const ReturnOrderMaster = () => {
         setStatuses(res.statuses);
       })
       .catch((err) => {
+        setLoading(false)
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -257,13 +260,11 @@ const ReturnOrderMaster = () => {
         prevSelectedCheckboxes.some((selectedItem) => selectedItem === itemId)
       ) {
         // If the checkbox is checked, disable the ReactSelect
-        setIsCheckboxChecked(false);
         return prevSelectedCheckboxes.filter(
           (selectedItem) => selectedItem !== itemId
         );
       } else {
         // If the checkbox is unchecked, enable the ReactSelect
-        setIsCheckboxChecked(true);
         return [...prevSelectedCheckboxes, itemId];
       }
     });
@@ -692,33 +693,40 @@ const ReturnOrderMaster = () => {
               ) : null}
             </div>}
           </div>
-          {state.data?.length > 0 ? (
-            <PaginationTable
-              header={COLUMNS}
-              rows={rows}
-              totalItems={state.total_items || 0}
-              perPage={state.rowsPerPage}
-              activePage={state.page}
-              checkboxColumn={false}
-              selectedRows={state.selectedRows}
-              enableOrder={true}
-              isLoader={state.loader}
-              emptyTableImg={<img src={error400cover} width="400px" />}
-              orderBy={state.orderby}
-              order={state.order}
-              {...otherTableActionProps}
-            ></PaginationTable>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "50px",
-              }}
-            >
-              <img src={error400cover} width="420px" />
+          {loading ? (
+            <div style={{ margin: "10px  auto", textAlign: "center" }}>
+              <img src="../../../../../../assets/loading.gif" alt="" srcSet="" height={50} width={50} />
             </div>
+          ) : (
+            state.data?.length > 0 ? (
+              <PaginationTable
+                header={COLUMNS}
+                rows={rows}
+                totalItems={state.total_items || 0}
+                perPage={state.rowsPerPage}
+                activePage={state.page}
+                checkboxColumn={false}
+                selectedRows={state.selectedRows}
+                enableOrder={true}
+                isLoader={state.loader}
+                emptyTableImg={<img src={error400cover} width="400px" />}
+                orderBy={state.orderby}
+                order={state.order}
+                {...otherTableActionProps}
+              ></PaginationTable>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "50px",
+                }}
+              >
+                <img src={error400cover} width="420px" />
+              </div>
+            )
           )}
+
         </Container>
         {open && selectedUserData && (
           <ReturnRejectMaster

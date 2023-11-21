@@ -42,7 +42,6 @@ const OrderMaster = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
   const [loading, setLoading] = useState(false);
-  const [isSelectEnabled, setIsSelectEnabled] = useState(false);
   const navigate = useNavigate();
   const [filter, setFilter] = useState({
     orderStatus: "pending",
@@ -727,7 +726,6 @@ const OrderMaster = () => {
                   filter.orderStatus === "dispatch") && (
                   <ReactSelect
                     placeholder="Select Status"
-                    // isDisabled={!isSelectEnabled}
                     options={
                       state.status && state.status.length !== 0
                         ? [
