@@ -12,6 +12,7 @@ import "react-quill/dist/quill.snow.css";
 import "quill/dist/quill.core.css";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import moment from "moment";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const initialValues = {
   id: "",
@@ -29,6 +30,7 @@ const BlogMasterDetails = ({
   blogCategoryData,
 }) => {
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     category_id: "required",
@@ -39,6 +41,8 @@ const BlogMasterDetails = ({
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     for (const field in data) {
       fd.append(field, data[field]);
@@ -68,6 +72,9 @@ const BlogMasterDetails = ({
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
 
@@ -196,15 +203,16 @@ const BlogMasterDetails = ({
                   >
                     Cancel
                   </Button>
-                  <Button
+                  <CommonButton
                     style={{ marginLeft: "20px" }}
+                    loader={isLoader}
                     type="submit"
                     variant="contained"
                     color="success"
                     onClick={() => onSubmit(handleSubmit)}
                   >
                     Save
-                  </Button>
+                  </CommonButton>
                 </Box>
               </div>
             </>

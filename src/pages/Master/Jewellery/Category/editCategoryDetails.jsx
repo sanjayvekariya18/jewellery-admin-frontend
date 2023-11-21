@@ -25,6 +25,7 @@ import { Breadcrumb, Container } from "../../../../components";
 import Textarea from "../../../../components/UI/Textarea";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ReactDragListView from "react-drag-listview";
+import CommonButton from "../../../../components/UI/CommonButton";
 const EditCategoryMasterDetails = () => {
   const [selected, setSelected] = useState([]);
   const [selected2, setSelected2] = useState([]);
@@ -34,6 +35,7 @@ const EditCategoryMasterDetails = () => {
   const [select, setSelect] = useState([]);
   const { id } = useParams();
   const [categoryData, setCategoryData] = useState([]);
+  const [isLoader, setIsLoader] = useState(false);
 
   // -------------initialization
   const initialValues = {
@@ -70,6 +72,8 @@ const EditCategoryMasterDetails = () => {
   }, []);
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     const filteredAttributes = formState.attributes.map(
       ({ attributeId, sortNo }) => ({
@@ -111,6 +115,9 @@ const EditCategoryMasterDetails = () => {
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
 
@@ -742,15 +749,16 @@ const EditCategoryMasterDetails = () => {
                       </div>
                     </div>
                     <Box>
-                      <Button
-                        style={{ marginLeft: "20px", width: "150px" }}
+                      <CommonButton
+                        style={{ marginLeft: "20px" }}
+                        loader={isLoader}
                         type="submit"
                         variant="contained"
                         color="success"
                         onClick={() => onSubmit(handleSubmit)}
                       >
                         Save
-                      </Button>
+                      </CommonButton>
                     </Box>
                   </div>
                 </>

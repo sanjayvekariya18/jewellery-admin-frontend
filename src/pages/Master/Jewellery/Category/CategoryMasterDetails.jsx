@@ -25,6 +25,7 @@ import { Breadcrumb, Container } from "../../../../components";
 import Textarea from "../../../../components/UI/Textarea";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ReactDragListView from "react-drag-listview";
+import CommonButton from "../../../../components/UI/CommonButton";
 const CategoryMasterDetails = ({
   open,
   togglePopup,
@@ -38,6 +39,7 @@ const CategoryMasterDetails = ({
   const navigate = useNavigate();
   const [options, setOptions] = useState([]);
   const [select, setSelect] = useState([]);
+  const [isLoader, setIsLoader] = useState(false);
 
   // -------------initialization
   const initialValues = {
@@ -63,6 +65,8 @@ const CategoryMasterDetails = ({
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     fd.append("attributes", JSON.stringify(formState.attributes));
     fd.append("productDetails", JSON.stringify(formState.productDetails));
@@ -95,6 +99,9 @@ const CategoryMasterDetails = ({
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
 
@@ -726,15 +733,16 @@ const CategoryMasterDetails = ({
                     >
                       Cancel
                     </Button> */}
-                      <Button
-                        style={{ marginLeft: "20px", width: "150px" }}
+                      <CommonButton
+                        style={{ marginLeft: "20px" }}
+                        loader={isLoader}
                         type="submit"
                         variant="contained"
                         color="success"
                         onClick={() => onSubmit(handleSubmit)}
                       >
                         Save
-                      </Button>
+                      </CommonButton>
                     </Box>
                   </div>
                 </>

@@ -6,6 +6,7 @@ import Validators from "../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
 import { apiConfig } from "../../../../config";
 import Textarea from "../../../../components/UI/Textarea";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const initialValues = {
   id: "",
@@ -15,12 +16,15 @@ const initialValues = {
 
 const BlogCategoryMasterDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     category_name: "required",
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     for (const field in data) {
       fd.append(field, data[field]);
@@ -50,6 +54,9 @@ const BlogCategoryMasterDetails = ({ open, togglePopup, userData }) => {
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
 
@@ -91,15 +98,16 @@ const BlogCategoryMasterDetails = ({ open, togglePopup, userData }) => {
               >
                 Cancel
               </Button>
-              <Button
+              <CommonButton
                 style={{ marginLeft: "20px" }}
+                loader={isLoader}
                 type="submit"
                 variant="contained"
                 color="success"
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
-              </Button>
+              </CommonButton>
             </Box>
           }
         >

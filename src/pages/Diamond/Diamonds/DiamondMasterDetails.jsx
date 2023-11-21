@@ -6,6 +6,7 @@ import ThemeDialog from "../../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
 import Textinput from "../../../components/UI/TextInput";
 import ReactSelect from "../../../components/UI/ReactSelect";
+import CommonButton from "../../../components/UI/CommonButton";
 
 // ----------initialValues----------------------------------------------------
 const initialValues = {
@@ -36,6 +37,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [shapMaster, setShapMaster] = useState([]);
   const [labMaster, setLabMaster] = useState([]);
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     stockId: "required",
@@ -88,6 +90,8 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
 
   // -------- handleSubmit -------------
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     let formateFields = ["carat", "mDepth", "mLength", "mWidth"];
     let _data = { ...data };
     formateFields.forEach((field) => {
@@ -120,6 +124,9 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
   const onChange = useCallback((e) => {
@@ -293,15 +300,16 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               >
                 Cancel
               </Button>
-              <Button
+              <CommonButton
                 style={{ marginLeft: "20px" }}
+                loader={isLoader}
                 type="submit"
                 variant="contained"
                 color="success"
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
-              </Button>
+              </CommonButton>
             </Box>
           }
         >

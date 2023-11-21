@@ -7,6 +7,7 @@ import { API, HELPER } from "../../services";
 import { apiConfig } from "../../config";
 import ReactSelect from "../../components/UI/ReactSelect";
 import Textarea from "../../components/UI/Textarea";
+import CommonButton from "../../components/UI/CommonButton";
 
 // ----------initialValues----------------------------------------------------
 const initialValues = {
@@ -30,6 +31,7 @@ const initialValues = {
 const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [shapMaster, setShapMaster] = useState([]);
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     stockId: "required",
@@ -57,6 +59,8 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
 
   // -------- handleSubmit-------------
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     let formateFields = ["carat", "mDepth", "mLength", "mWidth"];
     let _data = { ...data };
     formateFields.forEach((field) => {
@@ -91,6 +95,9 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
 
@@ -206,15 +213,16 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               >
                 Cancel
               </Button>
-              <Button
+              <CommonButton
                 style={{ marginLeft: "20px" }}
+                loader={isLoader}
                 type="submit"
                 variant="contained"
                 color="success"
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
-              </Button>
+              </CommonButton>
             </Box>
           }
         >

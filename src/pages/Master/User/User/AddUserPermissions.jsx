@@ -14,9 +14,11 @@ import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
 import SimpleTable from "../../../../components/UI/SimpleTable";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
   const [userPermissions, setUserPermissions] = useState({});
+  const [isLoader, setIsLoader] = useState(false);
 
   const getTableData = () => {
     API.get(`${apiConfig.userPermission}/${userId}/not`).then((response) => {
@@ -90,6 +92,7 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
 
   const addUserPermissions = () => {
     let __userPermissions = Object.values({ ...userPermissions }).flat(1);
+    setIsLoader(true);
 
     let payload = {
       userId: userId,
@@ -119,6 +122,9 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
 
@@ -254,14 +260,23 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
               >
                 Cancel
               </Button>
-              <Button
+              {/* <Button
                 type="submit"
                 variant="contained"
                 color="success"
                 onClick={() => addUserPermissions()}
               >
                 Save
-              </Button>
+              </Button> */}
+              <CommonButton
+                loader={isLoader}
+                type="submit"
+                variant="contained"
+                color="success"
+                onClick={() => addUserPermissions()}
+              >
+                Save
+              </CommonButton>
             </Box>
           </>
         }

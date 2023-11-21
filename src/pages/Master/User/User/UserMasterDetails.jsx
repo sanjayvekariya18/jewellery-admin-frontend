@@ -6,6 +6,7 @@ import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "./../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 // inital data
 const initialValues = {
@@ -17,6 +18,8 @@ const initialValues = {
 };
 
 const UserMasterDetails = ({ open, togglePopup, userData }) => {
+  const [isLoader, setIsLoader] = useState(false);
+
   const url = apiEndPoint.user;
 
   //  -------------formState --------------
@@ -33,6 +36,8 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
 
   //  --------------handle onSubmit   --------------
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
 
     for (const field in data) {
@@ -44,7 +49,10 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
           HELPER.toaster.success("Record created");
           togglePopup();
         })
-        .catch((e) => HELPER.toaster.error(e.errors.message));
+        .catch((e) => HELPER.toaster.error(e.errors.message))
+        .finally(() => {
+          setIsLoader(false);
+        });
     } else {
       API.put(`${url}/${data.id}`, fd)
         .then(() => {
@@ -53,6 +61,9 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
         })
         .catch((e) => {
           HELPER.toaster.error(e.errors.message);
+        })
+        .finally(() => {
+          setIsLoader(false);
         });
     }
   };
@@ -143,15 +154,16 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
                       >
                         Cancel
                       </Button>
-                      <Button
+                      <CommonButton
                         style={{ marginLeft: "20px" }}
+                        loader={isLoader}
                         type="submit"
                         variant="contained"
-                        color="primary"
+                        color="success"
                         onClick={() => onSubmit(handleSubmit)}
                       >
                         Save
-                      </Button>
+                      </CommonButton>
                     </Box>
                   </div>
                 </>

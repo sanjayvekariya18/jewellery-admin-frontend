@@ -8,6 +8,7 @@ import { apiConfig } from "../../../../config";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "quill/dist/quill.core.css";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 function generateUniqueKey() {
   return new Date().getTime().toString();
@@ -22,6 +23,7 @@ const initialValues = {
 
 const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     template_name: "required",
@@ -30,6 +32,8 @@ const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     for (const field in data) {
       fd.append(field, data[field]);
@@ -59,6 +63,9 @@ const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
 
@@ -139,15 +146,16 @@ const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {
               >
                 Cancel
               </Button>
-              <Button
+              <CommonButton
                 style={{ marginLeft: "20px" }}
+                loader={isLoader}
                 type="submit"
                 variant="contained"
                 color="success"
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
-              </Button>
+              </CommonButton>
             </>
           }
         >
