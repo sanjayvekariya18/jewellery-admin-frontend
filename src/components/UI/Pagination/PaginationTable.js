@@ -202,7 +202,7 @@ export default function PaginationTable({
                 <TableCell colSpan={header.length} align="center">
                   <div
                     style={{
-                      margin: "8px auto",
+                      margin: "4px auto",
                       textAlign: "center",
                     }}
                   >
@@ -210,8 +210,8 @@ export default function PaginationTable({
                       src="../../../assets/loading.gif"
                       alt=""
                       srcSet=""
-                      height={30}
-                      width={30}
+                      height={28}
+                      width={28}
                     />
                   </div>
                 </TableCell>
