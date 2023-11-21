@@ -323,7 +323,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
           >
             <Textinput
               size="small"
-              type="number"
+              type="text"
               name="stockId"
               label="Stock Number"
               placeholder="Enter Stock Number"
@@ -434,8 +434,8 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               size="small"
               type="number"
               name="mLength"
-              label="Maximum Length"
-              placeholder="Enter Maximum Length"
+              label="mLength"
+              placeholder="Enter mLength"
               value={formState.mLength}
               onChange={onChange}
               error={errors?.mLength}
@@ -445,8 +445,8 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               size="small"
               type="number"
               name="mWidth"
-              label="Maximum Width"
-              placeholder="Enter Maximum Width"
+              label="mWidth"
+              placeholder="Enter mWidth"
               value={formState.mWidth}
               onChange={onChange}
               error={errors?.mWidth}
@@ -456,8 +456,8 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               size="small"
               type="number"
               name="mDepth"
-              label="Maximum Depth"
-              placeholder="Enter Maximum Depth"
+              label="mDepth"
+              placeholder="Enter mDepth"
               value={formState.mDepth}
               onChange={onChange}
               error={errors?.mDepth}

@@ -21,12 +21,13 @@ const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
     { label: "Carat : ", key: gemStoneData ? gemStoneData.carat : "" },
     { label: "Color : ", key: gemStoneData ? gemStoneData.color : "" },
     { label: "Color Name : ", key: gemStoneData ? gemStoneData.colorName : "" },
-    {
-      label: "Clarity: ",
-      key: gemStoneData
-        ? getDictionaryValue(appConfig.D_Clarity, gemStoneData.clarity)
-        : "",
-    },
+    // {
+    //   label: "Clarity: ",
+    //   key: gemStoneData
+    //     ? getDictionaryValue(appConfig.D_Clarity, gemStoneData.clarity)
+    //     : "",
+    // },
+    { label: "Clarity : ", key: gemStoneData ? gemStoneData.clarity : "" },
 
     { label: "Origin : ", key: gemStoneData ? gemStoneData.origin : "" },
     { label: "Intensity : ", key: gemStoneData ? gemStoneData.intensity : "" },

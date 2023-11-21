@@ -292,7 +292,7 @@ const ColorDiamondMaster = () => {
           <span>{item.shapeName}</span>,
           <span>{item.carat}</span>,
           <span>{item.color}</span>,
-          <span>{appConfig.D_Clarity[item.clarity]}</span>,
+          <span>{item.clarity}</span>,
           <span>{item.origin}</span>,
           <span>{item.intensity}</span>,
           <span>{item.price}</span>,

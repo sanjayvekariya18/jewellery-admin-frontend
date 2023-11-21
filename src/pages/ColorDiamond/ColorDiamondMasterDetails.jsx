@@ -237,7 +237,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
           >
             <Textinput
               size="small"
-              type="number"
+              type="text"
               name="stockId"
               label="Stock Number"
               placeholder="Enter Stock Number"

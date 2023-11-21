@@ -69,6 +69,8 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
         ? getDictionaryValue(appConfig.D_Girdle, gemDiamondData.girdle)
         : "",
     },
+    // { label: "Girdle : ", key: gemDiamondData ? gemDiamondData.girdle : "" },
+
     {
       label: "Culet: ",
       key: gemDiamondData
