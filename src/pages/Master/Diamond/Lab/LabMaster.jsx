@@ -54,7 +54,7 @@ const LabMaster = () => {
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
-
+    setLoading(true);
     // ----------Get Lab Api------------
     API.get(apiConfig.lab)
       .then((res) => {

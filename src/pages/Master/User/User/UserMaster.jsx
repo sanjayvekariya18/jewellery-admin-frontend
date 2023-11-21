@@ -21,6 +21,8 @@ const UserMaster = () => {
   const [open, setOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
+  const [loading, setLoading] = useState();
+
   const navigate = useNavigate();
   const url = apiEndPoint.user;
 
@@ -66,8 +68,10 @@ const UserMaster = () => {
     }
 
     // ----------Get Blog Api------------
+    setLoading(true);
     API.get(apiEndPoint.user, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -82,6 +86,7 @@ const UserMaster = () => {
         });
       })
       .catch((err) => {
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -250,6 +255,7 @@ const UserMaster = () => {
           setOpenSearch(false); // Close the modal
         }}
         maxWidth="sm"
+        loader={loading}
       >
         <Textinput
           size="small"

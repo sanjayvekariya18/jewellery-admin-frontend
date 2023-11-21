@@ -24,8 +24,8 @@ const MetalPriceMaster = () => {
   const [loading, setLoading] = useState();
 
   
-
   const getMetalPriceData = async () => {
+    setLoading(true);
     try {
       const res = await API.get(apiConfig.metalPrice);
       setState(res);

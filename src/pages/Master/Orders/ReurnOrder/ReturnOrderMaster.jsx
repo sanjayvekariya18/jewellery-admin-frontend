@@ -492,6 +492,7 @@ const ReturnOrderMaster = () => {
                 paginate(false, true);
                 setOpenSearch(false);
               }}
+              loader={loading}
             >
               <div style={{ height: "300px" }}>
                 <Flatpickr

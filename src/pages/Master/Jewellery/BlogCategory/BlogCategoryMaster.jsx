@@ -74,6 +74,7 @@ const BlogCategoryMaster = () => {
     }
 
     // ----------Get Product Details Group Api------------
+    setLoading(true);
     API.get(apiConfig.blogCategory, filter)
       .then((res) => {
         setLoading(false);
@@ -235,6 +236,7 @@ const BlogCategoryMaster = () => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal
         }}
+        loader={loading}
       >
         <Textinput
           size="small"

@@ -59,6 +59,7 @@ const Discount = () => {
     }
 
     // ----------Get Blog Api------------
+    setLoading(true);
     API.get(apiConfig.diamondDiscount)
       .then((res) => {
         setLoading(false);

@@ -75,6 +75,7 @@ const FaqMaster = () => {
     }
 
     // ----------Get Product Details Group Api------------
+    setLoading(true);
     API.get(apiConfig.faq, filter)
       .then((res) => {
         setLoading(false);
@@ -235,6 +236,7 @@ const FaqMaster = () => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal
         }}
+        loader={loading}
       >
         <Textinput
           size="small"

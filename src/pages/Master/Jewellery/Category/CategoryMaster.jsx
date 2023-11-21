@@ -57,7 +57,7 @@ const CategoryMaster = () => {
     }
 
     // ----------Get Category Api------------
-
+    setLoading(true);
     API.get(apiConfig.category, filter)
       .then((res) => {
         setLoading(false);

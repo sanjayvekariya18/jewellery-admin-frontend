@@ -137,6 +137,7 @@ const DiamondMaster = () => {
       filter = _.merge(filter, newFilterState);
     }
     // ----------Get Diamong Api------------
+    setLoading(true);
 
     API.get(apiConfig.diamonds, filter)
       .then((res) => {
@@ -502,6 +503,7 @@ const DiamondMaster = () => {
                 paginate(false, true);
                 setOpenSearch(false);
               }}
+              loader={loading}
             >
               <div>
                 <Select

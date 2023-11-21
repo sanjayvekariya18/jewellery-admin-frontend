@@ -107,7 +107,7 @@ const ProductMaster = () => {
     }
 
     // ----------Get Diamong Api------------
-
+    setLoading(true);
     API.get(apiConfig.product, filter)
       .then((res) => {
         setLoading(false);
@@ -270,6 +270,7 @@ const ProductMaster = () => {
               paginate(false, true);
               setOpenSearch(false); // Close the modal
             }}
+            loader={loading}
           >
             <div style={{ height: "300px" }}>
               <Textinput

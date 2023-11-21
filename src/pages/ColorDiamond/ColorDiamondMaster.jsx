@@ -171,7 +171,7 @@ const ColorDiamondMaster = () => {
     }
 
     // ----------Get Colored Diamond Api------------
-
+    setLoading(true);
     API.get(apiConfig.coloredDiamond, filter)
       .then((res) => {
         setLoading(false);
@@ -397,6 +397,7 @@ const ColorDiamondMaster = () => {
                 paginate(false, true);
                 setOpenSearch(false); // Close the modal
               }}
+              loader={loading}
             >
               <div style={{ height: "350px" }}>
                 <div

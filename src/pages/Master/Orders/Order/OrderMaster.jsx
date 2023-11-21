@@ -454,6 +454,7 @@ const OrderMaster = () => {
                 paginate(false, true);
                 setOpenSearch(false); // Close the modal
               }}
+              loader={loading}
             >
               <div style={{ height: "300px" }}>
                 {/* <div className="text-input-top"> */}

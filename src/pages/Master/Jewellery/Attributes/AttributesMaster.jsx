@@ -58,6 +58,7 @@ const AttributesMaster = () => {
     }
 
     // ----------Get Attributes Api------------
+    setLoading(true);
     API.get(apiConfig.attributes, filter)
       .then((res) => {
         setLoading(false);

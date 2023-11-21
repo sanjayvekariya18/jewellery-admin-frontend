@@ -77,6 +77,7 @@ const Customer = () => {
     }
 
     // ----------Get Blog Api------------
+    setLoading(true);
     API.get(apiConfig.customer, filter)
       .then((res) => {
         setLoading(false);
@@ -252,6 +253,7 @@ const Customer = () => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal
         }}
+        loader={loading}
       >
         <Textinput
           size="small"

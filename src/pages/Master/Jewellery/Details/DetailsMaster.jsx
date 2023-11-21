@@ -70,6 +70,7 @@ const DetailsMaster = () => {
       filter = _.merge(filter, newFilterState);
     }
     // ----------Get Product Details Group Api------------
+    setLoading(true);
     API.get(apiConfig.productDetails, filter)
       .then((res) => {
         setLoading(false);
@@ -267,6 +268,7 @@ const DetailsMaster = () => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal
         }}
+        loader={loading}
       >
         <div style={{ height: "200px" }}>
           {/* <ReactSelect

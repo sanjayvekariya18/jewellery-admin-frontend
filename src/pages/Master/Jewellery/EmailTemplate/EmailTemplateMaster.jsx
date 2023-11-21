@@ -75,6 +75,7 @@ const EmailTemplateMaster = () => {
     }
 
     // ---------- Email Template Api ------------
+    setLoading(true);
     API.get(apiConfig.emailTemplate, filter)
       .then((res) => {
         setLoading(false);
@@ -234,6 +235,7 @@ const EmailTemplateMaster = () => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal
         }}
+        loader={loading}
       >
         <Textinput
           size="small"

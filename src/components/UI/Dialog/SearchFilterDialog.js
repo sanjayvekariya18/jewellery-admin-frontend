@@ -1,6 +1,6 @@
 import React from "react";
 import ThemeDialog from "./ThemeDialog";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 export default function SearchFilterDialog({
   isOpen,
@@ -8,6 +8,7 @@ export default function SearchFilterDialog({
   children,
   search,
   reset,
+  loader,
   maxWidth = "md",
 }) {
   return (
@@ -20,7 +21,11 @@ export default function SearchFilterDialog({
         actionBtns={
           <>
             <Button variant="contained" color="secondary" onClick={reset}>
-              Reset
+              {loader ? (
+                <CircularProgress size={24} thickness={5} color="inherit" />
+              ) :
+                "Reset"
+              }
             </Button>
             <Button
               type="submit"

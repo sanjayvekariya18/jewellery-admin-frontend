@@ -68,6 +68,7 @@ const ShapeMaster = () => {
     }
 
     // ----------Get Blog Api------------
+    setLoading(true);
     API.get(apiConfig.shape)
       .then((res) => {
         setLoading(false);

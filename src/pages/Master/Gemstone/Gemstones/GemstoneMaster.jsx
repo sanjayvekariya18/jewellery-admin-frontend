@@ -374,6 +374,7 @@ const GemstoneMaster = () => {
                   paginate(false, true);
                   setOpenSearch(false); // Close the modal
                 }}
+                loader={loading}
               >
                 <div style={{ height: "350px" }}>
                   <div

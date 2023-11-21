@@ -118,6 +118,7 @@ const FindOneOrderDetail = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     API.get(apiConfig.findOrder.replace(":Id", Id)).then((res) => {
       setLoading(false);
       setOrderDetail(res);

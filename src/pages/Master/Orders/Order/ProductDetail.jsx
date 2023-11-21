@@ -25,10 +25,10 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
   const [textModal, setTextModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
-
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
+
   const PRODUCTVARIANT = [
     { title: "Stock No", classNameWidth: "thead-second-width" },
     { title: "Description", classNameWidth: "thead-second-width-title" },
@@ -43,6 +43,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     { title: "Total Price", classNameWidth: "thead-second-width" },
     { title: "Attribute", classNameWidth: "thead-second-width" },
   ];
+
   const rowsProductVariant = [
     {
       item: productDetail?.productVariant,
@@ -191,6 +192,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
+    setLoading(true);
     API.get(apiConfig.findProductDetail.replace(":id", productDetailData))
       .then((res) => {
         setProductDetail(res);

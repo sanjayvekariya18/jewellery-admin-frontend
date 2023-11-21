@@ -70,6 +70,7 @@ const DetailsGroupMaster = () => {
     }
 
     // ----------Get Product Details Group Api------------
+    setLoading(true);
     API.get(apiConfig.productDetailGroup)
       .then((res) => {
         setLoading(false);
@@ -217,6 +218,7 @@ const DetailsGroupMaster = () => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal
         }}
+        loader={loading}
       >
         <Textinput
           size="small"

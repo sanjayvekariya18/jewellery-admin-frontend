@@ -64,6 +64,7 @@ const OptionMaster = () => {
     }
 
     // ----------Get Blog Api------------
+    setLoading(true);
     API.get(apiConfig.options, filter)
       .then((res) => {
         setLoading(false);
