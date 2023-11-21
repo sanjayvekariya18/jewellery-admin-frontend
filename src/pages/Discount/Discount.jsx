@@ -14,6 +14,8 @@ import { pageRoutes } from "../../constants/routesList";
 const Discount = () => {
   const [open, setOpen] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
+  const [loading, setLoading] = useState();
+
 
   const COLUMNS = [
     { title: "High Size" },
@@ -59,6 +61,7 @@ const Discount = () => {
     // ----------Get Blog Api------------
     API.get(apiConfig.diamondDiscount)
       .then((res) => {
+        setLoading(false);
         setState({
           ...state,
           total_items: res.count,
@@ -69,6 +72,7 @@ const Discount = () => {
         });
       })
       .catch(() => {
+        setLoading(false);
         setState({
           ...state,
           ...(clear && clearStates),
@@ -133,7 +137,7 @@ const Discount = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="350px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}

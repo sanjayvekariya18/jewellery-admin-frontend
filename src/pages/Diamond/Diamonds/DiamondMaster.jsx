@@ -28,6 +28,7 @@ const DiamondMaster = () => {
   const [price, setPrice] = useState([]);
   const [table, setTable] = useState([]);
   const [depth, setDepth] = useState([]);
+  const [loading, setLoading] = useState();
   const [findDiamond, setFindDiamond] = useState(false);
   const [gemDiamondData, setDiamondData] = useState(null);
 
@@ -139,6 +140,7 @@ const DiamondMaster = () => {
 
     API.get(apiConfig.diamonds, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -153,6 +155,7 @@ const DiamondMaster = () => {
         });
       })
       .catch((err) => {
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -938,7 +941,7 @@ const DiamondMaster = () => {
             checkboxColumn={false}
             selectedRows={state.selectedRows}
             enableOrder={true}
-            isLoader={state.loader}
+            isLoader={loading}
             emptyTableImg={<img src={error400cover} width="400px" />}
             {...otherTableActionProps}
             orderBy={state.orderby}

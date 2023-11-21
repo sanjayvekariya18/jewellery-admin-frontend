@@ -22,6 +22,8 @@ const ProductMaster = () => {
   const [bulkOpen, setBulkOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [subCategory, setSubCategory] = useState([]);
+  const [loading, setLoading] = useState();
+
   const navigate = useNavigate();
 
   // ----Pagination code------
@@ -108,6 +110,7 @@ const ProductMaster = () => {
 
     API.get(apiConfig.product, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -122,6 +125,7 @@ const ProductMaster = () => {
         });
       })
       .catch((err) => {
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -328,7 +332,7 @@ const ProductMaster = () => {
             checkboxColumn={false}
             selectedRows={state.selectedRows}
             enableOrder={true}
-            isLoader={state.loader}
+            isLoader={loading}
             emptyTableImg={<img src={error400cover} width="400px" />}
             {...otherTableActionProps}
             orderBy={state.orderby}

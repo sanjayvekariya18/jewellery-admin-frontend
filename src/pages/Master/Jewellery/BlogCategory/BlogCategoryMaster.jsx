@@ -32,6 +32,8 @@ const BlogCategoryMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
+  const [loading, setLoading] = useState();
+
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
@@ -74,6 +76,7 @@ const BlogCategoryMaster = () => {
     // ----------Get Product Details Group Api------------
     API.get(apiConfig.blogCategory, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -88,6 +91,7 @@ const BlogCategoryMaster = () => {
         });
       })
       .catch(() => {
+        setLoading(false);
         setState({
           ...state,
           ...(clear && clearStates),
@@ -215,7 +219,7 @@ const BlogCategoryMaster = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="400px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}

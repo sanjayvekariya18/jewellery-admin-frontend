@@ -28,7 +28,9 @@ const ColorDiamondMaster = () => {
   const [intensity, setIntensity] = useState([]);
   const [color, setColor] = useState([]);
   const [gemStoneData, setGemstoneData] = useState(null);
-  const [findGemstone, setFindGemstone] = useState(false);
+  const [findGemstone, setFindGemstone] = useState(false);  
+  const [loading, setLoading] = useState();
+
 
   // -------------------Get Price---------------------------------
   useEffect(() => {
@@ -172,6 +174,7 @@ const ColorDiamondMaster = () => {
 
     API.get(apiConfig.coloredDiamond, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -186,6 +189,7 @@ const ColorDiamondMaster = () => {
         });
       })
       .catch((err) => {
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -655,7 +659,7 @@ const ColorDiamondMaster = () => {
             checkboxColumn={false}
             selectedRows={state.selectedRows}
             enableOrder={true}
-            isLoader={state.loader}
+            isLoader={loading}
             emptyTableImg={<img src={error400cover} width="400px" />}
             {...otherTableActionProps}
             orderBy={state.orderby}

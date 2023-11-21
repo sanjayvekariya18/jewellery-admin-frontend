@@ -21,6 +21,7 @@ const LabMaster = () => {
   //   const url = apiEndPoint.user;
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
+  const [loading, setLoading] = useState();
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
@@ -57,6 +58,7 @@ const LabMaster = () => {
     // ----------Get Lab Api------------
     API.get(apiConfig.lab)
       .then((res) => {
+        setLoading(false);
         setState({
           ...state,
           total_items: res.count,
@@ -67,6 +69,7 @@ const LabMaster = () => {
         });
       })
       .catch((err) => {
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -182,7 +185,7 @@ const LabMaster = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="400px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}

@@ -32,6 +32,8 @@ const FaqMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
+  const [loading, setLoading] = useState();
+
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
@@ -75,6 +77,7 @@ const FaqMaster = () => {
     // ----------Get Product Details Group Api------------
     API.get(apiConfig.faq, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -89,6 +92,7 @@ const FaqMaster = () => {
         });
       })
       .catch(() => {
+        setLoading(false);
         setState({
           ...state,
           ...(clear && clearStates),
@@ -215,7 +219,7 @@ const FaqMaster = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="400px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}

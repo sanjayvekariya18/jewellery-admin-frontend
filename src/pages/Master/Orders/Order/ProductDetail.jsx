@@ -227,8 +227,8 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                 src="../../../../../../assets/loading.gif"
                 alt=""
                 srcSet=""
-                height={50}
-                width={50}
+                height={28}
+                width={28}
               />
             </div>
           ) : (

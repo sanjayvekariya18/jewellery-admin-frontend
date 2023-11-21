@@ -23,6 +23,8 @@ const DetailsMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [productDetailsGroupId, setProductDetailsGroupId] = useState([]);
   const [textModal, setTextModal] = useState(false);
+  const [loading, setLoading] = useState();
+
   const [addressText, setAddressText] = useState("");
   const textModaltoggle = () => {
     setTextModal(!textModal);
@@ -70,6 +72,7 @@ const DetailsMaster = () => {
     // ----------Get Product Details Group Api------------
     API.get(apiConfig.productDetails, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...state,
           total_items: res.count,
@@ -80,6 +83,7 @@ const DetailsMaster = () => {
         });
       })
       .catch(() => {
+        setLoading(false);
         setState({
           ...state,
           ...(clear && clearStates),
@@ -236,7 +240,7 @@ const DetailsMaster = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="400px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}

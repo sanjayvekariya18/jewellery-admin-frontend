@@ -27,6 +27,8 @@ const DetailsGroupMaster = () => {
   const [open, setOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
+  const [loading, setLoading] = useState();
+
 
   /* Pagination code */
   const COLUMNS = [
@@ -70,6 +72,7 @@ const DetailsGroupMaster = () => {
     // ----------Get Product Details Group Api------------
     API.get(apiConfig.productDetailGroup)
       .then((res) => {
+        setLoading(false);
         setState({
           ...state,
           total_items: res.count,
@@ -80,6 +83,7 @@ const DetailsGroupMaster = () => {
         });
       })
       .catch(() => {
+        setLoading(false);
         setState({
           ...state,
           ...(clear && clearStates),
@@ -186,7 +190,7 @@ const DetailsGroupMaster = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="400px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}

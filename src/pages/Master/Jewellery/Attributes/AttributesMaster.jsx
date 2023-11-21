@@ -21,6 +21,8 @@ const AttributesMaster = () => {
   const [editAttributeSingleData, setEditAttributeSingleData] = useState([]);
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
+  const [loading, setLoading] = useState();
+
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
@@ -58,6 +60,7 @@ const AttributesMaster = () => {
     // ----------Get Attributes Api------------
     API.get(apiConfig.attributes, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...state,
           total_items: res.count,
@@ -68,6 +71,7 @@ const AttributesMaster = () => {
         });
       })
       .catch((err) => {
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -172,6 +176,7 @@ const AttributesMaster = () => {
       // Check if selectedUserData is not null
       API.get(apiConfig.attributesId.replace(":id", selectedUserData.id))
         .then((res) => {
+          
           setEditAttributeSingleData({ ...res });
         })
         .catch((err) => {
@@ -235,7 +240,7 @@ const AttributesMaster = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="350px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}

@@ -29,6 +29,7 @@ const Customer = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
+  const [loading, setLoading] = useState();
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
@@ -78,6 +79,7 @@ const Customer = () => {
     // ----------Get Blog Api------------
     API.get(apiConfig.customer, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -92,6 +94,7 @@ const Customer = () => {
         });
       })
       .catch(() => {
+        setLoading(false);
         setState({
           ...state,
           ...(clear && clearStates),
@@ -233,7 +236,7 @@ const Customer = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="400px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}

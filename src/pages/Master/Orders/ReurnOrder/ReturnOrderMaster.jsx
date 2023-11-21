@@ -695,7 +695,8 @@ const ReturnOrderMaster = () => {
           </div>
           {loading ? (
             <div style={{ margin: "10px  auto", textAlign: "center" }}>
-              <img src="../../../../../../assets/loading.gif" alt="" srcSet="" height={50} width={50} />
+              <img src="../../../../../../assets/loading.gif" alt="" srcSet="" height={28}
+                width={28} />
             </div>
           ) : (
             state.data?.length > 0 ? (

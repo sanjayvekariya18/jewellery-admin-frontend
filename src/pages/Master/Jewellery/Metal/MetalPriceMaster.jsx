@@ -21,13 +21,18 @@ const MetalPriceMaster = () => {
   const [open, setOpen] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [state, setState] = useState([]);
+  const [loading, setLoading] = useState();
+
+  
 
   const getMetalPriceData = async () => {
     try {
       const res = await API.get(apiConfig.metalPrice);
       setState(res);
+      setLoading(false);
     } catch (err) {
       console.error(err);
+      setLoading(false);
     }
   };
   useEffect(() => {

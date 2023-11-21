@@ -23,6 +23,8 @@ const OptionMaster = () => {
   // const [selectAttributeData, setSelectAttributeData] = useState(null);
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
+  const [loading, setLoading] = useState();
+
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
@@ -64,6 +66,7 @@ const OptionMaster = () => {
     // ----------Get Blog Api------------
     API.get(apiConfig.options, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...state,
           total_items: res.count,
@@ -74,6 +77,7 @@ const OptionMaster = () => {
         });
       })
       .catch((err) => {
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -240,7 +244,7 @@ const OptionMaster = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="350px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}

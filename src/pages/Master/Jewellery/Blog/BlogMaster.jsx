@@ -30,6 +30,7 @@ const BlogMaster = () => {
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
   const [dateRange, setDateRange] = useState([null, null]);
+  const [loading, setLoading] = useState();
 
   const textModaltoggle = () => {
     setTextModal(!textModal);
@@ -101,6 +102,7 @@ const BlogMaster = () => {
     // ----------Get Product Details Group Api------------
     API.get(apiConfig.blog, filter)
       .then((res) => {
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -115,6 +117,7 @@ const BlogMaster = () => {
         });
       })
       .catch(() => {
+        setLoading(false);
         setState({
           ...state,
           ...(clear && clearStates),
@@ -272,7 +275,7 @@ const BlogMaster = () => {
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
+        isLoader={loading}
         emptyTableImg={<img src={error400cover} width="400px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}
