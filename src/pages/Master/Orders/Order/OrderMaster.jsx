@@ -48,40 +48,39 @@ const OrderMaster = () => {
     orderStatus: "pending",
   });
 
-
   // ----Pagination code------
   const COLUMNS = [
     filter.orderStatus === "pending" ||
-      filter.orderStatus === "approve" ||
-      filter.orderStatus === "processing" ||
-      filter.orderStatus === "packed" ||
-      filter.orderStatus === "dispatch"
+    filter.orderStatus === "approve" ||
+    filter.orderStatus === "processing" ||
+    filter.orderStatus === "packed" ||
+    filter.orderStatus === "dispatch"
       ? {
-        title: "Select Order",
-        order: false,
-        field: "totalReturnProducts",
-      }
+          title: "Select Order",
+          order: false,
+          field: "totalReturnProducts",
+        }
       : {
-        title: "",
-        order: false,
-        field: "",
-        classNameWidth: "thead-width-zero",
-      },
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
     { title: "Order No", order: true, field: "orderNo" },
     { title: "Customer Name", order: false, field: "customerName" },
     { title: "Total Products", order: false, field: "totalProducts" },
     filter.orderStatus === "delivered"
       ? {
-        title: "Total Return Products",
-        order: false,
-        field: "totalReturnProducts",
-      }
+          title: "Total Return Products",
+          order: false,
+          field: "totalReturnProducts",
+        }
       : {
-        title: "",
-        order: false,
-        field: "",
-        classNameWidth: "thead-width-zero",
-      },
+          title: "",
+          order: false,
+          field: "",
+          classNameWidth: "thead-width-zero",
+        },
     { title: "Amount", order: false, field: "payableAmount" },
     { title: "Order Date", order: false, field: "orderDate" },
     { title: "Payment Status", order: false, field: "paymentStatus" },
@@ -108,20 +107,20 @@ const OrderMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-            .tz(
-              dateRange[0],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[0],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-            .tz(
-              dateRange[1],
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            )
-            .format(appConfig.dateDisplayEditFormat)
+              .tz(
+                dateRange[1],
+                Intl.DateTimeFormat().resolvedOptions().timeZone
+              )
+              .format(appConfig.dateDisplayEditFormat)
           : null,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -146,26 +145,26 @@ const OrderMaster = () => {
     }
 
     // ----------Get Order Api------------
-    setLoading(true)
+    setLoading(true);
     API.get(apiConfig.orders, filterData)
       .then((res) => {
-        setLoading(false)
+        setLoading(false);
         setState({
           ...(clear
             ? { ...getInitialStates() }
             : {
-              ...state,
-              ...(clear && clearStates),
-              ...(isNewFilter && newFilterState),
-              loader: false,
-            }),
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
           status: res.statuses,
         });
       })
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -199,7 +198,6 @@ const OrderMaster = () => {
       }
     });
   };
-
 
   const handleCancelOrder = (data) => {
     setSelectedUserData(data);
@@ -264,7 +262,7 @@ const OrderMaster = () => {
           color: "red",
           icon: "cancel",
           onClick: () => handleCancelOrder(item.id),
-        }
+        },
       ];
       if (filter.orderStatus === "cancel_request") {
         optionsArray.splice(1, 0, {
@@ -284,14 +282,14 @@ const OrderMaster = () => {
               filter.orderStatus === "processing" ||
               filter.orderStatus === "packed" ||
               filter.orderStatus === "dispatch") && (
-                <Checkbox
-                  checked={selectedCheckboxes.some(
-                    (selectedItem) => selectedItem === item.id
-                  )}
-                  onChange={() => handleCheckbox(item.id)}
-                  color="primary"
-                />
-              )}
+              <Checkbox
+                checked={selectedCheckboxes.some(
+                  (selectedItem) => selectedItem === item.id
+                )}
+                onChange={() => handleCheckbox(item.id)}
+                color="primary"
+              />
+            )}
           </span>,
           <span>{item.orderNo}</span>,
           <span>{item.customerName}</span>,
@@ -312,7 +310,7 @@ const OrderMaster = () => {
           </div>,
           <span>
             <MaxHeightMenu optionsMenu={optionsArray} />
-          </span>
+          </span>,
         ],
       };
     });
@@ -718,68 +716,72 @@ const OrderMaster = () => {
               >
                 Fail
               </Button>
-
             </div>
 
-            {state.data?.length > 0 && <div style={{ width: "260px" }}>
-              {(filter.orderStatus === "pending" ||
-                filter.orderStatus === "approve" ||
-                filter.orderStatus === "processing" ||
-                filter.orderStatus === "packed" ||
-                filter.orderStatus === "dispatch") && (
+            {state.data?.length > 0 && (
+              <div style={{ width: "260px" }}>
+                {(filter.orderStatus === "pending" ||
+                  filter.orderStatus === "approve" ||
+                  filter.orderStatus === "processing" ||
+                  filter.orderStatus === "packed" ||
+                  filter.orderStatus === "dispatch") && (
                   <ReactSelect
                     placeholder="Select Status"
                     // isDisabled={!isSelectEnabled}
                     options={
                       state.status && state.status.length !== 0
                         ? [
-                          {
-                            label: state.status[0],
-                            value: state.status[0],
-                          },
-                        ]
+                            {
+                              label: state.status[0],
+                              value: state.status[0],
+                            },
+                          ]
                         : []
                     }
                     onChange={editOrderStatus}
                     name="status-select"
                   />
                 )}
-            </div>}
+              </div>
+            )}
           </div>
           {loading ? (
-            <div style={{ margin: "10px  auto", textAlign: "center" }}>
-              <img src="../../../../../../assets/loading.gif" alt="" srcset="" height={50} width={50} />
+            <div style={{ margin: "40px  auto", textAlign: "center" }}>
+              <img
+                src="../../../../../../assets/loading.gif"
+                alt=""
+                srcSet=""
+                height={50}
+                width={50}
+              />
             </div>
+          ) : state.data?.length > 0 ? (
+            <PaginationTable
+              header={COLUMNS}
+              rows={rows}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              orderBy={state.orderby}
+              order={state.order}
+              {...otherTableActionProps}
+            ></PaginationTable>
           ) : (
-            state.data?.length > 0 ? (
-              <PaginationTable
-                header={COLUMNS}
-                rows={rows}
-                totalItems={state.total_items || 0}
-                perPage={state.rowsPerPage}
-                activePage={state.page}
-                checkboxColumn={false}
-                selectedRows={state.selectedRows}
-                enableOrder={true}
-                isLoader={state.loader}
-                emptyTableImg={<img src={error400cover} width="400px" />}
-                orderBy={state.orderby}
-                order={state.order}
-                {...otherTableActionProps}
-              ></PaginationTable>
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "50px",
-                }}
-              >
-                <img src={error400cover} width="420px" />
-              </div>
-            )
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "50px",
+              }}
+            >
+              <img src={error400cover} width="420px" />
+            </div>
           )}
-
         </Container>
         {openOrderDetail && (
           <FindOneOrderDetail

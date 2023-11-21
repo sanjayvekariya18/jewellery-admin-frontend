@@ -200,6 +200,10 @@ input::-webkit-inner-spin-button {
     width: 65px !important;
 }
 
+.thead-second-width-action-35 {
+    width: 35px !important;
+}
+
 .thead-second-width-discount {
     width: 80px !important;
 }
@@ -472,6 +476,18 @@ input::-webkit-inner-spin-button {
 .main-billing-address-div .makeStyles-billing-63 {
     padding-top: 5px !important;
     padding-bottom: 5px !important;
+}
+
+.product-th-tag {
+    padding-left: 20px;
+}
+
+.main-icon-details-button button {
+    padding: 0 !important;
+}
+
+.pdf-exclude {
+    display: none !important;
 }
 
 /* .pricing-main-div .makeStyles-billing-3 {
