@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, CircularProgress, Button } from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
@@ -8,6 +8,7 @@ import { apiConfig, appConfig } from "../../../../config";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import Textarea from "../../../../components/UI/Textarea";
 import ReactSelect from "../../../../components/UI/ReactSelect";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const initialValues = {
   id: "",
@@ -26,6 +27,7 @@ const SubcategoryMasterDetails = ({
 }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [categoryId, setCategoryId] = useState([]);
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     name: "required",
@@ -35,6 +37,8 @@ const SubcategoryMasterDetails = ({
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     for (const field in data) {
       fd.append(field, data[field]);
@@ -51,7 +55,10 @@ const SubcategoryMasterDetails = ({
         );
         togglePopup();
       })
-      .catch((e) => HELPER.toaster.error(e.errors.message));
+      .catch((e) => HELPER.toaster.error(e.errors.message))
+      .finally(() => {
+        setIsLoader(false);
+      });
   };
 
   const onChange = useCallback((e) => {
@@ -165,15 +172,16 @@ const SubcategoryMasterDetails = ({
                   >
                     Cancel
                   </Button>
-                  <Button
+                  <CommonButton
                     style={{ marginLeft: "20px" }}
+                    loader={isLoader}
                     type="submit"
                     variant="contained"
                     color="success"
                     onClick={() => onSubmit(handleSubmit)}
                   >
                     Save
-                  </Button>
+                  </CommonButton>
                 </Box>
               </div>
               <div>
@@ -183,7 +191,8 @@ const SubcategoryMasterDetails = ({
                       className="text-error"
                       style={{ padding: "0", margin: "0" }}
                     >
-                      The logo Image must be a file of type png,jpg,jpeg,svg,webp
+                      The logo Image must be a file of type
+                      png,jpg,jpeg,svg,webp
                     </p>
                   )}
                 </div>
