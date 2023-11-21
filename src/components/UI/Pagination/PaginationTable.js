@@ -125,7 +125,6 @@ export default function PaginationTable({
   isLoader = true,
   isModalTrue = false,
 
-
   footerVisibility,
 }) {
   const _onChangeSelect = (e) => {
@@ -155,124 +154,121 @@ export default function PaginationTable({
 
   return (
     <React.Fragment>
-
       <Box width="100%" overflow="auto">
         <StyledTable>
           <TableHead>
             <TableRow>
-              {
-                header.map((headerItem, headerIndex) => {
-                  return (
-                    <TableCell
-                      align="center"
-                      key={`tr_${headerIndex}`}
-                      // className={`${
-                      //   headerItem.title === "Product Name"
-                      //     ? "width-apply-th"
-                      //     : ""
-                      // }`}
-                      className={headerItem.classNameWidth || ""}
-                    >
-                      {enableOrder && headerItem?.order ? (
-                        <TableSortLabel
-                          active={headerItem.field == orderBy}
-                          direction={order == "asc" ? "desc" : "asc"}
-                          onClick={() => {
-                            changeOrder(
-                              headerItem.field,
-                              order == "asc" ? "desc" : "asc"
-                            );
-                          }}
-                        >
-                          {`${headerItem.title} `}
-                          <Box component="span" sx={visuallyHidden}>
-                            {order === "desc"
-                              ? "sorted descending"
-                              : "sorted ascending"}
-                          </Box>
-                        </TableSortLabel>
-                      ) : (
-                        <>{`${headerItem.title} `}</>
-                      )}
-                    </TableCell>
-                  );
-                })
-              }
+              {header.map((headerItem, headerIndex) => {
+                return (
+                  <TableCell
+                    align="center"
+                    key={`tr_${headerIndex}`}
+                    // className={`${
+                    //   headerItem.title === "Product Name"
+                    //     ? "width-apply-th"
+                    //     : ""
+                    // }`}
+                    className={headerItem.classNameWidth || ""}
+                  >
+                    {enableOrder && headerItem?.order ? (
+                      <TableSortLabel
+                        active={headerItem.field == orderBy}
+                        direction={order == "asc" ? "desc" : "asc"}
+                        onClick={() => {
+                          changeOrder(
+                            headerItem.field,
+                            order == "asc" ? "desc" : "asc"
+                          );
+                        }}
+                      >
+                        {`${headerItem.title} `}
+                        <Box component="span" sx={visuallyHidden}>
+                          {order === "desc"
+                            ? "sorted descending"
+                            : "sorted ascending"}
+                        </Box>
+                      </TableSortLabel>
+                    ) : (
+                      <>{`${headerItem.title} `}</>
+                    )}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           </TableHead>
           <TableBody>
             {isLoader ? (
-              <div className="loader">
-                Loading...
-              </div>
+              <TableRow>
+                <TableCell colSpan={header.length} align="center">
+                  <div
+                    style={{
+                      margin: "8px auto",
+                      textAlign: "center",
+                    }}
+                  >
+                    <img
+                      src="../../../assets/loading.gif"
+                      alt=""
+                      srcSet=""
+                      height={30}
+                      width={30}
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
             ) : (
-              <>
-                {rows.map((row, rowIndex) => {
-                  return (
-                    <TableRow key={`tr_${rowIndex}`}>
-                      {row.columns.map((column, columnIndex) => {
-                        return (
-                          <TableCell
-                            key={`td_${rowIndex}_${columnIndex}`}
-                            align="center"
-                          >
-                            {column}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-
-              </>
-
+              rows.map((row, rowIndex) => (
+                <TableRow key={`tr_${rowIndex}`}>
+                  {row.columns.map((column, columnIndex) => (
+                    <TableCell
+                      key={`td_${rowIndex}_${columnIndex}`}
+                      align="center"
+                    >
+                      {column}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
             )}
           </TableBody>
         </StyledTable>
-        {
-          isLoader === false && (
-            rows?.length === 0 && activePage === 0 && (
-              <>
-                <div
-                  className=""
-                  style={{
-                    marginTop: "20px",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  {emptyTableImg}
-                </div>
-              </>
-            )
-          )
-        }
-
+        {isLoader === false && rows?.length === 0 && activePage === 0 && (
+          <>
+            <div
+              className=""
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {emptyTableImg}
+            </div>
+          </>
+        )}
       </Box>
 
-      {
-        footerVisibility && (
-          <div className="main-footer-table-pagination">
-            <TablePagination
-              sx={{ px: 2 }}
-              page={activePage}
-              component="div"
-              rowsPerPage={perPage}
-              count={totalItems}
-              onPageChange={(_, pageNumber) => changeActivePage(pageNumber)}
-              rowsPerPageOptions={rowsPerPageOptions}
-              onRowsPerPageChange={(event) =>
-                changePerPage(Number(event.target.value))
-              }
-              nextIconButtonProps={{ "aria-label": "Next Page" }}
-              backIconButtonProps={{ "aria-label": "Previous Page" }}
-              showFirstButton={true}
-              showLastButton={true}
-            />
-          </div>
-        )
-      }
-    </React.Fragment >
+      {footerVisibility && (
+        <div className="main-footer-table-pagination">
+          <TablePagination
+            sx={{ px: 2 }}
+            page={activePage}
+            component="div"
+            rowsPerPage={perPage}
+            count={totalItems}
+            onPageChange={(_, pageNumber) => changeActivePage(pageNumber)}
+            rowsPerPageOptions={rowsPerPageOptions}
+            onRowsPerPageChange={(event) =>
+              changePerPage(Number(event.target.value))
+            }
+            nextIconButtonProps={{ "aria-label": "Next Page" }}
+            backIconButtonProps={{ "aria-label": "Previous Page" }}
+            showFirstButton={true}
+            showLastButton={true}
+          />
+        </div>
+      )}
+    </React.Fragment>
   );
 }
 
