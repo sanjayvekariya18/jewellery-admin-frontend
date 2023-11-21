@@ -30,7 +30,7 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData }) => {
                 togglePopup();
             })
             .catch((e) => {
-                HELPER.toaster.error(e);
+                HELPER.toaster.error(e.errors.returnProductId[0]);
             });
     };
     return (

@@ -142,7 +142,6 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
         { title: "LabName", classNameWidth: "thead-second-width" },
         { title: "Price", classNameWidth: "thead-second-width" },
     ]
-    console.log(productDetail.diamond, "productDetail");
     const rowsDiamond = [
         {
             item: productDetail?.diamond,

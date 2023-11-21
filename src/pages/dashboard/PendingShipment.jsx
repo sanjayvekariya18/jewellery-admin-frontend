@@ -191,7 +191,7 @@ const PendingShippment = () => {
                   colSpan={2}
                   sx={{ px: 0, textTransform: "capitalize" }}
                 >
-                  <Paragraph>₹ 981.00</Paragraph>
+                  <Paragraph>$ 981.00</Paragraph>
                 </TableCell>
                 <TableCell
                   colSpan={2}

@@ -24,7 +24,7 @@ const ReturnRejectMaster = ({ open, togglePopup, userData }) => {
                 togglePopup();
             })
             .catch((e) => {
-                HELPER.toaster.error(e);
+                HELPER.toaster.error(e.errors.returnOrderProductIds[0]);
             });
     };
     const onChange = useCallback((e) => {

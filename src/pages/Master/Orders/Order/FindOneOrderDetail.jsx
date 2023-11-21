@@ -283,7 +283,7 @@ const FindOneOrderDetail = () => {
                     fontWeight: "500",
                   }}
                 >
-                  ₹{totalSubtotal}
+                  ${totalSubtotal}
                 </Typography>
               </div>
               <div
@@ -311,7 +311,7 @@ const FindOneOrderDetail = () => {
                     fontWeight: "500",
                   }}
                 >
-                  - ₹{0}
+                  - ${0}
                 </Typography>
               </div>
               {/* <Divider /> */}
@@ -342,7 +342,7 @@ const FindOneOrderDetail = () => {
                     fontWeight: "500",
                   }}
                 >
-                  ₹{orderDetail.order?.payableAmount}
+                  ${orderDetail.order?.payableAmount}
                 </Typography>
               </div>
             </div>

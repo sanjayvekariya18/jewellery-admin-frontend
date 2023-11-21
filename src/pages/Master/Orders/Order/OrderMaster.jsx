@@ -41,11 +41,13 @@ const OrderMaster = () => {
   const [dropDown, setDropDown] = useState([]);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
+  const [loading, setLoading] = useState(false);
   const [isSelectEnabled, setIsSelectEnabled] = useState(false);
   const navigate = useNavigate();
   const [filter, setFilter] = useState({
     orderStatus: "pending",
   });
+
 
   // ----Pagination code------
   const COLUMNS = [
@@ -144,9 +146,10 @@ const OrderMaster = () => {
     }
 
     // ----------Get Order Api------------
-
+    setLoading(true)
     API.get(apiConfig.orders, filterData)
       .then((res) => {
+        setLoading(false)
         setState({
           ...(clear
             ? { ...getInitialStates() }
@@ -162,6 +165,7 @@ const OrderMaster = () => {
         });
       })
       .catch((err) => {
+        setLoading(false)
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -184,21 +188,18 @@ const OrderMaster = () => {
   // ----------------multiple checkBox select code ----------------
   const handleCheckbox = (itemId) => {
     setSelectedCheckboxes((prevSelectedCheckboxes) => {
-      const newSelectedCheckboxes = [...prevSelectedCheckboxes];
-
-      if (newSelectedCheckboxes.includes(itemId)) {
-        // If the checkbox is already selected, unselect it
-        const index = newSelectedCheckboxes.indexOf(itemId);
-        newSelectedCheckboxes.splice(index, 1);
+      if (
+        prevSelectedCheckboxes.some((selectedItem) => selectedItem === itemId)
+      ) {
+        return prevSelectedCheckboxes.filter(
+          (selectedItem) => selectedItem !== itemId
+        );
       } else {
-        // If the checkbox is newly selected, add it
-        newSelectedCheckboxes.push(itemId);
+        return [...prevSelectedCheckboxes, itemId];
       }
-
-      setIsSelectEnabled(newSelectedCheckboxes.length > 0);
-      return newSelectedCheckboxes;
     });
   };
+
 
   const handleCancelOrder = (data) => {
     setSelectedUserData(data);
@@ -206,11 +207,7 @@ const OrderMaster = () => {
   };
 
   const handleOrderDetail = (id) => {
-    // API.get(apiConfig.findOrder.replace(":id", id)).then((res) => {
-    //   setOrderDetail(res);
-      // setOpenOrderDetail(true);
-      navigate(`${pageRoutes.findOrder}/${id}`);
-    // });
+    navigate(`${pageRoutes.findOrder}/${id}`);
   };
 
   const approveCancelOrder = (data) => {
@@ -253,8 +250,6 @@ const OrderMaster = () => {
     borderRadius: "20px",
   };
 
-
-
   const rows = useMemo(() => {
     return state.data.map((item) => {
       let optionsArray = [
@@ -279,7 +274,7 @@ const OrderMaster = () => {
           onClick: () => approveCancelOrder(item.id),
         });
       }
-      
+
       return {
         item: item,
         columns: [
@@ -323,7 +318,7 @@ const OrderMaster = () => {
     });
   }, [state.data]);
 
-  // ------------------------Toggle Of The Search----------------------------------------
+  // ------------------------Toggle Of The Search-------------------------
   const togglePopupSearch = () => {
     setOpenSearch(!openSearch);
   };
@@ -726,7 +721,7 @@ const OrderMaster = () => {
 
             </div>
 
-            <div style={{ width: "260px" }}>
+            {state.data?.length > 0 && <div style={{ width: "260px" }}>
               {(filter.orderStatus === "pending" ||
                 filter.orderStatus === "approve" ||
                 filter.orderStatus === "processing" ||
@@ -734,7 +729,7 @@ const OrderMaster = () => {
                 filter.orderStatus === "dispatch") && (
                   <ReactSelect
                     placeholder="Select Status"
-                    isDisabled={!isSelectEnabled}
+                    // isDisabled={!isSelectEnabled}
                     options={
                       state.status && state.status.length !== 0
                         ? [
@@ -749,35 +744,42 @@ const OrderMaster = () => {
                     name="status-select"
                   />
                 )}
-            </div>
+            </div>}
           </div>
-          {state.data?.length > 0 ? (
-            <PaginationTable
-              header={COLUMNS}
-              rows={rows}
-              totalItems={state.total_items || 0}
-              perPage={state.rowsPerPage}
-              activePage={state.page}
-              checkboxColumn={false}
-              selectedRows={state.selectedRows}
-              enableOrder={true}
-              isLoader={state.loader}
-              emptyTableImg={<img src={error400cover} width="400px" />}
-              orderBy={state.orderby}
-              order={state.order}
-              {...otherTableActionProps}
-            ></PaginationTable>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "50px",
-              }}
-            >
-              <img src={error400cover} width="420px" />
+          {loading ? (
+            <div style={{ margin: "10px  auto", textAlign: "center" }}>
+              <img src="../../../../../../assets/loading.gif" alt="" srcset="" height={50} width={50} />
             </div>
+          ) : (
+            state.data?.length > 0 ? (
+              <PaginationTable
+                header={COLUMNS}
+                rows={rows}
+                totalItems={state.total_items || 0}
+                perPage={state.rowsPerPage}
+                activePage={state.page}
+                checkboxColumn={false}
+                selectedRows={state.selectedRows}
+                enableOrder={true}
+                isLoader={state.loader}
+                emptyTableImg={<img src={error400cover} width="400px" />}
+                orderBy={state.orderby}
+                order={state.order}
+                {...otherTableActionProps}
+              ></PaginationTable>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "50px",
+                }}
+              >
+                <img src={error400cover} width="420px" />
+              </div>
+            )
           )}
+
         </Container>
         {openOrderDetail && (
           <FindOneOrderDetail

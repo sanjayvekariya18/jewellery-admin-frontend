@@ -664,7 +664,7 @@ const ReturnOrderMaster = () => {
               </Button>
             </div>
 
-            <div style={{ width: "260px" }}>
+            {state.data?.length > 0 && <div style={{ width: "260px" }}>
               {filter.returnOrderStatus === "request" ||
                 filter.returnOrderStatus === "approve" ||
                 filter.returnOrderStatus === "receive" ||
@@ -673,7 +673,7 @@ const ReturnOrderMaster = () => {
                   filter.returnOrderStatus !== "reject") ? (
                 <ReactSelect
                   placeholder="Select Status"
-                  isDisabled={!isCheckboxChecked}
+                  // isDisabled={!isCheckboxChecked}
                   value={selectedStatus}
                   options={
                     statuses && Array.isArray(statuses) && statuses.length > 0
@@ -690,7 +690,7 @@ const ReturnOrderMaster = () => {
                   name="status-select"
                 />
               ) : null}
-            </div>
+            </div>}
           </div>
           {state.data?.length > 0 ? (
             <PaginationTable
