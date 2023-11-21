@@ -22,6 +22,7 @@ import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import Textarea from "../../../../components/UI/Textarea";
 import { Select } from "react-select-virtualized";
 import error400cover from "../../../../assets/no-data-found-page.png";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const AttributesMasterDetails = ({
   open,
@@ -33,6 +34,8 @@ const AttributesMasterDetails = ({
   const [sortNo, setSortNo] = useState("false");
   const [options, setOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
+  const [isLoader, setIsLoader] = useState(false);
+
   const [formState, setFormState] = useState({
     id: "",
     name: "",
@@ -50,6 +53,8 @@ const AttributesMasterDetails = ({
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
 
     for (const field in data) {
@@ -89,6 +94,9 @@ const AttributesMasterDetails = ({
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
     // .catch((e) => HELPER.toaster.error(e.errors.message));
   };
@@ -299,15 +307,16 @@ const AttributesMasterDetails = ({
                   >
                     Cancel
                   </Button>
-                  <Button
+                  <CommonButton
                     style={{ marginLeft: "20px" }}
+                    loader={isLoader}
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="success"
                     onClick={() => onSubmit(handleSubmit)}
                   >
                     Save
-                  </Button>
+                  </CommonButton>
                 </Box>
               </div>
               <div>
@@ -317,7 +326,8 @@ const AttributesMasterDetails = ({
                       className="text-error"
                       style={{ padding: "0", margin: "0" }}
                     >
-                      The logo Image must be a file of type png,jpg,jpeg,svg,webp
+                      The logo Image must be a file of type
+                      png,jpg,jpeg,svg,webp
                     </p>
                   )}
                 </div>

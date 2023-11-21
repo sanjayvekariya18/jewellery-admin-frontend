@@ -7,6 +7,7 @@ import Textinput from "../../../../components/UI/TextInput";
 import { apiConfig } from "../../../../config";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import Textarea from "../../../../components/UI/Textarea";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const initialValues = {
   id: "",
@@ -18,6 +19,7 @@ const initialValues = {
 
 const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     name: "required",
@@ -26,6 +28,8 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     for (const field in data) {
       fd.append(field, data[field]);
@@ -40,7 +44,22 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
         );
         togglePopup();
       })
-      .catch((e) => HELPER.toaster.error(e.errors.message));
+      .catch((err) => {
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 422 ||
+          err.status === 403
+        ) {
+          HELPER.toaster.error(err.errors.message);
+        } else {
+          console.error(err);
+        }
+      })
+      .finally(() => {
+        setIsLoader(false);
+      });
   };
 
   const onChange = useCallback((e) => {
@@ -138,15 +157,16 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
                   >
                     Cancel
                   </Button>
-                  <Button
+                  <CommonButton
                     style={{ marginLeft: "20px" }}
+                    loader={isLoader}
                     type="submit"
                     variant="contained"
                     color="success"
                     onClick={() => onSubmit(handleSubmit)}
                   >
                     Save
-                  </Button>
+                  </CommonButton>
                 </Box>
               </div>
               <div>
@@ -156,7 +176,8 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
                       className="text-error"
                       style={{ padding: "0", margin: "0" }}
                     >
-                      The logo Image must be a file of type png,jpg,jpeg,svg,webp
+                      The logo Image must be a file of type
+                      png,jpg,jpeg,svg,webp
                     </p>
                   )}
                 </div>

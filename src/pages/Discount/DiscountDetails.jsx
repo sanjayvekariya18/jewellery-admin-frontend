@@ -5,6 +5,7 @@ import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../components/validations/Validator";
 import Textinput from "../../components/UI/TextInput";
 import { apiConfig } from "../../config";
+import CommonButton from "../../components/UI/CommonButton";
 
 const initialValues = {
   discount: "",
@@ -12,12 +13,15 @@ const initialValues = {
 
 const DiscountDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     discount: "required|numeric|between:0,100",
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     for (const field in data) {
       fd.append(field, data[field]);
@@ -34,7 +38,10 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
         );
         togglePopup();
       })
-      .catch((e) => HELPER.toaster.error(e.errors.message));
+      .catch((e) => HELPER.toaster.error(e.errors.message))
+      .finally(() => {
+        setIsLoader(false);
+      });
   };
 
   const onChange = ({ target: { value, name } }) => {
@@ -73,15 +80,16 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
               >
                 Cancel
               </Button>
-              <Button
+              <CommonButton
                 style={{ marginLeft: "20px" }}
+                loader={isLoader}
                 type="submit"
                 variant="contained"
                 color="success"
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
-              </Button>
+              </CommonButton>
             </Box>
           }
         >

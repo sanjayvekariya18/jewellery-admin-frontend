@@ -8,6 +8,7 @@ import { apiConfig } from "../../../../config";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import Textarea from "../../../../components/UI/Textarea";
 import ReactSelect from "../../../../components/UI/ReactSelect";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const initialValues = {
   id: "",
@@ -24,6 +25,7 @@ const DetailsMasterDetails = ({
   productDetailsGroupId,
 }) => {
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     detailsGroupId: "required",
@@ -32,6 +34,8 @@ const DetailsMasterDetails = ({
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     for (const field in data) {
       fd.append(field, data[field]);
@@ -60,6 +64,9 @@ const DetailsMasterDetails = ({
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
 
@@ -152,15 +159,16 @@ const DetailsMasterDetails = ({
                   >
                     Cancel
                   </Button>
-                  <Button
+                  <CommonButton
                     style={{ marginLeft: "20px" }}
+                    loader={isLoader}
                     type="submit"
                     variant="contained"
                     color="success"
                     onClick={() => onSubmit(handleSubmit)}
                   >
                     Save
-                  </Button>
+                  </CommonButton>
                 </Box>
               </div>
             </>

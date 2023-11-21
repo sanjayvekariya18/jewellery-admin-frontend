@@ -7,6 +7,7 @@ import Textinput from "../../../../components/UI/TextInput";
 import { apiConfig } from "../../../../config";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import Textarea from "../../../../components/UI/Textarea";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const initialValues = {
   id: "",
@@ -18,6 +19,7 @@ const initialValues = {
 
 const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     rankk: "required|integer",
@@ -26,6 +28,8 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
   };
 
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     for (const field in data) {
       fd.append(field, data[field]);
@@ -40,7 +44,10 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
         );
         togglePopup();
       })
-      .catch((e) => HELPER.toaster.error(e.errors.message));
+      .catch((e) => HELPER.toaster.error(e.errors.message))
+      .finally(() => {
+        setIsLoader(false);
+      });
   };
 
   const onChange = useCallback((e) => {
@@ -128,15 +135,16 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
                   >
                     Cancel
                   </Button>
-                  <Button
+                  <CommonButton
                     style={{ marginLeft: "20px" }}
+                    loader={isLoader}
                     type="submit"
                     variant="contained"
                     color="success"
                     onClick={() => onSubmit(handleSubmit)}
                   >
                     Save
-                  </Button>
+                  </CommonButton>
                 </Box>
               </div>
             </>

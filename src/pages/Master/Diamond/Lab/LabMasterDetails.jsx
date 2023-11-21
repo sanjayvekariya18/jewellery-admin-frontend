@@ -6,6 +6,7 @@ import Validators from "./../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
 import { apiConfig } from "../../../../config";
 import Textarea from "../../../../components/UI/Textarea";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const initialValues = {
   id: "",
@@ -15,6 +16,7 @@ const initialValues = {
 
 const LabMasterDetails = ({ open, togglePopup, userData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     labName: "required",
@@ -22,6 +24,8 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
 
   // -------------------------------- handle Submit Lab Master ----------------------
   const handleSubmit = (data) => {
+    setIsLoader(true);
+
     const fd = new FormData();
     for (const field in data) {
       fd.append(field, data[field]);
@@ -36,7 +40,10 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
         );
         togglePopup();
       })
-      .catch((e) => HELPER.toaster.error(e.errors.message));
+      .catch((e) => HELPER.toaster.error(e.errors.message))
+      .finally(() => {
+        setIsLoader(false);
+      });
   };
 
   const onChange = useCallback((e) => {
@@ -79,7 +86,17 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
               >
                 Cancel
               </Button>
-              <Button
+              <CommonButton
+                style={{ marginLeft: "20px" }}
+                loader={isLoader}
+                type="submit"
+                variant="contained"
+                color="success"
+                onClick={() => onSubmit(handleSubmit)}
+              >
+                Save
+              </CommonButton>
+              {/* <Button
                 style={{ marginLeft: "20px" }}
                 type="submit"
                 variant="contained"
@@ -87,7 +104,7 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
-              </Button>
+              </Button> */}
             </Box>
           }
         >
