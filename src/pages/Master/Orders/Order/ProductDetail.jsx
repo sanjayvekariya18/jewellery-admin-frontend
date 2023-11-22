@@ -200,7 +200,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
       })
       .catch((e) => {
         setLoading(false);
-      })
+      });
   };
 
   useEffect(() => {
@@ -222,87 +222,86 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
           </Box>
         }
       >
-        {
-          loading ? (
-            <div style={{ margin: "40px  auto", textAlign: "center" }}>
-              <img
-                src="../../../../../../assets/loading.gif"
-                alt=""
-                srcSet=""
-                height={28}
-                width={28}
-              />
-            </div>
-          ) : (
-            <>
-              {Object.keys(productDetail).length !== 0 && (
-                <TableContainer style={{ overflow: "hidden" }}>
-                  <Table>
-                    <TableBody>
-                      <TableRow>
-                        {/* Product Variant Details */}
-                        {rowsProductVariant[0] &&
-                          Object.keys(rowsProductVariant[0]?.item || {}).length >
+        {loading ? (
+          <div style={{ textAlign: "center" }}>
+            <img
+              src="../../../../../../assets/loading.gif"
+              alt=""
+              srcSet=""
+              height={28}
+              width={28}
+            />
+          </div>
+        ) : (
+          <>
+            {Object.keys(productDetail).length !== 0 && (
+              <TableContainer style={{ overflow: "hidden" }}>
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      {/* Product Variant Details */}
+                      {rowsProductVariant[0] &&
+                        Object.keys(rowsProductVariant[0]?.item || {}).length >
                           0 && (
-                            <TableCell colSpan={8} align="center">
-                              <h3>Product Variant Details</h3>
-                            </TableCell>
-                          )}
+                          <TableCell colSpan={8} align="center">
+                            <h3>Product Variant Details</h3>
+                          </TableCell>
+                        )}
+                      {/* Gemstone Details */}
+                      {rowsGemstone[0] &&
+                        Object.keys(rowsGemstone[0]?.item || {}).length > 0 && (
+                          <TableCell colSpan={4} align="center">
+                            <h3>Gemstone Details</h3>
+                          </TableCell>
+                        )}
+                      {/* Diamond Details */}
+                      {rowsDiamond[0] &&
+                        Object.keys(rowsDiamond[0]?.item || {}).length > 0 && (
+                          <TableCell colSpan={4} align="center">
+                            <h3>Diamond Details</h3>
+                          </TableCell>
+                        )}
+                    </TableRow>
+                    {/* Displaying details for each section */}
+                    {PRODUCTVARIANT.map((header, index) => (
+                      <TableRow key={index}>
+                        {/* Product Variant Details */}
+                        <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
+                          {header?.title}:
+                        </TableCell>
+                        <TableCell colSpan={2}>
+                          {rowsProductVariant[0]?.columns[index]}
+                        </TableCell>
                         {/* Gemstone Details */}
-                        {rowsGemstone[0] &&
-                          Object.keys(rowsGemstone[0]?.item || {}).length > 0 && (
-                            <TableCell colSpan={4} align="center">
-                              <h3>Gemstone Details</h3>
-                            </TableCell>
-                          )}
+                        <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
+                          {rowsGemstone[0] &&
+                            Object.keys(rowsGemstone[0]?.item || {}).length >
+                              0 &&
+                            GEMSTONE[index]?.title &&
+                            `${GEMSTONE[index].title}:`}
+                        </TableCell>
+                        <TableCell colSpan={2}>
+                          {rowsGemstone[0]?.columns[index]}
+                        </TableCell>
                         {/* Diamond Details */}
-                        {rowsDiamond[0] &&
-                          Object.keys(rowsDiamond[0]?.item || {}).length > 0 && (
-                            <TableCell colSpan={4} align="center">
-                              <h3>Diamond Details</h3>
-                            </TableCell>
-                          )}
+                        <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
+                          {rowsDiamond[0] &&
+                            Object.keys(rowsDiamond[0]?.item || {}).length >
+                              0 &&
+                            DIAMOND[index]?.title &&
+                            `${DIAMOND[index].title}:`}
+                        </TableCell>
+                        <TableCell colSpan={2}>
+                          {rowsDiamond[0]?.columns[index]}
+                        </TableCell>
                       </TableRow>
-                      {/* Displaying details for each section */}
-                      {PRODUCTVARIANT.map((header, index) => (
-                        <TableRow key={index}>
-                          {/* Product Variant Details */}
-                          <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
-                            {header?.title}:
-                          </TableCell>
-                          <TableCell colSpan={2}>
-                            {rowsProductVariant[0]?.columns[index]}
-                          </TableCell>
-                          {/* Gemstone Details */}
-                          <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
-                            {rowsGemstone[0] &&
-                              Object.keys(rowsGemstone[0]?.item || {}).length > 0 &&
-                              GEMSTONE[index]?.title &&
-                              `${GEMSTONE[index].title}:`}
-                          </TableCell>
-                          <TableCell colSpan={2}>
-                            {rowsGemstone[0]?.columns[index]}
-                          </TableCell>
-                          {/* Diamond Details */}
-                          <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
-                            {rowsDiamond[0] &&
-                              Object.keys(rowsDiamond[0]?.item || {}).length > 0 &&
-                              DIAMOND[index]?.title &&
-                              `${DIAMOND[index].title}:`}
-                          </TableCell>
-                          <TableCell colSpan={2}>
-                            {rowsDiamond[0]?.columns[index]}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              )}
-            </>
-          )
-        }
-
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </>
+        )}
 
         {textModal && (
           <ThemeDialog
@@ -332,7 +331,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
             </div>
           </ThemeDialog>
         )}
-      </ThemeDialog >
+      </ThemeDialog>
       <ThemeDialog
         isOpen={gemstoneModel}
         onClose={() => setGemstoneModel(false)}
