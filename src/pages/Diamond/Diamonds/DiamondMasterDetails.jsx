@@ -224,6 +224,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     { label: "Very thin", value: "VERY_THIN" },
     { label: "Thin or Medium", value: "THIN_MEDIUM" },
     { label: "Slightly thick or thick", value: "SLIGHTLY_THICK_THICK" },
+    { label: "Very thick", value: "VERY_THICK" },
     { label: "Extremely thick", value: "EXTREMELY_THICK" },
   ];
 
@@ -538,6 +539,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
               id="idStatus"
               error={errors?.polish}
             />
+            {/* {formState.girdle} */}
             <ReactSelect
               label={"Girdle"}
               placeholder="Select Girdle"
