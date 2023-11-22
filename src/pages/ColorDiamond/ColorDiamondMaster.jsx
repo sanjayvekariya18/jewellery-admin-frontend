@@ -28,9 +28,8 @@ const ColorDiamondMaster = () => {
   const [intensity, setIntensity] = useState([]);
   const [color, setColor] = useState([]);
   const [gemStoneData, setGemstoneData] = useState(null);
-  const [findGemstone, setFindGemstone] = useState(false);  
+  const [findGemstone, setFindGemstone] = useState(false);
   const [loading, setLoading] = useState();
-
 
   // -------------------Get Price---------------------------------
   useEffect(() => {
@@ -105,17 +104,20 @@ const ColorDiamondMaster = () => {
   }));
   // ----Pagination code------
   const COLUMNS = [
-    { title: "Stock No", classNameWidth: "thead-second-width-stone" },
-    { title: "Title", classNameWidth: "thead-second-width-title" },
-    { title: "Shape", classNameWidth: "thead-second-width-address" },
-    { title: "Carat", classNameWidth: "thead-second-width-address" },
-    { title: "Color", classNameWidth: "thead-second-width-address" },
-    { title: "Clarity", classNameWidth: "thead-second-width-address" },
-    { title: "Origin", classNameWidth: "thead-second-width-address" },
-    { title: "Intensity", classNameWidth: "thead-second-width-address" },
-    { title: "Price", classNameWidth: "thead-second-width-address" },
-    { title: "Is Visible", classNameWidth: "thead-second-width-action-index" },
-    { title: "Action", classNameWidth: "thead-second-width-stone" },
+    { title: "Stock No", classNameWidth: "thead-second-width-discount" },
+    { title: "Title", classNameWidth: "thead-second-width-title-650" },
+    { title: "Shape", classNameWidth: "thead-second-width-title-price" },
+    { title: "Carat", classNameWidth: "thead-second-width-action-carat-40" },
+    { title: "Color", classNameWidth: "thead-second-width-title-price" },
+    { title: "Clarity", classNameWidth: "thead-second-width-action-carat" },
+    { title: "Origin", classNameWidth: "thead-second-width-action-carat" },
+    { title: "Intensity", classNameWidth: "thead-second-width-action-carat" },
+    { title: "Price", classNameWidth: "thead-second-width-action-carat" },
+    { title: "Is Visible", classNameWidth: "thead-second-width-action-carat" },
+    {
+      title: "Action",
+      classNameWidth: "thead-second-width-action-index-95 action-center",
+    },
   ];
 
   const {

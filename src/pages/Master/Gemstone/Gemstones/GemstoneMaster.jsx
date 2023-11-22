@@ -34,7 +34,7 @@ const GemstoneMaster = () => {
     { title: "Title", classNameWidth: "thead-second-width-title-650" },
     { title: "Type", classNameWidth: "thead-second-width-title-price-78" },
     { title: "Shape", classNameWidth: "thead-second-width-title-price" },
-    { title: "Carat", classNameWidth: "thead-second-width-action-carat" },
+    { title: "Carat", classNameWidth: "thead-second-width-action-carat-40" },
     { title: "Color", classNameWidth: "thead-second-width-title-price" },
     {
       title: "Clarity",

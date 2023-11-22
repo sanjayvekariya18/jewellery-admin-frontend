@@ -204,6 +204,10 @@ input::-webkit-inner-spin-button {
     width: 60px !important;
 }
 
+.thead-second-width-action-carat-40 {
+    width: 40px !important;
+}
+
 .thead-second-width-action-35 {
     width: 35px !important;
 }
