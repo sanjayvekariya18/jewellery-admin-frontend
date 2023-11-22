@@ -85,11 +85,11 @@ const Customer = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-              ...state,
-              ...(clear && clearStates),
-              ...(isNewFilter && newFilterState),
-              loader: false,
-            }),
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
         });
@@ -135,8 +135,9 @@ const Customer = () => {
     });
   };
   const showAddressInDialog = (item) => {
-    const address = `${item.addressLine1 || ""} ${item.addressLine2 || ""} ${item.addressLine3 || ""
-      }`;
+    const address = `${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
+      item.addressLine3 || ""
+    }`;
     setAddressText(address); // Set the address text
     textModaltoggle(); // Show the dialog
   };
@@ -161,8 +162,9 @@ const Customer = () => {
             style={{ fontWeight: "500", cursor: "pointer" }}
             onClick={() => showAddressInDialog(item)}
           >
-            {`${item.addressLine1 || ""} ${item.addressLine2 || ""} ${item.addressLine3 || ""
-              }`}
+            {`${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
+              item.addressLine3 || ""
+            }`}
           </span>,
           <span>
             <IconButton onClick={() => handleToggle(item.id)}>
@@ -294,8 +296,8 @@ const Customer = () => {
             </Button>
           }
         >
-          <div style={{ padding: "0px", margin: "0px" }}>
-            <Typography variant="body1" style={{lineHeight:"25px"}}>
+          <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
+            <Typography variant="body1" style={{ lineHeight: "22px" }}>
               {addressText}
             </Typography>
           </div>

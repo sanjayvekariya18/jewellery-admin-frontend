@@ -348,7 +348,7 @@ const ProductMaster = () => {
               open={bulkOpen}
               togglePopup={() => {
                 togglePopupBulk();
-                // paginate();
+                paginate();
               }}
               callBack={() => paginate(true)}
             />

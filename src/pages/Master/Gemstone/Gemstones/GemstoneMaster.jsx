@@ -694,30 +694,29 @@ const GemstoneMaster = () => {
             </StyledAddButton>
           </Tooltip>
 
-            {/* Gem Stone Details Modal */}
-            {open && (
-              <GemstoneMasterDetails
-                open={open}
-                togglePopup={() => {
-                  togglePopup();
-                  // paginate();
-                }}
-                callBack={() => paginate(true)}
-                userData={selectedUserData}
-              />
-            )}
-
-            {/* Gem Stone Bulk Details Modal */}
-            <GemstoneBulkMasterDetails
-              open={bulkOpen}
+          {/* Gem Stone Details Modal */}
+          {open && (
+            <GemstoneMasterDetails
+              open={open}
               togglePopup={() => {
-                togglePopupBulk();
-                // paginate();
+                togglePopup();
+                paginate();
               }}
               callBack={() => paginate(true)}
               userData={selectedUserData}
             />
-        
+          )}
+
+          {/* Gem Stone Bulk Details Modal */}
+          <GemstoneBulkMasterDetails
+            open={bulkOpen}
+            togglePopup={() => {
+              togglePopupBulk();
+              paginate();
+            }}
+            callBack={() => paginate(true)}
+            userData={selectedUserData}
+          />
 
           {/* Gem Stone Bulk Details Modal */}
           <GemstoneBulkMasterDetails
@@ -734,7 +733,7 @@ const GemstoneMaster = () => {
             open={findGemstone}
             togglePopup={() => {
               toggleGemstonePopup();
-              // paginate();
+              paginate();
             }}
             gemStoneData={gemStoneData}
           />

@@ -1,5 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, Tooltip, Button ,Typography} from "@mui/material";
+import {
+  Box,
+  Icon,
+  IconButton,
+  Tooltip,
+  Button,
+  Typography,
+} from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API } from "../../../../services";
@@ -32,8 +39,7 @@ const LabMaster = () => {
   ];
 
   const { state, setState, changeState, ...otherTableActionProps } =
-    usePaginationTable({
-    });
+    usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
@@ -230,8 +236,8 @@ const LabMaster = () => {
             </Button>
           }
         >
-          <div style={{ padding: "0px", margin: "0px" }}>
-          <Typography variant="body1" style={{lineHeight:"25px"}}>
+          <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
+            <Typography variant="body1" style={{ lineHeight: "22px" }}>
               {addressText}
             </Typography>
           </div>

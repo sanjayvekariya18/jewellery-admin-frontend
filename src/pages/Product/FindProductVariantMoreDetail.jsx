@@ -5,7 +5,7 @@ import PaginationTable, {
 import { useNavigate, useParams } from "react-router-dom/dist";
 import { apiConfig } from "../../config";
 import { API, HELPER } from "../../services";
-import { Box, Button,Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Breadcrumb } from "../../components";
 import { pageRoutes } from "../../constants/routesList";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
@@ -46,10 +46,8 @@ const FindProductVariantMoreDetail = () => {
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable();
 
-
-
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     API.get(
       apiConfig.findProductVariant.replace(
         ":productVariantId",
@@ -397,7 +395,10 @@ const FindProductVariantMoreDetail = () => {
               </div>
               <div>
                 {productVariant !== undefined && productVariant.length > 0 && (
-                  <Button variant="contained" onClick={() => setVariantMOdel(true)}>
+                  <Button
+                    variant="contained"
+                    onClick={() => setVariantMOdel(true)}
+                  >
                     Product Variant Details
                   </Button>
                 )}
@@ -598,8 +599,8 @@ const FindProductVariantMoreDetail = () => {
             </Button>
           }
         >
-          <div style={{ padding: "0px", margin: "0px" }}>
-            <Typography variant="body1" style={{lineHeight:"25px"}}>
+          <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
+            <Typography variant="body1" style={{ lineHeight: "22px" }}>
               {addressText}
             </Typography>
           </div>

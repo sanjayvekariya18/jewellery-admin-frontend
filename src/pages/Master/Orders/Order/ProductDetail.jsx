@@ -8,7 +8,7 @@ import {
   TableContainer,
   TableRow,
   TableCell,
-  Typography
+  Typography,
 } from "@mui/material";
 import { apiConfig } from "../../../../config";
 import { API } from "../../../../services";
@@ -321,10 +321,12 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
               </Button>
             }
           >
-            <div style={{ padding: "0px", margin: "0px" }}>
-            <Typography variant="body1" style={{lineHeight:"25px"}}>
-              {addressText}
-            </Typography>
+            <div
+              style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}
+            >
+              <Typography variant="body1" style={{ lineHeight: "22px" }}>
+                {addressText}
+              </Typography>
             </div>
           </ThemeDialog>
         )}

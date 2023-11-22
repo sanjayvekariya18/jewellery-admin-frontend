@@ -13,7 +13,7 @@ import {
   Icon,
   IconButton,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
@@ -796,10 +796,12 @@ const ReturnOrderMaster = () => {
               </Button>
             }
           >
-            <div style={{ padding: "0px", margin: "0px" }}>
-            <Typography variant="body1" style={{lineHeight:"25px"}}>
-              {addressText}
-            </Typography>
+            <div
+              style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}
+            >
+              <Typography variant="body1" style={{ lineHeight: "22px" }}>
+                {addressText}
+              </Typography>
             </div>
           </ThemeDialog>
         )}

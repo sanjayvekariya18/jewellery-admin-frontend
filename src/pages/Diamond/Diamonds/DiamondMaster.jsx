@@ -220,7 +220,6 @@ const DiamondMaster = () => {
       HELPER.toaster.success(res.message);
       paginate();
       setLoading(false);
-
     });
   };
   //------------ Delete Diamond --------------
@@ -968,7 +967,7 @@ const DiamondMaster = () => {
               open={open}
               togglePopup={() => {
                 togglePopup();
-                // paginate();
+                paginate();
               }}
               callBack={() => paginate(true)}
               userData={selectedUserData}
@@ -980,7 +979,7 @@ const DiamondMaster = () => {
             open={findDiamond}
             togglePopup={() => {
               toggleGemstonePopup();
-              // paginate();
+              paginate();
             }}
             gemDiamondData={gemDiamondData}
           />
@@ -991,7 +990,7 @@ const DiamondMaster = () => {
               open={bulkOpen}
               togglePopup={() => {
                 togglePopupBulk();
-                // paginate();
+                paginate();
               }}
               callBack={() => paginate(true)}
             />
