@@ -176,6 +176,10 @@ input::-webkit-inner-spin-button {
     width: 110px !important;
 }
 
+.thead-second-width-address-100 {
+    width: 100px !important;
+}
+
 .thead-second-width {
     width: 150px !important;
 }
@@ -204,6 +208,10 @@ input::-webkit-inner-spin-button {
     width: 60px !important;
 }
 
+.thead-second-width-action-50 {
+    width: 50px !important;
+}
+
 .thead-second-width-action-carat-40 {
     width: 40px !important;
 }
@@ -214,6 +222,10 @@ input::-webkit-inner-spin-button {
 
 .thead-second-width-discount {
     width: 80px !important;
+}
+
+.thead-second-width-discount-85 {
+    width: 85px !important;
 }
 
 .thead-second-width-action-index {
@@ -246,6 +258,10 @@ input::-webkit-inner-spin-button {
 
 .thead-second-width-title-blog {
     width: 700px !important;
+}
+
+.thead-second-width-title-780 {
+    width: 780px !important;
 }
 
 .thead-second-width-title-option {
