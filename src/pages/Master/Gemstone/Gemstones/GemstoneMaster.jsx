@@ -21,7 +21,7 @@ const GemstoneMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [open, setOpen] = useState(false);
   const [bulkOpen, setBulkOpen] = useState(false);
-  const [openSearch, setOpenSearch] = useState(false);  
+  const [openSearch, setOpenSearch] = useState(false);
   const [loading, setLoading] = useState();
   const [shapMaster, setShapMaster] = useState([]);
   const [findGemstone, setFindGemstone] = useState(false);
@@ -30,17 +30,26 @@ const GemstoneMaster = () => {
 
   // ----Pagination code------
   const COLUMNS = [
-    { title: "Stock No", classNameWidth: "thead-second-width-stone" },
-    { title: "Title", classNameWidth: "thead-second-width-title" },
-    { title: "Type", classNameWidth: "thead-second-width-address" },
-    { title: "Shape", classNameWidth: "thead-second-width-address" },
-    { title: "Carat", classNameWidth: "thead-second-width-address" },
-    { title: "Color", classNameWidth: "thead-second-width-address" },
-    { title: "Clarity", classNameWidth: "thead-second-width-address" },
-    { title: "Origin", classNameWidth: "thead-second-width-address" },
-    { title: "Price", classNameWidth: "thead-second-width-address" },
-    { title: "Is Visible", classNameWidth: "thead-second-width-action-index" },
-    { title: "Action", classNameWidth: "thead-second-width-stone" },
+    { title: "Stock No", classNameWidth: "thead-second-width-discount" },
+    { title: "Title", classNameWidth: "thead-second-width-title-650" },
+    { title: "Type", classNameWidth: "thead-second-width-title-price-78" },
+    { title: "Shape", classNameWidth: "thead-second-width-title-price" },
+    { title: "Carat", classNameWidth: "thead-second-width-action-carat" },
+    { title: "Color", classNameWidth: "thead-second-width-title-price" },
+    {
+      title: "Clarity",
+      classNameWidth: "thead-second-width-action-carat",
+    },
+    {
+      title: "Origin",
+      classNameWidth: "thead-second-width-action-carat",
+    },
+    { title: "Price", classNameWidth: "thead-second-width-action-carat" },
+    { title: "Is Visible", classNameWidth: "thead-second-width-action-carat" },
+    {
+      title: "Action",
+      classNameWidth: "thead-second-width-action-index-95 action-center",
+    },
   ];
 
   const {
@@ -93,11 +102,11 @@ const GemstoneMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-              ...state,
-              ...(clear && clearStates),
-              ...(isNewFilter && newFilterState),
-              loader: false,
-            }),
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
         });
@@ -333,393 +342,392 @@ const GemstoneMaster = () => {
 
   return (
     <>
-    
-        <div>
-          <Container>
-            <Box
-              className="breadcrumb"
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Breadcrumb routeSegments={[{ name: "Gemstones" }]} />
+      <div>
+        <Container>
+          <Box
+            className="breadcrumb"
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Breadcrumb routeSegments={[{ name: "Gemstones" }]} />
+            <div>
               <div>
-                <div>
-                  <Tooltip title="Filter">
-                    <IconButton
-                      color="inherit"
-                      className="button"
-                      aria-label="Filter"
-                      onClick={togglePopupSearch}
-                    >
-                      <Icon>filter_list</Icon>
-                    </IconButton>
-                  </Tooltip>
-                  <Button
-                    variant="contained"
-                    onClick={togglePopupBulk}
-                    style={{ marginLeft: "20px" }}
+                <Tooltip title="Filter">
+                  <IconButton
+                    color="inherit"
+                    className="button"
+                    aria-label="Filter"
+                    onClick={togglePopupSearch}
                   >
-                    Add Gemstones Bulk
-                  </Button>
-                </div>
+                    <Icon>filter_list</Icon>
+                  </IconButton>
+                </Tooltip>
+                <Button
+                  variant="contained"
+                  onClick={togglePopupBulk}
+                  style={{ marginLeft: "20px" }}
+                >
+                  Add Gemstones Bulk
+                </Button>
               </div>
-              <SearchFilterDialog
-                isOpen={openSearch}
-                onClose={() => setOpenSearch(false)}
-                reset={() => paginate(true)}
-                // search={() => paginate(false, true)}
-                search={() => {
-                  paginate(false, true);
-                  setOpenSearch(false); // Close the modal
-                }}
-                loader={loading}
-              >
-                <div style={{ height: "350px" }}>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr ",
-                      gap: "12px",
-                    }}
-                    className="text-input-top"
-                  >
-                    <div>
-                      <Select
-                        label="Select Shape Name"
-                        placeholder="Select Shape Name"
-                        options={_sortOptionsShap}
-                        isMulti
-                        value={_sortOptionsShap.filter(
-                          (option) =>
-                            state.shape && state.shape.includes(option.value)
-                        )}
-                        onChange={(selectedSort) => {
-                          const selectedIds = selectedSort.map(
-                            (option) => option.value
-                          );
-                          changeState("shape", selectedIds);
-                        }}
-                        name="choices-multi-default"
-                        id="shape"
-                      />
-                    </div>
-                    <div>
-                      <Select
-                        label="Select Origin"
-                        placeholder="Select Origin Name"
-                        options={_sortOptionsOrigin}
-                        isMulti
-                        value={_sortOptionsOrigin.filter(
-                          (option) =>
-                            state.origin && state.origin.includes(option.value)
-                        )}
-                        onChange={(selectedSort) => {
-                          const selectedIds = selectedSort.map(
-                            (option) => option.value
-                          );
-                          changeState("origin", selectedIds);
-                        }}
-                        name="choices-multi-default"
-                        id="origin"
-                      />
-                    </div>
+            </div>
+            <SearchFilterDialog
+              isOpen={openSearch}
+              onClose={() => setOpenSearch(false)}
+              reset={() => paginate(true)}
+              // search={() => paginate(false, true)}
+              search={() => {
+                paginate(false, true);
+                setOpenSearch(false); // Close the modal
+              }}
+              loader={loading}
+            >
+              <div style={{ height: "350px" }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    gap: "12px",
+                  }}
+                  className="text-input-top"
+                >
+                  <div>
+                    <Select
+                      label="Select Shape Name"
+                      placeholder="Select Shape Name"
+                      options={_sortOptionsShap}
+                      isMulti
+                      value={_sortOptionsShap.filter(
+                        (option) =>
+                          state.shape && state.shape.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("shape", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="shape"
+                    />
+                  </div>
+                  <div>
+                    <Select
+                      label="Select Origin"
+                      placeholder="Select Origin Name"
+                      options={_sortOptionsOrigin}
+                      isMulti
+                      value={_sortOptionsOrigin.filter(
+                        (option) =>
+                          state.origin && state.origin.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("origin", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="origin"
+                    />
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    gap: "12px",
+                  }}
+                >
+                  <div className="text-input-top">
+                    <Select
+                      label="Select Color"
+                      placeholder="Select Color Name"
+                      options={_sortOptionsColor}
+                      isMulti
+                      value={_sortOptionsColor.filter(
+                        (option) =>
+                          state.color && state.color.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("color", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="color"
+                    />
                   </div>
 
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr ",
-                      gap: "12px",
-                    }}
-                  >
-                    <div className="text-input-top">
-                      <Select
-                        label="Select Color"
-                        placeholder="Select Color Name"
-                        options={_sortOptionsColor}
-                        isMulti
-                        value={_sortOptionsColor.filter(
-                          (option) =>
-                            state.color && state.color.includes(option.value)
-                        )}
-                        onChange={(selectedSort) => {
-                          const selectedIds = selectedSort.map(
-                            (option) => option.value
-                          );
-                          changeState("color", selectedIds);
-                        }}
-                        name="choices-multi-default"
-                        id="color"
-                      />
-                    </div>
-
-                    <div className="text-input-top">
-                      <Select
-                        label="Select GemstoneType"
-                        placeholder="Select GemstoneType"
-                        options={_sortOptionsGemstoneType}
-                        isMulti
-                        value={_sortOptionsGemstoneType.filter(
-                          (option) =>
-                            state.gemstoneType &&
-                            state.gemstoneType.includes(option.value)
-                        )}
-                        onChange={(selectedSort) => {
-                          const selectedIds = selectedSort.map(
-                            (option) => option.value
-                          );
-                          changeState("gemstoneType", selectedIds);
-                        }}
-                        name="choices-multi-default"
-                        id="gemstoneType"
-                      />
-                    </div>
+                  <div className="text-input-top">
+                    <Select
+                      label="Select GemstoneType"
+                      placeholder="Select GemstoneType"
+                      options={_sortOptionsGemstoneType}
+                      isMulti
+                      value={_sortOptionsGemstoneType.filter(
+                        (option) =>
+                          state.gemstoneType &&
+                          state.gemstoneType.includes(option.value)
+                      )}
+                      onChange={(selectedSort) => {
+                        const selectedIds = selectedSort.map(
+                          (option) => option.value
+                        );
+                        changeState("gemstoneType", selectedIds);
+                      }}
+                      name="choices-multi-default"
+                      id="gemstoneType"
+                    />
                   </div>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr ",
-                      gap: "12px 25px",
-                    }}
-                    className="text-input-top"
-                  >
-                    <div>
-                      <label className="label-class">Price :</label>
-                      <Slider
-                        value={[
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr ",
+                    gap: "12px 25px",
+                  }}
+                  className="text-input-top"
+                >
+                  <div>
+                    <label className="label-class">Price :</label>
+                    <Slider
+                      value={[
+                        state.fromPrice === undefined
+                          ? price.minPrice
+                          : state.fromPrice,
+                        state.toPrice === undefined
+                          ? price.maxPrice
+                          : state.toPrice,
+                      ]}
+                      onChange={handleChangePrice}
+                      valueLabelDisplay="auto"
+                      min={price.minPrice}
+                      max={price.maxPrice}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Textinput
+                        type="number"
+                        id="minCost"
+                        value={
                           state.fromPrice === undefined
                             ? price.minPrice
-                            : state.fromPrice,
+                            : state.fromPrice
+                        }
+                        placeholder="Start Price"
+                        disabled={true}
+                        name="fromPrice"
+                        onChange={(e) =>
+                          changeState("fromPrice", e.target.value)
+                        }
+                        style={{ width: "140px" }}
+                      />
+
+                      <span
+                        style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
+                      >
+                        To
+                      </span>
+
+                      <Textinput
+                        type="number"
+                        id="maxCost"
+                        disabled={true}
+                        value={
                           state.toPrice === undefined
                             ? price.maxPrice
-                            : state.toPrice,
-                        ]}
-                        onChange={handleChangePrice}
-                        valueLabelDisplay="auto"
-                        min={price.minPrice}
-                        max={price.maxPrice}
+                            : state.toPrice
+                        }
+                        placeholder="End Price"
+                        name="toPrice"
+                        onChange={(e) => changeState("toPrice", e.target.value)}
+                        style={{ width: "140px" }}
                       />
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Textinput
-                          type="number"
-                          id="minCost"
-                          value={
-                            state.fromPrice === undefined
-                              ? price.minPrice
-                              : state.fromPrice
-                          }
-                          placeholder="Start Price"
-                          disabled={true}
-                          name="fromPrice"
-                          onChange={(e) =>
-                            changeState("fromPrice", e.target.value)
-                          }
-                          style={{ width: "140px" }}
-                        />
-
-                        <span
-                          style={{ margin: "0px 10px 0 12px", fontWeight: "500" }}
-                        >
-                          To
-                        </span>
-
-                        <Textinput
-                          type="number"
-                          id="maxCost"
-                          disabled={true}
-                          value={
-                            state.toPrice === undefined
-                              ? price.maxPrice
-                              : state.toPrice
-                          }
-                          placeholder="End Price"
-                          name="toPrice"
-                          onChange={(e) => changeState("toPrice", e.target.value)}
-                          style={{ width: "140px" }}
-                        />
-                      </div>
                     </div>
-                    <div>
-                      <div style={{ paddingBottom: "10px" }}>
-                        <label className="label-class">Dimension :</label>
-                      </div>
-                      <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "auto auto auto ",
-                          gap: "6px",
-                        }}
-                        className="main-buttons-handle"
+                  </div>
+                  <div>
+                    <div style={{ paddingBottom: "10px" }}>
+                      <label className="label-class">Dimension :</label>
+                    </div>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "auto auto auto ",
+                        gap: "6px",
+                      }}
+                      className="main-buttons-handle"
+                    >
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            fromDimension: null,
+                            toDimension: 6,
+                          })
+                        }
+                        style={
+                          state.fromDimension === null &&
+                          state.toDimension === 6
+                            ? activeButtonStyle
+                            : {}
+                        }
                       >
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() =>
-                            setState({
-                              ...state,
-                              fromDimension: null,
-                              toDimension: 6,
-                            })
-                          }
-                          style={
-                            state.fromDimension === null &&
-                              state.toDimension === 6
-                              ? activeButtonStyle
-                              : {}
-                          }
-                        >
-                          Under 6mm
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() =>
-                            setState({
-                              ...state,
-                              fromDimension: 6,
-                              toDimension: 6.9,
-                            })
-                          }
-                          style={
-                            state.fromDimension === 6 && state.toDimension === 6.9
-                              ? activeButtonStyle
-                              : {}
-                          }
-                        >
-                          6-6.9mm
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() =>
-                            setState({
-                              ...state,
-                              fromDimension: 7,
-                              toDimension: 7.9,
-                            })
-                          }
-                          style={
-                            state.fromDimension === 7 && state.toDimension === 7.9
-                              ? activeButtonStyle
-                              : {}
-                          }
-                        >
-                          7-7.9mm
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() =>
-                            setState({
-                              ...state,
-                              fromDimension: 8,
-                              toDimension: 8.9,
-                            })
-                          }
-                          style={
-                            state.fromDimension === 8 && state.toDimension === 8.9
-                              ? activeButtonStyle
-                              : {}
-                          }
-                        >
-                          8-8.9mm
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() =>
-                            setState({
-                              ...state,
-                              fromDimension: 10,
-                              toDimension: null,
-                            })
-                          }
-                          style={
-                            state.fromDimension === 10 &&
-                              state.toDimension === null
-                              ? activeButtonStyle
-                              : {}
-                          }
-                        >
-                          10mm+
-                        </Button>
-                      </div>
+                        Under 6mm
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            fromDimension: 6,
+                            toDimension: 6.9,
+                          })
+                        }
+                        style={
+                          state.fromDimension === 6 && state.toDimension === 6.9
+                            ? activeButtonStyle
+                            : {}
+                        }
+                      >
+                        6-6.9mm
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            fromDimension: 7,
+                            toDimension: 7.9,
+                          })
+                        }
+                        style={
+                          state.fromDimension === 7 && state.toDimension === 7.9
+                            ? activeButtonStyle
+                            : {}
+                        }
+                      >
+                        7-7.9mm
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            fromDimension: 8,
+                            toDimension: 8.9,
+                          })
+                        }
+                        style={
+                          state.fromDimension === 8 && state.toDimension === 8.9
+                            ? activeButtonStyle
+                            : {}
+                        }
+                      >
+                        8-8.9mm
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            fromDimension: 10,
+                            toDimension: null,
+                          })
+                        }
+                        style={
+                          state.fromDimension === 10 &&
+                          state.toDimension === null
+                            ? activeButtonStyle
+                            : {}
+                        }
+                      >
+                        10mm+
+                      </Button>
                     </div>
                   </div>
                 </div>
-              </SearchFilterDialog>
-            </Box>
+              </div>
+            </SearchFilterDialog>
+          </Box>
 
-            <PaginationTable
-              header={COLUMNS}
-              rows={rows}
-              totalItems={state.total_items || 0}
-              perPage={state.rowsPerPage}
-              activePage={state.page}
-              checkboxColumn={false}
-              selectedRows={state.selectedRows}
-              enableOrder={true}
-              isLoader={loading}
-              emptyTableImg={<img src={error400cover} width="400px" />}
-              {...otherTableActionProps}
-              orderBy={state.orderby}
-              order={state.order}
-            ></PaginationTable>
+          <PaginationTable
+            header={COLUMNS}
+            rows={rows}
+            totalItems={state.total_items || 0}
+            perPage={state.rowsPerPage}
+            activePage={state.page}
+            checkboxColumn={false}
+            selectedRows={state.selectedRows}
+            enableOrder={true}
+            isLoader={loading}
+            emptyTableImg={<img src={error400cover} width="400px" />}
+            {...otherTableActionProps}
+            orderBy={state.orderby}
+            order={state.order}
+          ></PaginationTable>
 
-            <Tooltip title="Create" placement="top">
-              <StyledAddButton
-                color="secondary"
-                aria-label="Add"
-                className="button"
-                onClick={togglePopup}
-              >
-                <Icon>add</Icon>
-              </StyledAddButton>
-            </Tooltip>
+          <Tooltip title="Create" placement="top">
+            <StyledAddButton
+              color="secondary"
+              aria-label="Add"
+              className="button"
+              onClick={togglePopup}
+            >
+              <Icon>add</Icon>
+            </StyledAddButton>
+          </Tooltip>
 
-            {/* Gem Stone Details Modal */}
-            {open && (
-              <GemstoneMasterDetails
-                open={open}
-                togglePopup={() => {
-                  togglePopup();
-                  paginate();
-                }}
-                callBack={() => paginate(true)}
-                userData={selectedUserData}
-              />
-            )}
-
-            {/* Gem Stone Bulk Details Modal */}
-            <GemstoneBulkMasterDetails
-              open={bulkOpen}
+          {/* Gem Stone Details Modal */}
+          {open && (
+            <GemstoneMasterDetails
+              open={open}
               togglePopup={() => {
-                togglePopupBulk();
+                togglePopup();
                 paginate();
               }}
               callBack={() => paginate(true)}
+              userData={selectedUserData}
             />
+          )}
 
-            {/* Find Gem Stone Bulk Details Modal */}
-            <FindGemstoneModal
-              open={findGemstone}
-              togglePopup={() => {
-                toggleGemstonePopup();
-                // paginate();
-              }}
-              gemStoneData={gemStoneData}
-            />
-          </Container>
-        </div>
+          {/* Gem Stone Bulk Details Modal */}
+          <GemstoneBulkMasterDetails
+            open={bulkOpen}
+            togglePopup={() => {
+              togglePopupBulk();
+              paginate();
+            }}
+            callBack={() => paginate(true)}
+          />
+
+          {/* Find Gem Stone Bulk Details Modal */}
+          <FindGemstoneModal
+            open={findGemstone}
+            togglePopup={() => {
+              toggleGemstonePopup();
+              // paginate();
+            }}
+            gemStoneData={gemStoneData}
+          />
+        </Container>
+      </div>
     </>
   );
 };

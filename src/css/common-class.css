@@ -137,7 +137,7 @@
 
 .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
     padding-left: 2px;
-    padding-right: 10px;
+    padding-right: 5px;
 }
 
 .css-12r29k6-MuiSlider-markLabel {
@@ -200,6 +200,10 @@ input::-webkit-inner-spin-button {
     width: 65px !important;
 }
 
+.thead-second-width-action-carat {
+    width: 60px !important;
+}
+
 .thead-second-width-action-35 {
     width: 35px !important;
 }
@@ -210,6 +214,10 @@ input::-webkit-inner-spin-button {
 
 .thead-second-width-action-index {
     width: 90px !important;
+}
+
+.thead-second-width-action-index-95 {
+    width: 95px !important;
 }
 
 .three-dot-text-title-stock-no {
@@ -240,8 +248,24 @@ input::-webkit-inner-spin-button {
     width: 600px !important;
 }
 
+.thead-second-width-title-650 {
+    width: 650px !important;
+}
+
+.thead-second-width-title-price {
+    width: 70px !important;
+}
+
+.thead-second-width-title-price-78 {
+    width: 78px !important;
+}
+
 .thead-second-width-title-subcategory {
     width: 500px !important;
+}
+
+.action-center {
+    text-align: center;
 }
 
 .common-thead-second-width-title-description {
