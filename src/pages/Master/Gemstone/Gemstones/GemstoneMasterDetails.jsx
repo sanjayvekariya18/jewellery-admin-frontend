@@ -9,7 +9,7 @@ import ReactSelect from "../../../../components/UI/ReactSelect";
 import Textarea from "../../../../components/UI/Textarea";
 import CommonButton from "../../../../components/UI/CommonButton";
 
-// ----------initialValues----------------------------------------------------
+// ----------initialValues----------------------------------------
 const initialValues = {
   id: "",
   stockId: "",

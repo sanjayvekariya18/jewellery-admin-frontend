@@ -147,6 +147,7 @@ const GemstoneMaster = () => {
     API.put(apiConfig.visibility_gemstone.replace(":id", Id)).then((res) => {
       HELPER.toaster.success(res.message);
       paginate();
+      setLoading(false);
     });
   };
   //------------ Delete Gemstone --------------

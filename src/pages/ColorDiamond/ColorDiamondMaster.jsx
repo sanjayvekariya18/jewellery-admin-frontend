@@ -238,6 +238,7 @@ const ColorDiamondMaster = () => {
     API.put(apiConfig.visibility_gemstone.replace(":id", Id)).then((res) => {
       HELPER.toaster.success(res.message);
       paginate();
+      setLoading(false);
     });
   };
   //------------ Delete Colored Diamond --------------

@@ -219,6 +219,8 @@ const DiamondMaster = () => {
     API.put(apiConfig.visibility_diamond.replace(":id", Id)).then((res) => {
       HELPER.toaster.success(res.message);
       paginate();
+      setLoading(false);
+
     });
   };
   //------------ Delete Diamond --------------
