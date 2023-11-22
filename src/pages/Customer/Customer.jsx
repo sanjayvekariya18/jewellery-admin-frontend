@@ -202,6 +202,7 @@ const Customer = () => {
       .then((response) => {
         HELPER.toaster.success(response.message);
         paginate();
+        setLoading(false);
       })
       .catch((e) => HELPER.toaster.error("Error " + e));
   };
