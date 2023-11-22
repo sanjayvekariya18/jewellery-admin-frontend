@@ -156,24 +156,23 @@ const FindOneOrderDetail = () => {
 
       return accumulator + subtotal;
     }, 0);
-
+    
   const generatePDF = () => {
     const element = document.getElementById("order-details");
-
+  
     if (element) {
-      // Clone the original element
       const clone = element.cloneNode(true);
-
-      // Exclude elements with the specified class in the clone
-      const elementsToExclude = clone.querySelectorAll(
-        ".thead-second-width-action-35"
-      );
+      const elementsToExclude = clone.querySelectorAll(".thead-second-width-action-35");
       elementsToExclude.forEach((el) => el.remove());
-
-      // Generate and save the PDF from the clone
-      html2pdf().from(clone).save();
+        const filename = `Order_Detail_${orderDetail.order?.orderNo || 'Untitled'}.pdf`;
+        const options = {
+        filename: filename,
+        jsPDF: { format: "a4", orientation: "portrait" },
+      };
+        html2pdf().from(clone).set(options).save();
     }
   };
+  
 
   const getProductDetail = (id) => {
     // API.get(apiConfig.findProductDetail.replace(":id", id)).then((res) => {
