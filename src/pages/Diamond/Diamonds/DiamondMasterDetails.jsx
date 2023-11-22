@@ -180,9 +180,9 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
 
   // ------------------Option Cut---------------
   const sortOptionsDcut = [
-    { label: "Super_Ideal", value: 0 },
+    { label: "Super Ideal", value: 0 },
     { label: "Ideal", value: 1 },
-    { label: "Very_Good", value: 2 },
+    { label: "Very Good", value: 2 },
     { label: "Good", value: 3 },
     { label: "Fair", value: 4 },
     { label: "Poor", value: 5 },
@@ -196,7 +196,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
   // ------------------ Option Symmetry ---------------
   const sortOptionsDsymmetry = [
     { label: "Excellent", value: 0 },
-    { label: "Very_Good", value: 1 },
+    { label: "Very Good", value: 1 },
     { label: "Good", value: 2 },
   ];
   let _sortOptionsDsymmetry = sortOptionsDsymmetry.map((option) => ({
@@ -210,7 +210,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
     { label: "Faint", value: 1 },
     { label: "Medium", value: 2 },
     { label: "Stong", value: 3 },
-    { label: "Very_Strong", value: 4 },
+    { label: "Very Strong", value: 4 },
   ];
 
   let _sortOptionsDfluorescence = sortOptionsDfluorescence.map((option) => ({
@@ -263,7 +263,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
   // ------------------Option Polish---------------
   const sortOptionsDpolish = [
     { label: "Excellent", value: 0 },
-    { label: "Very_Good", value: 1 },
+    { label: "Very Good", value: 1 },
     { label: "Good", value: 2 },
   ];
   let _sortOptionsDpolish = sortOptionsDpolish.map((option) => ({
