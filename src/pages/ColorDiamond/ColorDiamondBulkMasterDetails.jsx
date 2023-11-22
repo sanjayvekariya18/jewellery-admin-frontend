@@ -5,6 +5,7 @@ import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../services";
 import { apiConfig } from "../../config";
 import FileDrop from "../../components/UI/FileDrop";
+import { API_BASE_URL_IMG } from "../../constants/config";
 
 const initialValues = {
   colorDiamond: "",
@@ -60,8 +61,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup }) => {
     }
   };
   const handleDownload = () => {
-    const fileURL =
-      "http://192.168.0.221:6363/excelTemplate/Colored_Diamond_Data.xlsx";
+    const fileURL = `${API_BASE_URL_IMG}/excelTemplate/Colored_Diamond_Data.xlsx`;
     window.open(fileURL, "_blank");
   };
   const onFileSelected = (selectedFile) => {

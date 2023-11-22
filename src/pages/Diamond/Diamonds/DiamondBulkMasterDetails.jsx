@@ -5,6 +5,7 @@ import Validators from "../../../components/validations/Validator";
 import ThemeDialog from "../../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
 import FileDrop from "../../../components/UI/FileDrop";
+import { API_BASE_URL_IMG } from "../../../constants/config";
 
 const initialValues = {
   gemstoneData: "",
@@ -55,7 +56,7 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
   };
 
   const handleDownload = () => {
-    const fileURL = "http://192.168.0.221:6363/excelTemplate/Diamond_Data.xlsx";
+    const fileURL = `${API_BASE_URL_IMG}/excelTemplate/Diamond_Data.xlsx`;
     window.open(fileURL, "_blank");
   };
   const onFileSelected = (selectedFile) => {
