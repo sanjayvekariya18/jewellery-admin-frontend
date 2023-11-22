@@ -45,8 +45,11 @@ const DiamondMaster = () => {
     { title: "Origin", classNameWidth: "thead-second-width-address" },
     { title: "Lab", classNameWidth: "thead-second-width-address" },
     { title: "Price", classNameWidth: "thead-second-width-address" },
-    { title: "Is Visible", classNameWidth: "thead-second-width-action-index" },
-    { title: "Action", classNameWidth: "thead-second-width-stone" },
+    { title: "Is Visible", classNameWidth: "thead-second-width-action-carat" },
+    {
+      title: "Action",
+      classNameWidth: "thead-second-width-discount action-center",
+    },
   ];
 
   const toggleGemstonePopup = () => {
