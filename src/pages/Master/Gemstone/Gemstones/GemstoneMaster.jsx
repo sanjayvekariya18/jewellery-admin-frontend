@@ -31,24 +31,24 @@ const GemstoneMaster = () => {
   // ----Pagination code------
   const COLUMNS = [
     { title: "Stock No", classNameWidth: "thead-second-width-discount" },
-    { title: "Title", classNameWidth: "thead-second-width-title-650" },
-    { title: "Type", classNameWidth: "thead-second-width-title-price-78" },
-    { title: "Shape", classNameWidth: "thead-second-width-title-price" },
-    { title: "Carat", classNameWidth: "thead-second-width-action-carat-40" },
-    { title: "Color", classNameWidth: "thead-second-width-title-price" },
+    { title: "Title", classNameWidth: "thead-second-width-title-option" },
+    { title: "Type", classNameWidth: "thead-second-width-discount-85" },
+    { title: "Shape", classNameWidth: "thead-second-width-discount-85" },
+    { title: "Carat", classNameWidth: "thead-second-width-action-50" },
+    { title: "Color", classNameWidth: "thead-second-width-discount-85" },
     {
       title: "Clarity",
-      classNameWidth: "thead-second-width-action-carat",
+      classNameWidth: "thead-second-width-discount-85",
     },
     {
       title: "Origin",
-      classNameWidth: "thead-second-width-action-carat",
+      classNameWidth: "thead-second-width-discount-85",
     },
     { title: "Price", classNameWidth: "thead-second-width-action-carat" },
     { title: "Is Visible", classNameWidth: "thead-second-width-action-carat" },
     {
       title: "Action",
-      classNameWidth: "thead-second-width-action-index-95 action-center",
+      classNameWidth: "thead-second-width-discount action-center",
     },
   ];
 

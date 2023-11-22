@@ -551,3 +551,9 @@ input::-webkit-inner-spin-button {
 .text-modal-div textarea {
     resize: none;
 } */
+
+@media only screen and (max-width: 1800px) {
+    .thead-second-width-discount {
+        width: 100px !important;
+    }
+}

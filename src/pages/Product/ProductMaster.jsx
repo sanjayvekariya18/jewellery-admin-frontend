@@ -40,7 +40,10 @@ const ProductMaster = () => {
     { title: "Other Cost", classNameWidth: "thead-second-width-address" },
     { title: "Profit", classNameWidth: "thead-second-width-action-index" },
     { title: "Discount", classNameWidth: "thead-second-width-discount" },
-    { title: "Action", classNameWidth: "thead-second-width-address" },
+    {
+      title: "Action",
+      classNameWidth: "thead-second-width-discount ",
+    },
   ];
 
   const {
