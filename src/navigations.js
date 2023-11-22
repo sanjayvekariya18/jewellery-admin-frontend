@@ -144,11 +144,11 @@ export const navigations = [
     name: "User",
     icon: "account_circle",
     children: [
-      {
-        name: "Permissions",
-        iconText: "CT",
-        path: pageRoutes.master.user.permissions,
-      },
+      // {
+      //   name: "Permissions",
+      //   iconText: "CT",
+      //   path: pageRoutes.master.user.permissions,
+      // },
       { name: "User", iconText: "CT", path: pageRoutes.master.user.user },
     ],
   },

@@ -30,6 +30,7 @@ const FindProductVariantMoreDetail = () => {
   const [attributesModel, setAttributeModel] = useState(false);
   const [variantModel, setVariantMOdel] = useState(false);
   const [productData, setProductData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
@@ -46,7 +47,10 @@ const FindProductVariantMoreDetail = () => {
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable();
 
+
+
   useEffect(() => {
+    setLoading(true)
     API.get(
       apiConfig.findProductVariant.replace(
         ":productVariantId",
@@ -54,6 +58,7 @@ const FindProductVariantMoreDetail = () => {
       )
     )
       .then((res) => {
+        setLoading(false);
         setProductData(res);
         setState({
           ...state,
@@ -63,6 +68,7 @@ const FindProductVariantMoreDetail = () => {
         });
       })
       .catch((err) => {
+        setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -251,142 +257,156 @@ const FindProductVariantMoreDetail = () => {
           ]}
         />
       </Box>
-      <Box>
-        <div style={{ marginLeft: "5px" }}>
-          <>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
-                gap: "6px",
-
-                padding: "20px 35px 0px 35px",
-              }}
-            >
-              {gemstoneInfo.map((info) => (
+      {loading ? (
+        <div style={{ margin: "25px  auto", textAlign: "center" }}>
+          <img
+            src="../../../../../../assets/loading.gif"
+            alt=""
+            srcSet=""
+            height={28}
+            width={28}
+          />
+        </div>
+      ) : (
+        <>
+          <Box>
+            <div style={{ marginLeft: "5px" }}>
+              <>
                 <div
-                  key={info.key}
                   style={{
-                    display: "flex",
-                    alignItems: "baseline",
-                    justifyContent: "flex-start",
-                    border: "1px solid #3736363b",
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr",
+                    gap: "6px",
+
+                    padding: "20px 35px 0px 35px",
                   }}
                 >
-                  <div style={{ marginRight: "10px" }}>
-                    <h3
+                  {gemstoneInfo.map((info) => (
+                    <div
+                      key={info.key}
                       style={{
-                        fontSize: "17px",
-                        fontWeight: "500",
-                        color: "#373636de",
-                        padding: "9px 0px 9px 8px",
-                        margin: 0,
-                        maxWidth: "190px",
+                        display: "flex",
+                        alignItems: "baseline",
+                        justifyContent: "flex-start",
+                        border: "1px solid #3736363b",
                       }}
                     >
-                      {info.label}
-                    </h3>
-                  </div>
-                  <div>
-                    <span
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "400",
-                      }}
-                    >
-                      {/* {productData[info.key] || ""} */}
-                      {productData[info.key] === 0
-                        ? "0"
-                        : productData[info.key] || ""}
-                    </span>
-                  </div>
+                      <div style={{ marginRight: "10px" }}>
+                        <h3
+                          style={{
+                            fontSize: "17px",
+                            fontWeight: "500",
+                            color: "#373636de",
+                            padding: "9px 0px 9px 8px",
+                            margin: 0,
+                            maxWidth: "190px",
+                          }}
+                        >
+                          {info.label}
+                        </h3>
+                      </div>
+                      <div>
+                        <span
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                          }}
+                        >
+                          {/* {productData[info.key] || ""} */}
+                          {productData[info.key] === 0
+                            ? "0"
+                            : productData[info.key] || ""}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+                <div
+                  style={{
+                    border: "1px solid #3736363b",
+                    // marginTop: "5px",
+                    margin: "6px 35px 0px 35px",
+                    padding: "4px 8px 10px 8px",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      color: "#373636de",
+                      margin: "9px 8px 10px 0",
+                    }}
+                  >
+                    Description :
+                  </h3>
+                  <span
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {productData.description}
+                  </span>
+                </div>
+              </>
             </div>
+          </Box>
+          <Box style={{ marginLeft: "38px" }}>
             <div
               style={{
-                border: "1px solid #3736363b",
-                // marginTop: "5px",
-                margin: "6px 35px 0px 35px",
-                padding: "4px 8px 10px 8px",
+                display: "flex",
+                // gridTemplateColumns: "auto auto auto auto",
+                justifyContent: "start",
+                marginTop: "20px",
+                // marginLeft: "40px",
+                gap: "0px 6px",
+                alignItems: "center",
               }}
             >
-              <h3
-                style={{
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  color: "#373636de",
-                  margin: "9px 8px 10px 0",
-                }}
-              >
-                Description :
-              </h3>
-              <span
-                style={{
-                  fontSize: "16px",
-                  fontWeight: "400",
-                }}
-              >
-                {productData.description}
-              </span>
+              <div>
+                {productVariantDiamond !== undefined &&
+                  productVariantDiamond.length !== 0 && (
+                    <Button
+                      variant="contained"
+                      onClick={() => setDiamondModel(true)}
+                    >
+                      Product Variant Diamonds
+                    </Button>
+                  )}
+              </div>
+              <div>
+                {productVariantGemstone !== undefined &&
+                  productVariantGemstone.length > 0 && (
+                    <Button
+                      variant="contained"
+                      onClick={() => setGemstoneModel(true)}
+                    >
+                      Product Variant Gemstone
+                    </Button>
+                  )}
+              </div>
+              <div>
+                {productVariantAttributes !== undefined &&
+                  productVariantAttributes.length > 0 && (
+                    <Button
+                      variant="contained"
+                      onClick={() => setAttributeModel(true)}
+                    >
+                      Product Variant Attributes
+                    </Button>
+                  )}
+              </div>
+              <div>
+                {productVariant !== undefined && productVariant.length > 0 && (
+                  <Button variant="contained" onClick={() => setVariantMOdel(true)}>
+                    Product Variant Details
+                  </Button>
+                )}
+              </div>
             </div>
-          </>
-        </div>
-      </Box>
-      <Box style={{ marginLeft: "38px" }}>
-        <div
-          style={{
-            display: "flex",
-            // gridTemplateColumns: "auto auto auto auto",
-            justifyContent: "start",
-            marginTop: "20px",
-            // marginLeft: "40px",
-            gap: "0px 6px",
-            alignItems: "center",
-          }}
-        >
-          <div>
-            {productVariantDiamond !== undefined &&
-              productVariantDiamond.length !== 0 && (
-                <Button
-                  variant="contained"
-                  onClick={() => setDiamondModel(true)}
-                >
-                  Product Variant Diamonds
-                </Button>
-              )}
-          </div>
-          <div>
-            {productVariantGemstone !== undefined &&
-              productVariantGemstone.length > 0 && (
-                <Button
-                  variant="contained"
-                  onClick={() => setGemstoneModel(true)}
-                >
-                  Product Variant Gemstone
-                </Button>
-              )}
-          </div>
-          <div>
-            {productVariantAttributes !== undefined &&
-              productVariantAttributes.length > 0 && (
-                <Button
-                  variant="contained"
-                  onClick={() => setAttributeModel(true)}
-                >
-                  Product Variant Attributes
-                </Button>
-              )}
-          </div>
-          <div>
-            {productVariant !== undefined && productVariant.length > 0 && (
-              <Button variant="contained" onClick={() => setVariantMOdel(true)}>
-                Product Variant Details
-              </Button>
-            )}
-          </div>
-        </div>
-      </Box>
+          </Box>
+        </>
+      )}
 
       {/* ThemeDialog Component */}
       {/* Product Variant Diamonds */}

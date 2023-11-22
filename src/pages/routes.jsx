@@ -191,10 +191,10 @@ const routes = [
         element: <FaqMaster />,
       },
       { path: pageRoutes.master.jewellery.details, element: <DetailsMaster /> },
-      {
-        path: pageRoutes.master.user.permissions,
-        element: <PermissionsMaster />,
-      },
+      // {
+      //   path: pageRoutes.master.user.permissions,
+      //   element: <PermissionsMaster />,
+      // },
       { path: pageRoutes.master.user.user, element: <UserMaster /> },
       {
         path: pageRoutes.master.user.userPermissions,

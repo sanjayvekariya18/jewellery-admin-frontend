@@ -169,7 +169,8 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
       align: "left",
       width: "30%",
       cell: ({ item }) => {
-        return item.permissionName;
+        return (
+          <span style={{ textTransform: "capitalize " }}>{item.permissionName}</span>)
       },
     },
     {

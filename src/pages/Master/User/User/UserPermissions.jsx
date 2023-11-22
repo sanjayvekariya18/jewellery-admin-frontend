@@ -28,7 +28,9 @@ const UserPermissionsMaster = () => {
       align: "left",
       width: "30%",
       cell: ({ item }) => {
-        return item.permissionName;
+        return (
+          <span style={{ textTransform: "capitalize " }}> {item.permissionName}</span>
+        );
       },
     },
     {

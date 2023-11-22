@@ -714,7 +714,7 @@ const GemstoneMaster = () => {
               open={findGemstone}
               togglePopup={() => {
                 toggleGemstonePopup();
-                paginate();
+                // paginate();
               }}
               gemStoneData={gemStoneData}
             />

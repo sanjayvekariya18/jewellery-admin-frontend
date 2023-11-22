@@ -25,7 +25,7 @@
 /* --------------------------------------  commncomponent css --------------- */
 
 .three-dot-text {
-    display: inline-block;
+    display: block;
     width: 100px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -33,7 +33,7 @@
 }
 
 .three-dot-text-title {
-    display: inline-block;
+    display: block;
     width: 140px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -213,7 +213,7 @@ input::-webkit-inner-spin-button {
 }
 
 .three-dot-text-title-stock-no {
-    display: inline-block;
+    display: block;
     width: 190px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -245,7 +245,7 @@ input::-webkit-inner-spin-button {
 }
 
 .common-thead-second-width-title-description {
-    display: inline-block;
+    display: block;
     width: 145px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -253,7 +253,7 @@ input::-webkit-inner-spin-button {
 }
 
 .common-thead-second-width-title-subcategory {
-    display: inline-block;
+    display: block;
     width: 495px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -261,7 +261,7 @@ input::-webkit-inner-spin-button {
 }
 
 .common-thead-second-width-title-option {
-    display: inline-block;
+    display: block;
     width: 595px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -269,7 +269,7 @@ input::-webkit-inner-spin-button {
 }
 
 .common-thead-second-width-title {
-    display: inline-block;
+    display: block;
     width: 395px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -277,7 +277,7 @@ input::-webkit-inner-spin-button {
 }
 
 .common-thead-second-width-title-answer {
-    display: inline-block;
+    display: block;
     width: 340px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -285,7 +285,7 @@ input::-webkit-inner-spin-button {
 }
 
 .common-thead-second-width-title-blog {
-    display: inline-block;
+    display: block;
     width: 690px;
     white-space: nowrap;
     overflow: hidden !important;
@@ -293,7 +293,7 @@ input::-webkit-inner-spin-button {
 }
 
 .common-width-three-dot-text {
-    display: inline-block;
+    display: block;
     width: 230px;
     white-space: nowrap;
     overflow: hidden !important;
