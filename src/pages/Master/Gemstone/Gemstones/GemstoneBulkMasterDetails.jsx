@@ -4,6 +4,7 @@ import { API, HELPER } from "../../../../services";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
 import { apiConfig } from "../../../../config";
+import { API_BASE_URL_IMG } from "../../../../constants/config";
 import FileDrop from "../../../../components/UI/FileDrop";
 
 const initialValues = {
@@ -56,8 +57,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
   };
 
   const handleDownload = () => {
-    const fileURL =
-      "http://192.168.0.221:6363/excelTemplate/Gemstone_Data.xlsx";
+    const fileURL = `${API_BASE_URL_IMG}/excelTemplate/Gemstone_Data.xlsx`;
     window.open(fileURL, "_blank");
   };
 

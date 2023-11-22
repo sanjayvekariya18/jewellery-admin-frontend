@@ -44,8 +44,8 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
     colorName: "required",
     intensity: "required",
     mDepth: "numeric|min:0",
-    mLength: "numeric|min:0",
-    mWidth: "numeric|min:0",
+    mLength: "numeric|min:0|required",
+    mWidth: "numeric|min:0|required",
   };
 
   const onChange = useCallback((e) => {

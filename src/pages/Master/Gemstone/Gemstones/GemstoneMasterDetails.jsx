@@ -40,8 +40,9 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
     color: "required",
     price: "required|numeric|min:1",
     mDepth: "numeric|min:0",
-    mLength: "numeric|min:0",
-    mWidth: "numeric|min:0",
+    mLength: "numeric|min:0|required",
+    mWidth: "numeric|min:0|required",
+
   };
 
   // ------------------Get Shape API --------------------------------
