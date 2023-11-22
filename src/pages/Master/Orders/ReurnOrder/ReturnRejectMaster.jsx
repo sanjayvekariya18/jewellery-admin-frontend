@@ -6,7 +6,7 @@ import { API, HELPER } from '../../../../services';
 import { apiConfig } from '../../../../config';
 import Textinput from "../../../../components/UI/TextInput";
 
-const ReturnRejectMaster = ({ open, togglePopup, userData }) => {
+const ReturnRejectMaster = ({ open, togglePopup, userData,callBack }) => {
     const initialValues = {
         returnOrderProductIds: userData,
         rejectReason: "",
@@ -22,6 +22,7 @@ const ReturnRejectMaster = ({ open, togglePopup, userData }) => {
             .then((res) => {
                 HELPER.toaster.success(res.message);
                 togglePopup();
+                callBack();
             })
             .catch((e) => {
                 HELPER.toaster.error(e.errors.returnOrderProductIds[0]);

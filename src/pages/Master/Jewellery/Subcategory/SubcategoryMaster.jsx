@@ -248,7 +248,7 @@ const SubcategoryMaster = () => {
           open={open}
           togglePopup={() => {
             togglePopup();
-            paginate();
+            // paginate();
           }}
           callBack={() => paginate(true)}
           userData={selectedUserData}

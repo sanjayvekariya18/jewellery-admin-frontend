@@ -23,6 +23,7 @@ const DetailsMasterDetails = ({
   togglePopup,
   userData,
   productDetailsGroupId,
+  callBack
 }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
@@ -51,6 +52,7 @@ const DetailsMasterDetails = ({
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((err) => {
         if (

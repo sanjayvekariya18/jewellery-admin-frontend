@@ -7,7 +7,7 @@ import { apiConfig } from '../../../../config';
 import Textinput from '../../../../components/UI/TextInput';
 
 
-const OrderMasterDetail = ({ open, togglePopup, userData }) => {
+const OrderMasterDetail = ({ open, togglePopup, userData ,callBack}) => {
   const initialValues = {
     orderId: userData,
     cancelReason: "",
@@ -34,6 +34,7 @@ const OrderMasterDetail = ({ open, togglePopup, userData }) => {
       .then((res) => {
         HELPER.toaster.success(res.message);
         togglePopup();
+        callBack();
       })
       .catch((e) => {
         HELPER.toaster.error(e);

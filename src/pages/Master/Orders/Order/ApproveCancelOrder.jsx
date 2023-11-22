@@ -6,7 +6,7 @@ import { API, HELPER } from "../../../../services";
 import { apiConfig } from "../../../../config";
 import Textinput from "../../../../components/UI/TextInput";
 
-const ApproveCancelOrder = ({ open, togglePopup, userData }) => {
+const ApproveCancelOrder = ({ open, togglePopup, userData,callBack }) => {
   const initialValues = {
     orderId: userData,
     cancelAmount: "",
@@ -30,6 +30,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData }) => {
       .then((res) => {
         HELPER.toaster.success(res.message);
         togglePopup();
+        callBack();
       })
       .catch((e) => {
         HELPER.toaster.error(e);

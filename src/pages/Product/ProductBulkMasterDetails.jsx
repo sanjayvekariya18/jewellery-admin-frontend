@@ -7,7 +7,7 @@ import Validators from "../../components/validations/Validator";
 import ReactSelect from "../../components/UI/ReactSelect";
 import FileDrop from "../../components/UI/FileDrop";
 
-const ProductBulkMasterDetails = ({ open, togglePopup }) => {
+const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [errorModel, setErrorModel] = useState(false);
   const [err, setErr] = useState("");
   const [errorState, setErrorState] = useState({});
@@ -73,6 +73,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup }) => {
         .then((res) => {
           HELPER.toaster.success("ProductData added successfully");
           togglePopup();
+          callBack();
         })
         .catch((error) => {
           HELPER.toaster.error("Please Check your Excel sheet...");

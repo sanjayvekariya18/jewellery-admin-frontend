@@ -29,6 +29,7 @@ const AttributesMasterDetails = ({
   togglePopup,
   userData,
   editAttributeSingleData,
+  callBack
 }) => {
   const [selected, setSelected] = useState([]);
   const [sortNo, setSortNo] = useState("false");
@@ -81,6 +82,7 @@ const AttributesMasterDetails = ({
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((err) => {
         if (

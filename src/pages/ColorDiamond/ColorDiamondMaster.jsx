@@ -684,7 +684,7 @@ const ColorDiamondMaster = () => {
               open={open}
               togglePopup={() => {
                 togglePopup();
-                paginate();
+                // paginate();
               }}
               callBack={() => paginate(true)}
               userData={selectedUserData}
@@ -694,7 +694,7 @@ const ColorDiamondMaster = () => {
             open={bulkOpen}
             togglePopup={() => {
               togglePopupBulk();
-              paginate();
+              // paginate();
             }}
             callBack={() => paginate(true)}
             //   userData={selectedUserData}

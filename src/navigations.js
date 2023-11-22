@@ -97,32 +97,7 @@ export const navigations = [
     ],
   },
 
-  {
-    name: "Blogs Managment",
-    icon: "chat",
-    children: [
-      {
-        name: "Blog Category",
-        iconText: "BC",
-        path: pageRoutes.master.blogs.blogCategory,
-      },
-      {
-        name: "Blog",
-        iconText: "BM",
-        path: pageRoutes.master.blogs.blog,
-      },
-      {
-        name: "FAQ",
-        iconText: "FM",
-        path: pageRoutes.master.blogs.faq,
-      },
-      {
-        name: "Email Template",
-        iconText: "ET",
-        path: pageRoutes.master.blogs.emailTemplate,
-      },
-    ],
-  },
+
   {
     name: "Orders Management",
     icon: "inventory2",
@@ -150,6 +125,32 @@ export const navigations = [
       //   path: pageRoutes.master.user.permissions,
       // },
       { name: "User", iconText: "CT", path: pageRoutes.master.user.user },
+    ],
+  },
+  {
+    name: "Miscellaneous",
+    icon: "chat",
+    children: [
+      {
+        name: "Blog Category",
+        iconText: "BC",
+        path: pageRoutes.master.blogs.blogCategory,
+      },
+      {
+        name: "Blog",
+        iconText: "BM",
+        path: pageRoutes.master.blogs.blog,
+      },
+      {
+        name: "FAQ",
+        iconText: "FM",
+        path: pageRoutes.master.blogs.faq,
+      },
+      {
+        name: "Email Template",
+        iconText: "ET",
+        path: pageRoutes.master.blogs.emailTemplate,
+      },
     ],
   },
 ];

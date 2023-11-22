@@ -311,7 +311,7 @@ const DetailsMaster = () => {
         open={open}
         togglePopup={() => {
           togglePopup();
-          paginate();
+          // paginate();
         }}
         callBack={() => paginate(true)}
         userData={selectedUserData}

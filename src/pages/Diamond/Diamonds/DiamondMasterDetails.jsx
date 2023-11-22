@@ -33,7 +33,7 @@ const initialValues = {
   price: "",
 };
 
-const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
+const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [shapMaster, setShapMaster] = useState([]);
   const [labMaster, setLabMaster] = useState([]);
@@ -106,6 +106,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((err) => {
         if (

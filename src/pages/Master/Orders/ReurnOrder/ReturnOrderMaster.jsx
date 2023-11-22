@@ -759,7 +759,7 @@ const ReturnOrderMaster = () => {
             open={open}
             togglePopup={() => {
               togglePopup();
-              paginate();
+              // paginate();
             }}
             callBack={() => paginate(true)}
             userData={selectedUserData}
@@ -771,7 +771,7 @@ const ReturnOrderMaster = () => {
             open={refundAmount}
             togglePopup={() => {
               togglePopupRefundAmount();
-              paginate();
+              // paginate();
             }}
             callBack={() => paginate(true)}
             userData={refundAmountCancel}

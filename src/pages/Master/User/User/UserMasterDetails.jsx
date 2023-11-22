@@ -17,7 +17,7 @@ const initialValues = {
   profile: "",
 };
 
-const UserMasterDetails = ({ open, togglePopup, userData }) => {
+const UserMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
   const [isLoader, setIsLoader] = useState(false);
 
   const url = apiEndPoint.user;
@@ -48,6 +48,7 @@ const UserMasterDetails = ({ open, togglePopup, userData }) => {
         .then(() => {
           HELPER.toaster.success("Record created");
           togglePopup();
+          callBack();
         })
         .catch((e) => HELPER.toaster.error(e.errors.message))
         .finally(() => {

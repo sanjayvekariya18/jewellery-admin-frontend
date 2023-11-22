@@ -54,6 +54,7 @@ const SubcategoryMasterDetails = ({
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))
       .finally(() => {

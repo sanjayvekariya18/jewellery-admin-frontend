@@ -970,7 +970,7 @@ const DiamondMaster = () => {
               open={open}
               togglePopup={() => {
                 togglePopup();
-                paginate();
+                // paginate();
               }}
               callBack={() => paginate(true)}
               userData={selectedUserData}
@@ -993,7 +993,7 @@ const DiamondMaster = () => {
               open={bulkOpen}
               togglePopup={() => {
                 togglePopupBulk();
-                paginate();
+                // paginate();
               }}
               callBack={() => paginate(true)}
             />

@@ -296,7 +296,7 @@ const UserMaster = () => {
         open={open}
         togglePopup={() => {
           togglePopup();
-          paginate();
+          // paginate();
         }}
         userData={selectedUserData}
       />

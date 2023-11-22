@@ -11,7 +11,7 @@ const initialValues = {
   gemstoneData: "",
 };
 
-const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
+const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [errorModel, setErrorModel] = useState(false);
   const [err, setErr] = useState();
@@ -33,6 +33,7 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
           HELPER.toaster.success("DiamondsBulk Bulk added successfully");
           setSelectedFile(null);
           togglePopup();
+          callBack();
         })
         .catch((error) => {
           HELPER.toaster.error("Please Check your Excel sheet...");
@@ -179,9 +180,8 @@ const DiamondBulkMasterDetails = ({ open, togglePopup }) => {
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
               ]}
               icon="cloud_upload"
-              label={`Drag & drop an Excel file here, or click to select one ${
-                selectedFile === null ? "" : ` (${selectedFile.name})`
-              }`}
+              label={`Drag & drop an Excel file here, or click to select one ${selectedFile === null ? "" : ` (${selectedFile.name})`
+                }`}
             />
           </Box>
         </ThemeDialog>

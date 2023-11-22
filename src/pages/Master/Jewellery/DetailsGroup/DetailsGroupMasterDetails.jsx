@@ -12,7 +12,7 @@ const initialValues = {
   groupName: "",
 };
 
-const DetailsGroupMasterDetails = ({ open, togglePopup, userData }) => {
+const DetailsGroupMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
@@ -38,6 +38,7 @@ const DetailsGroupMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))
       .finally(() => {
@@ -64,9 +65,8 @@ const DetailsGroupMasterDetails = ({ open, togglePopup, userData }) => {
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
-          title={`${
-            formState?.id === "" ? "Add" : "Edit"
-          } Product Details Group`}
+          title={`${formState?.id === "" ? "Add" : "Edit"
+            } Product Details Group`}
           isOpen={open}
           onClose={() => {
             togglePopup();

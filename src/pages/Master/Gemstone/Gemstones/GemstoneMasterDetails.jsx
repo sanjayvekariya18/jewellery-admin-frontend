@@ -27,7 +27,7 @@ const initialValues = {
   price: "",
 };
 
-const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
+const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [shapMaster, setShapMaster] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
@@ -81,6 +81,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((err) => {
         if (
@@ -189,28 +190,28 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
           }}
           actionBtns={
             <Box>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                togglePopup();
-                resetValidation();
-              }}
-            >
-              Cancel
-            </Button>
-            <CommonButton
-              style={{ marginLeft: "20px" }}
-              loader={isLoader}
-              type="submit"
-              variant="contained"
-              color="success"
-              onClick={() => onSubmit(handleSubmit)}
-            >
-              Save
-            </CommonButton>
-          </Box>
-          
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  togglePopup();
+                  resetValidation();
+                }}
+              >
+                Cancel
+              </Button>
+              <CommonButton
+                style={{ marginLeft: "20px" }}
+                loader={isLoader}
+                type="submit"
+                variant="contained"
+                color="success"
+                onClick={() => onSubmit(handleSubmit)}
+              >
+                Save
+              </CommonButton>
+            </Box>
+
           }
         >
           <Textinput

@@ -798,7 +798,7 @@ const OrderMaster = () => {
             open={open}
             togglePopup={() => {
               togglePopup();
-              paginate();
+              // paginate();
             }}
             callBack={() => paginate(true)}
             userData={selectedUserData}
@@ -809,7 +809,7 @@ const OrderMaster = () => {
             open={approveOrder}
             togglePopup={() => {
               togglePopupApproveCancel();
-              paginate();
+              // paginate();
             }}
             callBack={() => paginate(true)}
             userData={approveCancel}

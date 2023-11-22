@@ -11,6 +11,7 @@ import { Breadcrumb, Container } from "../../components";
 import { Box, IconButton, Icon } from "@mui/material";
 import { pageRoutes } from "../../constants/routesList";
 import { useNavigate } from "react-router-dom/dist";
+import MaxHeightMenu from "../../components/MaxHeightMenu";
 
 const FindProductVariant = () => {
   const { productId } = useParams();
@@ -63,11 +64,27 @@ const FindProductVariant = () => {
       classNameWidth: "thead-second-width-address-100",
     },
     { title: "Total Price", classNameWidth: "thead-second-width-address-100" },
-    { title: "Action", classNameWidth: "thead-second-width-action-50" },
+    { title: "Action", classNameWidth: "thead-second-width-discount" },
   ];
 
   const rows = useMemo(() => {
     return state.data.map((item, i) => {
+      let optionsArray = [
+        {
+          key: "Add to Features",
+          color: "#036003",
+          icon: "control_point_icon",
+          // onClick: () => handleOrderDetail(item.id),
+        },
+        {
+          key: "Add to Our Products",
+          color: "#036003",
+          icon: "control_point_icon",
+          // onClick: () => handleCancelOrder(item.id),
+        },
+      ];
+
+
       return {
         item: item,
         columns: [
@@ -81,11 +98,13 @@ const FindProductVariant = () => {
           <span>{item.metalPrice}</span>,
           <span>{item.diamondPrice}</span>,
           <span>{item.totalPrice}</span>,
-          <div>
+          <span style={{ display: "flex" }}>
             <IconButton onClick={(e) => handleButtonClick(item.id)}>
               <Icon color="primary">remove_red_eye</Icon>
             </IconButton>
-          </div>,
+            <MaxHeightMenu optionsMenu={optionsArray} />
+          </span>,
+
         ],
       };
     });

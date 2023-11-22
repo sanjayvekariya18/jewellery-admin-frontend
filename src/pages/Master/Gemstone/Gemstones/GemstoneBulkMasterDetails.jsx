@@ -11,7 +11,7 @@ const initialValues = {
   gemstoneData: "",
 };
 
-const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
+const GemstoneBulkMasterDetails = ({ open, togglePopup ,callBack}) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [errorModel, setErrorModel] = useState(false);
   const [err, setErr] = useState();
@@ -34,6 +34,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup }) => {
           HELPER.toaster.success("GemStone Bulk added successfully");
           setSelectedFile(null);
           togglePopup();
+          callBack();
         })
         .catch((error) => {
           HELPER.toaster.error("Please Check your Excel sheet...");

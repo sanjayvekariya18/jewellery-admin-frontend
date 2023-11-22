@@ -17,7 +17,7 @@ const initialValues = {
   details: "",
 };
 
-const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
+const OptionsMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
@@ -43,6 +43,7 @@ const OptionsMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((err) => {
         if (

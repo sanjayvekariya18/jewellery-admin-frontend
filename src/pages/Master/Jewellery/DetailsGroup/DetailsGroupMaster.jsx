@@ -261,9 +261,10 @@ const DetailsGroupMaster = () => {
         open={open}
         togglePopup={() => {
           togglePopup();
-          paginate();
+          // paginate();
         }}
         userData={selectedUserData}
+        callBack={() => paginate(true)}
       />
     </Container>
   );

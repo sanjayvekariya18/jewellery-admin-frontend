@@ -6,7 +6,7 @@ import { API, HELPER } from '../../../../services';
 import { apiConfig } from '../../../../config';
 import { Box, Button } from "@mui/material";
 
-const RefundAmountReturnOrder = ({ open, togglePopup, userData }) => {
+const RefundAmountReturnOrder = ({ open, togglePopup, userData ,callBack}) => {
     const initialValues = {
         returnProductId: userData,
         refundAmount: "",
@@ -28,6 +28,7 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData }) => {
             .then((res) => {
                 HELPER.toaster.success(res);
                 togglePopup();
+                callBack();
             })
             .catch((e) => {
                 HELPER.toaster.error(e.errors.returnProductId[0]);

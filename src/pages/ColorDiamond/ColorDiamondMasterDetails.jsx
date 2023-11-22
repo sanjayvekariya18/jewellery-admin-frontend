@@ -28,7 +28,7 @@ const initialValues = {
   price: "",
 };
 
-const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
+const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [shapMaster, setShapMaster] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
@@ -77,6 +77,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((err) => {
         if (
@@ -233,7 +234,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData }) => {
               alignItems: "baseline",
               gap: "12px",
             }}
-            // className="text-input-top"
+          // className="text-input-top"
           >
             <Textinput
               size="small"
