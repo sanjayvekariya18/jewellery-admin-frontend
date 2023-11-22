@@ -745,7 +745,7 @@ const OrderMaster = () => {
             )}
           </div>
           {loading ? (
-            <div style={{ margin: "40px  auto", textAlign: "center" }}>
+            <div style={{ margin: "30px  auto", textAlign: "center" }}>
               <img
                 src="../../../../../../assets/loading.gif"
                 alt=""
