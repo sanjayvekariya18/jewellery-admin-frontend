@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableRow,
   TableCell,
+  Typography
 } from "@mui/material";
 import { apiConfig } from "../../../../config";
 import { API } from "../../../../services";
@@ -16,7 +17,6 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
-import Textarea from "../../../../components/UI/Textarea";
 
 const ProductDetail = ({ open, togglePopup, productDetailData }) => {
   const [productDetail, setProductDetail] = useState("");
@@ -322,12 +322,9 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
             }
           >
             <div style={{ padding: "0px", margin: "0px" }}>
-              <Textarea
-                className="form-control"
-                rows="10"
-                value={addressText}
-                readOnly
-              ></Textarea>
+            <Typography variant="body1" style={{lineHeight:"25px"}}>
+              {addressText}
+            </Typography>
             </div>
           </ThemeDialog>
         )}

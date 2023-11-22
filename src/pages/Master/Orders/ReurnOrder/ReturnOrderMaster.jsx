@@ -13,6 +13,7 @@ import {
   Icon,
   IconButton,
   Tooltip,
+  Typography
 } from "@mui/material";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
@@ -28,7 +29,6 @@ import moment from "moment-timezone";
 import ReturnRejectMaster from "./ReturnRejectMaster";
 import RefundAmountReturnOrder from "./RefundAmountReturnOrder";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-import Textarea from "../../../../components/UI/Textarea";
 
 const ReturnOrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -797,12 +797,9 @@ const ReturnOrderMaster = () => {
             }
           >
             <div style={{ padding: "0px", margin: "0px" }}>
-              <Textarea
-                className="form-control"
-                rows="5"
-                value={addressText}
-                readOnly
-              ></Textarea>
+            <Typography variant="body1" style={{lineHeight:"25px"}}>
+              {addressText}
+            </Typography>
             </div>
           </ThemeDialog>
         )}

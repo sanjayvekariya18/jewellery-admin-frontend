@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, Button, Tooltip } from "@mui/material";
+import { Box, Icon, IconButton, Button, Tooltip,Typography } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
@@ -15,7 +15,6 @@ import { toaster } from "../../../../services/helper";
 import Textinput from "../../../../components/UI/TextInput";
 import BlogMasterDetails from "./BlogMasterDetails";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-import Textarea from "../../../../components/UI/Textarea";
 import moment from "moment";
 import ReactSelect from "../../../../components/UI/ReactSelect";
 import Flatpickr from "react-flatpickr";
@@ -376,12 +375,9 @@ const BlogMaster = () => {
           }
         >
           <div style={{ padding: "0px", margin: "0px" }}>
-            <Textarea
-              className="form-control"
-              rows="5"
-              value={addressText}
-              readOnly
-            ></Textarea>
+          <Typography variant="body1" style={{lineHeight:"25px"}}>
+              {addressText}
+            </Typography>
           </div>
         </ThemeDialog>
       )}

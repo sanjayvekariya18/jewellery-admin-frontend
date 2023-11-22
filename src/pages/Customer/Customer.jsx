@@ -5,6 +5,7 @@ import {
   DialogTitle,
   Icon,
   TextField,
+  Typography,
   Tooltip,
 } from "@mui/material";
 import { Breadcrumb, Container } from "../../components";
@@ -20,7 +21,6 @@ import error400cover from "../../assets/no-data-found-page.png";
 import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
 import LabMasterDetails from "../Master/Diamond/Lab/LabMasterDetails";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
-import Textarea from "../../components/UI/Textarea";
 import Textinput from "../../components/UI/TextInput";
 
 const Customer = () => {
@@ -85,11 +85,11 @@ const Customer = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -135,9 +135,8 @@ const Customer = () => {
     });
   };
   const showAddressInDialog = (item) => {
-    const address = `${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
-      item.addressLine3 || ""
-    }`;
+    const address = `${item.addressLine1 || ""} ${item.addressLine2 || ""} ${item.addressLine3 || ""
+      }`;
     setAddressText(address); // Set the address text
     textModaltoggle(); // Show the dialog
   };
@@ -162,9 +161,8 @@ const Customer = () => {
             style={{ fontWeight: "500", cursor: "pointer" }}
             onClick={() => showAddressInDialog(item)}
           >
-            {`${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
-              item.addressLine3 || ""
-            }`}
+            {`${item.addressLine1 || ""} ${item.addressLine2 || ""} ${item.addressLine3 || ""
+              }`}
           </span>,
           <span>
             <IconButton onClick={() => handleToggle(item.id)}>
@@ -297,12 +295,9 @@ const Customer = () => {
           }
         >
           <div style={{ padding: "0px", margin: "0px" }}>
-            <Textarea
-              className="form-control"
-              rows="5"
-              value={addressText}
-              readOnly
-            ></Textarea>
+            <Typography variant="body1" style={{lineHeight:"25px"}}>
+              {addressText}
+            </Typography>
           </div>
         </ThemeDialog>
       )}

@@ -3,7 +3,6 @@ import { Box, Button } from "@mui/material";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import { appConfig } from "../../config";
 // import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-// import Textarea from "../../../../components/UI/Textarea";
 
 const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
   // Function to retrieve values from a dictionary

@@ -5,12 +5,11 @@ import PaginationTable, {
 import { useNavigate, useParams } from "react-router-dom/dist";
 import { apiConfig } from "../../config";
 import { API, HELPER } from "../../services";
-import { Box, Button } from "@mui/material";
+import { Box, Button,Typography } from "@mui/material";
 import { Breadcrumb } from "../../components";
 import { pageRoutes } from "../../constants/routesList";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import error400cover from "../../assets/no-data-found-page.png";
-import Textarea from "../../components/UI/Textarea";
 
 const FindProductVariantMoreDetail = () => {
   const gemstoneInfo = [
@@ -600,12 +599,9 @@ const FindProductVariantMoreDetail = () => {
           }
         >
           <div style={{ padding: "0px", margin: "0px" }}>
-            <Textarea
-              className="form-control"
-              rows="5"
-              value={addressText}
-              readOnly
-            ></Textarea>
+            <Typography variant="body1" style={{lineHeight:"25px"}}>
+              {addressText}
+            </Typography>
           </div>
         </ThemeDialog>
       )}

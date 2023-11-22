@@ -5,7 +5,6 @@ import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
 import { apiConfig, appConfig } from "../../../../config";
-import Textarea from "../../../../components/UI/Textarea";
 import ReactSelect from "../../../../components/UI/ReactSelect";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";

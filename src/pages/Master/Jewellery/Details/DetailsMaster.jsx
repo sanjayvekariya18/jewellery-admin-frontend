@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, Tooltip, Button } from "@mui/material";
+import { Box, Icon, IconButton, Tooltip, Button ,Typography} from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
@@ -15,7 +15,6 @@ import { toaster } from "../../../../services/helper";
 import DetailsMasterDetails from "./DetailsMasterDetails";
 import ReactSelect from "../../../../components/UI/ReactSelect";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-import Textarea from "../../../../components/UI/Textarea";
 
 const DetailsMaster = () => {
   const [open, setOpen] = useState(false);
@@ -330,12 +329,9 @@ const DetailsMaster = () => {
           }
         >
           <div style={{ padding: "0px", margin: "0px" }}>
-            <Textarea
-              className="form-control"
-              rows="5"
-              value={addressText}
-              readOnly
-            ></Textarea>
+          <Typography variant="body1" style={{lineHeight:"25px"}}>
+              {addressText}
+            </Typography>
           </div>
         </ThemeDialog>
       )}

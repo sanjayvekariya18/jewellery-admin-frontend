@@ -189,27 +189,28 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData }) => {
           }}
           actionBtns={
             <Box>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  togglePopup();
-                  resetValidation();
-                }}
-              >
-                Cancel
-              </Button>
-              <CommonButton
-                style={{ marginLeft: "20px" }}
-                loader={isLoader}
-                type="submit"
-                variant="contained"
-                color="success"
-                onClick={() => onSubmit(handleSubmit)}
-              >
-                Save
-              </CommonButton>
-            </Box>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                togglePopup();
+                resetValidation();
+              }}
+            >
+              Cancel
+            </Button>
+            <CommonButton
+              style={{ marginLeft: "20px" }}
+              loader={isLoader}
+              type="submit"
+              variant="contained"
+              color="success"
+              onClick={() => onSubmit(handleSubmit)}
+            >
+              Save
+            </CommonButton>
+          </Box>
+          
           }
         >
           <Textinput
