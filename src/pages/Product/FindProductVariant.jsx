@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import error400cover from "../../assets/no-data-found-page.png";
 import PaginationTable, {
   usePaginationTable,
@@ -12,14 +12,17 @@ import { Box, IconButton, Icon } from "@mui/material";
 import { pageRoutes } from "../../constants/routesList";
 import { useNavigate } from "react-router-dom/dist";
 import MaxHeightMenu from "../../components/MaxHeightMenu";
+import ThemeSwitch from "../../components/UI/ThemeSwitch";
 
 const FindProductVariant = () => {
   const { productId } = useParams();
-  const { state, setState, changeState, ...otherTableActionProps } =
-    usePaginationTable();
+  const [loading, setLoading] = useState(false);
+
+  const { state, setState, changeState, ...otherTableActionProps } = usePaginationTable();
   const navigate = useNavigate();
   const paginate = () => {
     changeState("loader", true);
+    // paginate
 
     let updatedFilter = {
       page: state.page,
@@ -31,6 +34,7 @@ const FindProductVariant = () => {
       updatedFilter
     )
       .then((res) => {
+        setLoading(true);
         setState({
           ...state,
           total_items: res.count,
@@ -49,12 +53,35 @@ const FindProductVariant = () => {
         } else {
           console.error(err);
         }
-      });
+      })
+      .finally(()=>{
+        setLoading(false);
+      })
+  };
+
+const addToFeature = (id) => {
+  API.post(`${apiConfig.featureProduct.replace(':id', id)}`)
+    .then((res) => {
+      HELPER.toaster.success(res.message)
+    })
+    .catch((error) => {
+      HELPER.toaster.error(error.errors.productVariant[0])
+    });
+};
+
+  const addToOurProduct = (id) => {
+    API.post(`${apiConfig.ourProduct.replace(':id', id)}`)
+    .then((res) => {
+      HELPER.toaster.success(res.message)
+    })
+    .catch((error) => {
+      HELPER.toaster.error(error.errors.productVariant[0])
+    });
   };
 
   const COLUMNS = [
     { title: "Index", classNameWidth: "thead-second-width-action-index" },
-    { title: "Title", classNameWidth: "thead-second-width-title-780" },
+    { title: "Title", classNameWidth: "head-second-width-title-blog" },
     { title: "Total Carat", classNameWidth: "thead-second-width-address-100" },
     { title: "Metal Weight", classNameWidth: "thead-second-width-address-100" },
     { title: "Metal Price", classNameWidth: "thead-second-width-address-100" },
@@ -64,23 +91,39 @@ const FindProductVariant = () => {
       classNameWidth: "thead-second-width-address-100",
     },
     { title: "Total Price", classNameWidth: "thead-second-width-address-100" },
+    { title: "Is Visible", classNameWidth: "thead-second-width-discount" },
     { title: "Action", classNameWidth: "thead-second-width-discount" },
   ];
+
+  
+   // ---------------Visibility Product Api----------------------
+
+   const hiddenVisibleProductVariant = (Id) => {
+    API.put(apiConfig.visibility_productVariant.replace(":id", Id)).then((res) => {
+      HELPER.toaster.success(res.message);
+      paginate();
+      setLoading(false);
+    });
+  };
 
   const rows = useMemo(() => {
     return state.data.map((item, i) => {
       let optionsArray = [
         {
           key: "Add to Features",
-          color: "#036003",
+          color: "rgba(52, 49, 76, 1)",
           icon: "control_point_icon",
-          // onClick: () => handleOrderDetail(item.id),
+          fontSize:"12px",
+          iconSize:"14px",
+          onClick: () => addToFeature(item.id),
         },
         {
           key: "Add to Our Products",
-          color: "#036003",
+          color: "rgba(52, 49, 76, 1)",
           icon: "control_point_icon",
-          // onClick: () => handleCancelOrder(item.id),
+          fontSize:"12px",
+          iconSize:"14px",
+          onClick: () => addToOurProduct(item.id),
         },
       ];
 
@@ -98,6 +141,15 @@ const FindProductVariant = () => {
           <span>{item.metalPrice}</span>,
           <span>{item.diamondPrice}</span>,
           <span>{item.totalPrice}</span>,
+          <span>
+          <ThemeSwitch
+            checked={item.isVisible}
+            color="warning"
+            onChange={() => {
+              hiddenVisibleProductVariant(item.id);
+            }}
+          />
+        </span>,
           <span style={{ display: "flex" }}>
             <IconButton onClick={(e) => handleButtonClick(item.id)}>
               <Icon color="primary">remove_red_eye</Icon>
@@ -141,7 +193,7 @@ const FindProductVariant = () => {
           checkboxColumn={false}
           selectedRows={state.selectedRows}
           enableOrder={true}
-          isLoader={state.loader}
+          isLoader={loading}
           emptyTableImg={<img src={error400cover} width="400px" />}
           {...otherTableActionProps}
           orderBy={state.orderby}

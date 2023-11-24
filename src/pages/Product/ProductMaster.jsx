@@ -17,6 +17,7 @@ import Textinput from "../../components/UI/TextInput";
 import ReactSelect from "../../components/UI/ReactSelect";
 import Swal from "sweetalert2";
 import { toaster } from "../../services/helper";
+import ThemeSwitch from "../../components/UI/ThemeSwitch";
 
 const ProductMaster = () => {
   const [bulkOpen, setBulkOpen] = useState(false);
@@ -37,10 +38,10 @@ const ProductMaster = () => {
     { title: "Fedex UPS", classNameWidth: "thead-second-width-action-index" },
     { title: "India Post", classNameWidth: "thead-second-width-action-index" },
     { title: "Insurance", classNameWidth: "thead-second-width-action-index" },
-    { title: "Other Cost", classNameWidth: "thead-second-width-address" },
+    { title: "Other Cost", classNameWidth: "thead-second-width-index" },
     { title: "Profit", classNameWidth: "thead-second-width-action-index" },
     { title: "Discount", classNameWidth: "thead-second-width-discount" },
-    {
+    { title: "Is Visible", classNameWidth: "thead-second-width-discount" },    {
       title: "Action",
       classNameWidth: "thead-second-width-discount ",
     },
@@ -60,6 +61,17 @@ const ProductMaster = () => {
 
   const handleButtonClick = (id) => {
     navigate(`${pageRoutes.variantProductId}/${id}`);
+  };
+
+
+   // ---------------Visiblility Product Api----------------------
+
+   const hiddenVisibleProduct = (Id) => {
+    API.put(apiConfig.visibility_product.replace(":id", Id)).then((res) => {
+      HELPER.toaster.success(res.message);
+      paginate();
+      setLoading(false);
+    });
   };
 
   // ------------------------------- Delete Category ---------------------------------
@@ -181,6 +193,15 @@ const ProductMaster = () => {
           <span>{item.otherCost}</span>,
           <span>{item.profit}</span>,
           <span>{item.discount}</span>,
+          <span>
+          <ThemeSwitch
+            checked={item.isVisible}
+            color="warning"
+            onChange={() => {
+              hiddenVisibleProduct(item.id);
+            }}
+          />
+        </span>,
 
           <div>
             <IconButton onClick={(e) => handleButtonClick(item.id)}>
@@ -288,7 +309,7 @@ const ProductMaster = () => {
               />
               <div className="text-input-top">
                 <Select
-                  placeholder="Select Shap Name"
+                  placeholder="Select SubCategory Name"
                   options={_sortOptionsSubCategory}
                   isMulti
                   value={_sortOptionsSubCategory.filter(

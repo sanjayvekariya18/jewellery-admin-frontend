@@ -117,7 +117,8 @@ const apiConfig = {
   findProduct: "product/productVariant/:productId",
   findProductVariant: "product/productVariant/moreDetail/:productVariantId",
   productDownload: "product/template/:id",
-
+  visibility_product:"product/visibility/:id",
+  visibility_productVariant:"product/variant/visibility/:id",
 
   // orders 
   orders:"orders",
@@ -131,7 +132,19 @@ const apiConfig = {
   // return order
   returnOrder :"return-orders",
   changeReturnOrderStatus:"return-orders/change-status",
-  refundReturnOrder:"return-orders/refund-amount"
+  refundReturnOrder:"return-orders/refund-amount",
+
+
+  // add to a featured product
+  featureProduct:"featureProduct/:id",
+  allFeaturesProduct:"featureProduct",
+  updateFeatureProduct:"featureProduct",
+
+
+  // Our Product Details
+  ourProduct:"ourProduct/:id",
+  allOurProduct:"ourProduct",
+  updateOurProduct:"ourProduct"
 };
 
 export default apiConfig;

@@ -42,10 +42,11 @@ function MaxHeightMenu({ optionsMenu }) {
             }}
             style={{
               color: optionItem.color, // Set the text color based on the color property
+              fontSize: optionItem.fontSize,
             }}
           >
             {optionItem.icon && (
-              <Icon style={{ marginRight: "10px" }}>{optionItem.icon}</Icon>
+              <Icon style={{ marginRight: "10px", fontSize: optionItem.iconSize}}>{optionItem.icon}</Icon>
             )}
             {optionItem.key}
           </MenuItem>

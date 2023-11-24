@@ -1,47 +1,37 @@
 import React, { useEffect, useMemo, useState } from "react";
-import PaginationTable, {
+import {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
 import { useNavigate, useParams } from "react-router-dom/dist";
 import { apiConfig } from "../../config";
 import { API, HELPER } from "../../services";
-import { Box, Button, Typography } from "@mui/material";
 import { Breadcrumb } from "../../components";
 import { pageRoutes } from "../../constants/routesList";
-import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
-import error400cover from "../../assets/no-data-found-page.png";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Icon,
+
+
+} from '@mui/material';
+
 
 const FindProductVariantMoreDetail = () => {
-  const gemstoneInfo = [
-    { label: "Title : ", key: "title" },
-    { label: "Metal Weight : ", key: "metalWeight" },
-    { label: "Total Carat : ", key: "totalCarat" },
-    { label: "Total Gemstone Carat : ", key: "totalGemstoneCarat" },
-    { label: "Making Price : ", key: "makingPrice" },
-    { label: "Metal Price : ", key: "metalPrice" },
-    { label: "Diamond Price : ", key: "diamondPrice" },
-    { label: "Gemstone Price : ", key: "gemstonePrice" },
-    { label: "Total Price : ", key: "totalPrice" },
-  ];
   const { productVariantId } = useParams();
-  const [diamondModel, setDiamondModel] = useState(false);
-  const [gemstoneModel, setGemstoneModel] = useState(false);
-  const [attributesModel, setAttributeModel] = useState(false);
-  const [variantModel, setVariantMOdel] = useState(false);
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [textModal, setTextModal] = useState(false);
-  const [addressText, setAddressText] = useState("");
-  const textModaltoggle = () => {
-    setTextModal(!textModal);
-  };
 
-  const showAddressInDialog = (item) => {
-    const address = item.description;
-    setAddressText(address);
-    textModaltoggle();
-  };
+  // paginate code
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable();
@@ -55,6 +45,7 @@ const FindProductVariantMoreDetail = () => {
       )
     )
       .then((res) => {
+        console.log(res, "res");
         setLoading(false);
         setProductData(res);
         setState({
@@ -79,158 +70,31 @@ const FindProductVariantMoreDetail = () => {
       });
   }, []);
 
-  // diamond
-  const COLUMNSDIAMOND = [
-    { title: "Stock No" },
-    { title: "Shape" },
-    { title: "Carat" },
-    { title: "Color" },
-    { title: "Clarity" },
-    { title: "Price" },
-  ];
-
-  // row in data in diamond
-  const productVariantDiamond = productData.ProductVariantDiamonds;
-  const rowsDiamond = useMemo(() => {
-    return (
-      productVariantDiamond &&
-      productVariantDiamond.map((item) => {
-        return {
-          item: item,
-          columns: [
-            <div className="span-permision">
-              <span>{item.stockId}</span>
-            </div>,
-            <span>{item.shape}</span>,
-            <span>{item.carat}</span>,
-            <span>{item.color}</span>,
-            <span>{item.clarity}</span>,
-            <span>{item.price}</span>,
-          ],
-        };
-      })
-    );
-  }, [productVariantDiamond]);
-
-  // gemstone
-  const COLUMNSGEMSTONE = [
-    { title: "Stock No" },
-    { title: "Type" },
-    { title: "Shape" },
-    { title: "Carat" },
-    { title: "Color" },
-    { title: "Clarity" },
-    { title: "Origin" },
-    { title: "M-Length" },
-    { title: "M-Width" },
-    { title: "M-Depth" },
-    { title: "Price" },
-  ];
-  const productVariantGemstone = productData.ProductVariantGemstones;
-  const rowsGemstone = useMemo(() => {
-    return (
-      productVariantGemstone &&
-      productVariantGemstone.map((item) => {
-        return {
-          item: item,
-          columns: [
-            <div className="span-permision">
-              <span style={{ whiteSpace: "nowrap" }}>{item.stockId}</span>
-            </div>,
-            <span style={{ whiteSpace: "nowrap" }}>{item.gemstoneType}</span>,
-            <span>{item.shape}</span>,
-            <span>{item.carat}</span>,
-            <span>{item.color}</span>,
-            <span>{item.clarity}</span>,
-            <span>{item.origin}</span>,
-            <span>{item.mLength}</span>,
-            <span>{item.mWidth}</span>,
-            <span>{item.mDepth}</span>,
-            <span>{item.price}</span>,
-          ],
-        };
-      })
-    );
-  }, [productVariantGemstone]);
-
-  // Attributes
-  const COLUMNATTRIBUTES = [
-    { title: "Index" },
-    { title: "Attribute" },
-    { title: "Option" },
-  ];
-  const productVariantAttributes = productData.ProductAttributes;
-  const rowsAttributes = useMemo(() => {
-    return (
-      productVariantAttributes &&
-      productVariantAttributes.map((item, i) => {
-        const attribute = item.Attribute;
-        const option = item.Option;
-        return {
-          item: item,
-          columns: [
-            <span>{i + 1}</span>,
-            <div className="span-permision">
-              <span>{attribute.name}</span>
-            </div>,
-            <span>{option.name}</span>,
-          ],
-        };
-      })
-    );
-  }, [productVariantAttributes]);
-
-  // product variant Detail
-  const COLUMNVARIANT = [
-    { title: "Index", classNameWidth: "thead-second-width-action-index" },
-    { title: "Value", classNameWidth: "thead-second-width-stock-numbers" },
-    {
-      title: "Detail Name",
-      classNameWidth: "thead-second-width-stock-numbers",
-    },
-    {
-      title: "Details Group Name",
-      classNameWidth: "thead-second-width-stock-no",
-    },
-    { title: "Logo Image", classNameWidth: "thead-second-width" },
-    { title: "Description", classNameWidth: "thead-second-width" },
-  ];
-  const productVariant = productData.productVariantDetails;
-  const rowsVariant = useMemo(() => {
-    return (
-      productVariant &&
-      productVariant.map((item, i) => {
-        const productDetail = item.ProductDetail;
-        return {
-          item: item,
-          columns: [
-            <span>{i + 1}</span>,
-            <div className="span-permision">
-              <span>{item.value}</span>
-            </div>,
-            <span>{productDetail.detailName}</span>,
-            <span>{productDetail.ProductDetailsGroup.groupName}</span>,
-
-            <span>{productDetail.logoUrl || ""}</span>,
-            <div onClick={() => showAddressInDialog(item)}>
-              <span
-                className="three-dot-text"
-                style={{ fontWeight: "500", cursor: "pointer" }}
-              >
-                {" "}
-                {productDetail.description || ""}
-              </span>
-            </div>,
-          ],
-        };
-      })
-    );
-  }, [productVariant]);
-
   const navigate = useNavigate();
   const handleOnClick = () => {
     navigate(-1);
   };
+  // total gemstone caray
+  const totalGemstoneCarat = (
+    productData?.productVariantGemstone?.reduce((acc, gemstone) => acc + gemstone.carat, 0) || 0
+  ).toFixed(2);
+
+  // Total gemstone price
+  const totalGemstonePrice = productData?.productVariantGemstone?.reduce(
+    (acc, gemstone) => acc + gemstone.price,
+    0
+  );
+
+  // total Diamond Carat
+  const totalDiamondCarat = (
+    productData?.productVariantDiamond?.reduce((acc, gemstone) => acc + gemstone.carat, 0) || 0
+  ).toFixed(2);
+  // total Diamond Price
+
+  const totalDiamondPrice = productData?.productVariantDiamond?.reduce(
+    (acc, gemstone) => acc + gemstone.price,
+    0
+  );
 
   return (
     <>
@@ -254,358 +118,272 @@ const FindProductVariantMoreDetail = () => {
           ]}
         />
       </Box>
-      {loading ? (
-        <div style={{ margin: "25px  auto", textAlign: "center" }}>
-          <img
-            src="../../../../../../assets/loading.gif"
-            alt=""
-            srcSet=""
-            height={28}
-            width={28}
-          />
-        </div>
-      ) : (
-        <>
-          <Box>
-            <div style={{ marginLeft: "5px" }}>
-              <>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr 1fr",
-                    gap: "6px",
 
-                    padding: "20px 35px 0px 35px",
-                  }}
-                >
-                  {gemstoneInfo.map((info) => (
-                    <div
-                      key={info.key}
-                      style={{
-                        display: "flex",
-                        alignItems: "baseline",
-                        justifyContent: "flex-start",
-                        border: "1px solid #3736363b",
-                      }}
-                    >
-                      <div style={{ marginRight: "10px" }}>
-                        <h3
-                          style={{
-                            fontSize: "17px",
-                            fontWeight: "500",
-                            color: "#373636de",
-                            padding: "9px 0px 9px 8px",
-                            margin: 0,
-                            maxWidth: "190px",
-                          }}
-                        >
-                          {info.label}
-                        </h3>
-                      </div>
-                      <div>
-                        <span
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: "400",
-                          }}
-                        >
-                          {/* {productData[info.key] || ""} */}
-                          {productData[info.key] === 0
-                            ? "0"
-                            : productData[info.key] || ""}
-                        </span>
+      <section class="box">
+        <div class="content">
+          <div class="right">
+
+            <div class="product_description">
+              <div style={{ display: "flex" }}>
+                <div style={{ width: "100%" }}>
+                  <h3> STOCK NO :  <span style={{ color: "gray" }}>{productData?.Product?.stockId}</span></h3>
+                  <h4>PRODUCT TITLE</h4>
+                  <p>{productData.title}</p>
+                  <h4>PRODUCT DESCRIPTION</h4>
+                  <p style={{ textAlign: "justify", marginRight: "20px" }}>{productData.description}</p>
+                  {/* <h4>METAL WEIGHT</h4>
+                  <p>{productData.metalWeight}</p> */}
+                  <h4>TOTAL CARAT</h4>
+                  <p>{productData.totalCarat}</p>
+                  <h4>TOTAL PRICE</h4>
+                  <p>{productData.totalPrice}</p>
+                  <div style={{ display: 'flex' }}>
+                    <div style={{ display: "flex", alignItems: "baseline", marginRight: "20px" }}>
+                      <h4 style={{ marginRight: "10px" }}>VISIBLE</h4>
+                      {productData.isVisible ? (
+                        <div style={{ backgroundColor: "#daf4f0", color: "#0ab39c", padding: "2px 15px", textTransform: "uppercase", width: "max-content" }}>true
+                        </div>
+                      ) : (
+                        <div style={{ backgroundColor: "#fde8e4", color: "#e74c3c", padding: "2px 15px", width: "max-content", textTransform: "uppercase" }}>false
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "baseline" }}>
+                      <h4 style={{ marginRight: "10px" }}>DEFAULT</h4>
+                      {productData.isDefault ? (
+                        <div style={{ backgroundColor: "#daf4f0", color: "#0ab39c", padding: "2px 15px", width: "max-content", textTransform: "uppercase" }}>true
+                        </div>
+                      ) : (
+                        <div style={{ backgroundColor: "#fde8e4", color: "#e74c3c", padding: "2px 15px", width: "max-content", textTransform: "uppercase" }}>false
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <Card style={{ width: "40%", marginTop: 30, marginRight: 17, height: "50%" }}>
+                  <CardContent>
+                    <div style={{ marginTop: "10px", borderBottom: "1px dashed #dddddd", paddingBottom: "10px", display: "flex", alignItems: "center" }} >
+                      <Icon style={{ fontSize: "25px" }}>diamondIcon</Icon>
+                      <div style={{ marginLeft: "15px" }}>
+                        <h4>Diamond Price</h4>
+                        {productData.diamondPrice}
                       </div>
                     </div>
-                  ))}
+                    <div style={{ marginTop: "10px", display: "flex", borderBottom: "1px dashed #dddddd", paddingBottom: "10px", alignItems: "center" }} >
+
+                      <Icon style={{ fontSize: "25px", color: "green" }}>diamondIcon</Icon>
+                      <div style={{ marginLeft: "15px" }}>
+                        <h4>Gemstone Price</h4>
+                        {productData.gemstonePrice}
+                      </div>
+                    </div>
+                    <div style={{ marginTop: "10px", borderBottom: "1px dashed #dddddd", paddingBottom: "10px", display: "flex", alignItems: "center" }} >
+                      <Icon style={{ fontSize: "25px", color: "gray" }}>diamondIcon</Icon>
+                      <div style={{ marginLeft: "15px" }}>
+                        <h4>Making Price</h4>
+                        {productData.makingPrice}
+                      </div>
+                    </div>
+                    <div style={{ marginTop: "10px", borderBottom: "1px dashed #dddddd", paddingBottom: "10px", display: "flex", alignItems: "center" }} >
+                      <Icon style={{ fontSize: "25px", color: "#BC3E3E" }}>diamondIcon</Icon>
+                      <div style={{ marginLeft: "15px" }}>
+                        <h4>Metal Price</h4>
+                        {productData.metalPrice}
+                      </div>
+                    </div>
+                    <div style={{ marginTop: "10px", display: "flex", alignItems: "center" }} >
+                      <Icon style={{ fontSize: "25px", color: "#9258c5" }}>diamondIcon</Icon>
+                      <div style={{ marginLeft: "15px" }}>
+                        <h4>Metal Weight</h4>
+                        {productData.metalWeight}
+                      </div>
+                    </div>
+
+                  </CardContent>
+                </Card>
+              </div>
+              <div>
+                <div className="card-wrapper">
+                  <Card sx={{ marginTop: 2, marginRight: 2, width: "100%" }}>
+                    <CardHeader title="Attribute" style={{ paddingBottom: "0px" }} />
+                    <CardContent>
+                      <div style={{ display: "flex", flexWrap: "wrap" }} className="card_product">
+                        {productData?.ProductAttributes?.map((item, index) => (
+
+                          <Card key={index} sx={{ width: "14%", margin: " 10px " }}>
+                            <CardContent>
+                              <h4 style={{ fontWeight: "bold" }}>{item?.Attribute?.name}</h4>
+                              <p>{item?.Option?.name}</p>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
-                <div
-                  style={{
-                    border: "1px solid #3736363b",
-                    // marginTop: "5px",
-                    margin: "6px 35px 0px 35px",
-                    padding: "4px 8px 10px 8px",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: "500",
-                      color: "#373636de",
-                      margin: "9px 8px 10px 0",
-                    }}
-                  >
-                    Description :
-                  </h3>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: "400",
-                    }}
-                  >
-                    {productData.description}
-                  </span>
+                <div>
+                  <div className="card-wrapper">
+                    <Card sx={{ marginTop: 2, marginRight: 2, width: "100%" }}>
+                      <CardHeader title="Variant Detail" style={{ paddingBottom: "0px" }} />
+                      <CardContent style={{ display: "flex", flexWrap: "wrap" }} >
+                        {productData?.productVariantDetails?.map((group, index) => (
+                          <Card key={index} sx={{ marginTop: 2, width: "30%", margin: "10px" }}>
+                            <CardContent>
+                              <div className="card_variant">
+                                <TableContainer>
+                                  <Table>
+                                    <TableBody>
+                                      <TableRow>
+                                        <TableCell colSpan={2} style={{ fontWeight: "bold" }}>{group.groupName}</TableCell>
+                                      </TableRow>
+                                      {group.details.map((detail, idx) => (
+                                        <TableRow key={idx}>
+                                          <TableCell>{detail.detailName}</TableCell>
+                                          <TableCell>{detail.value}</TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
-              </>
+
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <Card sx={{ marginTop: 2, marginRight: 2, width: "50%" }}>
+                    <CardHeader title="Gemstone" style={{ paddingBottom: "0px" }} />
+                    <CardContent>
+                      {productData.productVariantGemstone && productData.productVariantGemstone.length > 0 ? (
+                        <TableContainer>
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Stock No</TableCell>
+                                <TableCell style={{ width: "60px" }}>Shape</TableCell>
+                                <TableCell>Carat</TableCell>
+                                <TableCell>Color</TableCell>
+                                <TableCell>Clarity</TableCell>
+                                <TableCell>Origin</TableCell>
+                                <TableCell>Price</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {productData?.productVariantGemstone?.map((item, index) => (
+                                <TableRow key={index}>
+                                  <TableCell>{item.stockId}</TableCell>
+                                  <TableCell>{item.shape}</TableCell>
+                                  <TableCell>{item.carat}</TableCell>
+                                  <TableCell>{item.color}</TableCell>
+                                  <TableCell>{item.clarity}</TableCell>
+                                  <TableCell>{item.origin}</TableCell>
+                                  <TableCell>{item.price}</TableCell>
+                                </TableRow>
+                              ))}
+                              <TableRow>
+                                <TableCell>
+                                  <strong>Total:-</strong>
+                                </TableCell>
+                                <TableCell>
+                                  <strong>{productData?.productVariantGemstone?.length}</strong>
+                                </TableCell>
+                                <TableCell>
+                                  <strong>{totalGemstoneCarat}</strong>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                  <strong>{totalGemstonePrice}</strong>
+                                </TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      ) : (
+
+                        <p>Gemstone Data is not Available</p>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  <Card sx={{ marginTop: 2, marginRight: 2, width: "50%" }}>
+                    <CardHeader title="Diamond" style={{ paddingBottom: "0px" }} />
+                    <CardContent>
+                      <TableContainer>
+                        {productData.productVariantDiamond && productData?.productVariantDiamond.length > 0 ? (
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Stock No</TableCell>
+                                <TableCell>Shape</TableCell>
+                                <TableCell>Carat</TableCell>
+                                <TableCell>Color</TableCell>
+                                <TableCell>Clarity</TableCell>
+                                <TableCell>Price</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {productData?.productVariantDiamond?.map((item, index) => (
+                                <TableRow key={index}>
+                                  <TableCell>{item.stockId}</TableCell>
+                                  <TableCell>{item.shape}</TableCell>
+                                  <TableCell>{item.carat}</TableCell>
+                                  <TableCell>{item.color}</TableCell>
+                                  <TableCell>{item.clarity}</TableCell>
+                                  <TableCell>{item.price}</TableCell>
+                                </TableRow>
+                              ))}
+                              <TableRow>
+                                <TableCell>
+                                  <strong>Total:-</strong>
+                                </TableCell>
+                                <TableCell>
+                                  <strong>{productData?.productVariantDiamond?.length}</strong>
+                                </TableCell>
+                                <TableCell>
+                                  <strong>{totalDiamondCarat}</strong>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                  <strong>{totalDiamondPrice}</strong>
+                                </TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        ) : (
+                          <p>Diamond Data is Not Available</p>
+                        )}
+
+                      </TableContainer>
+                    </CardContent>
+                  </Card>
+                </div>
+
+              </div>
             </div>
-          </Box>
-          <Box style={{ marginLeft: "38px" }}>
-            <div
-              style={{
-                display: "flex",
-                // gridTemplateColumns: "auto auto auto auto",
-                justifyContent: "start",
-                marginTop: "20px",
-                // marginLeft: "40px",
-                gap: "0px 6px",
-                alignItems: "center",
-              }}
-            >
-              <div>
-                {productVariantDiamond !== undefined &&
-                  productVariantDiamond.length !== 0 && (
-                    <Button
-                      variant="contained"
-                      onClick={() => setDiamondModel(true)}
-                    >
-                      Product Variant Diamonds
-                    </Button>
-                  )}
-              </div>
-              <div>
-                {productVariantGemstone !== undefined &&
-                  productVariantGemstone.length > 0 && (
-                    <Button
-                      variant="contained"
-                      onClick={() => setGemstoneModel(true)}
-                    >
-                      Product Variant Gemstone
-                    </Button>
-                  )}
-              </div>
-              <div>
-                {productVariantAttributes !== undefined &&
-                  productVariantAttributes.length > 0 && (
-                    <Button
-                      variant="contained"
-                      onClick={() => setAttributeModel(true)}
-                    >
-                      Product Variant Attributes
-                    </Button>
-                  )}
-              </div>
-              <div>
-                {productVariant !== undefined && productVariant.length > 0 && (
-                  <Button
-                    variant="contained"
-                    onClick={() => setVariantMOdel(true)}
-                  >
-                    Product Variant Details
-                  </Button>
-                )}
-              </div>
-            </div>
-          </Box>
-        </>
-      )}
-
-      {/* ThemeDialog Component */}
-      {/* Product Variant Diamonds */}
-      <ThemeDialog
-        isOpen={diamondModel}
-        maxWidth="lg"
-        onClose={() => setDiamondModel(false)}
-        title="Product Variant Diamonds Details"
-        actionBtns={
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              setDiamondModel(false);
-            }}
-          >
-            Close
-          </Button>
-        }
-      >
-        {/* {productVariantDiamond !== undefined &&
-          productVariantDiamond.length > 0 && ( */}
-        <div>
-          {rowsDiamond && rowsDiamond.length > 0 ? (
-            <PaginationTable
-              header={COLUMNSDIAMOND}
-              rows={rowsDiamond}
-              totalItems={state.total_items || 0}
-              perPage={state.rowsPerPage}
-              activePage={state.page}
-              checkboxColumn={false}
-              selectedRows={state.selectedRows}
-              enableOrder={true}
-              isLoader={state.loader}
-              emptyTableImg={<img src={error400cover} width="400px" />}
-              {...otherTableActionProps}
-              orderBy={state.orderby}
-              order={state.order}
-              footerVisibility={false}
-            ></PaginationTable>
-          ) : (
-            <p>No data available</p>
-          )}
-        </div>
-
-        {/* )} */}
-      </ThemeDialog>
-
-      {/* Product Variant Gemstone */}
-      <ThemeDialog
-        isOpen={gemstoneModel}
-        onClose={() => setGemstoneModel(false)}
-        title="Product Variant Gemstone Details"
-        maxWidth="lg"
-        actionBtns={
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              setGemstoneModel(false);
-            }}
-          >
-            Close
-          </Button>
-        }
-      >
-        <div>
-          {rowsGemstone && rowsGemstone.length > 0 ? (
-            <PaginationTable
-              header={COLUMNSGEMSTONE}
-              rows={rowsGemstone}
-              totalItems={state.total_items || 0}
-              perPage={state.rowsPerPage}
-              activePage={state.page}
-              checkboxColumn={false}
-              selectedRows={state.selectedRows}
-              enableOrder={true}
-              isLoader={state.loader}
-              emptyTableImg={<img src={error400cover} width="400px" />}
-              {...otherTableActionProps}
-              orderBy={state.orderby}
-              order={state.order}
-              footerVisibility={false}
-            ></PaginationTable>
-          ) : (
-            <p>No data available</p>
-          )}
-        </div>
-      </ThemeDialog>
-
-      {/* Product Variant Attributes */}
-      <ThemeDialog
-        isOpen={attributesModel}
-        onClose={() => setAttributeModel(false)}
-        title="Product Variant Attributes Details"
-        maxWidth="md"
-        actionBtns={
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              setAttributeModel(false);
-            }}
-          >
-            Close
-          </Button>
-        }
-      >
-        <div>
-          {rowsAttributes && rowsAttributes.length > 0 ? (
-            <PaginationTable
-              header={COLUMNATTRIBUTES}
-              rows={rowsAttributes}
-              totalItems={state.total_items || 0}
-              perPage={state.rowsPerPage}
-              activePage={state.page}
-              checkboxColumn={false}
-              selectedRows={state.selectedRows}
-              enableOrder={true}
-              isLoader={state.loader}
-              emptyTableImg={<img src={error400cover} width="400px" />}
-              {...otherTableActionProps}
-              orderBy={state.orderby}
-              order={state.order}
-              footerVisibility={false}
-            ></PaginationTable>
-          ) : (
-            <p>No data available</p>
-          )}
-        </div>
-      </ThemeDialog>
-
-      {/* Product Variant Details */}
-      <ThemeDialog
-        isOpen={variantModel}
-        onClose={() => setVariantMOdel(false)}
-        title="Product Variant Details"
-        maxWidth="lg"
-        actionBtns={
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              setVariantMOdel(false);
-            }}
-          >
-            Close
-          </Button>
-        }
-      >
-        <div>
-          {rowsVariant && rowsVariant.length > 0 ? (
-            <PaginationTable
-              header={COLUMNVARIANT}
-              rows={rowsVariant}
-              totalItems={state.total_items || 0}
-              perPage={state.rowsPerPage}
-              activePage={state.page}
-              checkboxColumn={false}
-              selectedRows={state.selectedRows}
-              enableOrder={true}
-              isLoader={state.loader}
-              emptyTableImg={<img src={error400cover} width="400px" />}
-              {...otherTableActionProps}
-              orderBy={state.orderby}
-              order={state.order}
-              footerVisibility={false}
-            ></PaginationTable>
-          ) : (
-            <p>No data available</p>
-          )}
-        </div>
-      </ThemeDialog>
-
-      {textModal && (
-        <ThemeDialog
-          title="Description"
-          id="showModal"
-          isOpen={textModal}
-          toggle={textModaltoggle}
-          centered
-          maxWidth="sm"
-          actionBtns={
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={textModaltoggle}
-            >
-              Close
-            </Button>
-          }
-        >
-          <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
-            <Typography variant="body1" style={{ lineHeight: "22px" }}>
-              {addressText}
-            </Typography>
           </div>
-        </ThemeDialog>
-      )}
+          <div class="left">
+            <div>
+
+              {productData.images && productData.images.map((item, index) => (
+                <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
+              ))}
+            </div>
+          </div>
+        </div >
+      </section >
     </>
   );
 };

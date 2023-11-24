@@ -78,6 +78,13 @@ const BlogMaster = Loadable(
 const EmailTemplateMaster = Loadable(
   lazy(() => import("./Master/Jewellery/EmailTemplate/EmailTemplateMaster"))
 );
+
+const OurProductMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/OurProduct/OurProductMaster"))
+);
+const FeatureProductMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/FeatureProduct/FeatureProductMaster"))
+);
 const FaqMaster = Loadable(
   lazy(() => import("./Master/Jewellery/Faq/FaqMaster"))
 );
@@ -186,6 +193,15 @@ const routes = [
         path: pageRoutes.master.blogs.emailTemplate,
         element: <EmailTemplateMaster />,
       },
+      {
+        path: pageRoutes.master.blogs.ourProduct,
+        element: <OurProductMaster />,
+      },
+      {
+        path: pageRoutes.master.blogs.featureProduct,
+        element: <FeatureProductMaster />,
+      },
+      
       {
         path: pageRoutes.master.blogs.faq,
         element: <FaqMaster />,

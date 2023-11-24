@@ -58,6 +58,8 @@ export const pageRoutes = {
       blog: "/master/blogs/blog",
       faq: "/master/blogs/faq",
       emailTemplate: "/master/blogs/email-template",
+      ourProduct:"/master/blogs/our-product",
+      featureProduct:"/master/blogs/feature-product",
     },
     user: {
       permissions: "/master/user/permissions",

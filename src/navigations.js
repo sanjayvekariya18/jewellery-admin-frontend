@@ -151,6 +151,16 @@ export const navigations = [
         iconText: "ET",
         path: pageRoutes.master.blogs.emailTemplate,
       },
+      {
+        name: "Our Products",
+        iconText: "OP",
+        path: pageRoutes.master.blogs.ourProduct,
+      },
+      {
+        name: "Feature Products",
+        iconText: "FP",
+        path: pageRoutes.master.blogs.featureProduct,
+      },
     ],
   },
 ];
