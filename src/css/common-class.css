@@ -1,5 +1,6 @@
 /* --------------------- custome scrollbar css ---------------------- */
 /* width */
+
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -763,3 +764,56 @@ input::-webkit-inner-spin-button {
   }
   
   
+  .left_product {
+    display: block;
+    /* height: fit-content; */
+    min-width: 250px;
+    width: 60%;
+    height: calc(100vh - 400px) !important;
+    overflow-y: scroll;
+    padding-top: 20px;
+  }
+  .left_product::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+  
+  .left_product::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 0;
+  }
+  
+  .left_product .product_img {
+    height: 250px;
+    width: 250px;
+    margin: 10px;
+    object-fit: cover;
+  }
+
+  .right_product {
+    display: block;
+    margin-left: 10px;
+    width: 65%;
+    height: calc(100vh - 400px) !important;
+    overflow-y: scroll;
+  }
+  .right_product .product_description {
+    text-align: left;
+    margin: 30px 20px;
+  }
+  .right_product::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+  
+  .right_product::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 0;
+  }
+  .right_product .all_product_img {
+    height: 270px;
+    width: 270px;
+    margin: 10px;
+    object-fit: cover;
+    margin-top: 19px;
+  }

@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Button } from "@mui/material";
 import ThemeDialog from "../../../components/UI/Dialog/ThemeDialog";
 import { appConfig } from "../../../config";
+import { HELPER } from "../../../services";
 
 const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
   // Function to retrieve values from a dictionary
@@ -53,9 +54,9 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
       label: "Fluorescence: ",
       key: gemDiamondData
         ? getDictionaryValue(
-            appConfig.D_Fluorescence,
-            gemDiamondData.fluorescence
-          )
+          appConfig.D_Fluorescence,
+          gemDiamondData.fluorescence
+        )
         : "",
     },
     { label: "M-Length : ", key: gemDiamondData ? gemDiamondData.mLength : "" },
@@ -89,6 +90,7 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
       title={`Diamond Details: ${gemDiamondData?.stockId || ""}`}
       isOpen={open}
       onClose={togglePopup}
+      maxWidth="lg"
       actionBtns={
         <Box>
           <Button variant="contained" color="secondary" onClick={togglePopup}>
@@ -100,50 +102,73 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
       <Box>
         <div style={{ marginTop: "0px", marginLeft: "5px" }}>
           {gemDiamondData && (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
-                gap: "6px",
-              }}
-            >
-              {gemstoneInfo.map((info) => (
+            <div style={{
+              display: "flex",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "6px",
+            }}>
+              <div className="left_product">
                 <div
-                  key={info.label}
                   style={{
-                    display: "flex",
-                    alignItems: "baseline",
-                    justifyContent: "flex-start",
-                    border: "1px solid #3736363b",
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "6px",
                   }}
+                // className="left_product"
                 >
-                  <div style={{ marginRight: "10px" }}>
-                    <h3
+
+                  {gemstoneInfo.map((info) => (
+                    <div
+                      key={info.label}
                       style={{
-                        fontSize: "17px",
-                        fontWeight: "500",
-                        color: "#373636de",
-                        padding: "9px 0px 9px 8px",
-                        margin: 0,
-                        maxWidth: "140px",
+                        display: "flex",
+                        alignItems: "baseline",
+                        justifyContent: "flex-start",
+                        border: "1px solid #3736363b",
                       }}
                     >
-                      {info.label}
-                    </h3>
-                  </div>
-                  <div>
-                    <span
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "400",
-                      }}
-                    >
-                      {info.key}
-                    </span>
-                  </div>
+                      <div style={{ marginRight: "10px" }}>
+                        <h3
+                          style={{
+                            fontSize: "17px",
+                            fontWeight: "500",
+                            color: "#373636de",
+                            padding: "9px 0px 9px 8px",
+                            margin: 0,
+                            maxWidth: "140px",
+                          }}
+                        >
+                          {info.label}
+                        </h3>
+                      </div>
+                      <div>
+                        <span
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                          }}
+                        >
+                          {info.key}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div className="right_product">
+
+                {gemDiamondData.images && gemDiamondData.images.length > 0 ? (
+                  gemDiamondData.images && gemDiamondData.images.map((item, index) => (
+                    <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="all_product_img" />
+                  ))
+
+                ) : (
+                  <h1 style={{ textAlign: "center" }}>No Image Found</h1>
+                )}
+              </div>
             </div>
+
+
           )}
         </div>
       </Box>
