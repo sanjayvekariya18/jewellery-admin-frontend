@@ -3,6 +3,8 @@ import {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
 import { useNavigate, useParams } from "react-router-dom/dist";
+import ScaleIcon from '@mui/icons-material/Scale';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import { apiConfig } from "../../config";
 import { API, HELPER } from "../../services";
 import { Breadcrumb } from "../../components";
@@ -29,7 +31,6 @@ const FindProductVariantMoreDetail = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [textModal, setTextModal] = useState(false);
 
   // paginate code
 
@@ -122,22 +123,14 @@ const FindProductVariantMoreDetail = () => {
       <section class="box">
         <div class="content">
           <div class="right">
-
             <div class="product_description">
               <div style={{ display: "flex" }}>
                 <div style={{ width: "100%" }}>
-                  <h3> STOCK NO :  <span style={{ color: "gray" }}>{productData?.Product?.stockId}</span></h3>
-                  <h4>PRODUCT TITLE</h4>
-                  <p>{productData.title}</p>
-                  <h4>PRODUCT DESCRIPTION</h4>
+                  <h2>{productData.title}</h2>
                   <p style={{ textAlign: "justify", marginRight: "20px" }}>{productData.description}</p>
-                  {/* <h4>METAL WEIGHT</h4>
-                  <p>{productData.metalWeight}</p> */}
-                  <h4>TOTAL CARAT</h4>
-                  <p>{productData.totalCarat}</p>
-                  <h4>TOTAL PRICE</h4>
-                  <p>{productData.totalPrice}</p>
-                  <div style={{ display: 'flex' }}>
+                  <h4> STOCK ID :  <span style={{ color: "#808080" }}>{productData?.Product?.stockId}</span></h4>
+                  <h4 style={{ paddingTop: "15px" }}>SKU :  <span style={{ color: "#808080" }}>{productData.sku}</span></h4>
+                  <div style={{ display: 'flex', paddingTop: "15px" }}>
                     <div style={{ display: "flex", alignItems: "baseline", marginRight: "20px" }}>
                       <h4 style={{ marginRight: "10px" }}>VISIBLE</h4>
                       {productData.isVisible ? (
@@ -163,41 +156,47 @@ const FindProductVariantMoreDetail = () => {
                 <Card style={{ width: "40%", marginTop: 30, marginRight: 17, height: "50%" }}>
                   <CardContent>
                     <div style={{ marginTop: "10px", borderBottom: "1px dashed #dddddd", paddingBottom: "10px", display: "flex", alignItems: "center" }} >
-                      <Icon style={{ fontSize: "25px" }}>diamondIcon</Icon>
-                      <div style={{ marginLeft: "15px" }}>
-                        <h4>Diamond Price</h4>
-                        {productData.diamondPrice}
-                      </div>
-                    </div>
-                    <div style={{ marginTop: "10px", display: "flex", borderBottom: "1px dashed #dddddd", paddingBottom: "10px", alignItems: "center" }} >
-
-                      <Icon style={{ fontSize: "25px", color: "green" }}>diamondIcon</Icon>
-                      <div style={{ marginLeft: "15px" }}>
-                        <h4>Gemstone Price</h4>
-                        {productData.gemstonePrice}
-                      </div>
-                    </div>
-                    <div style={{ marginTop: "10px", borderBottom: "1px dashed #dddddd", paddingBottom: "10px", display: "flex", alignItems: "center" }} >
                       <Icon style={{ fontSize: "25px", color: "gray" }}>diamondIcon</Icon>
                       <div style={{ marginLeft: "15px" }}>
                         <h4>Making Price</h4>
-                        {productData.makingPrice}
+                        <div style={{ display: "flex", alignItems: "flex-start" }}>
+                          <span><MonetizationOnOutlinedIcon style={{ fontSize: "18px" }} /></span>
+                          <span style={{ marginLeft: "4px" }}>{productData.makingPrice}</span>
+                        </div>
                       </div>
                     </div>
                     <div style={{ marginTop: "10px", borderBottom: "1px dashed #dddddd", paddingBottom: "10px", display: "flex", alignItems: "center" }} >
                       <Icon style={{ fontSize: "25px", color: "#BC3E3E" }}>diamondIcon</Icon>
                       <div style={{ marginLeft: "15px" }}>
-                        <h4>Metal Price</h4>
-                        {productData.metalPrice}
+                        <h4>Metal</h4>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span><MonetizationOnOutlinedIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.metalPrice}</span>
+                          <span style={{ marginLeft: "20px" }}><ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.metalWeight}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ marginTop: "10px", borderBottom: "1px dashed #dddddd", paddingBottom: "10px", display: "flex", alignItems: "center" }} >
+                      <Icon style={{ fontSize: "25px" }}>diamondIcon</Icon>
+                      <div style={{ marginLeft: "15px" }}>
+                        <h4>Diamond</h4>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span><MonetizationOnOutlinedIcon ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.diamondPrice}</span>
+                          <span style={{ marginLeft: "20px" }}><ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.totalCarat}</span>
+                        </div>
                       </div>
                     </div>
                     <div style={{ marginTop: "10px", display: "flex", alignItems: "center" }} >
-                      <Icon style={{ fontSize: "25px", color: "#9258c5" }}>diamondIcon</Icon>
+                      <Icon style={{ fontSize: "25px", color: "green" }}>diamondIcon</Icon>
                       <div style={{ marginLeft: "15px" }}>
-                        <h4>Metal Weight</h4>
-                        {productData.metalWeight}
+                        <h4>Gemstone</h4>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span><MonetizationOnOutlinedIcon ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.gemstonePrice}</span>
+                          <span style={{ marginLeft: "20px" }}><ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.totalGemstoneCarat}</span>
+                        </div>
                       </div>
                     </div>
+
+
 
                   </CardContent>
                 </Card>
@@ -256,65 +255,6 @@ const FindProductVariantMoreDetail = () => {
 
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <Card sx={{ marginTop: 2, marginRight: 2, width: "50%" }}>
-                    <CardHeader title="Gemstone" style={{ paddingBottom: "0px" }} />
-                    <CardContent>
-                      {productData.productVariantGemstone && productData.productVariantGemstone.length > 0 ? (
-                        <TableContainer>
-                          <Table>
-                            <TableHead>
-                              <TableRow>
-                                <TableCell>Stock No</TableCell>
-                                <TableCell style={{ width: "60px" }}>Shape</TableCell>
-                                <TableCell>Carat</TableCell>
-                                <TableCell>Color</TableCell>
-                                <TableCell>Clarity</TableCell>
-                                <TableCell>Origin</TableCell>
-                                <TableCell>Price</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {productData?.productVariantGemstone?.map((item, index) => (
-                                <TableRow key={index}>
-                                  <TableCell>{item.stockId}</TableCell>
-                                  <TableCell>{item.shape}</TableCell>
-                                  <TableCell>{item.carat}</TableCell>
-                                  <TableCell>{item.color}</TableCell>
-                                  <TableCell>{item.clarity}</TableCell>
-                                  <TableCell>{item.origin}</TableCell>
-                                  <TableCell>{item.price}</TableCell>
-                                </TableRow>
-                              ))}
-                              <TableRow>
-                                <TableCell>
-                                  <strong>Total:-</strong>
-                                </TableCell>
-                                <TableCell>
-                                  <strong>{productData?.productVariantGemstone?.length}</strong>
-                                </TableCell>
-                                <TableCell>
-                                  <strong>{totalGemstoneCarat}</strong>
-                                </TableCell>
-                                <TableCell>
-                                </TableCell>
-                                <TableCell>
-                                </TableCell>
-                                <TableCell>
-                                </TableCell>
-                                <TableCell>
-                                  <strong>{totalGemstonePrice}</strong>
-                                </TableCell>
-                              </TableRow>
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
-                      ) : (
-
-                        <p>Gemstone Data is not Available</p>
-                      )}
-                    </CardContent>
-                  </Card>
-
-                  <Card sx={{ marginTop: 2, marginRight: 2, width: "50%" }}>
                     <CardHeader title="Diamond" style={{ paddingBottom: "0px" }} />
                     <CardContent>
                       <TableContainer>
@@ -335,10 +275,10 @@ const FindProductVariantMoreDetail = () => {
                                 <TableRow key={index}>
                                   <TableCell>{item.stockId}</TableCell>
                                   <TableCell>{item.shape}</TableCell>
-                                  <TableCell>{item.carat}</TableCell>
+                                  <TableCell style={{ paddingLeft: "15px" }}>{item.carat}</TableCell>
                                   <TableCell>{item.color}</TableCell>
                                   <TableCell>{item.clarity}</TableCell>
-                                  <TableCell>{item.price}</TableCell>
+                                  <TableCell style={{ textAlign: "right" }}>${item.price}</TableCell>
                                 </TableRow>
                               ))}
                               <TableRow>
@@ -349,15 +289,15 @@ const FindProductVariantMoreDetail = () => {
                                   <strong>{productData?.productVariantDiamond?.length}</strong>
                                 </TableCell>
                                 <TableCell>
-                                  <strong>{totalDiamondCarat}</strong>
+                                  <strong style={{ paddingLeft: "15px" }}>{totalDiamondCarat}</strong>
                                 </TableCell>
                                 <TableCell>
                                 </TableCell>
 
                                 <TableCell>
                                 </TableCell>
-                                <TableCell>
-                                  <strong>{totalDiamondPrice}</strong>
+                                <TableCell style={{ textAlign: "right" }}>
+                                  <strong>${totalDiamondPrice}</strong>
                                 </TableCell>
                               </TableRow>
                             </TableBody>
@@ -369,6 +309,65 @@ const FindProductVariantMoreDetail = () => {
                       </TableContainer>
                     </CardContent>
                   </Card>
+                  <Card sx={{ marginTop: 2, marginRight: 2, width: "50%" }}>
+                    <CardHeader title="Gemstone" style={{ paddingBottom: "0px" }} />
+                    <CardContent>
+                      {productData.productVariantGemstone && productData.productVariantGemstone.length > 0 ? (
+                        <TableContainer>
+                          <Table>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Stock No</TableCell>
+                                <TableCell style={{ width: "60px" }}>Shape</TableCell>
+                                <TableCell >Carat</TableCell>
+                                <TableCell>Color</TableCell>
+                                <TableCell>Clarity</TableCell>
+                                <TableCell>Origin</TableCell>
+                                <TableCell>Price</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {productData?.productVariantGemstone?.map((item, index) => (
+                                <TableRow key={index}>
+                                  <TableCell>{item.stockId}</TableCell>
+                                  <TableCell>{item.shape}</TableCell>
+                                  <TableCell style={{ paddingLeft: "15px" }}>{item.carat}</TableCell>
+                                  <TableCell>{item.color}</TableCell>
+                                  <TableCell>{item.clarity}</TableCell>
+                                  <TableCell>{item.origin}</TableCell>
+                                  <TableCell style={{ textAlign: "right" }}>${item.price}</TableCell>
+                                </TableRow>
+                              ))}
+                              <TableRow>
+                                <TableCell>
+                                  <strong>Total:-</strong>
+                                </TableCell>
+                                <TableCell>
+                                  <strong>{productData?.productVariantGemstone?.length}</strong>
+                                </TableCell>
+                                <TableCell>
+                                  <strong style={{ paddingLeft: "15px" }}>{totalGemstoneCarat}</strong>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                <TableCell style={{ textAlign: "right" }}>
+                                  <strong>${totalGemstonePrice}</strong>
+                                </TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      ) : (
+                        <p>Gemstone Data is not Available</p>
+                      )}
+                    </CardContent>
+                  </Card>
+
+
                 </div>
 
               </div>
@@ -376,10 +375,15 @@ const FindProductVariantMoreDetail = () => {
           </div>
           <div class="left">
             <div>
+              {productData.images && productData.images.length > 0 ? (
 
-              {productData.images && productData.images.map((item, index) => (
-                <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
-              ))}
+                productData.images && productData.images.map((item, index) => (
+                  <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
+                ))
+
+              ) : (
+                <h1 style={{textAlign:"center"}}>No Image Found</h1>
+              )}
             </div>
           </div>
         </div >

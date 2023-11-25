@@ -568,6 +568,7 @@ input::-webkit-inner-spin-button {
   width: 35%;
   height: calc(100vh - 200px) !important;
   overflow-y: scroll;
+  padding-top: 20px;
 }
 .left::-webkit-scrollbar {
   width: 0px;
@@ -665,7 +666,7 @@ input::-webkit-inner-spin-button {
   font-size: 0.85em;
 }
 .box {
-  padding: 40px;
+  padding: 0px 25px 25px 25px;
   position: relative;
 }
 /* Right Side:End */
