@@ -19,7 +19,7 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
 
   return (
     <ThemeDialog
-      title={`Gem Stone Details : ${gemStoneData !== null && gemStoneData.stockId
+      title={`Gem Stone Stock Id : ${gemStoneData !== null && gemStoneData.stockId
         }`}
       isOpen={open}
       maxWidth="lg"

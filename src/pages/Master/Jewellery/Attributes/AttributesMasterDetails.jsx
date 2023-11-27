@@ -231,7 +231,7 @@ const AttributesMasterDetails = ({
   useEffect(() => {
     setFilteredOptions(filterOptions());
   }, [options, formState.options]);
-
+ 
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
@@ -380,6 +380,7 @@ const AttributesMasterDetails = ({
                 onChange={(e) => {
                   setSortNo(e.target.checked ? "true" : "false");
                 }}
+               
                 color="primary"
                 id="isDefault-label"
               />

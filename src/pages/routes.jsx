@@ -104,6 +104,15 @@ const FindProductVariant = Loadable(
 const FindOneOrderDetail = Loadable(
   lazy(() => import("./Master/Orders/Order/FindOneOrderDetail"))
 );
+const BannerMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/Banner/BannerMaster"))
+);
+const SliderMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/Slider/SliderMaster"))
+);
+const DynamicMenuMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/DynamicMenu/DynamicMenuMaster"))
+);
 
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
@@ -201,10 +210,23 @@ const routes = [
         path: pageRoutes.master.blogs.featureProduct,
         element: <FeatureProductMaster />,
       },
-      
+
       {
         path: pageRoutes.master.blogs.faq,
         element: <FaqMaster />,
+      },
+      // Pages Load file
+
+      {
+        path: pageRoutes.master.pages.banner,
+        element: <BannerMaster />,
+      },
+      {
+        path: pageRoutes.master.pages.slider,
+        element: <SliderMaster />,
+      }, {
+        path: pageRoutes.master.pages.dynamicMenu,
+        element: <DynamicMenuMaster />,
       },
       { path: pageRoutes.master.jewellery.details, element: <DetailsMaster /> },
       // {

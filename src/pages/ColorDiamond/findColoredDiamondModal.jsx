@@ -39,7 +39,7 @@ const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
 
   return (
     <ThemeDialog
-      title={`Colored Diamond Details : ${gemStoneData !== null && gemStoneData.stockId
+      title={`Colored Diamond Stock Id : ${gemStoneData !== null && gemStoneData.stockId
         }`}
       isOpen={open}
       maxWidth="lg"

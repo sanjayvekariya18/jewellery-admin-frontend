@@ -19,6 +19,7 @@ const Textinput = ({
   onChange,
   focused,
   multiline = false,
+  selectedfile,
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,11 +43,7 @@ const Textinput = ({
         label={label}
         placeholder={placeholder}
         readOnly={readonly}
-        value={
-          displayValue !== null && displayValue !== undefined
-            ? displayValue
-            : ""
-        }
+        value={value} // Display the value directly
         disabled={disabled}
         multiline={multiline}
         rows={4}

@@ -21,7 +21,7 @@ export const pageRoutes = {
   },
   variantProductId: "/product-variant",
   productVariantId: "/product-variant/more-detail",
-  findOrder:"/orders",
+  findOrder: "/orders",
   dashboard: "/dashboard",
   diamond: "/diamonds",
   colorDiamond: "/color-diamond",
@@ -58,8 +58,14 @@ export const pageRoutes = {
       blog: "/master/blogs/blog",
       faq: "/master/blogs/faq",
       emailTemplate: "/master/blogs/email-template",
-      ourProduct:"/master/blogs/our-product",
-      featureProduct:"/master/blogs/feature-product",
+      ourProduct: "/master/blogs/our-product",
+      featureProduct: "/master/blogs/feature-product",
+    },
+    pages: {
+      banner: "/master/pages/banner",
+      slider: "/master/pages/slider",
+      dynamicMenu: "/master/pages/dynamicMenu",
+
     },
     user: {
       permissions: "/master/user/permissions",

@@ -117,34 +117,48 @@ const apiConfig = {
   findProduct: "product/productVariant/:productId",
   findProductVariant: "product/productVariant/moreDetail/:productVariantId",
   productDownload: "product/template/:id",
-  visibility_product:"product/visibility/:id",
-  visibility_productVariant:"product/variant/visibility/:id",
+  visibility_product: "product/visibility/:id",
+  visibility_productVariant: "product/variant/visibility/:id",
 
   // orders 
-  orders:"orders",
-  changeOrderStatus:"orders/change-status",
-  orderFilterDropDown :"orders/dropdowns",
-  cancelOrder:"orders/cancel-order",
-  approveCancelOrder:"orders/cancel-order-request/approve",
+  orders: "orders",
+  changeOrderStatus: "orders/change-status",
+  orderFilterDropDown: "orders/dropdowns",
+  cancelOrder: "orders/cancel-order",
+  approveCancelOrder: "orders/cancel-order-request/approve",
   findOrder: "orders/:Id",
-  findProductDetail :"orders/order-product/:id",
+  findProductDetail: "orders/order-product/:id",
 
   // return order
-  returnOrder :"return-orders",
-  changeReturnOrderStatus:"return-orders/change-status",
-  refundReturnOrder:"return-orders/refund-amount",
+  returnOrder: "return-orders",
+  changeReturnOrderStatus: "return-orders/change-status",
+  refundReturnOrder: "return-orders/refund-amount",
 
 
   // add to a featured product
-  featureProduct:"featureProduct/:id",
-  allFeaturesProduct:"featureProduct",
-  updateFeatureProduct:"featureProduct",
+  featureProduct: "featureProduct/:id",
+  allFeaturesProduct: "featureProduct",
+  updateFeatureProduct: "featureProduct",
 
 
   // Our Product Details
-  ourProduct:"ourProduct/:id",
-  allOurProduct:"ourProduct",
-  updateOurProduct:"ourProduct"
+  ourProduct: "ourProduct/:id",
+  allOurProduct: "ourProduct",
+  updateOurProduct: "ourProduct",
+
+  // banner
+  banner: "banner",
+  bannerUpdate: "banner/:id",
+
+  // Slider Master
+  sliderMaster: "slide_master",
+  UpdatesliderMaster: "slide_master/:id",
+  sliderBanner: "slide_banner/bulk",
+  SlideBanner: "slide_banner",
+
+  // Slider
+  slider: "slider",
+  sliderUpdate: "slider/:id",
 };
 
 export default apiConfig;

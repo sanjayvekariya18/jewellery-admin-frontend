@@ -163,4 +163,25 @@ export const navigations = [
       },
     ],
   },
+  {
+    name: "Pages",
+    icon: "chat",
+    children: [
+      {
+        name: "Slider",
+        iconText: "BC",
+        path: pageRoutes.master.pages.slider,
+      },
+      {
+        name: "Banner",
+        iconText: "BC",
+        path: pageRoutes.master.pages.banner,
+      },
+      {
+        name: "Dynamic Menu",
+        iconText: "BC",
+        path: pageRoutes.master.pages.dynamicMenu,
+      }
+    ],
+  },
 ];

@@ -46,7 +46,6 @@ const FindProductVariantMoreDetail = () => {
       )
     )
       .then((res) => {
-        console.log(res, "res");
         setLoading(false);
         setProductData(res);
         setState({

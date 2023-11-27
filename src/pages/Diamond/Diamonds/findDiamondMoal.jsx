@@ -87,7 +87,7 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
 
   return (
     <ThemeDialog
-      title={`Diamond Details: ${gemDiamondData?.stockId || ""}`}
+      title={`Diamond Stock Id: ${gemDiamondData?.stockId || ""}`}
       isOpen={open}
       onClose={togglePopup}
       maxWidth="lg"
