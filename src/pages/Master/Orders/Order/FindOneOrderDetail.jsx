@@ -205,7 +205,7 @@ const FindOneOrderDetail = () => {
         />
         <div>
           <Button variant="contained" onClick={generatePDF}>
-            Generate PDF
+          Download invoice
           </Button>
         </div>
       </Box>
@@ -316,7 +316,7 @@ const FindOneOrderDetail = () => {
           />
         </div>
       ) : (
-        <>
+        <> 
           <div
             id="order-details"
             style={{
@@ -725,27 +725,6 @@ const FindOneOrderDetail = () => {
                       width: "250px",
                     }}
                   >
-                    <Typography
-                      className={classes.billing}
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        color: "#000000d9",
-                        paddingBottom: "10px",
-                      }}
-                    >
-                      Discount :
-                    </Typography>
-                    <Typography
-                      className={classes.billing}
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        paddingBottom: "10px",
-                      }}
-                    >
-                      - ${0}
-                    </Typography>
                   </div>
                   <div
                     style={{
@@ -754,7 +733,6 @@ const FindOneOrderDetail = () => {
                       alignItems: "center",
                       paddingTop: "6px",
                       width: "250px",
-                      borderTop: "1px solid #8080802b",
                     }}
                   >
                     <Typography

@@ -132,28 +132,7 @@ const BannerMasterDetail = ({ open, togglePopup, userData, callBack }) => {
             onChange={onChange}
             style={{ width: "100%" }}
           />
-          <label className="label-class">Profile</label>
-          <ImgUploadBoxInput
-            name="image_url"
-            onChange={onChange}
-            value={formState?.image_url}
-            // error={errors?.profile}
-            label={"image_url"}
-          />
-          {errors?.image_url && (
-            <span style={{ color: "red" }}>Image Is required</span>
-          )}
 
-          <div className="mb-3">
-            <InputLabel className="form-label" style={{ marginTop: "8px" }}>Thumbnail</InputLabel>
-            <ImgUploadBoxInput
-              name="thumbnail_image"
-              onChange={onChange}
-              value={formState?.thumbnail_image}
-              // error={errors?.profile}
-              label={"thumbnail Image"}
-            />
-          </div>
           <Textinput
             style={{ width: "100%" }}
             label={"Button Text"}
@@ -207,6 +186,31 @@ const BannerMasterDetail = ({ open, togglePopup, userData, callBack }) => {
                     show_button: e.target.checked
                   }))
                 }}
+              />
+            </div>
+          </div>
+          <div style={{ display: "flex" }}>
+            <label className="label-class" style={{ marginTop: "8px" }}>Image</label>
+            <div>
+              <ImgUploadBoxInput
+                name="image_url"
+                onChange={onChange}
+                value={formState?.image_url}
+                // error={errors?.profile}
+                label={"image_url"}
+              />
+              {errors?.image_url && (
+                <span style={{ color: "red" }}>Image Is required</span>
+              )}
+            </div>
+            <div className="mb-3">
+              <InputLabel className="form-label" style={{ marginTop: "8px" }}>Thumbnail</InputLabel>
+              <ImgUploadBoxInput
+                name="thumbnail_image"
+                onChange={onChange}
+                value={formState?.thumbnail_image}
+                // error={errors?.profile}
+                label={"thumbnail Image"}
               />
             </div>
           </div>

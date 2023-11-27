@@ -150,10 +150,10 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
                         </IconButton>
                     </span>,
                     <span className="common-thead-second-width-title">
-                        {item.Banner.thumbnail_image && (
+                        {item.Banner.image_url && (
 
                             <img
-                                src={HELPER.getImageUrl(item.Banner.thumbnail_image)}
+                                src={HELPER.getImageUrl(item.Banner.image_url)}
                                 alt=""
                                 height={50}
                                 width={50}

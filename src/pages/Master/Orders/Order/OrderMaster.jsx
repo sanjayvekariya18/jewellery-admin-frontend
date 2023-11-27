@@ -262,6 +262,12 @@ const OrderMaster = () => {
           icon: "cancel",
           onClick: () => handleCancelOrder(item.id),
         },
+        {
+          key: "Download Invoice",
+          color: "red",
+          icon: "cancel",
+          // onClick: () => downLoadInvoice(item.id),
+        },
       ];
       if (filter.orderStatus === "cancel_request") {
         optionsArray.splice(1, 0, {

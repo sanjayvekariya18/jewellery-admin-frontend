@@ -149,7 +149,7 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
                         </IconButton>
                     </span>,
                     <span className="common-thead-second-width-title">
-                        {item.Banner.image && (
+                        {item.Banner.image_url && (
 
                             <img
                                 src={HELPER.getImageUrl(item.Banner.image_url)}

@@ -31,7 +31,7 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData ,callBack}) => {
                 callBack();
             })
             .catch((e) => {
-                HELPER.toaster.error(e.errors.returnProductId[0]);
+                HELPER.toaster.error(e.errors.message);
             });
     };
     return (

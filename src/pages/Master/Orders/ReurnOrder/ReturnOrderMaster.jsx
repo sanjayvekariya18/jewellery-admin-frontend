@@ -92,16 +92,16 @@ const ReturnOrderMaster = () => {
       classNameWidth: "thead-second-width-stone",
     },
     {
+      title: "Return Reason",
+      order: false,
+      field: "returnReason",
+      classNameWidth: "thead-second-width-order-date",
+    },
+    {
       title: "Return Date",
       order: false,
       field: "createdAt",
       classNameWidth: "thead-second-width-order-date",
-    },
-    {
-      title: "Return Reason",
-      order: false,
-      field: "returnReason",
-      classNameWidth: "thead-second-width-discount",
     },
     filter.returnOrderStatus === "refund"
       ? {
@@ -338,9 +338,6 @@ const ReturnOrderMaster = () => {
                 ? item.OrderProduct.ProductVariant.totalPrice
                 : "")}
           </span>,
-          <span>
-            {moment(item.createdAt).format(appConfig.dateAndTimeDisplayFormat)}
-          </span>,
           <div style={{ width: "80px" }}>
             <Button
               color="primary"
@@ -351,6 +348,9 @@ const ReturnOrderMaster = () => {
               View
             </Button>
           </div>,
+          <span>
+            {moment(item.createdAt).format(appConfig.dateAndTimeDisplayFormat)}
+          </span>,
           <span>
             {filter.returnOrderStatus === "refund" &&
               item.refundDate &&
@@ -367,7 +367,7 @@ const ReturnOrderMaster = () => {
               <MaxHeightMenu
                 optionsMenu={[
                   {
-                    key: "Approve Order Refund Amount",
+                    key: "Refund Amount",
                     color: "green",
                     icon: "check_circle",
                     onClick: () => refundAmountOrder(item.id),
