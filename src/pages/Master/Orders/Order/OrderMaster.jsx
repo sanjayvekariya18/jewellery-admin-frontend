@@ -50,37 +50,43 @@ const OrderMaster = () => {
   // ----Pagination code------
   const COLUMNS = [
     filter.orderStatus === "pending" ||
-    filter.orderStatus === "approve" ||
-    filter.orderStatus === "processing" ||
-    filter.orderStatus === "packed" ||
-    filter.orderStatus === "dispatch"
+      filter.orderStatus === "approve" ||
+      filter.orderStatus === "processing" ||
+      filter.orderStatus === "packed" ||
+      filter.orderStatus === "dispatch"
       ? {
-          title: "Select Order",
-          order: false,
-          field: "totalReturnProducts",
-        }
+        title: "Select Order",
+        order: false,
+        field: "totalReturnProducts",
+      }
       : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
+      },
     { title: "Order No", order: true, field: "orderNo" },
     { title: "Customer Name", order: false, field: "customerName" },
     { title: "Total Products", order: false, field: "totalProducts" },
     filter.orderStatus === "delivered"
       ? {
-          title: "Total Return Products",
-          order: false,
-          field: "totalReturnProducts",
-        }
+        title: "Total Return Products",
+        order: false,
+        field: "totalReturnProducts",
+      }
       : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
+      },
     { title: "Amount", order: false, field: "payableAmount" },
+    filter.orderStatus === "cancel"
+    && {
+      title: "Cancel Amount",
+      order: false,
+      field: "cancelAmount",
+    },
     { title: "Order Date", order: false, field: "orderDate" },
     { title: "Payment Status", order: false, field: "paymentStatus" },
     { title: "Actions", order: false, field: "Actions" },
@@ -106,20 +112,20 @@ const OrderMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-              .tz(
-                dateRange[0],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[0],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-              .tz(
-                dateRange[1],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[1],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -152,11 +158,11 @@ const OrderMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
           status: res.statuses,
@@ -271,7 +277,7 @@ const OrderMaster = () => {
       ];
       if (filter.orderStatus === "cancel_request") {
         optionsArray.splice(1, 0, {
-          key: "Approve Cancel Order",
+          key: "Approve or reject request ",
           color: "green",
           icon: "check_circle",
           onClick: () => approveCancelOrder(item.id),
@@ -287,14 +293,14 @@ const OrderMaster = () => {
               filter.orderStatus === "processing" ||
               filter.orderStatus === "packed" ||
               filter.orderStatus === "dispatch") && (
-              <Checkbox
-                checked={selectedCheckboxes.some(
-                  (selectedItem) => selectedItem === item.id
-                )}
-                onChange={() => handleCheckbox(item.id)}
-                color="primary"
-              />
-            )}
+                <Checkbox
+                  checked={selectedCheckboxes.some(
+                    (selectedItem) => selectedItem === item.id
+                  )}
+                  onChange={() => handleCheckbox(item.id)}
+                  color="primary"
+                />
+              )}
           </span>,
           <span>{item.orderNo}</span>,
           <span>{item.customerName}</span>,
@@ -303,6 +309,12 @@ const OrderMaster = () => {
             <span>{item.totalReturnProducts}</span>
           ),
           <span>{item.payableAmount}</span>,
+          <span>
+            {(filter.orderStatus === "cancel" && (
+              item.cancelAmount
+            ))}
+          </span>,
+
           <span>
             {moment(item.orderDate, "Do MMMM YYYY").format(
               appConfig.dateDisplayFormat
@@ -731,22 +743,22 @@ const OrderMaster = () => {
                   filter.orderStatus === "processing" ||
                   filter.orderStatus === "packed" ||
                   filter.orderStatus === "dispatch") && (
-                  <ReactSelect
-                    placeholder="Select Status"
-                    options={
-                      state.status && state.status.length !== 0
-                        ? [
+                    <ReactSelect
+                      placeholder="Select Status"
+                      options={
+                        state.status && state.status.length !== 0
+                          ? [
                             {
                               label: state.status[0],
                               value: state.status[0],
                             },
                           ]
-                        : []
-                    }
-                    onChange={editOrderStatus}
-                    name="status-select"
-                  />
-                )}
+                          : []
+                      }
+                      onChange={editOrderStatus}
+                      name="status-select"
+                    />
+                  )}
               </div>
             )}
           </div>

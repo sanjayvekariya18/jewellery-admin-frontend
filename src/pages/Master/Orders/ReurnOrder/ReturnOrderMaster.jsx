@@ -279,7 +279,6 @@ const ReturnOrderMaster = () => {
     state.page,
     state.rowsPerPage,
     filter,
-    selectedCheckboxes,
     state.order,
     state.orderby,
   ]);
@@ -379,7 +378,7 @@ const ReturnOrderMaster = () => {
         ],
       };
     });
-  }, [state.data]);
+  }, [state.data, selectedCheckboxes]);
 
   // ------------------------Toggle Of The Search----------------------------------------
   const togglePopupSearch = () => {
@@ -423,8 +422,8 @@ const ReturnOrderMaster = () => {
       };
       API.put(apiConfig.changeReturnOrderStatus, payload)
         .then((res) => {
-          paginate();
           setSelectedCheckboxes([]);
+          paginate();
           HELPER.toaster.success(res.message);
         })
         .catch((e) => HELPER.toaster.error(e.errors.returnOrderProductIds[0]));
@@ -761,7 +760,10 @@ const ReturnOrderMaster = () => {
               togglePopup();
               // paginate();
             }}
-            callBack={() => paginate(true)}
+            callBack={() => {
+              setSelectedCheckboxes([])
+              paginate(true) 
+            }}
             userData={selectedUserData}
           />
         )}

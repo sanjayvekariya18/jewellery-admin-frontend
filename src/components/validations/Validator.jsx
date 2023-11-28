@@ -165,6 +165,7 @@ export default function Validators({
 
     if (validation.fails()) {
       let validationErrors = imageValidationMessagesModification(validation.errors.errors, rules);
+      console.log(validationErrors);
       setErrors(validationErrors);
       return true;
     }

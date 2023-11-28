@@ -125,7 +125,7 @@ const apiConfig = {
   changeOrderStatus: "orders/change-status",
   orderFilterDropDown: "orders/dropdowns",
   cancelOrder: "orders/cancel-order",
-  approveCancelOrder: "orders/cancel-order-request/approve",
+  approveOrRejectCancelOrder: "orders/cancel-order-request/approve-or-reject",
   findOrder: "orders/:Id",
   findProductDetail: "orders/order-product/:id",
 

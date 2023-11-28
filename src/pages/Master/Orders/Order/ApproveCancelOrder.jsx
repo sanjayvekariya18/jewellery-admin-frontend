@@ -5,16 +5,26 @@ import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import { apiConfig } from "../../../../config";
 import Textinput from "../../../../components/UI/TextInput";
+import ThemeRadioGroup from "../../../../components/UI/ThemeRadioGroup";
 
-const ApproveCancelOrder = ({ open, togglePopup, userData,callBack }) => {
+const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
   const initialValues = {
     orderId: userData,
     cancelAmount: "",
+    status: "approve",
+    rejectReason: ""
   };
-  const rules = {
-    cancelAmount: "required",
-  };
+
   const [formState, setFormState] = useState({ ...initialValues });
+
+  const rules = {
+    ...(formState.status == 'approve' && {
+      cancelAmount: "required",
+    }),
+    ...(formState.status == 'reject' && {
+      rejectReason: "required",
+    }),
+  };
 
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
@@ -26,7 +36,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData,callBack }) => {
   }, []);
 
   const handleSubmit = (data) => {
-    API.put(apiConfig.approveCancelOrder, data)
+    API.put(apiConfig.approveOrRejectCancelOrder, data)
       .then((res) => {
         HELPER.toaster.success(res.message);
         togglePopup();
@@ -40,7 +50,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData,callBack }) => {
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (
         <ThemeDialog
-          title={"Approve Cancel Order"}
+          title={"Approve or reject request"}
           isOpen={open}
           maxWidth="sm"
           onClose={() => {
@@ -71,17 +81,54 @@ const ApproveCancelOrder = ({ open, togglePopup, userData,callBack }) => {
             </Box>
           }
         >
-          <Textinput
-            size="small"
-            type="number"
-            name="cancelAmount"
-            label="Cancel Amount"
-            placeholder="Enter Cancel Amount"
-            value={formState.cancelAmount}
-            onChange={onChange}
-            error={errors?.cancelAmount}
-            sx={{ mb: 0, mt: 1, width: "100%" }}
+          <ThemeRadioGroup
+            name="status"
+            value={formState?.status}
+            onChange={(e) => onChange({
+              target: {
+                name: 'status',
+                value: e.target.value
+              }
+            })}
+            options={[
+              {
+                label: "Approve",
+                value: "approve",
+                color: "success",
+              },
+              {
+                label: "Reject",
+                value: "reject",
+                color: "error",
+              },
+            ]}
           />
+
+          {formState.status == 'approve'
+            ? <Textinput
+              size="small"
+              type="number"
+              name="cancelAmount"
+              label="Cancel Amount"
+              placeholder="Enter Cancel Amount"
+              value={formState.cancelAmount}
+              onChange={onChange}
+              error={errors?.cancelAmount}
+              sx={{ mb: 0, mt: 1, width: "100%" }}
+            /> :
+            <Textinput
+              size="small"
+              type="text"
+              name="rejectReason"
+              label="Reject Reason"
+              placeholder="Enter Reject Reason"
+              value={formState.rejectReason}
+              onChange={onChange}
+              error={errors?.rejectReason}
+              sx={{ mb: 0, mt: 1, width: "100%" }}
+            />
+          }
+
         </ThemeDialog>
       )}
     </Validators>
