@@ -146,23 +146,10 @@ const ReturnOrderMaster = () => {
         field: "",
         classNameWidth: "thead-width-zero",
       },
-    filter.returnOrderStatus === "verified"
-      ? {
-        title: "Actions",
-        order: false,
-        field: "Actions",
-        classNameWidth: "thead-second-width-action",
-      }
-      : {
-        title: "",
-        order: false,
-        field: "",
-        classNameWidth: "thead-width-zero",
-      },
     {
       title: "Action",
       order: false,
-      field: "createdAt",
+      field: "",
       classNameWidth: "thead-second-width-order-date",
     },
   ];
@@ -370,7 +357,7 @@ const ReturnOrderMaster = () => {
           </span>,
 
           <span>
-            {filter.returnOrderStatus === "verified" && (
+            {filter.returnOrderStatus === "verified" ? (
               <MaxHeightMenu
                 optionsMenu={[
                   {
@@ -379,21 +366,31 @@ const ReturnOrderMaster = () => {
                     icon: "check_circle",
                     onClick: () => refundAmountOrder(item.id),
                   },
+                  {
+                    key: "View Files",
+                    color: "green",
+                    icon: "article",
+                    onClick: () => {
+                      if (!HELPER.isEmpty(item.file)) {
+                        setReturnProductFiles(item.file)
+                        setIsShowReturnOrderFiles(true)
+                      }
+                    },
+                  },
                 ]}
               />
+            ) : (
+              <Tooltip title={'View Return Order Files'} placement="top">
+                <IconButton onClick={() => {
+                  if (!HELPER.isEmpty(item.file)) {
+                    setReturnProductFiles(item.file)
+                    setIsShowReturnOrderFiles(true)
+                  }
+                }}>
+                  <Icon color="info">article</Icon>
+                </IconButton>
+              </Tooltip>
             )}
-          </span>,
-          <span>
-            <Tooltip title={'View Return Order Files'} placement="top">
-              <IconButton onClick={() => {
-                if (!HELPER.isEmpty(item.file)) {
-                  setReturnProductFiles(item.file)
-                  setIsShowReturnOrderFiles(true)
-                }
-              }}>
-                <Icon color="info">article</Icon>
-              </IconButton>
-            </Tooltip>
           </span>,
 
         ],

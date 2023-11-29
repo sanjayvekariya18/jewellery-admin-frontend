@@ -82,16 +82,16 @@ const OrderMaster = () => {
       },
     { title: "Amount", order: false, field: "payableAmount" },
     filter.orderStatus === "cancel"
-    ? {
-      title: "Cancel Amount",
-      order: false,
-      field: "cancelAmount",
-    } : {
+      ? {
+        title: "Cancel Amount",
+        order: false,
+        field: "cancelAmount",
+      } : {
         title: "",
         order: false,
         field: "",
         classNameWidth: "thead-width-zero",
-    },
+      },
     { title: "Order Date", order: false, field: "orderDate" },
     { title: "Payment Status", order: false, field: "paymentStatus" },
     { title: "Actions", order: false, field: "Actions" },
@@ -271,11 +271,12 @@ const OrderMaster = () => {
           color: "red",
           icon: "cancel",
           onClick: () => handleCancelOrder(item.id),
+          isShow: !["delivered", "cancel", "return", "faill"].includes(filter.orderStatus)
         },
         {
           key: "Download Invoice",
-          color: "red",
-          icon: "cancel",
+          color: "info",
+          icon: "article",
           // onClick: () => downLoadInvoice(item.id),
         },
       ];
@@ -287,6 +288,14 @@ const OrderMaster = () => {
           onClick: () => approveCancelOrder(item.id),
         });
       }
+
+      optionsArray = optionsArray.filter(item => {
+        if (item?.isShow != undefined) {
+          return item?.isShow;
+        }
+
+        return true
+      })
 
       return {
         item: item,
