@@ -82,10 +82,15 @@ const OrderMaster = () => {
       },
     { title: "Amount", order: false, field: "payableAmount" },
     filter.orderStatus === "cancel"
-    && {
+    ? {
       title: "Cancel Amount",
       order: false,
       field: "cancelAmount",
+    } : {
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
     },
     { title: "Order Date", order: false, field: "orderDate" },
     { title: "Payment Status", order: false, field: "paymentStatus" },
@@ -224,7 +229,6 @@ const OrderMaster = () => {
     state.page,
     state.rowsPerPage,
     filter,
-    selectedCheckboxes,
     state.order,
     state.orderby,
   ]);
@@ -331,7 +335,7 @@ const OrderMaster = () => {
         ],
       };
     });
-  }, [state.data]);
+  }, [state.data, selectedCheckboxes]);
 
   // ------------------------Toggle Of The Search-------------------------
   const togglePopupSearch = () => {

@@ -29,6 +29,8 @@ import moment from "moment-timezone";
 import ReturnRejectMaster from "./ReturnRejectMaster";
 import RefundAmountReturnOrder from "./RefundAmountReturnOrder";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import { Col, Row } from "reactstrap";
+import { checkFileType, setImageSrc } from "../../../../services/helper";
 
 const ReturnOrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -42,6 +44,8 @@ const ReturnOrderMaster = () => {
   const [statuses, setStatuses] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isShowReturnOrderFiles, setIsShowReturnOrderFiles] = useState(false);
+  const [returnProductFiles, setReturnProductFiles] = useState([]);
 
   const [filter, setFilter] = useState({
     returnOrderStatus: "request",
@@ -56,23 +60,23 @@ const ReturnOrderMaster = () => {
   // ----Pagination code------
   const COLUMNS = [
     filter.returnOrderStatus === "request" ||
-    filter.returnOrderStatus === "approve" ||
-    filter.returnOrderStatus === "receive" ||
-    (filter.returnOrderStatus !== "verified" &&
-      filter.returnOrderStatus !== "reject" &&
-      filter.returnOrderStatus !== "refund")
+      filter.returnOrderStatus === "approve" ||
+      filter.returnOrderStatus === "receive" ||
+      (filter.returnOrderStatus !== "verified" &&
+        filter.returnOrderStatus !== "reject" &&
+        filter.returnOrderStatus !== "refund")
       ? {
-          title: "Select Order",
-          order: false,
-          field: "totalReturnProducts",
-          classNameWidth: "thead-second-width-address",
-        }
+        title: "Select Order",
+        order: false,
+        field: "totalReturnProducts",
+        classNameWidth: "thead-second-width-address",
+      }
       : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
+      },
     {
       title: "Order No",
       order: true,
@@ -105,56 +109,62 @@ const ReturnOrderMaster = () => {
     },
     filter.returnOrderStatus === "refund"
       ? {
-          title: "Refund Date",
-          order: false,
-          field: "refundDate",
-          classNameWidth: "thead-second-width-order-date",
-        }
+        title: "Refund Date",
+        order: false,
+        field: "refundDate",
+        classNameWidth: "thead-second-width-order-date",
+      }
       : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
+      },
     filter.returnOrderStatus === "refund"
       ? {
-          title: "Refund Amount",
-          order: false,
-          field: "refundAmount",
-          classNameWidth: "thead-second-width-order-date",
-        }
+        title: "Refund Amount",
+        order: false,
+        field: "refundAmount",
+        classNameWidth: "thead-second-width-order-date",
+      }
       : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
+      },
     filter.returnOrderStatus === "delivered"
       ? {
-          title: "Total Return Products",
-          order: false,
-          field: "totalReturnProducts",
-          classNameWidth: "thead-second-width-order-date",
-        }
+        title: "Total Return Products",
+        order: false,
+        field: "totalReturnProducts",
+        classNameWidth: "thead-second-width-order-date",
+      }
       : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
+      },
     filter.returnOrderStatus === "verified"
       ? {
-          title: "Actions",
-          order: false,
-          field: "Actions",
-          classNameWidth: "thead-second-width-action",
-        }
+        title: "Actions",
+        order: false,
+        field: "Actions",
+        classNameWidth: "thead-second-width-action",
+      }
       : {
-          title: "",
-          order: false,
-          field: "",
-          classNameWidth: "thead-width-zero",
-        },
+        title: "",
+        order: false,
+        field: "",
+        classNameWidth: "thead-width-zero",
+      },
+    {
+      title: "Action",
+      order: false,
+      field: "createdAt",
+      classNameWidth: "thead-second-width-order-date",
+    },
   ];
 
   // --------------------------------------- paginate  the results-------------------------
@@ -177,20 +187,20 @@ const ReturnOrderMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-              .tz(
-                dateRange[0],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[0],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-              .tz(
-                dateRange[1],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[1],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
@@ -221,11 +231,11 @@ const ReturnOrderMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -294,14 +304,14 @@ const ReturnOrderMaster = () => {
               (filter.returnOrderStatus !== "verified" &&
                 filter.returnOrderStatus !== "refund" &&
                 filter.returnOrderStatus !== "reject")) && (
-              <Checkbox
-                checked={selectedCheckboxes.some(
-                  (selectedItem) => selectedItem === item.id
-                )}
-                onChange={() => handleCheckbox(item.id)}
-                color="primary"
-              />
-            )}
+                <Checkbox
+                  checked={selectedCheckboxes.some(
+                    (selectedItem) => selectedItem === item.id
+                  )}
+                  onChange={() => handleCheckbox(item.id)}
+                  color="primary"
+                />
+              )}
           </span>,
           <div className="span-permision">
             <span>{item.order.orderNo}</span>
@@ -313,18 +323,16 @@ const ReturnOrderMaster = () => {
               ? ` ${item.OrderProduct.Gemstone?.title}`
               : item.Gemstone?.title}
             {item.OrderProduct && item.OrderProduct.Diamond
-              ? ` ${item.OrderProduct.Diamond.carat} Carat ${
-                  item.OrderProduct.Diamond.ShapeMaster
-                    ? item.OrderProduct.Diamond.ShapeMaster.shape
-                    : ""
-                }`
+              ? ` ${item.OrderProduct.Diamond.carat} Carat ${item.OrderProduct.Diamond.ShapeMaster
+                ? item.OrderProduct.Diamond.ShapeMaster.shape
+                : ""
+              }`
               : item.OrderProduct.Diamond
-              ? ` ${item.OrderProduct.Diamond.carat} Carat ${
-                  item.OrderProduct.Diamond.ShapeMaster
-                    ? item.OrderProduct.Diamond.ShapeMaster.shape
-                    : ""
+                ? ` ${item.OrderProduct.Diamond.carat} Carat ${item.OrderProduct.Diamond.ShapeMaster
+                  ? item.OrderProduct.Diamond.ShapeMaster.shape
+                  : ""
                 }`
-              : ""}
+                : ""}
             {!item.OrderProduct && !item.gemstone && !item.diamond
               ? "No details available"
               : ""}
@@ -375,6 +383,19 @@ const ReturnOrderMaster = () => {
               />
             )}
           </span>,
+          <span>
+            <Tooltip title={'View Return Order Files'} placement="top">
+              <IconButton onClick={() => {
+                if (!HELPER.isEmpty(item.file)) {
+                  setReturnProductFiles(item.file)
+                  setIsShowReturnOrderFiles(true)
+                }
+              }}>
+                <Icon color="info">article</Icon>
+              </IconButton>
+            </Tooltip>
+          </span>,
+
         ],
       };
     });
@@ -688,11 +709,11 @@ const ReturnOrderMaster = () => {
             {state.data?.length > 0 && (
               <div style={{ width: "260px" }}>
                 {filter.returnOrderStatus === "request" ||
-                filter.returnOrderStatus === "approve" ||
-                filter.returnOrderStatus === "receive" ||
-                (filter.returnOrderStatus !== "verified" &&
-                  filter.returnOrderStatus !== "refund" &&
-                  filter.returnOrderStatus !== "reject") ? (
+                  filter.returnOrderStatus === "approve" ||
+                  filter.returnOrderStatus === "receive" ||
+                  (filter.returnOrderStatus !== "verified" &&
+                    filter.returnOrderStatus !== "refund" &&
+                    filter.returnOrderStatus !== "reject") ? (
                   <ReactSelect
                     placeholder="Select Status"
                     // isDisabled={!isCheckboxChecked}
@@ -700,9 +721,9 @@ const ReturnOrderMaster = () => {
                     options={
                       statuses && Array.isArray(statuses) && statuses.length > 0
                         ? statuses.map((status) => ({
-                            label: status,
-                            value: status,
-                          }))
+                          label: status,
+                          value: status,
+                        }))
                         : []
                     }
                     onChange={(selectedOption) => {
@@ -761,8 +782,8 @@ const ReturnOrderMaster = () => {
               // paginate();
             }}
             callBack={() => {
-              setSelectedCheckboxes([])
-              paginate(true) 
+              setSelectedCheckboxes([]);
+              paginate(true)
             }}
             userData={selectedUserData}
           />
@@ -804,6 +825,49 @@ const ReturnOrderMaster = () => {
               <Typography variant="body1" style={{ lineHeight: "22px" }}>
                 {addressText}
               </Typography>
+            </div>
+          </ThemeDialog>
+        )}
+
+        {/* Show Return order files */}
+        {isShowReturnOrderFiles && (
+          <ThemeDialog
+            title="Return Order Product Files"
+            id="showReturnOrderModal"
+            isOpen={isShowReturnOrderFiles}
+            toggle={() => setIsShowReturnOrderFiles(!isShowReturnOrderFiles)}
+            centered
+            maxWidth="sm"
+            actionBtns={
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => setIsShowReturnOrderFiles(!isShowReturnOrderFiles)}
+              >
+                Close
+              </Button>
+            }
+          >
+            <div
+              style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}
+            >
+              <Row>
+                {returnProductFiles &&
+                  returnProductFiles.map((item, i) => {
+                    return (
+                      <Col xl={3} key={i}>
+                        {((checkFileType(item)) == 'image' ?
+                          <img src={setImageSrc(item)} className="img-fluid" /> :
+                          <video width="320" height="240" controls>
+                            <source src={setImageSrc(item)} type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        )}
+
+                      </Col>
+                    );
+                  })}
+              </Row>
             </div>
           </ThemeDialog>
         )}

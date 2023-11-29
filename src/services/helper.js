@@ -176,3 +176,35 @@ export const GetFormatedAmount = (amount, withCrDr = false, abs = true) => {
 
   return formatedAmount;
 };
+
+export const  checkFileType = (url) => {
+  // Get the file extension from the URL
+  const fileExtension = url.split('.').pop().toLowerCase();
+
+  // List of common image file extensions
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
+
+  // List of common video file extensions
+  const videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'mkv', 'flv', 'webm', 'mpeg'];
+
+  // Check if the file extension matches with an image extension
+  if (imageExtensions.includes(fileExtension)) {
+      return 'image';
+  }
+
+  // Check if the file extension matches with a video extension
+  if (videoExtensions.includes(fileExtension)) {
+      return 'video';
+  }
+
+  // If the file extension doesn't match either, it might be an unknown type or not supported
+  return 'unknown';
+}
+
+export const setImageSrc = (imageUrl) => {
+  if (imageUrl?.startsWith("https://")) {
+    return imageUrl;
+  } else {
+    return apiConfig.publicURL + imageUrl;
+  }
+};
