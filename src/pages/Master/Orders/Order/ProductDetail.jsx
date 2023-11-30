@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { apiConfig } from "../../../../config";
 import { API } from "../../../../services";
-import _ from "lodash";
+import _, { head } from "lodash";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import PaginationTable, {
   usePaginationTable,
@@ -23,16 +23,22 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
   const [addressText, setAddressText] = useState("");
   const [gemstoneModel, setGemstoneModel] = useState(false);
   const [textModal, setTextModal] = useState(false);
+  const [titleModal, setTitleModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
 
+  const textTitletoggle = () => {
+    setTitleModal(!titleModal);
+  };
+
+
   const PRODUCTVARIANT = [
     { title: "Stock No", classNameWidth: "thead-second-width" },
-    { title: "Description", classNameWidth: "thead-second-width-title" },
     { title: "Title", classNameWidth: "thead-second-width-title" },
+    { title: "Description", classNameWidth: "thead-second-width-title" },
     { title: "Metal Weight", classNameWidth: "thead-second-width" },
     { title: "Total Carat", classNameWidth: "thead-second-width" },
     { title: "Gemstone Carat", classNameWidth: "thead-second-width" },
@@ -42,6 +48,10 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     { title: "GemstonePrice", classNameWidth: "thead-second-width" },
     { title: "Total Price", classNameWidth: "thead-second-width" },
     { title: "Attribute", classNameWidth: "thead-second-width" },
+    { title: productDetail?.orderProduct?.engraving !== null && "Engraving Details ", classNameWidth: "thead-second-width1" },
+    { title: productDetail?.orderProduct?.engraving?.text !== undefined && "Name", classNameWidth: "thead-second-width" },
+    { title: productDetail?.orderProduct?.engraving?.font !== undefined && "Font", classNameWidth: "thead-second-width" },
+    { title: productDetail?.orderProduct?.engraving?.price !== undefined && "Price", classNameWidth: "thead-second-width" },
   ];
 
   const rowsProductVariant = [
@@ -50,29 +60,43 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
       columns: [
         <span key="sr-no">{1}</span>,
         <span
-          className="common-thead-second-width-title-answer"
+          className="common-width-three-dot-text"
           style={{ fontWeight: "500", cursor: "pointer" }}
           onClick={() => showAddressInDialog(productDetail?.productVariant)}
         >
           {productDetail?.productVariant?.description}
         </span>,
-        <div className="common-thead-second-width-title">
-          <span>{productDetail?.productVariant?.title}</span>
-        </div>,
+        <span
+          className="common-width-three-dot-text"
+          style={{ fontWeight: "500", cursor: "pointer" }}
+          onClick={() => showTitleInDialog(productDetail?.productVariant)}
+        >
+          {productDetail?.productVariant?.title}
+        </span>,
         <span>{productDetail?.productVariant?.metalWeight}</span>,
         <span>{productDetail?.productVariant?.totalCarat}</span>,
         <span>{productDetail?.productVariant?.totalGemstoneCarat}</span>,
-        <span>{productDetail?.productVariant?.makingPrice}</span>,
-        <span>{productDetail?.productVariant?.metalPrice}</span>,
-        <span>{productDetail?.productVariant?.diamondPrice}</span>,
-        <span>{productDetail?.productVariant?.gemstonePrice}</span>,
-        <span>{productDetail?.productVariant?.totalPrice}</span>,
+        <span>${productDetail?.productVariant?.makingPrice}</span>,
+        <span>${productDetail?.productVariant?.metalPrice}</span>,
+        <span>${productDetail?.productVariant?.diamondPrice}</span>,
+        <span>${productDetail?.productVariant?.gemstonePrice}</span>,
+        <span>${productDetail?.productVariant?.totalPrice}</span>,
         <Button variant="contained" onClick={() => setGemstoneModel(true)}>
           Attribute Detail
         </Button>,
+        <br></br>,
+        <span>{productDetail?.orderProduct?.engraving?.text !== undefined && productDetail?.orderProduct?.engraving?.text}</span>,
+        <span>{productDetail?.orderProduct?.engraving?.font !== undefined && productDetail?.orderProduct?.engraving?.font}</span>,
+        <span>
+          {productDetail?.orderProduct?.engraving?.price !== undefined && (
+            `$${productDetail?.orderProduct?.engraving?.price}`
+          )}
+        </span>
+
       ],
     },
   ];
+  console.log(productDetail?.orderProduct?.engraving, "hello");
 
   // gemstone details display
 
@@ -92,11 +116,18 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     {
       item: productDetail?.orderProduct?.Gemstone,
       columns: [
-        <div className="common-thead-second-width-title">
-          <span>{productDetail?.orderProduct?.Gemstone?.title}</span>
+        <div className="thead-second-width">
+          <span>{productDetail?.orderProduct?.Gemstone?.stockId}</span>
         </div>,
         <span
-          className="common-thead-second-width-title-answer"
+          className="common-width-three-dot-text"
+          style={{ fontWeight: "500", cursor: "pointer" }}
+          onClick={() =>
+            showTitleInDialog(productDetail?.orderProduct?.Gemstone)
+          }
+        > {productDetail?.orderProduct?.Gemstone?.title}</span >,
+        <span
+          className="common-width-three-dot-text"
           style={{ fontWeight: "500", cursor: "pointer" }}
           onClick={() =>
             showAddressInDialog(productDetail?.orderProduct?.Gemstone)
@@ -110,7 +141,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
         <span>{productDetail?.orderProduct?.Gemstone?.mWidth}</span>,
         <span>{productDetail?.orderProduct?.Gemstone?.mDepth}</span>,
         <span>{productDetail?.orderProduct?.Gemstone?.clarity}</span>,
-        <span>{productDetail?.orderProduct?.Gemstone?.price}</span>,
+        <span>${productDetail?.orderProduct?.Gemstone?.price}</span>,
       ],
     },
   ];
@@ -181,7 +212,11 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     setAddressText(description);
     textModaltoggle();
   };
-
+  const showTitleInDialog = (productDetail) => {
+    const title = productDetail.title;
+    setAddressText(title);
+    textTitletoggle();
+  };
   const {
     state,
     setState,
@@ -235,77 +270,119 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
         ) : (
           <>
             {Object.keys(productDetail).length !== 0 && (
-              <TableContainer style={{ overflow: "hidden" }}>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      {/* Product Variant Details */}
-                      {rowsProductVariant[0] &&
-                        Object.keys(rowsProductVariant[0]?.item || {}).length >
-                          0 && (
-                          <TableCell colSpan={8} align="center">
-                            <h3>Product Variant Details</h3>
-                          </TableCell>
-                        )}
-                      {/* Gemstone Details */}
-                      {rowsGemstone[0] &&
-                        Object.keys(rowsGemstone[0]?.item || {}).length > 0 && (
-                          <TableCell colSpan={4} align="center">
-                            <h3>Gemstone Details</h3>
-                          </TableCell>
-                        )}
-                      {/* Diamond Details */}
-                      {rowsDiamond[0] &&
-                        Object.keys(rowsDiamond[0]?.item || {}).length > 0 && (
-                          <TableCell colSpan={4} align="center">
-                            <h3>Diamond Details</h3>
-                          </TableCell>
-                        )}
-                    </TableRow>
-                    {/* Displaying details for each section */}
-                    {PRODUCTVARIANT.map((header, index) => (
-                      <TableRow key={index}>
-                        {/* Product Variant Details */}
-                        <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
-                          {header?.title}:
-                        </TableCell>
-                        <TableCell colSpan={2}>
-                          {rowsProductVariant[0]?.columns[index]}
-                        </TableCell>
-                        {/* Gemstone Details */}
-                        <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
-                          {rowsGemstone[0] &&
-                            Object.keys(rowsGemstone[0]?.item || {}).length >
-                              0 &&
-                            GEMSTONE[index]?.title &&
-                            `${GEMSTONE[index].title}:`}
-                        </TableCell>
-                        <TableCell colSpan={2}>
-                          {rowsGemstone[0]?.columns[index]}
-                        </TableCell>
-                        {/* Diamond Details */}
-                        <TableCell style={{ fontWeight: "bold" }} colSpan={2}>
-                          {rowsDiamond[0] &&
-                            Object.keys(rowsDiamond[0]?.item || {}).length >
-                              0 &&
-                            DIAMOND[index]?.title &&
-                            `${DIAMOND[index].title}:`}
-                        </TableCell>
-                        <TableCell colSpan={2}>
-                          {rowsDiamond[0]?.columns[index]}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+
+              <Box style={{ display: "flex" }}>
+                {(rowsProductVariant[0].item !== undefined && rowsProductVariant[0].item !== null) && <div style={{ width: "50%", padding: "20px" }}>
+                  {/* <h3>Product Variant Details</h3> */}
+                  {rowsProductVariant[0] &&
+                    Object.keys(rowsProductVariant[0]?.item || {}).length >
+                    0 && (
+                      <div align="center">
+                        <h3>Product Variant Details</h3>
+                      </div>
+                    )}
+                  {PRODUCTVARIANT.map((header, index) => (
+                    <>
+                      <TableContainer key={index}>
+                        <Table>
+                          <TableBody>
+                            {header?.title !== false && <TableRow>
+                              {/* Product Variant Details */}
+                              {/* <div style={{ display: "flex" }}> */}
+                              <TableCell style={{ fontWeight: "bold" }} >
+                                {header?.title}
+                              </TableCell>
+                              <TableCell style={{ fontWeight: "bold" }}>
+                                {rowsProductVariant[0]?.columns[index]}
+                              </TableCell>
+                              {/* </div> */}
+                            </TableRow>}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </>
+                  ))}
+                </div>}
+                {(rowsGemstone[0].item !== undefined && rowsGemstone[0].item !== null) && <div style={{ width: "50%", padding: "20px" }}>
+
+                  {rowsProductVariant[0] &&
+                    Object.keys(rowsProductVariant[0]?.item || {}).length >
+                    0 && (
+                      <div align="center">
+                        <h3>Gemstone Details</h3>
+                      </div>
+                    )}
+                  {GEMSTONE.map((header, index) => (
+                    <div key={index}>
+                      {console.log(header, "index")}
+                      <TableContainer key={index}>
+                        <Table>
+                          <TableBody>
+                            <TableRow>
+                              {/* <div style={{ display: "flex" }}> */}
+                              <TableCell style={{ fontWeight: "bold" }} >
+                                {/* {rowsGemstone[0] &&
+                                  Object.keys(rowsGemstone[0]?.item || {}).length >
+                                  0 &&
+                                  GEMSTONE[index]?.title &&
+                                  `${GEMSTONE[index].title}:`} */}
+                                {header?.title}
+                              </TableCell>
+                              <TableCell style={{ fontWeight: "bold" }}>
+                                {rowsGemstone[0]?.columns[index]}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </div>
+
+
+                  ))}
+                </div>}
+                {(rowsDiamond[0].item !== undefined && rowsDiamond[0].item !== null) && <div style={{ width: "50%", padding: "20px" }}>
+
+                  {rowsProductVariant[0] &&
+                    Object.keys(rowsProductVariant[0]?.item || {}).length >
+                    0 && (
+                      <div align="center">
+                        <h3>Diamond Details</h3>
+                      </div>
+                    )}
+                  {DIAMOND.map((header, index) => (
+                    <div key={index}>
+                      <TableContainer key={index}>
+                        <Table>
+                          <TableBody>
+                            <TableRow>
+                              {/* <div style={{ display: "flex" }}> */}
+                              <TableCell style={{ fontWeight: "bold" }} >
+                                {/* {rowsDiamond[0] &&
+                                  Object.keys(rowsDiamond[0]?.item || {}).length >
+                                  0 &&
+                                  DIAMOND[index]?.title &&
+                                  `${DIAMOND[index].title}:`} */}
+                                {header?.title}
+                              </TableCell>
+                              <TableCell style={{ fontWeight: "bold" }}>
+                                {rowsDiamond[0]?.columns[index]}
+                              </TableCell>
+                              {/* </div> */}
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </div>
+                  ))}
+                </div>}
+              </Box>
             )}
           </>
         )}
 
         {textModal && (
           <ThemeDialog
-            title="FAQ Answer"
+            title="Description"
             id="showModal"
             isOpen={textModal}
             toggle={textModaltoggle}
@@ -316,6 +393,34 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                 variant="contained"
                 color="secondary"
                 onClick={textModaltoggle}
+              >
+                Close
+              </Button>
+            }
+          >
+            <div
+              style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}
+            >
+              <Typography variant="body1" style={{ lineHeight: "22px" }}>
+                {addressText}
+              </Typography>
+            </div>
+          </ThemeDialog>
+        )}
+
+        {titleModal && (
+          <ThemeDialog
+            title="Title"
+            id="showModal"
+            isOpen={titleModal}
+            toggle={textTitletoggle}
+            centered
+            maxWidth="sm"
+            actionBtns={
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={textTitletoggle}
               >
                 Close
               </Button>
