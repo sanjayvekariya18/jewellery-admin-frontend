@@ -341,6 +341,10 @@ input::-webkit-inner-spin-button {
   overflow: hidden !important;
   text-overflow: ellipsis;
 }
+.thead-second-width1{
+  text-align: center !important;
+  width: 50% !important;
+}
 
 .errors-message-input input {
   border: 1px solid #ff3d57;
