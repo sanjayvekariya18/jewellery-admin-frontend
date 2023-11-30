@@ -29,6 +29,7 @@ import ApproveCancelOrder from "./ApproveCancelOrder";
 import moment from "moment-timezone";
 import FindOneOrderDetail from "./FindOneOrderDetail";
 import { useNavigate } from "react-router-dom";
+import { downloadFile } from "../../../../services/helper";
 
 const OrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -223,6 +224,15 @@ const OrderMaster = () => {
     setApproveOrder(true);
   };
 
+  const downloadInvoice = (Id) => {
+    downloadFile(`${apiConfig.downloadInvoice}/${Id}`, {
+        file_name: 'order-invoice.pdf'
+    }).then(() => {
+    }).catch(() => {
+        HELPER.toaster.error('Invoice not found')
+    })
+  };
+
   useEffect(() => {
     paginate();
   }, [
@@ -271,13 +281,13 @@ const OrderMaster = () => {
           color: "red",
           icon: "cancel",
           onClick: () => handleCancelOrder(item.id),
-          isShow: !["delivered", "cancel", "return", "faill"].includes(filter.orderStatus)
+          isShow: !["delivered", "cancel", "return", "faill", 'cancel_request'].includes(filter.orderStatus)
         },
         {
           key: "Download Invoice",
           color: "info",
           icon: "article",
-          // onClick: () => downLoadInvoice(item.id),
+          onClick: () => downloadInvoice(item.id),
         },
       ];
       if (filter.orderStatus === "cancel_request") {

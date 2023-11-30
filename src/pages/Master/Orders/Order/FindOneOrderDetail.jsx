@@ -22,6 +22,7 @@ import { apiConfig, appConfig } from "../../../../config";
 import { Breadcrumb, Container } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import ProductDetail from "./ProductDetail";
+import { downloadFile } from "../../../../services/helper";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -184,6 +185,12 @@ const FindOneOrderDetail = () => {
     // });
   };
 
+  const downloadInvoice = () => {
+    downloadFile(`${apiConfig.downloadInvoice}/${Id}`, {
+        file_name: 'order-invoice.pdf'
+    }).then(() => {}).catch(() => {})
+  };
+
   return (
     <Container>
       <Box
@@ -204,8 +211,8 @@ const FindOneOrderDetail = () => {
           ]}
         />
         <div>
-          <Button variant="contained" onClick={generatePDF}>
-          Download invoice
+          <Button variant="contained" onClick={downloadInvoice}>
+            Download invoice
           </Button>
         </div>
       </Box>

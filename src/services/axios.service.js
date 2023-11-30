@@ -68,6 +68,12 @@ excelInstance.interceptors.request.use(
 // Prepare Response
 instance.interceptors.response.use(
   (response) => {
+    if (
+      response.config.url.includes(apiConfig.downloadInvoice)
+  ) {
+      return response.data;
+  }
+
     return response.data.success ? response.data.data : response.error;
   },
   (error) => {

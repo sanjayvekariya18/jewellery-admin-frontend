@@ -128,6 +128,7 @@ const apiConfig = {
   approveOrRejectCancelOrder: "orders/cancel-order-request/approve-or-reject",
   findOrder: "orders/:Id",
   findProductDetail: "orders/order-product/:id",
+  downloadInvoice: "orders/download-invoice",
 
   // return order
   returnOrder: "return-orders",

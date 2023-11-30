@@ -208,3 +208,32 @@ export const setImageSrc = (imageUrl) => {
     return apiConfig.publicURL + imageUrl;
   }
 };
+
+export const downloadFile = (url, data = {}) => {
+  return new Promise((resolve, reject) => {
+    if (!data?.file_name) {
+      reject("file name is required");
+      return;
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", `${apiConfig.baseURL}${url}`, true);
+    xhr.responseType = "arraybuffer";
+    xhr.setRequestHeader(
+      "Authorization",
+      "Bearer " + sessionStorage.getItem(appConfig.localStorage.token)
+    );
+    xhr.onload = function (e) {
+      if (this.status == 200) {
+        var blob = new Blob([this.response], { type: "application/pdf" });
+        var link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = data?.file_name;
+        link.click();
+        resolve();
+      } else {
+        reject();
+      }
+    };
+    xhr.send();
+  });
+};
