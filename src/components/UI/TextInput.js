@@ -46,7 +46,6 @@ const Textinput = ({
         value={value} // Display the value directly
         disabled={disabled}
         multiline={multiline}
-        rows={4}
 
         inputProps={{
           min: "0",

@@ -164,6 +164,7 @@ const apiConfig = {
   // setting api call
   appSettings: "app-settings",
   appSettingsEdit: "app-settings/update",
+  appSettingsUploadFile: "app-settings/upload-file",
 
 };
 

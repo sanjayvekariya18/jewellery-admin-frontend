@@ -9,173 +9,284 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card } from "@mui/material"
-import { API } from '../../../../services';
+import { API, HELPER } from '../../../../services';
 import { apiConfig } from '../../../../config';
+import ImgUploadBoxInput from '../../../../components/UI/ImgUploadBoxInput';
+import Textinput from '../../../../components/UI/TextInput';
 
+const useStyles = makeStyles({
+    horizontalIconLabel: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: '8px', // Adjust the gap between icon and label as needed
+    },
+});
 
 const SettingMaster = () => {
-
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState('general');
     const [formOpen, setFormOpen] = useState(true);
     const [setting, setSetting] = useState({});
     const [formState, setFormState] = useState({});
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
+    const handleChange = (event, batch) => {
+        setValue(batch);
         setFormOpen(true); // Open form when tab is clicked
+
+        setFormState((prevState) => ({
+            ...setting[batch]
+        }));
     };
 
-    const handleCloseForm = () => {
-        setFormOpen(false); // Close form when submit or close button is clicked
-    };
+    const uploadLogo = (callback) => {
+        if (formState?.logo && typeof formState?.logo != 'string') {
+            const formData = new FormData();
+            formData.append('file', formState.logo)
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(Object.values(formState), "formState")
-
-
-        const payload = {
-            key: Object.keys(formState), // Add the key 'engraving_price'
-            value: Object.values(formState) === "" ? Object.values(setting) : Object.values(formState), // Add the corresponding value
+            API.post(apiConfig.appSettingsUploadFile, formData)
+                .then((res) => {
+                    if (res?.upload_path) {
+                        callback(res.upload_path)
+                    }
+                })
+                .catch((error) => {
+                });
         }
+    };
 
-            API.put(apiConfig.appSettingsEdit, payload)
-                .then((res) => {
-                    console.log('Settings updated:', res);
-                    handleCloseForm(); // Close form after successful update
-                })
-                .catch((error) => {
-                    console.error('Error updating settings:', error);
-                    // Handle error
-                });
+    const handleSubmit = (formData) => {
+        API.put(apiConfig.appSettingsEdit, formData)
+            .then((res) => {
+                getAllAppSettings()
+                HELPER.toaster.success('Setting updated successfully!')
+            })
+            .catch((error) => {
+            });
 
-        };
+    };
 
-        const onChange = useCallback((e) => {
-            const { name, value } = e.target;
-            setFormState((prevState) => ({
-                ...prevState,
-                [name]: value,
-            }));
-        }, []);
+    const onChange = useCallback((e) => {
+        const { name, value } = e.target;
+        setFormState((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    }, []);
 
-
-        const useStyles = makeStyles({
-            horizontalIconLabel: {
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                gap: '8px', // Adjust the gap between icon and label as needed
-            },
-        });
-
-        useEffect(() => {
-            API.get(apiConfig.appSettings)
-                .then((res) => {
-                    setSetting(res);
-                    // Update the formState with retrieved settings
-                    setFormState((prevState) => ({
-                        ...prevState,
-                        ...res.general,
-                    }));
-                })
-                .catch((error) => {
-                    console.error('Error fetching settings:', error);
-                });
-        }, []);
-
-
-        // Inside your component
-        const classes = useStyles();
-        return (
-            <Box sx={{ display: 'flex' }} className="tab">
-                <Box sx={{ width: '20%', borderRight: 1, paddingTop: "20px", borderColor: 'divider' }}>
-                    <Tabs
-                        orientation="vertical"
-                        variant="scrollable"
-                        value={value}
-                        onChange={handleChange}
-                    >
-                        <Tab
-                            value={0}
-                            label={
-                                <div className={classes.horizontalIconLabel}>
-                                    <SettingsApplicationsIcon />
-                                    <span>General</span>
-                                </div>
-                            }
-                        />
-                        <Tab
-                            value={1}
-                            label={
-                                <div className={classes.horizontalIconLabel}>
-                                    <ChatBubbleOutlineIcon />
-                                    <span>Social Link</span>
-                                </div>
-                            }
-                        />
-                        <Tab
-                            value={2}
-                            label={
-                                <div className={classes.horizontalIconLabel}>
-                                    <AddCardIcon />
-                                    <span>Fixed Price</span>
-                                </div>
-                            }
-                        />
-                    </Tabs>
-                </Box>
-
-                <Card style={{ marginTop: "30px" }}>
-                    <Box sx={{ flexGrow: 1, padding: 2 }}>
-                        {formOpen && value === 0 && (
-                            <form onSubmit={handleSubmit}>
-                                <TextField label="Contact Number" fullWidth margin="normal" value={formState.contact_number || ''} onChange={onChange} name='contact_number' />
-                                <TextField label="Company Name" fullWidth margin="normal" value={formState.company_name || ''} onChange={onChange} name='company_name' />
-                                <TextField label="Email" fullWidth margin="normal" value={setting?.general?.email === undefined ? "" : setting?.general?.email} />
-                                <TextField label="Address" fullWidth margin="normal" value={setting?.general?.address === undefined ? "" : setting?.general?.address} />
-                                <TextField label="Cancel Days" fullWidth margin="normal" value={setting?.general?.cancel_days === undefined ? "" : setting?.general?.cancel_days} />
-                                <TextField label="Logo" fullWidth margin="normal" value={setting?.general?.logo === undefined ? "" : setting?.social_link?.logo} />
-
-                                <Button type="submit" variant="contained" color="primary">
-                                    Submit
-                                </Button>
-
-                            </form>
-                        )}
-                        {formOpen && value === 1 && (
-                            <form onSubmit={handleSubmit}>
-
-                                <TextField label="FaceBook" fullWidth margin="normal" value={setting?.social_link?.facebook === undefined ? "" : setting?.social_link?.facebook} />
-                                <TextField label="Instagram" fullWidth margin="normal" value={setting?.social_link?.instagram === undefined ? "" : setting?.social_link?.instagram} />
-                                <TextField label="Twitter" fullWidth margin="normal" value={setting?.social_link?.twitter === undefined ? "" : setting?.social_link?.twitter} />
-                                <TextField label="Linkedin" fullWidth margin="normal" value={setting?.social_link?.linkedin === undefined ? "" : setting?.social_link?.linkedin} />
-                                <TextField label="Skype" fullWidth margin="normal" value={setting?.social_link?.skype === undefined ? "" : setting?.social_link?.skype} />
-
-                                <Button type="submit" variant="contained" color="primary">
-                                    Submit
-                                </Button>
-
-                            </form>
-                        )}
-
-                        {formOpen && value === 2 && (
-                            <form onSubmit={handleSubmit}>
-                                {console.log(formState.engraving_price || '', "jrgejreg")}
-
-                                <TextField label="Engraving Price" fullWidth margin="normal" value={formState.engraving_price || ''} onChange={onChange} name='engraving_price' />
-
-                                <Button type="submit" variant="contained" color="primary">
-                                    Submit
-                                </Button>
-
-                            </form>
-                        )}
-                    </Box>
-                </Card >
-            </Box>
-        );
+    const getAllAppSettings = () => {
+        API.get(apiConfig.appSettings)
+            .then((res) => {
+                setSetting(res);
+                setFormState((prevState) => ({
+                    ...res[value],
+                }));
+            })
+            .catch((error) => {
+                console.error('Error fetching settings:', error);
+            });
     }
 
-    export default SettingMaster;
+    useEffect(() => {
+        getAllAppSettings()
+    }, []);
+
+
+    // Inside your component
+    const classes = useStyles();
+    return (
+        <Box sx={{ display: 'flex' }} className="tab">
+            <Box sx={{ width: '20%', borderRight: 1, paddingTop: "20px", borderColor: 'divider' }}>
+                <Tabs
+                    orientation="vertical"
+                    variant="scrollable"
+                    value={value}
+                    onChange={handleChange}
+                >
+                    <Tab
+                        value={'general'}
+                        label={
+                            <div className={classes.horizontalIconLabel}>
+                                <SettingsApplicationsIcon />
+                                <span>General</span>
+                            </div>
+                        }
+                    />
+                    <Tab
+                        value={'social_link'}
+                        label={
+                            <div className={classes.horizontalIconLabel}>
+                                <ChatBubbleOutlineIcon />
+                                <span>Social Link</span>
+                            </div>
+                        }
+                    />
+                    <Tab
+                        value={'fixed_price'}
+                        label={
+                            <div className={classes.horizontalIconLabel}>
+                                <AddCardIcon />
+                                <span>Fixed Price</span>
+                            </div>
+                        }
+                    />
+                </Tabs>
+            </Box>
+
+            <Card style={{ margin: "30px", width: "100%" }}>
+                <Box sx={{ flexGrow: 1, padding: 2 }}>
+                    <form>
+                        {formOpen && value === 'general' && (
+                            <>
+                                <Textinput
+                                    size="medium"
+                                    label="Contact Number"
+                                    value={formState.contact_number || ""}
+                                    onChange={onChange}
+                                    type="text"
+                                    name="contact_number"
+                                    fullWidth
+                                    sx={{ mb: 2, mt: 1, width: "100%" }}
+                                />
+                                <Textinput
+                                    size="medium"
+                                    label="Company Name"
+                                    value={formState.company_name || ""}
+                                    onChange={onChange}
+                                    name="company_name"
+                                    type="text"
+                                    sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
+                                />
+                                <Textinput
+                                    size="medium"
+                                    label="Email"
+                                    value={formState.email || ""}
+                                    onChange={onChange}
+                                    type="text"
+                                    name="email"
+                                    sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
+                                />
+                                <Textinput
+                                    size="medium"
+                                    label="Address"
+                                    value={formState.address || ""}
+                                    onChange={onChange}
+                                    type="text"
+                                    name="address"
+                                    sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
+                                />
+                                <Textinput
+                                    size="medium"
+                                    label="Cancel Days"
+                                    value={formState.cancel_days || ""}
+                                    onChange={onChange}
+                                    type="number"
+                                    name="cancel_days"
+                                    sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
+                                />
+
+                                <label className="label-class">Logo</label>
+                                <ImgUploadBoxInput
+                                    name="logo"
+                                    onChange={onChange}
+                                    value={HELPER.getImageUrl(formState?.logo) || ''}
+                                    label={"Profile Image"}
+                                />
+                            </>
+                        )}
+
+
+                        {formOpen && value === 'social_link' && (
+                            <>
+                                <Textinput
+                                    size="medium"
+                                    label="FaceBook"
+                                    value={formState.facebook}
+                                    onChange={onChange}
+                                    type="text"
+                                    name="facebook"
+                                    fullWidth
+                                    sx={{ mb: 2, mt: 1, width: "100%" }}
+                                />
+                                <Textinput
+                                    size="medium"
+                                    label="Instagram"
+                                    value={formState.instagram}
+                                    onChange={onChange}
+                                    type="text"
+                                    name="instagram"
+                                    fullWidth
+                                    sx={{ mb: 2, mt: 1, width: "100%" }}
+                                />
+                                <Textinput
+                                    size="medium"
+                                    label="Twitter"
+                                    value={formState.twitter}
+                                    onChange={onChange}
+                                    type="text"
+                                    name="twitter"
+                                    fullWidth
+                                    sx={{ mb: 2, mt: 1, width: "100%" }}
+                                />
+                                <Textinput
+                                    size="medium"
+                                    label="Linkedin"
+                                    value={formState.linkedin}
+                                    onChange={onChange}
+                                    type="text"
+                                    name="linkedin"
+                                    fullWidth
+                                    sx={{ mb: 2, mt: 1, width: "100%" }}
+                                />
+                                <Textinput
+                                    size="medium"
+                                    label="Skype"
+                                    value={formState.skype}
+                                    onChange={onChange}
+                                    type="text"
+                                    name="skype"
+                                    fullWidth
+                                    sx={{ mb: 2, mt: 1, width: "100%" }}
+                                />
+                            </>
+                        )}
+
+                        {formOpen && value === 'fixed_price' && (
+
+                            <Textinput
+                                size="medium"
+                                label="Engraving Price"
+                                value={formState.engraving_price}
+                                onChange={onChange}
+                                type="number"
+                                name="engraving_price"
+                                fullWidth
+                                sx={{ mb: 2, mt: 1, width: "100%" }}
+                            />
+                        )}
+
+                        <Button type="button" variant="contained" color="primary" onClick={() => {
+                            if (formState?.logo && typeof formState?.logo != 'string') {
+                                uploadLogo((logoUrl) => {
+                                    handleSubmit({
+                                        ...formState,
+                                        logo: logoUrl
+                                    })
+                                })
+                            } else {
+                                handleSubmit({
+                                    ...formState,
+                                })
+                            }
+                        }}>
+                            Submit
+                        </Button>
+                    </form>
+
+                </Box>
+            </Card >
+        </Box>
+    );
+}
+
+export default SettingMaster;
