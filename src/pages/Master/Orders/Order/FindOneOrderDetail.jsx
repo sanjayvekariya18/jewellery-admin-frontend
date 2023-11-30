@@ -145,15 +145,15 @@ const FindOneOrderDetail = () => {
       const subtotal =
         product.productVariant && product.gemstone
           ? ((product.productVariant.totalPrice || 0) +
-              product.gemstone.price) *
-            product.quantity
+            product.gemstone.price) *
+          product.quantity
           : product.productVariant
-          ? (product.productVariant.totalPrice || 0) * product.quantity
-          : product.gemstone
-          ? product.gemstone.price * product.quantity
-          : product.diamond
-          ? product.diamond.price * product.quantity
-          : 0;
+            ? (product.productVariant.totalPrice || 0) * product.quantity
+            : product.gemstone
+              ? product.gemstone.price * product.quantity
+              : product.diamond
+                ? product.diamond.price * product.quantity
+                : 0;
 
       return accumulator + subtotal;
     }, 0);
@@ -167,8 +167,8 @@ const FindOneOrderDetail = () => {
 
   const downloadInvoice = () => {
     downloadFile(`${apiConfig.downloadInvoice}/${Id}`, {
-        file_name: 'order-invoice.pdf'
-    }).then(() => {}).catch(() => {})
+      file_name: 'order-invoice.pdf'
+    }).then(() => { }).catch(() => { })
   };
 
   return (
@@ -303,7 +303,7 @@ const FindOneOrderDetail = () => {
           />
         </div>
       ) : (
-        <> 
+        <>
           <div
             id="order-details"
             style={{
@@ -589,44 +589,42 @@ const FindOneOrderDetail = () => {
                                 {product.productVariant
                                   ? product.productVariant.title
                                   : ""}
+                                <br />
                                 {product.productVariant && product.gemstone
                                   ? ` (${product.gemstone.title} Gemstone)`
                                   : product.gemstone?.title}
                                 {product.productVariant && product.diamond
-                                  ? ` (${product.diamond.carat} Carat ${
-                                      product.diamond.ShapeMaster
-                                        ? product.diamond.ShapeMaster.shape
-                                        : ""
-                                    } Diamond)`
+                                  ? ` (${product.diamond.carat} Carat ${product.diamond.ShapeMaster
+                                    ? product.diamond.ShapeMaster.shape
+                                    : ""
+                                  } Diamond)`
                                   : product.diamond
-                                  ? ` ${product.diamond.carat} Carat ${
-                                      product.diamond.ShapeMaster
-                                        ? product.diamond.ShapeMaster.shape
-                                        : ""
+                                    ? ` ${product.diamond.carat} Carat ${product.diamond.ShapeMaster
+                                      ? product.diamond.ShapeMaster.shape
+                                      : ""
                                     }`
-                                  : ""}
+                                    : ""}
                                 {!product.productVariant &&
-                                !product.gemstone &&
-                                !product.diamond
+                                  !product.gemstone &&
+                                  !product.diamond
                                   ? "No details available"
                                   : ""}
                               </TableCell>
 
                               <TableCell className={classes.noUnderline}>
-                                {`${
-                                  product.productVariant
+                                {`${product.productVariant
                                     ? product.productVariant.totalPrice
                                     : ""
-                                }`}
+                                  }`}
                                 {product.productVariant
                                   ? product.gemstone &&
-                                    !product.diamond &&
-                                    `(${product.gemstone.price})`
+                                  !product.diamond &&
+                                  `(${product.gemstone.price})`
                                   : product.gemstone?.price}
                                 {product.productVariant
                                   ? !product.gemstone &&
-                                    product.diamond &&
-                                    ` (${product.diamond.price})`
+                                  product.diamond &&
+                                  ` (${product.diamond.price})`
                                   : product.diamond?.price}
                               </TableCell>
                               <TableCell className={classes.noUnderline}>
@@ -638,16 +636,16 @@ const FindOneOrderDetail = () => {
                               <TableCell className={classes.noUnderline}>
                                 {product.productVariant && product.gemstone
                                   ? ((product.productVariant.totalPrice || 0) +
-                                      product.gemstone.price) *
-                                    product.quantity
+                                    product.gemstone.price) *
+                                  product.quantity
                                   : product.productVariant
-                                  ? (product.productVariant.totalPrice || 0) *
+                                    ? (product.productVariant.totalPrice || 0) *
                                     product.quantity
-                                  : product.gemstone
-                                  ? product.gemstone.price * product.quantity
-                                  : product.diamond
-                                  ? product.diamond.price * product.quantity
-                                  : ""}
+                                    : product.gemstone
+                                      ? product.gemstone.price * product.quantity
+                                      : product.diamond
+                                        ? product.diamond.price * product.quantity
+                                        : ""}
                               </TableCell>
                               <TableCell className="main-icon-details-button thead-second-width-action-35">
                                 <IconButton
