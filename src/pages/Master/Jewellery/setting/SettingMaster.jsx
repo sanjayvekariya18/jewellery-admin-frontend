@@ -184,6 +184,24 @@ const SettingMaster = () => {
                                     name="cancel_days"
                                     sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
                                 />
+                                <Textinput
+                                    size="medium"
+                                    label="Return Days"
+                                    value={formState.returnDays || ""}
+                                    onChange={onChange}
+                                    type="number"
+                                    name="returnDays"
+                                    sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
+                                />
+                                <Textinput
+                                    size="medium"
+                                    label="Delivery Days"
+                                    value={formState.deliveryDays || ""}
+                                    onChange={onChange}
+                                    type="number"
+                                    name="deliveryDays"
+                                    sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
+                                />
 
                                 <label className="label-class">Logo</label>
                                 <ImgUploadBoxInput

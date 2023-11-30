@@ -783,6 +783,16 @@ const FindOneOrderDetail = () => {
                             }}
                             className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
                           >
+                            Status
+                          </TableCell>
+                          <TableCell
+                            style={{
+                              paddingLeft: "20px",
+                              paddingTop: "11px",
+                              paddingBottom: "11px",
+                            }}
+                            className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
+                          >
                             Order Date
                           </TableCell>
                           <TableCell
@@ -805,6 +815,11 @@ const FindOneOrderDetail = () => {
                                 className={`${classes.noUnderline} product-th-tag `}
                               >
                                 {index + 1}
+                              </TableCell>
+                              <TableCell
+                                className={`${classes.noUnderline} product-th-tag`}
+                              >
+                                {order.status}
                               </TableCell>
                               <TableCell
                                 className={`${classes.noUnderline} product-th-tag`}
