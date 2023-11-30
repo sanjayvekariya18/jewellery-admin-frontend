@@ -160,6 +160,11 @@ const apiConfig = {
   // Slider
   slider: "slider",
   sliderUpdate: "slider/:id",
+
+  // setting api call
+  appSettings: "app-settings",
+  appSettingsEdit: "app-settings/update",
+
 };
 
 export default apiConfig;

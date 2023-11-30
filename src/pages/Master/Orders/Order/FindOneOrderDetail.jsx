@@ -590,14 +590,14 @@ const FindOneOrderDetail = () => {
                                   ? product.productVariant.title
                                   : ""}
                                 {product.productVariant && product.gemstone
-                                  ? ` (${product.gemstone.title})`
+                                  ? ` (${product.gemstone.title} Gemstone)`
                                   : product.gemstone?.title}
                                 {product.productVariant && product.diamond
                                   ? ` (${product.diamond.carat} Carat ${
                                       product.diamond.ShapeMaster
                                         ? product.diamond.ShapeMaster.shape
                                         : ""
-                                    })`
+                                    } Diamond)`
                                   : product.diamond
                                   ? ` ${product.diamond.carat} Carat ${
                                       product.diamond.ShapeMaster

@@ -113,6 +113,9 @@ const SliderMaster = Loadable(
 const DynamicMenuMaster = Loadable(
   lazy(() => import("./Master/Jewellery/DynamicMenu/DynamicMenuMaster"))
 );
+const SettingMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/setting/SettingMaster"))
+);
 
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
@@ -224,9 +227,14 @@ const routes = [
       {
         path: pageRoutes.master.pages.slider,
         element: <SliderMaster />,
-      }, {
+      },
+      {
         path: pageRoutes.master.pages.dynamicMenu,
         element: <DynamicMenuMaster />,
+      },
+      {
+        path: pageRoutes.master.pages.setting,
+        element: <SettingMaster />,
       },
       { path: pageRoutes.master.jewellery.details, element: <DetailsMaster /> },
       // {

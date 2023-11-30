@@ -181,6 +181,11 @@ export const navigations = [
         name: "Dynamic Menu",
         iconText: "BC",
         path: pageRoutes.master.pages.dynamicMenu,
+      },
+      {
+        name: "Settings",
+        iconText: "ST",
+        path: pageRoutes.master.pages.setting,
       }
     ],
   },

@@ -65,12 +65,12 @@ export const pageRoutes = {
       banner: "/master/pages/banner",
       slider: "/master/pages/slider",
       dynamicMenu: "/master/pages/dynamicMenu",
-
+      setting:"/master/pages/setting",
     },
     user: {
       permissions: "/master/user/permissions",
       user: "/master/user/user",
       userPermissions: "/master/user/user_permissions/:id",
-    },
+    }
   },
 };

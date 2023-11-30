@@ -48,14 +48,14 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
     mWidth: "numeric|min:0|required",
   };
 
-  const onChange = useCallback((e) => {
-    setFormState((prevProps) => {
-      return {
-        ...prevProps,
-        [e.target.name]: e.target.value,
-      };
-    });
-  }, []);
+    const onChange = useCallback((e) => {
+      setFormState((prevProps) => {
+        return {
+          ...prevProps,
+          [e.target.name]: e.target.value,
+        };
+      });
+    }, []);
 
   // -------- handleSubmit-------------
   const handleSubmit = (data) => {
