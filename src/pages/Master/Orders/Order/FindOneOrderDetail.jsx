@@ -158,26 +158,6 @@ const FindOneOrderDetail = () => {
       return accumulator + subtotal;
     }, 0);
 
-  const generatePDF = () => {
-    const element = document.getElementById("order-details");
-
-    if (element) {
-      const clone = element.cloneNode(true);
-      const elementsToExclude = clone.querySelectorAll(
-        ".thead-second-width-action-35"
-      );
-      elementsToExclude.forEach((el) => el.remove());
-      const filename = `Order_Detail_${
-        orderDetail.order?.orderNo || "Untitled"
-      }.pdf`;
-      const options = {
-        filename: filename,
-        jsPDF: { format: "a4", orientation: "portrait" },
-      };
-      html2pdf().from(clone).set(options).save();
-    }
-  };
-
   const getProductDetail = (id) => {
     // API.get(apiConfig.findProductDetail.replace(":id", id)).then((res) => {
     setFindProduct(true);
