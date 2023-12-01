@@ -263,13 +263,13 @@ const FindProductVariantMoreDetail = () => {
                           <Table>
                             <TableHead>
                               <TableRow>
-                                <TableCell>Diamond</TableCell>
                                 <TableCell>Stock No</TableCell>
                                 <TableCell>Shape</TableCell>
                                 <TableCell>Carat</TableCell>
                                 <TableCell>Color</TableCell>
                                 <TableCell>Clarity</TableCell>
-                                <TableCell>Price</TableCell>
+                                <TableCell>Qty</TableCell>
+                                <TableCell style={{ width: "40px" }}>Price</TableCell>
                               </TableRow>
                             </TableHead>
                             <TableBody>
@@ -277,13 +277,13 @@ const FindProductVariantMoreDetail = () => {
                               (
 
                                 <TableRow key={index}>
-                                  <TableCell>{item.noOfDiamond}</TableCell>
                                   <TableCell>{item.ProductVariantDiamond.stockId}</TableCell>
                                   <TableCell style={{ padding: "2px" }}>{item.ProductVariantDiamond.shape}</TableCell>
                                   <TableCell style={{ paddingLeft: "15px" }}>{item.ProductVariantDiamond.carat}</TableCell>
                                   <TableCell>{item.ProductVariantDiamond.color}</TableCell>
                                   <TableCell>{item.ProductVariantDiamond.clarity}</TableCell>
 
+                                  <TableCell>{item.noOfDiamond}</TableCell>
                                   <TableCell style={{ textAlign: "right" }}>${item.ProductVariantDiamond.price}</TableCell>
                                 </TableRow>
                               ))}
@@ -294,8 +294,7 @@ const FindProductVariantMoreDetail = () => {
                                 <TableCell>
                                   <strong>{productData?.VariantSkuDiamondLinks?.length}</strong>
                                 </TableCell>
-                                <TableCell>
-                                </TableCell>
+                                
                                 <TableCell style={{ textAlign: "right" }}>
                                   <strong style={{ textAlign: "right" }}>{totalDiamondCarat}</strong>
                                 </TableCell>
@@ -303,10 +302,14 @@ const FindProductVariantMoreDetail = () => {
                                 </TableCell>
                                 <TableCell>
                                 </TableCell>
+                                <TableCell>
+                                </TableCell>
 
                                 <TableCell style={{ textAlign: "right" }}>
-                                  <strong>${totalDiamondPrice}</strong>
+                                  <div style={{ width: "max-content", fontWeight: "bold" }}>${totalDiamondPrice}</div>
                                 </TableCell>
+
+
                               </TableRow>
                             </TableBody>
                           </Table>
@@ -325,27 +328,29 @@ const FindProductVariantMoreDetail = () => {
                           <Table>
                             <TableHead>
                               <TableRow>
-                                <TableCell style={{width:"70px"}}>Gemstone</TableCell>
-                                <TableCell style={{width:"70px"}}>Stock No</TableCell>
+
+                                <TableCell style={{ width: "70px" }}>Stock No</TableCell>
                                 <TableCell style={{ width: "60px" }}>Shape</TableCell>
                                 <TableCell >Carat</TableCell>
                                 <TableCell>Color</TableCell>
                                 <TableCell>Clarity</TableCell>
                                 <TableCell>Origin</TableCell>
-                                <TableCell>Price</TableCell>
+                                <TableCell>Qty</TableCell>
+                                <TableCell style={{ width: "49px" }}>Price</TableCell>
                               </TableRow>
                             </TableHead>
                             <TableBody>
                               {productData?.VariantSkuGemstoneLinks?.map((item, index) => (
                                 <TableRow key={index}>
-                                  <TableCell>{item.noOfGemstone}</TableCell>
+
                                   <TableCell>{item.ProductVariantGemstone.stockId}</TableCell>
-                                  <TableCell style={{ paddingLeft: "15px" }}>{item.ProductVariantGemstone.carat}</TableCell>
                                   <TableCell>{item.ProductVariantGemstone.shape}</TableCell>
+                                  <TableCell style={{ paddingLeft: "15px" }}>{item.ProductVariantGemstone.carat}</TableCell>
                                   <TableCell>{item.ProductVariantGemstone.color}</TableCell>
                                   <TableCell>{item.ProductVariantGemstone.clarity}</TableCell>
                                   <TableCell>{item.ProductVariantGemstone.origin}</TableCell>
-                                  <TableCell style={{ textAlign: "right" }}>${item.ProductVariantGemstone.price}</TableCell>
+                                  <TableCell>{item.noOfGemstone}</TableCell>
+                                  <TableCell>${item.ProductVariantGemstone.price}</TableCell>
                                 </TableRow>
                               ))}
                               <TableRow>
@@ -355,9 +360,9 @@ const FindProductVariantMoreDetail = () => {
                                 <TableCell>
                                   <strong>{productData?.VariantSkuGemstoneLinks?.length}</strong>
                                 </TableCell>
-                               
+
                                 <TableCell>
-                                  <strong style={{ paddingLeft: "15px" }}>{totalGemstoneCarat}</strong>
+                                  <strong style={{ paddingLeft: "7px" }}>{totalGemstoneCarat}</strong>
                                 </TableCell>
                                 <TableCell>
                                 </TableCell>
