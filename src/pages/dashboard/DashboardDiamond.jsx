@@ -101,7 +101,7 @@ const DiamondDashboard = () => {
           <span>{item.shapeName}</span>,
           <span>{item.carat}</span>,
           <span>{item.labName}</span>,
-          <span>{item.price}</span>,
+          <span>${item.price}</span>,
         ],
       };
     });

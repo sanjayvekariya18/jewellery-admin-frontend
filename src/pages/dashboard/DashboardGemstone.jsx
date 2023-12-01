@@ -99,7 +99,7 @@ const GemstoneDashboard = () => {
           <div className="common-thead-second-width-title">
             <span style={{ fontWeight: 500 }}>{item.title}</span>
           </div>,
-          <span>{item.price}</span>,
+          <span>${item.price}</span>,
         ],
       };
     });

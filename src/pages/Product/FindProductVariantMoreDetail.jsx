@@ -74,28 +74,30 @@ const FindProductVariantMoreDetail = () => {
   const handleOnClick = () => {
     navigate(-1);
   };
-  // total gemstone caray
-  const totalGemstoneCarat = (
-    productData?.productVariantGemstone?.reduce((acc, gemstone) => acc + gemstone.carat, 0) || 0
-  ).toFixed(2);
-
-  // Total gemstone price
-  const totalGemstonePrice = productData?.productVariantGemstone?.reduce(
-    (acc, gemstone) => acc + gemstone.price,
-    0
-  );
-
-  // total Diamond Carat
+  // Calculate total carat and total price for diamonds
   const totalDiamondCarat = (
-    productData?.productVariantDiamond?.reduce((acc, gemstone) => acc + gemstone.carat, 0) || 0
+    productData?.VariantSkuDiamondLinks?.reduce((acc, diamond) => acc + diamond.ProductVariantDiamond.carat, 0) || 0
   ).toFixed(2);
-  // total Diamond Price
 
-  const totalDiamondPrice = productData?.productVariantDiamond?.reduce(
-    (acc, gemstone) => acc + gemstone.price,
-    0
+  const totalDiamondPrice = (
+    productData?.VariantSkuDiamondLinks?.reduce((acc, diamond) => acc + diamond.ProductVariantDiamond.price, 0) || 0
   );
 
+  // Calculate total carat and total price for gemstones
+  const totalGemstoneCarat = (
+    productData?.VariantSkuGemstoneLinks?.reduce((acc, gemstone) => acc + gemstone?.ProductVariantGemstone?.carat, 0) || 0
+  ).toFixed(2);
+
+  const totalGemstonePrice = (
+    productData?.VariantSkuGemstoneLinks?.reduce((acc, gemstone) => acc + gemstone?.ProductVariantGemstone?.price, 0) || 0
+  );
+
+
+  console.log(productData.VariantSkuDiamondLinks && productData.VariantSkuDiamondLinks.map((item, index) => {
+    console.log(item.ProductVariantDiamond.stockId
+      , "item");
+  })
+    , "productData");
   return (
     <>
       <Box
@@ -257,10 +259,11 @@ const FindProductVariantMoreDetail = () => {
                     <CardHeader title="Diamond" style={{ paddingBottom: "0px" }} />
                     <CardContent>
                       <TableContainer>
-                        {productData.productVariantDiamond && productData?.productVariantDiamond.length > 0 ? (
+                        {productData.VariantSkuDiamondLinks && productData.VariantSkuDiamondLinks.length > 0 ? (
                           <Table>
                             <TableHead>
                               <TableRow>
+                                <TableCell>Diamond</TableCell>
                                 <TableCell>Stock No</TableCell>
                                 <TableCell>Shape</TableCell>
                                 <TableCell>Carat</TableCell>
@@ -270,14 +273,18 @@ const FindProductVariantMoreDetail = () => {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {productData?.productVariantDiamond?.map((item, index) => (
+                              {productData.VariantSkuDiamondLinks && productData.VariantSkuDiamondLinks.map((item, index) =>
+                              (
+
                                 <TableRow key={index}>
-                                  <TableCell>{item.stockId}</TableCell>
-                                  <TableCell>{item.shape}</TableCell>
-                                  <TableCell style={{ paddingLeft: "15px" }}>{item.carat}</TableCell>
-                                  <TableCell>{item.color}</TableCell>
-                                  <TableCell>{item.clarity}</TableCell>
-                                  <TableCell style={{ textAlign: "right" }}>${item.price}</TableCell>
+                                  <TableCell>{item.noOfDiamond}</TableCell>
+                                  <TableCell>{item.ProductVariantDiamond.stockId}</TableCell>
+                                  <TableCell style={{ padding: "2px" }}>{item.ProductVariantDiamond.shape}</TableCell>
+                                  <TableCell style={{ paddingLeft: "15px" }}>{item.ProductVariantDiamond.carat}</TableCell>
+                                  <TableCell>{item.ProductVariantDiamond.color}</TableCell>
+                                  <TableCell>{item.ProductVariantDiamond.clarity}</TableCell>
+
+                                  <TableCell style={{ textAlign: "right" }}>${item.ProductVariantDiamond.price}</TableCell>
                                 </TableRow>
                               ))}
                               <TableRow>
@@ -285,16 +292,18 @@ const FindProductVariantMoreDetail = () => {
                                   <strong>Total:-</strong>
                                 </TableCell>
                                 <TableCell>
-                                  <strong>{productData?.productVariantDiamond?.length}</strong>
+                                  <strong>{productData?.VariantSkuDiamondLinks?.length}</strong>
                                 </TableCell>
                                 <TableCell>
-                                  <strong style={{ paddingLeft: "15px" }}>{totalDiamondCarat}</strong>
+                                </TableCell>
+                                <TableCell style={{ textAlign: "right" }}>
+                                  <strong style={{ textAlign: "right" }}>{totalDiamondCarat}</strong>
+                                </TableCell>
+                                <TableCell>
                                 </TableCell>
                                 <TableCell>
                                 </TableCell>
 
-                                <TableCell>
-                                </TableCell>
                                 <TableCell style={{ textAlign: "right" }}>
                                   <strong>${totalDiamondPrice}</strong>
                                 </TableCell>
@@ -311,12 +320,13 @@ const FindProductVariantMoreDetail = () => {
                   <Card sx={{ marginTop: 2, marginRight: 2, width: "50%" }}>
                     <CardHeader title="Gemstone" style={{ paddingBottom: "0px" }} />
                     <CardContent>
-                      {productData.productVariantGemstone && productData.productVariantGemstone.length > 0 ? (
+                      {productData.VariantSkuGemstoneLinks && productData.VariantSkuGemstoneLinks.length > 0 ? (
                         <TableContainer>
                           <Table>
                             <TableHead>
                               <TableRow>
-                                <TableCell>Stock No</TableCell>
+                                <TableCell style={{width:"70px"}}>Gemstone</TableCell>
+                                <TableCell style={{width:"70px"}}>Stock No</TableCell>
                                 <TableCell style={{ width: "60px" }}>Shape</TableCell>
                                 <TableCell >Carat</TableCell>
                                 <TableCell>Color</TableCell>
@@ -326,15 +336,16 @@ const FindProductVariantMoreDetail = () => {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {productData?.productVariantGemstone?.map((item, index) => (
+                              {productData?.VariantSkuGemstoneLinks?.map((item, index) => (
                                 <TableRow key={index}>
-                                  <TableCell>{item.stockId}</TableCell>
-                                  <TableCell>{item.shape}</TableCell>
-                                  <TableCell style={{ paddingLeft: "15px" }}>{item.carat}</TableCell>
-                                  <TableCell>{item.color}</TableCell>
-                                  <TableCell>{item.clarity}</TableCell>
-                                  <TableCell>{item.origin}</TableCell>
-                                  <TableCell style={{ textAlign: "right" }}>${item.price}</TableCell>
+                                  <TableCell>{item.noOfGemstone}</TableCell>
+                                  <TableCell>{item.ProductVariantGemstone.stockId}</TableCell>
+                                  <TableCell style={{ paddingLeft: "15px" }}>{item.ProductVariantGemstone.carat}</TableCell>
+                                  <TableCell>{item.ProductVariantGemstone.shape}</TableCell>
+                                  <TableCell>{item.ProductVariantGemstone.color}</TableCell>
+                                  <TableCell>{item.ProductVariantGemstone.clarity}</TableCell>
+                                  <TableCell>{item.ProductVariantGemstone.origin}</TableCell>
+                                  <TableCell style={{ textAlign: "right" }}>${item.ProductVariantGemstone.price}</TableCell>
                                 </TableRow>
                               ))}
                               <TableRow>
@@ -342,10 +353,13 @@ const FindProductVariantMoreDetail = () => {
                                   <strong>Total:-</strong>
                                 </TableCell>
                                 <TableCell>
-                                  <strong>{productData?.productVariantGemstone?.length}</strong>
+                                  <strong>{productData?.VariantSkuGemstoneLinks?.length}</strong>
                                 </TableCell>
+                               
                                 <TableCell>
                                   <strong style={{ paddingLeft: "15px" }}>{totalGemstoneCarat}</strong>
+                                </TableCell>
+                                <TableCell>
                                 </TableCell>
                                 <TableCell>
                                 </TableCell>
@@ -381,7 +395,7 @@ const FindProductVariantMoreDetail = () => {
                 ))
 
               ) : (
-                <h1 style={{textAlign:"center"}}>No Image Found</h1>
+                <h1 style={{ textAlign: "center" }}>No Image Found</h1>
               )}
             </div>
           </div>

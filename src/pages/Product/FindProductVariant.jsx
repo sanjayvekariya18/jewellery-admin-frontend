@@ -136,11 +136,11 @@ const addToFeature = (id) => {
             <span>{item.title}</span>
           </div>,
           <span>{item.totalCarat}</span>,
-          <span>{item.makingPrice}</span>,
+          <span>${item.makingPrice}</span>,
           <span>{item.metalWeight}</span>,
-          <span>{item.metalPrice}</span>,
-          <span>{item.diamondPrice}</span>,
-          <span>{item.totalPrice}</span>,
+          <span>${item.metalPrice}</span>,
+          <span>${item.diamondPrice}</span>,
+          <span>${item.totalPrice}</span>,
           <span>
           <ThemeSwitch
             checked={item.isVisible}

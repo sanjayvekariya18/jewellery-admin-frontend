@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Button, Icon, IconButton, Tooltip, Checkbox } from "@mui/material";
+import { Box, Button, Icon, IconButton, Tooltip, Checkbox ,Typography} from "@mui/material";
 import Swal from "sweetalert2";
 import ReactDragListView from "react-drag-listview";
 import _ from "lodash"
@@ -12,13 +12,18 @@ import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
 const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }) => {
     const [rowMoved, setRowMoved] = useState(false);
+    const [addressText, setAddressText] = useState("");
+    const [textModal, setTextModal] = useState(false);
 
     const COLUMNS = [
         { title: "Drag" },
-        { title: "Image", field: "thumbnail", order: true },
-        { title: "Banner Title", field: "title", order: true },
-        { title: "Sub Title", field: "sub_title", order: true },
-        { title: "Action" },
+        { title: "Image" },
+        { title: "Banner Title", classNameWidth: "thead-second-width-title-answer" },
+        { title: "Sub Title", classNameWidth: "thead-second-width-title-answer" },
+        {
+            title: "Action",
+            classNameWidth: "thead-second-width-discount",
+        },
     ];
 
     //-------------- Delete Silder Banner------------
@@ -137,7 +142,14 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
                 });
         }
     };
-
+    const showAddressInDialog = (item) => {
+        const sub_title = item.Banner.sub_title;
+        setAddressText(sub_title); // Set the address text
+        textModaltoggle(); // Show the dialog
+    };
+    const textModaltoggle = () => {
+        setTextModal(!textModal);
+    };
     const rows = useMemo(() => {
         return state.data.map((item) => {
             return {
@@ -155,12 +167,20 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
                                 src={HELPER.getImageUrl(item.Banner.image_url)}
                                 alt=""
                                 height={50}
-                                width={50}
+                                width={50}  
                             />
                         )}
                     </span>,
-                    <span>{item.Banner.title}</span>,
-                    <span>{item.Banner.sub_title}</span>,
+                     <div className="common-thead-second-width-title">
+                     <span>{item.title}</span>
+                 </div>,
+                    <div
+                    className="common-thead-second-width-title"
+                    style={{ fontWeight: "500", cursor: "pointer" }}
+                    onClick={() => showAddressInDialog(item)}
+                >
+                    <span>{item.Banner.sub_title}</span>
+                </div>,
 
                     <span>
                         <IconButton onClick={() => {
@@ -249,6 +269,31 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
 
 
             </ThemeDialog >
+            {textModal && (
+                <ThemeDialog
+                    title="Sub Title"
+                    id="showModal"
+                    isOpen={textModal}
+                    toggle={textModaltoggle}
+                    centered
+                    maxWidth="sm"
+                    actionBtns={
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={textModaltoggle}
+                        >
+                            Close
+                        </Button>
+                    }
+                >
+                    <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
+                        <Typography variant="body1" style={{ lineHeight: "22px" }}>
+                            {addressText}
+                        </Typography>
+                    </div>
+                </ThemeDialog>
+            )}
         </>
 
 

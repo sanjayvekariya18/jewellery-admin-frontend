@@ -168,12 +168,6 @@ const BlogMaster = () => {
     paginate();
   }, [state.page, state.rowsPerPage]);
 
-  const showAddressInDialog = (item) => {
-    const description = item.description;
-    setAddressText(description); // Set the address text
-    textModaltoggle(); // Show the dialog
-  };
-
   useEffect(() => {
     API.get(apiConfig.listblogCategory, { is_public_url: true })
       .then((res) => {

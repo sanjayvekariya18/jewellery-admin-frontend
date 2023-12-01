@@ -341,7 +341,7 @@ input::-webkit-inner-spin-button {
   overflow: hidden !important;
   text-overflow: ellipsis;
 }
-.thead-second-width1{
+.thead-second-width1 {
   text-align: center !important;
   width: 50% !important;
 }
@@ -849,4 +849,25 @@ input::-webkit-inner-spin-button {
   margin: 42px 43px 33px 40px !important;
   padding-top: 0px !important;
   height: 100%;
+}
+.menu {
+  border: 1px solid #b3b3bcf3 !important;
+  padding: 0px 15px;
+  background-color: #f3f3f9 !important;
+  margin: 10px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.table-image-display {
+  width: 95px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Define the styles for the selected row */
+.selected-row {
+  background-color: #f0f0f0; /* Change background color to your preference */
+  /* Add any other styles to highlight the selected row */
 }

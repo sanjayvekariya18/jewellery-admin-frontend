@@ -298,7 +298,7 @@ const ColorDiamondMaster = () => {
           <span>{item.clarity}</span>,
           <span>{item.origin}</span>,
           <span>{item.intensity}</span>,
-          <span>{item.price}</span>,
+          <span>${item.price}</span>,
           <span>
             <ThemeSwitch
               checked={item.isVisible}

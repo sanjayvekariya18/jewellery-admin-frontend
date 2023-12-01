@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Button, Icon, IconButton, Tooltip, Checkbox } from "@mui/material";
+import { Box, Button, Icon, IconButton, Tooltip, Checkbox, Typography } from "@mui/material";
 import _ from "lodash";
 import Swal from "sweetalert2";
 import { API, HELPER } from "../../../../services";
@@ -13,14 +13,19 @@ import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
 const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
     const [rowMoved, setRowMoved] = useState(false);
-
+    const [addressText, setAddressText] = useState("");
+    const [textModal, setTextModal] = useState(false);
     const COLUMNS = [
         { title: "Drag" },
-        { title: "Image", field: "thumbnail", order: true },
-        { title: "Banner Title", field: "title", order: true },
-        { title: "Sub Title", field: "sub_title", order: true },
-        { title: "Action" },
+        { title: "Image" },
+        { title: "Banner Title", classNameWidth: "thead-second-width-title-answer" },
+        { title: "Sub Title", classNameWidth: "thead-second-width-title-answer" },
+        {
+            title: "Action",
+            classNameWidth: "thead-second-width-discount",
+        },
     ];
+
 
     //-------------- Delete Silder Banner------------
     const onClickDelete = (banner_id) => {
@@ -160,9 +165,16 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
                             />
                         )}
                     </span>,
-                    <span>{item.Banner.title}</span>,
-                    <span>{item.Banner.sub_title}</span>,
-
+                    <div className="common-thead-second-width-title">
+                        <span>{item.Banner.title}</span>
+                    </div>,
+                    <div
+                        className="common-width-three-dot-text"
+                        style={{ fontWeight: "500", cursor: "pointer" }}
+                        onClick={() => showAddressInDialog(item)}
+                    >
+                        <span>{item.Banner.sub_title}</span>
+                    </div>,
                     <div>
                         <IconButton onClick={(e) => onClickDelete(item.slider_banner_id)}>
                             <Icon color="error">delete</Icon>
@@ -172,7 +184,14 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
             };
         });
     }, [state.data]);
-
+    const showAddressInDialog = (item) => {
+        const sub_title = item.Banner.sub_title;
+        setAddressText(sub_title); // Set the address text
+        textModaltoggle(); // Show the dialog
+    };
+    const textModaltoggle = () => {
+        setTextModal(!textModal);
+    };
     return (
         <>
             <>
@@ -196,11 +215,11 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
                     }
                 >
                     <Container>
-                        <Box   
+                        <Box
                             sx={{
                                 display: "flex",
                                 justifyContent: "flex-end",
-                                paddingBottom:"10px"
+                                paddingBottom: "10px"
                             }}
                         >
                             <div>
@@ -246,6 +265,31 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
 
                 </ThemeDialog >
             </>
+            {textModal && (
+                <ThemeDialog
+                    title="Sub Title"
+                    id="showModal"
+                    isOpen={textModal}
+                    toggle={textModaltoggle}
+                    centered
+                    maxWidth="sm"
+                    actionBtns={
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={textModaltoggle}
+                        >
+                            Close
+                        </Button>
+                    }
+                >
+                    <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
+                        <Typography variant="body1" style={{ lineHeight: "22px" }}>
+                            {addressText}
+                        </Typography>
+                    </div>
+                </ThemeDialog>
+            )}
         </>
     );
 

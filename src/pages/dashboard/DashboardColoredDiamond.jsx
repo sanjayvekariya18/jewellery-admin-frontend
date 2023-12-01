@@ -99,7 +99,7 @@ const ColoredDiamondDashboard = () => {
           </div>,
           <span>{item.title}</span>,
           <span>{item.carat}</span>,
-          <span>{item.price}</span>,
+          <span>${item.price}</span>,
         ],
       };
     });

@@ -420,7 +420,7 @@ const DiamondMaster = () => {
           <span>{appConfig.D_Symmetry[item.symmetry]}</span>,
           <span>{item.origin}</span>,
           <span>{item.labName}</span>,
-          <span>{item.price}</span>,
+          <span>${item.price}</span>,
           <span>
             <ThemeSwitch
               checked={item.isVisible}

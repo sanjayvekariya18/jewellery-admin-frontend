@@ -124,7 +124,7 @@ export default function PaginationTable({
   changeActivePage,
   isLoader = true,
   isModalTrue = false,
-
+  isSelected,
   footerVisibility,
 }) {
   const _onChangeSelect = (e) => {

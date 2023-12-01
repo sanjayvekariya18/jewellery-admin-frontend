@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
-import { Box, Button, Icon, IconButton, Tooltip, Checkbox } from "@mui/material";
+import { Box, Button, Icon, IconButton, Typography, Checkbox } from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import { Breadcrumb, StyledAddButton, Container } from "../../../../components";
 import error400cover from "../../../../assets/no-data-found-page.png";
@@ -8,6 +8,7 @@ import PaginationTable, { usePaginationTable } from "../../../../components/UI/P
 import { apiConfig, appConfig } from "../../../../config";
 import BannerMasterDetail from "./BannerMasterDetail";
 import SliderBannerMasterDetail from "../SliderBanner/SliderBannerMasterDetail";
+import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
 const BannerMaster = () => {
     const [selectedUserData, setSelectedUserData] = useState(null);
@@ -15,24 +16,31 @@ const BannerMaster = () => {
     const [SliderBannerModal, setSliderBannerModal] = useState("");
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [loading, setLoading] = useState();
+    const [addressText, setAddressText] = useState("");
+    const [textModal, setTextModal] = useState(false);
+
+
 
 
     // ----Pagination code------
     const COLUMNS = [
         { title: "Select", classNameWidth: "thead-second-width-discount" },
-        { title: "Banner Title", classNameWidth: "thead-second-width-title" },
-        { title: "Sub Title", classNameWidth: "thead-second-width-discount" },
+        { title: "Banner Title", classNameWidth: "thead-second-width-title-answer" },
+        { title: "Sub Title", classNameWidth: "thead-second-width-title-answer" },
         { title: "Image", classNameWidth: "thead-second-width-discount-85" },
-        { title: "thumbnail_image", classNameWidth: "thead-second-width-discount-85" },
-        { title: "Button Text", classNameWidth: "thead-second-width-discount-85" },
+        { title: "Button Text", classNameWidth: "thead-second-width-stone" },
         { title: "Is Clickable", classNameWidth: "thead-second-width-discount-85" },
         { title: "Show Button", classNameWidth: "thead-second-width-discount-85" },
-        { title: "Is Collection", classNameWidth: "thead-second-width-discount-85" },
         {
             title: "Action",
             classNameWidth: "thead-second-width-discount",
         },
     ];
+    const showAddressInDialog = (item) => {
+        const sub_title = item.sub_title;
+        setAddressText(sub_title); // Set the address text
+        textModaltoggle(); // Show the dialog
+    };
     const {
         state,
         setState,
@@ -102,6 +110,7 @@ const BannerMaster = () => {
             cancelButtonColor: "red",
             cancelButtonText: "No",
             confirmButtonText: "Yes",
+
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
@@ -131,7 +140,7 @@ const BannerMaster = () => {
 
     useEffect(() => {
         paginate();
-    }, [state.page, state.rowsPerPage, selectedCheckboxes]);
+    }, [state.page, state.rowsPerPage]);
 
     const rows = useMemo(() => {
         return state.data.map((item) => {
@@ -148,25 +157,21 @@ const BannerMaster = () => {
                     <div className="common-thead-second-width-title">
                         <span>{item.title}</span>
                     </div>,
-                    <div className="common-thead-second-width-title">
+                    <div
+                        className="common-thead-second-width-title"
+                        style={{ fontWeight: "500", cursor: "pointer" }}
+                        onClick={() => showAddressInDialog(item)}
+                    >
                         <span>{item.sub_title}</span>
                     </div>,
+                    // <div className="common-thead-second-width-title">
+                    //     <span>{item.sub_title}</span>
+                    // </div>,
                     <span className="common-thead-second-width-title">
                         {item.image_url && (
 
                             <img
                                 src={HELPER.getImageUrl(item.image_url)}
-                                alt=""
-                                height={50}
-                                width={50}
-                            />
-                        )}
-                    </span>,
-                    <span className="common-thead-second-width-title">
-                        {item.thumbnail_image && (
-
-                            <img
-                                src={HELPER.getImageUrl(item.thumbnail_image)}
                                 alt=""
                                 height={50}
                                 width={50}
@@ -196,17 +201,7 @@ const BannerMaster = () => {
                             </span>
                         )}
                     </span>,
-                    <span>
-                        {item.is_collection == true ? (
-                            <span className="badgeSuccess ">
-                                True
-                            </span>
-                        ) : (
-                            <span className="badgeFail">
-                                False
-                            </span>
-                        )}
-                    </span>,
+
                     <div>
                         <IconButton onClick={(e) => handleEdit(item)}>
                             <Icon color="primary">create</Icon>
@@ -218,7 +213,7 @@ const BannerMaster = () => {
                 ],
             };
         });
-    }, [state.data]);
+    }, [state.data, selectedCheckboxes]);
 
     const handleEdit = (data) => {
         setSelectedUserData(data);
@@ -233,7 +228,9 @@ const BannerMaster = () => {
         setOpen(!open);
     };
 
-
+    const textModaltoggle = () => {
+        setTextModal(!textModal);
+    };
     return (
         <>
             <div>
@@ -294,7 +291,7 @@ const BannerMaster = () => {
                         open={open}
                         togglePopup={() => {
                             togglePopup();
-                            paginate();
+                            // paginate();
                         }}
                         userData={selectedUserData}
                         callBack={() => paginate(true)}
@@ -317,6 +314,31 @@ const BannerMaster = () => {
 
                 </Container>
             </div>
+            {textModal && (
+                <ThemeDialog
+                    title="Sub Title"
+                    id="showModal"
+                    isOpen={textModal}
+                    toggle={textModaltoggle}
+                    centered
+                    maxWidth="sm"
+                    actionBtns={
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={textModaltoggle}
+                        >
+                            Close
+                        </Button>
+                    }
+                >
+                    <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
+                        <Typography variant="body1" style={{ lineHeight: "22px" }}>
+                            {addressText}
+                        </Typography>
+                    </div>
+                </ThemeDialog>
+            )}
         </>
     );
 };

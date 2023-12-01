@@ -290,7 +290,7 @@ const GemstoneMaster = () => {
           <span>{item.color}</span>,
           <span>{item.clarity}</span>,
           <span>{item.origin}</span>,
-          <span>{item.price}</span>,
+          <span>${item.price}</span>,
           <span>
             <ThemeSwitch
               checked={item.isVisible}

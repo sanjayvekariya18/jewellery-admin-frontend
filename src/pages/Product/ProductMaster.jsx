@@ -185,8 +185,8 @@ const ProductMaster = () => {
             <span>{item.subCategoryName}</span>
           </div>,
           <span>{item.gender}</span>,
-          <span>{item.designPrice}</span>,
-          <span>{item.boxPrice}</span>,
+          <span>${item.designPrice}</span>,
+          <span>${item.boxPrice}</span>,
           <span>{item.fedex_ups}</span>,
           <span>{item.indiaPost}</span>,
           <span>{item.insurance}</span>,

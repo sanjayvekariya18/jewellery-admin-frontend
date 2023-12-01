@@ -25,7 +25,6 @@ const SubcategoryMasterDetails = ({
   userData,
   callBack,
 }) => {
-  console.log(userData,"subcategory");
   const [formState, setFormState] = useState({ ...initialValues });
   const [categoryId, setCategoryId] = useState([]);
   const [isLoader, setIsLoader] = useState(false);

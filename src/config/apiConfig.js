@@ -166,6 +166,13 @@ const apiConfig = {
   appSettingsEdit: "app-settings/update",
   appSettingsUploadFile: "app-settings/upload-file",
 
+  // dymanic menu
+  dynamicMenuList: "page",
+  visibility_menu: "page/toggle/:id",
+  linkUp: "link_up",
+  deleteLinkUp: "link_up/delete",
+  updateLinkUp: "link_up/:id",
+
 };
 
 export default apiConfig;

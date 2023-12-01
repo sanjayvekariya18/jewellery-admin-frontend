@@ -96,7 +96,6 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
       ],
     },
   ];
-  console.log(productDetail?.orderProduct?.engraving, "hello");
 
   // gemstone details display
 
@@ -202,7 +201,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
         <span>{productDetail?.diamond?.mWidth}</span>,
         <span>{productDetail?.diamond?.mDepth}</span>,
         <span>{productDetail?.diamond?.labName}</span>,
-        <span>{productDetail?.diamond?.price}</span>,
+        <span>${productDetail?.diamond?.price}</span>,
       ],
     },
   ];
@@ -314,7 +313,6 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                     )}
                   {GEMSTONE.map((header, index) => (
                     <div key={index}>
-                      {console.log(header, "index")}
                       <TableContainer key={index}>
                         <Table>
                           <TableBody>

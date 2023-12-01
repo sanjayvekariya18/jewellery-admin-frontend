@@ -137,7 +137,7 @@ const FeatureProductMaster = () => {
                     </span>,
                     <span>{item.ProductVariant?.Product?.stockId}</span>,
                     <span>{item.ProductVariant.title}</span>,
-                    <span>{item.ProductVariant.totalPrice}</span>,
+                    <span>$ {item.ProductVariant.totalPrice}</span>,
                     <span>{item.position}</span>,
 
                     <div>

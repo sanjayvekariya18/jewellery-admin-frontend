@@ -19,7 +19,6 @@ const BannerMasterDetail = ({ open, togglePopup, userData, callBack }) => {
     button_url: "",
     is_clickable: 0,
     show_button: 0,
-    thumbnail_image: ""
   }
   //  -------------formState --------------
   const [formState, setFormState] = useState({
@@ -28,25 +27,22 @@ const BannerMasterDetail = ({ open, togglePopup, userData, callBack }) => {
   //  -------------Validation --------------
 
   const rules = {
-    button_txt:
-      formState.is_clickable == 1 ? "required" : formState.is_clickable == 0,
-    button_url:
-      formState.is_clickable == 1 ? "required" : formState.is_clickable == 0,
-
+    button_text: formState.show_button == 1 ? "required" : formState.show_button == 0,
+    button_url: formState.show_button == 1 ? "required" : formState.show_button == 0,
+    button_url: formState.is_clickable == 1 ? "required" : formState.is_clickable == 0,
     image_url: "required",
-    // menu_id: "required"
   };
+
   useEffect(() => {
     if (open === true && userData !== null) {
       userData.image_url = HELPER.getImageUrl(userData?.image_url);
-      userData.thumbnail_image = HELPER.getImageUrl(userData?.thumbnail_image);
       setFormState(userData);
     } else {
       setFormState({ ...initialValues });
     }
   }, [open]);
 
-  //  --------------handle onSubmit Banner  --------------
+  //  --------------handle onSubmit Banner  ----------------------
   const handleSubmit = (data) => {
     setIsLoader(true);
 
@@ -66,7 +62,8 @@ const BannerMasterDetail = ({ open, togglePopup, userData, callBack }) => {
         callBack();
       })
       .catch((e) =>
-        HELPER.toaster.error(e.errors.message))
+        HELPER.toaster.error(e.errors.image_url[0])
+      )
       .finally(() => {
         setIsLoader(false);
       });
@@ -153,6 +150,21 @@ const BannerMasterDetail = ({ open, togglePopup, userData, callBack }) => {
             onChange={onChange}
           />
           <div style={{ display: "flex" }}>
+            <label className="label-class" style={{ marginTop: "8px" }}>Image</label>
+          </div>
+          <div>
+            <ImgUploadBoxInput
+              name="image_url"
+              onChange={onChange}
+              value={formState?.image_url}
+              // error={errors?.profile}
+              label={"image_url"}
+            />
+            {errors?.image_url && (
+              <span style={{ color: "red" }}>Image Is required</span>
+            )}
+          </div>
+          <div style={{ display: "flex" }}>
             <div className="mb-3" style={{ marginRight: "20px" }}>
               <InputLabel className="form-label">Is Clickeble</InputLabel>
               {/* <Switch
@@ -186,31 +198,6 @@ const BannerMasterDetail = ({ open, togglePopup, userData, callBack }) => {
                     show_button: e.target.checked
                   }))
                 }}
-              />
-            </div>
-          </div>
-          <div style={{ display: "flex" }}>
-            <label className="label-class" style={{ marginTop: "8px" }}>Image</label>
-            <div>
-              <ImgUploadBoxInput
-                name="image_url"
-                onChange={onChange}
-                value={formState?.image_url}
-                // error={errors?.profile}
-                label={"image_url"}
-              />
-              {errors?.image_url && (
-                <span style={{ color: "red" }}>Image Is required</span>
-              )}
-            </div>
-            <div className="mb-3">
-              <InputLabel className="form-label" style={{ marginTop: "8px" }}>Thumbnail</InputLabel>
-              <ImgUploadBoxInput
-                name="thumbnail_image"
-                onChange={onChange}
-                value={formState?.thumbnail_image}
-                // error={errors?.profile}
-                label={"thumbnail Image"}
               />
             </div>
           </div>

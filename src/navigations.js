@@ -178,8 +178,8 @@ export const navigations = [
         path: pageRoutes.master.pages.banner,
       },
       {
-        name: "Dynamic Menu",
-        iconText: "BC",
+        name: "Menu",
+        iconText: "MN",
         path: pageRoutes.master.pages.dynamicMenu,
       },
       {
