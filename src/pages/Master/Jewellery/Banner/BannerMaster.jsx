@@ -1,27 +1,17 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
-import { Box, Button, Icon, IconButton, Typography, Checkbox } from "@mui/material";
+import {  Button, Typography, Checkbox } from "@mui/material";
 import { API, HELPER } from "../../../../services";
-import { Breadcrumb, StyledAddButton, Container } from "../../../../components";
 import error400cover from "../../../../assets/no-data-found-page.png";
-import Swal from "sweetalert2";
 import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
-import { apiConfig, appConfig } from "../../../../config";
-import BannerMasterDetail from "./BannerMasterDetail";
-import SliderBannerMasterDetail from "../SliderBanner/SliderBannerMasterDetail";
+import { apiConfig } from "../../../../config";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
-const BannerMaster = () => {
-    const [selectedUserData, setSelectedUserData] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [SliderBannerModal, setSliderBannerModal] = useState("");
+const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [loading, setLoading] = useState();
     const [addressText, setAddressText] = useState("");
     const [textModal, setTextModal] = useState(false);
-
-
-
-
+    console.log(selectedCheckboxes, "selectedCheckboxes");
     // ----Pagination code------
     const COLUMNS = [
         { title: "Select", classNameWidth: "thead-second-width-discount" },
@@ -31,10 +21,7 @@ const BannerMaster = () => {
         { title: "Button Text", classNameWidth: "thead-second-width-stone" },
         { title: "Is Clickable", classNameWidth: "thead-second-width-discount-85" },
         { title: "Show Button", classNameWidth: "thead-second-width-discount-85" },
-        {
-            title: "Action",
-            classNameWidth: "thead-second-width-discount",
-        },
+     
     ];
     const showAddressInDialog = (item) => {
         const sub_title = item.sub_title;
@@ -48,15 +35,7 @@ const BannerMaster = () => {
         changeState,
         ...otherTableActionProps
     } = usePaginationTable({
-        // shape: "",
-        // color: "",
-        // sortBy: "newest",
-        // intensity: "",
-        // origin: "",
-        // fromPrice: price.minPrice,
-        // toPrice: price.maxPrice,
-        // fromCts: carat.minCarat,
-        // toCts: carat.maxCarat,
+        
     });
     const paginate = (clear = false, isNewFilter = false) => {
         let filter = {
@@ -91,39 +70,12 @@ const BannerMaster = () => {
                     loader: false,
                 });
             });
-        // .finally(() => {
-        //   if (openSearch === true) {
-        //     setOpenSearch(false);
-        //   }
-        // });
+        
     };
 
     //------------ Delete Colored Diamond --------------
 
-    const onClickDelete = (banner_id) => {
-        Swal.fire({
-            title: "Are You Sure",
-            text: "Are you sure to remove this Banner ?",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonColor: "green",
-            cancelButtonColor: "red",
-            cancelButtonText: "No",
-            confirmButtonText: "Yes",
-
-            reverseButtons: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                API.destroy(`${apiConfig.banner}/${banner_id}`)
-                    .then((res) => {
-                        HELPER.toaster.success("Deleted Successfully");
-                        paginate();
-                    })
-                    .catch(console.error);
-            }
-        });
-    };
-
+    
     const handleCheckbox = (item) => {
         setSelectedCheckboxes((prevSelectedCheckboxes) => {
             if (prevSelectedCheckboxes.some((selectedItem) => selectedItem.banner_id === item.banner_id)) {
@@ -134,10 +86,7 @@ const BannerMaster = () => {
         });
     };
 
-    const SliderBannerToggle = useCallback(() => {
-        setSliderBannerModal(false);
-    }, [SliderBannerModal])
-
+   
     useEffect(() => {
         paginate();
     }, [state.page, state.rowsPerPage]);
@@ -164,9 +113,7 @@ const BannerMaster = () => {
                     >
                         <span>{item.sub_title}</span>
                     </div>,
-                    // <div className="common-thead-second-width-title">
-                    //     <span>{item.sub_title}</span>
-                    // </div>,
+                  
                     <span className="common-thead-second-width-title">
                         {item.image_url && (
 
@@ -202,118 +149,107 @@ const BannerMaster = () => {
                         )}
                     </span>,
 
-                    <div>
-                        <IconButton onClick={(e) => handleEdit(item)}>
-                            <Icon color="primary">create</Icon>
-                        </IconButton>
-                        <IconButton onClick={(e) => onClickDelete(item.banner_id)}>
-                            <Icon color="error">delete</Icon>
-                        </IconButton>
-                    </div>,
+                  
                 ],
             };
         });
     }, [state.data, selectedCheckboxes]);
+    const bannerDataFromAPI = sliderBanner.map((item, i) => ({
+        banner_id: item.banner_id,
+        position: item.position,
+    }))
+    console.log(bannerDataFromAPI, "bannerDataFromAPI");
+    const maxPositionFromAPI = bannerDataFromAPI.reduce((max, item) => Math.max(max, item.position || 0), 0);
+    let positionCounter = maxPositionFromAPI + 1;
 
-    const handleEdit = (data) => {
-        setSelectedUserData(data);
-        setOpen(true);
-    };
+    const selectedCheckboxesWithPosition = selectedCheckboxes.map(item => ({
+        ...item,
+        position: positionCounter++
+    }));
 
-
-    const togglePopup = () => {
-        if (open) {
-            setSelectedUserData(null);
+    const mergedData = [
+        ...selectedCheckboxesWithPosition,
+        ...bannerDataFromAPI
+    ];
+   
+    const handleSubmit = () => {
+        const data = {
+            slider_id: userData,
+            slider_banner: mergedData
         }
-        setOpen(!open);
+        API.post(apiConfig.sliderBanner, data)
+            .then((res) => {
+                HELPER.toaster.success("Slider Banner added successfully")
+                setSelectedCheckboxes([]);
+                // togglePopup2();
+            })
+            .catch((err) => {
+                if (
+                    err.status == 400 ||
+                    err.status == 401 ||
+                    err.status == 409 ||
+                    err.status == 403
+                ) {
+                    HELPER.toaster.error(err.errors.message);
+                } else {
+                    console.error(err);
+                }
+            })
+           
     };
+
+   
 
     const textModaltoggle = () => {
         setTextModal(!textModal);
     };
     return (
         <>
-            <div>
-                <Container>
-                    <Box
-                        className="breadcrumb"
-                        sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                        }}
+            <ThemeDialog
+                title="Add Slider Banner"
+                id="showModal"
+                isOpen={open}
+                toggle={togglePopup2}
+                centered
+                maxWidth="xl"
+                actionBtns={
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={togglePopup2}
                     >
-                        <Breadcrumb
-                            routeSegments={[
-                                // { name: "Masters", path: pageRoutes.master.user.user },
-                                { name: "Banner List" },
-                            ]}
-                        />
-                        <div>
-                            <div style={{ display: "flex" }}>
-                                <Button
-                                    variant="contained"
-                                    onClick={togglePopup}
-                                    style={{ marginLeft: "20px" }}
-                                >
-                                    Add Banner
-                                </Button>
+                        Close
+                    </Button>
+                }
+            >
+                <div style={{ display: "flex", justifyContent: "end",marginBottom:"10px" }}>
 
-                                <Button
-                                    style={{ marginLeft: "20px" }}
-                                    variant="contained"
-                                    onClick={() => {
-                                        setSliderBannerModal(true);
-                                    }}
-                                    disabled={selectedCheckboxes.length === 0}
-                                >
-                                    <i className="ri-add-line align-bottom me-1"></i> Add Slider Banner
-                                </Button>
-                            </div>
-                        </div>
-                    </Box>
-                    <PaginationTable
-                        header={COLUMNS}
-                        rows={rows}
-                        totalItems={state.total_items || 0}
-                        perPage={state.rowsPerPage}
-                        activePage={state.page}
-                        checkboxColumn={false}
-                        selectedRows={state.selectedRows}
-                        enableOrder={true}
-                        isLoader={state.loader}
-                        emptyTableImg={<img src={error400cover} width="350px" />}
-                        {...otherTableActionProps}
-                        orderBy={state.orderby}
-                        order={state.order}
-                    ></PaginationTable>
-                    <BannerMasterDetail
-                        open={open}
-                        togglePopup={() => {
-                            togglePopup();
-                            // paginate();
-                        }}
-                        userData={selectedUserData}
-                        callBack={() => paginate(true)}
+                    <Button
+                        style={{ marginLeft: "20px" }}
+                        variant="contained"
+                        onClick={handleSubmit}
+                        disabled={selectedCheckboxes.length === 0}
+                    >
+                        <i className="ri-add-line align-bottom me-1"></i> Add Slider Banner
+                    </Button>
+                </div>
+                <PaginationTable
+                    header={COLUMNS}
+                    rows={rows}
+                    totalItems={state.total_items || 0}
+                    perPage={state.rowsPerPage}
+                    activePage={state.page}
+                    checkboxColumn={false}
+                    selectedRows={state.selectedRows}
+                    enableOrder={true}
+                    isLoader={state.loader}
+                    emptyTableImg={<img src={error400cover} width="350px" />}
+                    {...otherTableActionProps}
+                    orderBy={state.orderby}
+                    order={state.order}
+                ></PaginationTable>
 
-                    />
-
-                    {
-                        SliderBannerModal && (
-                            <SliderBannerMasterDetail
-                                modal={SliderBannerModal}
-                                togglePopup={SliderBannerToggle}
-                                setModal={setSliderBannerModal}
-                                selectedCheckboxes={selectedCheckboxes}
-                                updateSelectedCheckboxes={setSelectedCheckboxes}
-                                callBack={() => paginate(true)}
-
-                            />
-                        )
-                    }
-
-                </Container>
-            </div>
+            </ThemeDialog>
             {textModal && (
                 <ThemeDialog
                     title="Sub Title"

@@ -318,6 +318,10 @@ input::-webkit-inner-spin-button {
   text-overflow: ellipsis;
 }
 
+.selected-row {
+  background-color: lightblue; /* Adjust the color as needed */
+}
+
 .common-thead-second-width-title-answer {
   display: block;
   width: 340px;
@@ -868,6 +872,15 @@ input::-webkit-inner-spin-button {
 
 /* Define the styles for the selected row */
 .selected-row {
-  background-color: #f0f0f0; /* Change background color to your preference */
-  /* Add any other styles to highlight the selected row */
+  background-color: #f0f0f0; 
+  /* Add any other styles you want for the entire row */
+}
+
+/* Style for table cell content */
+.selected-row span,
+.selected-row div {
+  /* Add specific styles for spans and divs within the selected row */
+  /* For example: */
+  color: #333;
+  font-weight: bold;
 }

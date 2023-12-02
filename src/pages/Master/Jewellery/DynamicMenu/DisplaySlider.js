@@ -10,19 +10,21 @@ import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
 function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
 
     const [sliderId, setSliderId] = useState("")
+    const [selectedRowId, setSelectedRowId] = useState(null);
 
     const COLUMNS = [
         { title: "Select Slider" },
         { title: "Slider Name", field: "title", order: true },
     ];
+
     const { state, setState, changeState, ...otherTableActionProps } =
         usePaginationTable({
         });
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
-    
- 
-    
+
+
+
         // -----------Get Slider Api----------------------
 
         API.get(apiConfig.slider)
@@ -37,7 +39,7 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
             .catch(() => {
                 setState({
                     ...state,
-                  
+
                     loader: false,
                 });
             });
@@ -48,16 +50,21 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
     }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
 
-    const handleCheckbox = (item) => {
-        setSliderId(item.slider_id);
+    // const handleCheckbox = (item) => {
+    //     setSliderId(item.slider_id);
 
-    }
+    // }
+    const handleCheckbox = (item) => {
+        const sliderId = item.slider_id;
+        setSelectedRowId(sliderId);
+    };
+
 
     const handleUpdate = () => {
         const data = {
             type: "Slider",
             position: linkUp.position,
-            slider_id: sliderId
+            slider_id: selectedRowId
         }
 
         API.put(apiConfig.updateLinkUp.replace(":id", linkUp.page_slider_banner_id), data)
@@ -83,24 +90,27 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
 
     const rows = useMemo(() => {
         return state.data.map((item) => {
+            const isSelected = item.slider_id === selectedRowId;  // Check if the item's ID matches the selected row ID
+            const rowClass = isSelected ? 'selected-row' : '';
             return {
                 item: item,
                 columns: [
                     <span>
                         <Radio
-                            checked={item.slider_id === sliderId}
+                            checked={isSelected}
                             onChange={() => handleCheckbox(item)}
                             value="a"
                             name="radio-buttons"
                             inputProps={{ 'aria-label': 'A' }}
+                            id = {item.slider_id}
                         />
-                      
+
                     </span>,
                     <span>{item.name}</span>,
                 ],
             };
         });
-    }, [state.data, sliderId]);
+    }, [state.data, selectedRowId]);
 
     return (
         <ThemeDialog
@@ -136,6 +146,7 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
                     selectedRows={state.selectedRows}
                     enableOrder={true}
                     orderBy={state.orderby}
+                    selectedRowId={selectedRowId}
                     order={state.order}
                     isLoader={state.loader}
                     emptyTableImg={<img src={error400cover} width="350px" />}

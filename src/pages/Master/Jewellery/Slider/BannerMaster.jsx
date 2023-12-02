@@ -9,12 +9,14 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 import ReactDragListView from "react-drag-listview";
 import { Breadcrumb, Container } from "../../../../components";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import BannerMaster2 from "../Banner/BannerMaster";
 
-
-const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
+const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanner }) => {
     const [rowMoved, setRowMoved] = useState(false);
     const [addressText, setAddressText] = useState("");
     const [textModal, setTextModal] = useState(false);
+    const [selectedUserData, setSelectedUserData] = useState(null);
+    const [open, setOpen] = useState(false);
     const COLUMNS = [
         { title: "Drag" },
         { title: "Image" },
@@ -192,6 +194,12 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
     const textModaltoggle = () => {
         setTextModal(!textModal);
     };
+    const togglePopup = () => {
+        if (open) {
+            setSelectedUserData(null);
+        }
+        setOpen(!open);
+    };
     return (
         <>
             <>
@@ -232,6 +240,13 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
                                         disabled={!rowMoved}
                                     >
                                         Save
+                                    </Button>
+                                    <Button
+                                        style={{ marginLeft: "20px" }}
+                                        variant="contained"
+                                        onClick={togglePopup}
+                                    >
+                                        Add Slider Banner
                                     </Button>
                                 </div>
                             </div>
@@ -290,6 +305,16 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId }) => {
                     </div>
                 </ThemeDialog>
             )}
+            <BannerMaster2
+                open={open}
+                togglePopup2={() => {
+                    togglePopup();
+                    paginate();
+                }}
+                userData={sliderId}
+                sliderBanner={sliderBanner}
+
+            />
         </>
     );
 

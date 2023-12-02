@@ -19,7 +19,7 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
         { title: "Drag" },
         { title: "Image" },
         { title: "Banner Title", classNameWidth: "thead-second-width-title-answer" },
-        { title: "Sub Title", classNameWidth: "thead-second-width-title-answer" },
+        { title: "Sub Title", classNameWidth: "common-thead-second-width-title" },
         {
             title: "Action",
             classNameWidth: "thead-second-width-discount",
@@ -237,6 +237,7 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
                                 >
                                     Save
                                 </Button>
+                                
                             </div>
                         </div>
                     </Box>

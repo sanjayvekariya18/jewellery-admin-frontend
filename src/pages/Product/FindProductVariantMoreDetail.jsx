@@ -92,12 +92,6 @@ const FindProductVariantMoreDetail = () => {
     productData?.VariantSkuGemstoneLinks?.reduce((acc, gemstone) => acc + gemstone?.ProductVariantGemstone?.price, 0) || 0
   );
 
-
-  console.log(productData.VariantSkuDiamondLinks && productData.VariantSkuDiamondLinks.map((item, index) => {
-    console.log(item.ProductVariantDiamond.stockId
-      , "item");
-  })
-    , "productData");
   return (
     <>
       <Box

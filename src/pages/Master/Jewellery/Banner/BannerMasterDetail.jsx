@@ -27,9 +27,10 @@ const BannerMasterDetail = ({ open, togglePopup, userData, callBack }) => {
   //  -------------Validation --------------
 
   const rules = {
-    button_text: formState.show_button == 1 ? "required" : formState.show_button == 0,
-    button_url: formState.show_button == 1 ? "required" : formState.show_button == 0,
-    button_url: formState.is_clickable == 1 ? "required" : formState.is_clickable == 0,
+    button_txt:
+    formState.is_clickable == 1 ? "required" : formState.is_clickable == 0,
+  button_url:
+    formState.is_clickable == 1 ? "required" : formState.is_clickable == 0,
     image_url: "required",
   };
 

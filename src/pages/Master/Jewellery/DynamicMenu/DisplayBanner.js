@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import _ from 'lodash'
 import { apiConfig, appConfig } from '../../../../config';
-import { Box, Button, Icon, IconButton, Slider, Tooltip, Checkbox, Radio } from "@mui/material";
+import { Box, Button, Icon, IconButton, Slider, Tooltip, Checkbox, Radio,Typography } from "@mui/material";
 import { API, HELPER } from '../../../../services';
 import PaginationTable, { usePaginationTable } from '../../../../components/UI/Pagination/PaginationTable';
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
@@ -10,11 +10,14 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 
 
 const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
-    console.log(linkUp, "linkup");
 
     const [bannerId, setBannerId] = useState("")
+    const [selectedRowId, setSelectedRowId] = useState(null);
+
     const [initialState, setInitialState] = useState("");
     const [videoModal, setVideoModal] = useState(false);
+    const [addressText, setAddressText] = useState("");
+    const [textModal, setTextModal] = useState(false);
 
     const videoToggle = useCallback(() => {
         setVideoModal(false);
@@ -28,15 +31,15 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
     const COLUMNS = [
         { title: "Select Banner" },
         { title: "Image" },
-        { title: "Banner Title"},
-        { title: "Sub Title"},
+        { title: "Banner Title" },
+        { title: "Sub Title", classNameWidth: "common-width-three-dot-text" },
     ];
     const { state, setState, changeState, ...otherTableActionProps } =
         usePaginationTable({
         });
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
-      
+
 
 
         // -----------Get Slider Api----------------------
@@ -47,14 +50,14 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                     ...state,
                     total_items: res.count,
                     data: res.rows,
-                 
+
                     loader: false,
                 });
             })
             .catch(() => {
                 setState({
                     ...state,
-                
+
                     loader: false,
                 });
             });
@@ -65,14 +68,15 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
     }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
     const handleCheckbox = (item) => {
-        setBannerId(item.banner_id);
-
-    }
+        const bannerId = item.banner_id;
+        setSelectedRowId(bannerId);
+      };
+      
     const handleUpdate = () => {
         const data = {
             type: "Banner",
             position: linkUp.position,
-            banner_id: bannerId
+            banner_id: selectedRowId
         }
 
         API.put(apiConfig.updateLinkUp.replace(":id", linkUp.page_slider_banner_id), data)
@@ -97,22 +101,21 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
     }
     const rows = useMemo(() => {
         return state.data.map((item) => {
-            const isSelected = item.banner_id === bannerId;
-            const rowClass = isSelected ? 'selected-row' : '';
+            const isSelected = item.banner_id === selectedRowId;  // Check if the item's ID matches the selected row ID
             return {
                 item: item,
                 columns: [
-                    <span className={rowClass}>
+                    <span>
                         <Radio
                             checked={isSelected}
                             onChange={() => handleCheckbox(item)}
                             value="a"
                             name="radio-buttons"
                             inputProps={{ 'aria-label': 'A' }}
+                            id = {item.banner_id}
                         />
                     </span>,
-                    // Apply 'selected-row' class to the entire row when selected
-                    <span className={rowClass}>
+                    <span>
                         {item.image_url && item.image_url.toLowerCase().match(/\.(mp4|3gpp|3gpp2|3gp2|mov|ogg|wmv|qt|avi)$/) ? (
                             <button
                                 type="button"
@@ -132,19 +135,30 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                             />
                         )}
                     </span>,
-                    // Apply 'selected-row' class to the entire row when selected
-                    <span className={rowClass}>
+                    <span>
                         {HELPER.isEmpty(item.title) ? "" : item.title}
                     </span>,
-                    // Apply 'selected-row' class to the entire row when selected
-                    <span className={rowClass}>
-                        {HELPER.isEmpty(item.sub_title) ? "" : item.sub_title}
-                    </span>,
+                   
+                    <div
+                        className="common-width-three-dot-text"
+                        style={{ fontWeight: "500", cursor: "pointer" }}
+                        onClick={() => showAddressInDialog(item)}
+                    >
+                        <span>{HELPER.isEmpty(item.sub_title) ? "" : item.sub_title}</span>
+                    </div>,
+
                 ],
             };
         });
-    }, [state.data, bannerId]);
-    
+    }, [state.data, selectedRowId]);
+    const showAddressInDialog = (item) => {
+        const sub_title = item.sub_title;
+        setAddressText(sub_title); // Set the address text
+        textModaltoggle(); // Show the dialog
+    };
+    const textModaltoggle = () => {
+        setTextModal(!textModal);
+    };
 
     document.title = "Banner Page List ";
 
@@ -186,9 +200,35 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                     emptyTableImg={<img src={error400cover} width="400px" />}
                     {...otherTableActionProps}
                     orderBy={state.orderby}
+                    selectedRowId={selectedRowId} 
                     order={state.order}
                 ></PaginationTable>
             </div>
+            {textModal && (
+                <ThemeDialog
+                    title="Sub Title"
+                    id="showModal"
+                    isOpen={textModal}
+                    toggle={textModaltoggle}
+                    centered
+                    maxWidth="sm"
+                    actionBtns={
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={textModaltoggle}
+                        >
+                            Close
+                        </Button>
+                    }
+                >
+                    <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
+                        <Typography variant="body1" style={{ lineHeight: "22px" }}>
+                            {addressText}
+                        </Typography>
+                    </div>
+                </ThemeDialog>
+            )}
         </ThemeDialog>
     )
 }

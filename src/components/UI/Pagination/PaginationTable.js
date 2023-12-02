@@ -94,10 +94,12 @@ export const usePaginationTable = (initialState = {}) => {
     changeOrder,
     onCheckBoxSelect,
     getInitialStates,
+
   };
 };
 
 export default function PaginationTable({
+
   // Table Header & Body Setting
   header,
   rows,
@@ -124,7 +126,7 @@ export default function PaginationTable({
   changeActivePage,
   isLoader = true,
   isModalTrue = false,
-  isSelected,
+  selectedRowId,
   footerVisibility,
 }) {
   const _onChangeSelect = (e) => {
@@ -218,13 +220,22 @@ export default function PaginationTable({
               </TableRow>
             ) : (
               rows.map((row, rowIndex) => (
-                <TableRow key={`tr_${rowIndex}`}>
+                <TableRow key={`tr_${rowIndex}`} className={selectedRowId && (row.item.banner_id === selectedRowId || row.item.slider_id === selectedRowId ? 'selected-row' : '')}>
                   {row.columns.map((column, columnIndex) => (
-                    <TableCell
-                      key={`td_${rowIndex}_${columnIndex}`}
-                      align="center"
-                    >
-                      {column}
+                    <TableCell key={`td_${rowIndex}_${columnIndex}`} align="center">
+                      <label
+                        htmlFor={
+                         row.item.slider_id
+                        }
+                        style={{
+                          height: '50%', // Adjust the percentage value as needed
+                          width: '100%',
+                          display: 'block',
+
+                        }}
+                      >
+                        {column}
+                      </label>
                     </TableCell>
                   ))}
                 </TableRow>
@@ -305,4 +316,5 @@ PaginationTable.propTypes = {
   changeActivePage: PropTypes.func.isRequired,
 
   footerVisibility: PropTypes.bool,
+  selectedRowId: PropTypes.string,
 };

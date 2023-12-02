@@ -807,9 +807,9 @@ const OrderMaster = () => {
               enableOrder={true}
               isLoader={state.loader}
               emptyTableImg={<img src={error400cover} width="400px" />}
+              {...otherTableActionProps}
               orderBy={state.orderby}
               order={state.order}
-              {...otherTableActionProps}
             ></PaginationTable>
           ) : (
             <div

@@ -18,6 +18,7 @@ const SliderMaster = () => {
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [open, setOpen] = useState(false);
     const [initialState, setInitialState] = useState("");
+    const [slider, setSlider] = useState("");
     const [modal, setModal] = useState(false);
     const [viewBannerModal, setViewBannerModal] = useState(false);
 
@@ -56,10 +57,10 @@ const SliderMaster = () => {
             }
         });
     };
-    
+
     const COLUMNS = [
-        { title: "Name", order: true },
-        { title: "Slider Banners", order: true },
+        { title: "Name" },
+        { title: "Slider Banners" },
         { title: "Action" },
     ];
 
@@ -69,13 +70,13 @@ const SliderMaster = () => {
 
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
-    
+
         let filter = {
             page: state.page,
             rowsPerPage: state.rowsPerPage,
         };
 
-     
+
         // -----------Get Slider Api----------------------
         API.get(apiConfig.slider, filter)
             .then((res) => {
@@ -83,14 +84,14 @@ const SliderMaster = () => {
                     ...state,
                     total_items: res.count,
                     data: res.rows,
-               
+
                     loader: false,
                 });
             })
             .catch(() => {
                 setState({
                     ...state,
-                
+
                     loader: false,
                 });
             });
@@ -122,6 +123,7 @@ const SliderMaster = () => {
                             className="btn btn-success"
                             onClick={() => {
                                 setInitialState(item.slider_id);
+                                setSlider(item.SliderBanners)
                                 setViewBannerModal(true)
                             }}
                         >
@@ -148,7 +150,6 @@ const SliderMaster = () => {
         }
         setOpen(!open);
     };
-
     document.title = "Slider Page List ";
 
     return (
@@ -201,8 +202,6 @@ const SliderMaster = () => {
                         order={state.order}
                     ></PaginationTable>
 
-
-
                     <SliderMasterDetail
                         open={open}
                         togglePopup={() => {
@@ -212,7 +211,7 @@ const SliderMaster = () => {
                         userData={selectedUserData}
                     />
 
-                    {viewBannerModal && (<BannerMaster modal={viewBannerModal} setModal={setViewBannerModal} toggle={BannerToggle} sliderId={initialState} callBack={() => paginate(true)} />)}
+                    {viewBannerModal && (<BannerMaster modal={viewBannerModal} setModal={setViewBannerModal} sliderBanner={slider} toggle={BannerToggle} sliderId={initialState} callBack={() => paginate(true)} />)}
                 </Container>
             </div>
         </>

@@ -104,8 +104,8 @@ const FindProductVariant = Loadable(
 const FindOneOrderDetail = Loadable(
   lazy(() => import("./Master/Orders/Order/FindOneOrderDetail"))
 );
-const BannerMaster = Loadable(
-  lazy(() => import("./Master/Jewellery/Banner/BannerMaster"))
+const BannerViewMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/Banner/BannerViewMaster"))
 );
 const SliderMaster = Loadable(
   lazy(() => import("./Master/Jewellery/Slider/SliderMaster"))
@@ -222,7 +222,7 @@ const routes = [
 
       {
         path: pageRoutes.master.pages.banner,
-        element: <BannerMaster />,
+        element: <BannerViewMaster />,
       },
       {
         path: pageRoutes.master.pages.slider,
