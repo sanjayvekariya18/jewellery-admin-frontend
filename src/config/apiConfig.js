@@ -173,6 +173,10 @@ const apiConfig = {
   deleteLinkUp: "link_up/delete",
   updateLinkUp: "link_up/:id",
 
+
+  // notifications
+  notifications: "notifications",
+  clearAllNotification:"notifications/clear-all"
 };
 
 export default apiConfig;

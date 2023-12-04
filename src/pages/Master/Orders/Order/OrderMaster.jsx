@@ -331,7 +331,7 @@ const OrderMaster = () => {
           item.orderStatus === "delivered" && (
             <span>{item.totalReturnProducts}</span>
           ),
-          <span>{item.payableAmount}</span>,
+          <span>${item.payableAmount}</span>,
           <span>
             {(filter.orderStatus === "cancel" && (
               item.cancelAmount

@@ -11,7 +11,6 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
     const [loading, setLoading] = useState();
     const [addressText, setAddressText] = useState("");
     const [textModal, setTextModal] = useState(false);
-    console.log(selectedCheckboxes, "selectedCheckboxes");
     // ----Pagination code------
     const COLUMNS = [
         { title: "Select", classNameWidth: "thead-second-width-discount" },
@@ -158,7 +157,6 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
         banner_id: item.banner_id,
         position: item.position,
     }))
-    console.log(bannerDataFromAPI, "bannerDataFromAPI");
     const maxPositionFromAPI = bannerDataFromAPI.reduce((max, item) => Math.max(max, item.position || 0), 0);
     let positionCounter = maxPositionFromAPI + 1;
 

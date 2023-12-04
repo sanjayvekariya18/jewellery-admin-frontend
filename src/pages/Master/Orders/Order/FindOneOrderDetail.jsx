@@ -138,7 +138,6 @@ const FindOneOrderDetail = () => {
   const productData = orderDetail.orderProducts;
   const orderTracking = orderDetail.orderTracking;
   const classes = useStyles();
-  console.log(productData, "hello");
   const totalSubtotal =
     productData &&
     productData.reduce((accumulator, product) => {
@@ -179,14 +178,12 @@ const FindOneOrderDetail = () => {
   const refundAmount =
   productData &&
   productData.reduce((accumulator, product) => {
-    console.log(product, "accumulator");
     if (product.OrderReturn?.status === "refund") {
       return accumulator + (product.OrderReturn?.refundAmount || 0); // Accumulate refund amounts
     }
     return accumulator; // Return accumulator if status is not "refund"
   }, 0); // Initialize accumulator with 0
 
-console.log(refundAmount, "refundAmount");
 
   return (
     <Container>

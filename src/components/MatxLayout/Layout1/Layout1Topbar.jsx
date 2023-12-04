@@ -22,6 +22,7 @@ import { navigations } from "../../../navigations";
 import { Select } from "react-select-virtualized";
 import ChangePassword from "../../../pages/Master/User/User/ChangePassword";
 import { HELPER } from "../../../services";
+import NotificationBar from "../../NotificationBar/NotificationBar";
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -195,9 +196,9 @@ const Layout1Topbar = () => {
           </Box>
 
           <Box display="flex" alignItems="center">
-            {/* <NotificationProvider>
+            {/* <NotificationProvider> */}
             <NotificationBar />
-          </NotificationProvider> */}
+          {/* </NotificationProvider> */}
             <MatxMenu
               menuButton={
                 <div

@@ -157,7 +157,6 @@ const SliderMaster = () => {
     };
     document.title = "Slider Page List ";
 
-    console.log(state.rowsPerPage, "state.total_items");
     return (
 
         <>

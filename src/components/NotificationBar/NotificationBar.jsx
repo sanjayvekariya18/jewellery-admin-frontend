@@ -10,7 +10,7 @@ import {
   styled,
   useTheme
 } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useNotification from '../../hooks/useNotification';
 import useSettings from '../../hooks/useSettings';
@@ -18,6 +18,11 @@ import { sideNavWidth, topBarHeight } from '../../utils/constant';
 import { getTimeDifference } from '../../utils/utils.js';
 import { themeShadows } from '../MatxTheme/themeColors';
 import { Paragraph, Small } from '../Typography';
+import { API_BASE_URL } from '../../constants/config.js';
+import io from 'socket.io-client';
+import { API, HELPER } from '../../services/index.js';
+import apiConfig from '../../config/apiConfig.js';
+
 
 const Notification = styled('div')(() => ({
   padding: '16px',
@@ -83,7 +88,7 @@ const NotificationBar = ({ container }) => {
   const theme = useTheme();
   const secondary = theme.palette.text.secondary;
   const [panelOpen, setPanelOpen] = useState(false);
-  const { deleteNotification, clearNotifications, notifications } = useNotification();
+  const [notificationsArray, setNotificationsArray] = useState([]);  // const { deleteNotification, clearNotifications, notifications } = useNotification();
 
   const handleDrawerToggle = () => {
     setPanelOpen(!panelOpen);
@@ -92,10 +97,57 @@ const NotificationBar = ({ container }) => {
   const { palette } = useTheme();
   const textColor = palette.text.primary;
 
+  useEffect(() => {
+    const socket = io(API_BASE_URL);
+    console.log(socket, "socket");
+    socket.emit("room", 'admin-notifications');
+    socket.on("notification", (data) => {
+      console.log("Received notification from socket:", data);
+      setNotificationsArray(prevNotifications => [...prevNotifications, data]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    getNotification();
+  }, []);
+
+  const getNotification = () => {
+    API.get(apiConfig.notifications)
+      .then((res) => {
+        console.log(res, 'res');
+        setNotificationsArray(res);
+      })
+      .catch((error) => {
+        console.error('Error fetching notifications:', error);
+      });
+  }
+  console.log(notificationsArray, "notificationsArray");
+
+  const deleteNotification = (id) => {
+    API.destroy(`${apiConfig.notifications}/${id}`)
+      .then((res) => {
+        HELPER.toaster.success("Deleted Successfully");
+        getNotification();
+      })
+      .catch(console.error);
+  }
+
+  const clearNotifications = () => {
+    API.post(apiConfig.clearAllNotification)
+      .then((res) => {
+        HELPER.toaster.success("Deleted Successfully");
+        getNotification();
+      })
+      .catch(console.error);
+  }
   return (
     <Fragment>
       <IconButton onClick={handleDrawerToggle}>
-        <Badge color="secondary" badgeContent={notifications?.length}>
+        <Badge color="secondary" badgeContent={notificationsArray?.rows?.length}>
           <Icon sx={{ color: textColor }}>notifications</Icon>
         </Badge>
       </IconButton>
@@ -118,7 +170,7 @@ const NotificationBar = ({ container }) => {
               <h5>Notifications</h5>
             </Notification>
 
-            {notifications?.map((notification) => (
+            {notificationsArray.rows?.map((notification) => (
               <NotificationCard key={notification.id}>
                 <DeleteButton
                   size="small"
@@ -135,25 +187,25 @@ const NotificationBar = ({ container }) => {
                   <Card sx={{ mx: 2, mb: 3 }} elevation={3}>
                     <CardLeftContent>
                       <Box display="flex">
-                        <Icon className="icon" color={notification.icon.color}>
+                        {/* <Icon className="icon" color={notification.icon.color}>
                           {notification.icon.name}
-                        </Icon>
-                        <Heading>{notification.heading}</Heading>
+                        </Icon> */}
+                        <Heading>{notification.notification_type}</Heading>
                       </Box>
-                      <Small className="messageTime">
+                      {/* <Small className="messageTime">
                         {getTimeDifference(new Date(notification.timestamp))}{" "}
                         ago
-                      </Small>
+                      </Small> */}
                     </CardLeftContent>
                     <Box sx={{ px: 2, pt: 1, pb: 2 }}>
-                      <Paragraph sx={{ m: 0 }}>{notification.title}</Paragraph>
-                      <Small sx={{ color: secondary }}>{notification.subtitle}</Small>
+                      <Paragraph sx={{ m: 0 }}>{notification.subject}</Paragraph>
+                      <Small sx={{ color: secondary }}>{notification.content}</Small>
                     </Box>
                   </Card>
                 </Link>
               </NotificationCard>
             ))}
-            {!!notifications?.length && (
+            {!!notificationsArray?.length && (
               <Box sx={{ color: secondary }}>
                 <Button onClick={clearNotifications}>Clear Notifications</Button>
               </Box>
