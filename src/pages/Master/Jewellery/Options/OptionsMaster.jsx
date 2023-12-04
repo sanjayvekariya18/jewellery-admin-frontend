@@ -263,7 +263,6 @@ const OptionMaster = () => {
           <Icon>add</Icon>
         </StyledAddButton>
       </Tooltip>
-
       <OptionsMasterDetails
         open={open}
         togglePopup={() => {

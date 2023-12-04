@@ -138,6 +138,7 @@ const FindOneOrderDetail = () => {
   const productData = orderDetail.orderProducts;
   const orderTracking = orderDetail.orderTracking;
   const classes = useStyles();
+  console.log(productData, "hello");
   const totalSubtotal =
     productData &&
     productData.reduce((accumulator, product) => {
@@ -169,6 +170,23 @@ const FindOneOrderDetail = () => {
       file_name: 'order-invoice.pdf'
     }).then(() => { }).catch(() => { })
   };
+
+  const isReturned =
+  productData &&
+  productData.some(
+    (product) => product.OrderReturn?.status === "refund"
+  );
+  const refundAmount =
+  productData &&
+  productData.reduce((accumulator, product) => {
+    console.log(product, "accumulator");
+    if (product.OrderReturn?.status === "refund") {
+      return accumulator + (product.OrderReturn?.refundAmount || 0); // Accumulate refund amounts
+    }
+    return accumulator; // Return accumulator if status is not "refund"
+  }, 0); // Initialize accumulator with 0
+
+console.log(refundAmount, "refundAmount");
 
   return (
     <Container>
@@ -612,8 +630,8 @@ const FindOneOrderDetail = () => {
 
                               <TableCell className={classes.noUnderline}>
                                 {`${product.productVariant
-                                    ? product.productVariant.totalPrice
-                                    : ""
+                                  ? product.productVariant.totalPrice
+                                  : ""
                                   }`}
                                 {product.productVariant
                                   ? product.gemstone &&
@@ -660,7 +678,7 @@ const FindOneOrderDetail = () => {
                   </Table>
                 </TableContainer>
 
-                <div
+                {/* <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -688,6 +706,9 @@ const FindOneOrderDetail = () => {
                       }}
                     >
                       Sub Total :
+                    </Typography>
+                    <Typography>
+                      
                     </Typography>
                     <Typography
                       className={classes.billing}
@@ -741,7 +762,120 @@ const FindOneOrderDetail = () => {
                       ${orderDetail.order?.payableAmount}
                     </Typography>
                   </div>
+                </div> */}
+               <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "end",
+                paddingTop: "15px",
+                marginRight: "5px",
+              }}
+              className="pricing-main-div"
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "250px",
+                }}
+              >
+                <Typography
+                  className={classes.billing}
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    color: "#000000d9",
+                    paddingBottom: "0",
+                  }}
+                >
+                  Sub Total :
+                </Typography>
+                <Typography></Typography>
+                <Typography
+                  className={classes.billing}
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    paddingBottom: "0",
+                  }}
+                >
+                  ${totalSubtotal}
+                </Typography>
+              </div>
+
+              {isReturned && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    paddingBottom: "0",
+                    width: "250px",
+                  }}
+                >
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      color: "#000000d9",
+                      paddingTop: "3px",
+                    }}
+                  >
+                    Refund amount:
+                  </Typography>
+                  <Typography
+                    className={classes.billing}
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      paddingTop: "3px",
+                      borderBottom:"1px solid #a3a3a3",
+                    }}
+                  >
+                    - ${refundAmount}
+                  </Typography>
                 </div>
+              )}
+            
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  paddingTop: "6px",
+                  width: "250px",
+                
+                }}
+              >
+                <Typography
+                  className={classes.billing}
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    color: "#000000d9",
+                    paddingTop: "3px",
+                  }}
+                >
+                  Estimate Total *:
+                </Typography>
+                <Typography
+                  className={classes.billing}
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    paddingTop: "3px",
+                  }}
+                >
+                  ${isReturned
+                    ? orderDetail.order?.payableAmount - refundAmount
+                    : orderDetail.order?.payableAmount}
+                </Typography>
+              </div>
+            </div>
+
 
                 {orderTracking && orderTracking.length > 0 ? (
                   <Box>

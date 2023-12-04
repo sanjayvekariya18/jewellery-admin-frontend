@@ -5,8 +5,9 @@ import Textinput from '../../../../components/UI/TextInput';
 import { API, HELPER } from '../../../../services';
 import { apiConfig } from '../../../../config';
 import { Box, Button } from "@mui/material";
+import CommonButton from '../../../../components/UI/CommonButton';
 
-const RefundAmountReturnOrder = ({ open, togglePopup, userData ,callBack}) => {
+const RefundAmountReturnOrder = ({ open, togglePopup, userData, callBack }) => {
     const initialValues = {
         returnProductId: userData,
         refundAmount: "",
@@ -15,6 +16,8 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData ,callBack}) => {
         refundAmount: "required",
     };
     const [formState, setFormState] = useState({ ...initialValues });
+    const [isLoader, setIsLoader] = useState(false);
+
     const onChange = useCallback((e) => {
         setFormState((prevProps) => {
             return {
@@ -24,6 +27,7 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData ,callBack}) => {
         });
     }, []);
     const handleSubmit = (data) => {
+        setIsLoader(true);
         API.post(apiConfig.refundReturnOrder, data)
             .then((res) => {
                 HELPER.toaster.success(res);
@@ -32,13 +36,16 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData ,callBack}) => {
             })
             .catch((e) => {
                 HELPER.toaster.error(e.errors.message);
+            })
+            .finally(() => {
+                setIsLoader(false);
             });
     };
     return (
         <Validators formData={formState} rules={rules}>
             {({ onSubmit, errors, resetValidation }) => (
                 <ThemeDialog
-                    title={"Approve Order Refund Amount"}
+                    title={"Refund Amount"}
                     isOpen={open}
                     maxWidth="sm"
                     onClose={() => {
@@ -57,7 +64,9 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData ,callBack}) => {
                             >
                                 Cancel
                             </Button>
-                            <Button
+                                         <CommonButton
+
+                              loader={isLoader}
                                 style={{ marginLeft: "20px" }}
                                 type="submit"
                                 variant="contained"
@@ -65,7 +74,7 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData ,callBack}) => {
                                 onClick={() => onSubmit(handleSubmit)}
                             >
                                 Save
-                            </Button>
+                            </CommonButton>
                         </Box>
                     }
                 >
@@ -73,7 +82,7 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData ,callBack}) => {
                         size="small"
                         type="number"
                         name="refundAmount"
-                        label="Cancel Amount"
+                        label="Refund Amount"
                         placeholder="Enter Refund Amount"
                         value={formState.refundAmount}
                         onChange={onChange}

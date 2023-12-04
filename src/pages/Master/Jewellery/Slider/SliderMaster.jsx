@@ -3,12 +3,11 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Swal from "sweetalert2";
 import { API, HELPER } from "../../../../services";
 import { apiConfig, appConfig } from "../../../../config";
-import { usePaginationTable, } from "../../../../components/UI/Pagination/PaginationTable";
+import PaginationTable, { usePaginationTable, } from "../../../../components/UI/Pagination/PaginationTable";
 import _ from "lodash";
 import { Breadcrumb, Container } from "../../../../components";
 import { Box, Button, Icon, IconButton, Tooltip } from "@mui/material";
 import error400cover from "../../../../assets/no-data-found-page.png";
-import PaginationTable from "../../../../components/UI/Pagination/DashboardPaginationTable";
 import SliderMasterDetail from "./SliderMasterDetail";
 import BannerMaster from "./BannerMaster";
 
@@ -70,12 +69,19 @@ const SliderMaster = () => {
 
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
-
+        let clearStates = {
+            ...appConfig.default_pagination_state,
+        };
         let filter = {
             page: state.page,
             rowsPerPage: state.rowsPerPage,
         };
-
+        let newFilterState = { ...appConfig.default_pagination_state };
+        if (clear) {
+            filter = _.merge(filter, clearStates);
+        } else if (isNewFilter) {
+            filter = _.merge(filter, newFilterState);
+        }
 
         // -----------Get Slider Api----------------------
         API.get(apiConfig.slider, filter)
@@ -84,22 +90,21 @@ const SliderMaster = () => {
                     ...state,
                     total_items: res.count,
                     data: res.rows,
-
+                    ...(clear && clearStates),
+                    ...(isNewFilter && newFilterState),
                     loader: false,
                 });
             })
             .catch(() => {
                 setState({
                     ...state,
-
+                    ...(clear && clearStates),
+                    ...(isNewFilter && newFilterState),
                     loader: false,
                 });
             });
     };
 
-    //   useEffect(() => {
-    //     paginate();
-    //   }, []);
 
     useEffect(() => {
         paginate();
@@ -152,6 +157,7 @@ const SliderMaster = () => {
     };
     document.title = "Slider Page List ";
 
+    console.log(state.rowsPerPage, "state.total_items");
     return (
 
         <>
@@ -196,12 +202,11 @@ const SliderMaster = () => {
                         selectedRows={state.selectedRows}
                         enableOrder={true}
                         isLoader={state.loader}
-                        emptyTableImg={<img src={error400cover} width="400px" />}
+                        emptyTableImg={<img src={error400cover} width="350px" />}
                         {...otherTableActionProps}
                         orderBy={state.orderby}
                         order={state.order}
                     ></PaginationTable>
-
                     <SliderMasterDetail
                         open={open}
                         togglePopup={() => {

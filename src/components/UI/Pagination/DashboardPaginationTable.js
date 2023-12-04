@@ -123,7 +123,6 @@ export default function PaginationTable({
   changeActivePage,
   isLoader = false,
   isModalTrue = false,
-
   footerVisibility,
 }) {
   const _onChangeSelect = (e) => {
@@ -285,6 +284,5 @@ PaginationTable.propTypes = {
   changePerPage: PropTypes.func.isRequired,
   activePage: PropTypes.number,
   changeActivePage: PropTypes.func.isRequired,
-
   footerVisibility: PropTypes.bool,
 };
