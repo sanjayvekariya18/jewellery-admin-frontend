@@ -98,7 +98,7 @@ const NotificationBar = ({ container }) => {
   const textColor = palette.text.primary;
 
   useEffect(() => {
-    const socket = io(API_BASE_URL);
+    const socket = io(apiConfig.publicURL);
     console.log(socket, "socket");
     socket.emit("room", 'admin-notifications');
     socket.on("notification", (data) => {
