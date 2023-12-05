@@ -176,7 +176,9 @@ const apiConfig = {
 
   // notifications
   notifications: "notifications",
-  clearAllNotification:"notifications/clear-all"
+  clearAllNotification: "notifications/clear-all",
+  readNotification: "notifications/read",
+  unRead: "notifications/unread-notifications"
 };
 
 export default apiConfig;

@@ -96,7 +96,7 @@ const ReturnOrderMaster = () => {
       classNameWidth: "thead-second-width-stone",
     },
     {
-      title: "Return Reason",
+      title: "Reject Reason",
       order: false,
       field: "returnReason",
       classNameWidth: "thead-second-width-order-date",
