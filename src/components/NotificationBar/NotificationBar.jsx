@@ -245,9 +245,9 @@ const NotificationBar = ({ container }) => {
               <div variant='contained' style={{ margin: "0px 10px 20px 165px", color: "#1976d2" }} onClick={clearNotifications}>Clear All Notifications</div>
             )}
             {/* </div> */}
-            <BottomScrollListener onBottom={() => console.log("Reached the bottom")}>
+            <BottomScrollListener onBottom={() => lazyLoadedMajorAuditList()}>
               {(scrollRef) => (
-                <div ref={scrollRef}>
+                <div ref={scrollRef} id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
                   <InfiniteScroll
                     dataLength={totalNotification}
                     next={lazyLoadedMajorAuditList}
