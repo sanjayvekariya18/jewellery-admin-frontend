@@ -22,6 +22,7 @@ import apiConfig from '../../config/apiConfig.js';
 import { isEmpty } from '../../services/helper.js';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { BottomScrollListener } from 'react-bottom-scroll-listener';
+import moment from 'moment';
 
 const Notification = styled('div')(() => ({
   padding: '16px',
@@ -95,7 +96,7 @@ const NotificationBar = ({ container }) => {
 
   let prevPage = 0;
   const [formState, setFormState] = useState({
-    limit: 2,
+    limit: 4,
   });
   // const { deleteNotification, clearNotifications, notifications } = useNotification();
 
@@ -232,52 +233,53 @@ const NotificationBar = ({ container }) => {
                 {notificationsArray.count}
               </div>
             </Notification>
-            {!!notificationsArray.rows?.length && (
+            {!!notificationsArray.length && (
 
               <div variant='contained' style={{ margin: "0px 10px 20px 165px", color: "#1976d2" }} onClick={clearNotifications}>Clear All Notifications</div>
             )}
             {/* </div> */}
             <BottomScrollListener onBottom={() => lazyLoadedMajorAuditList()}>
               {(scrollRef) => (
-                <div ref={scrollRef} id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
+                <div ref={scrollRef} id="scrollableDiv" style={{ height: 400, overflow: "auto" }}>
                   <InfiniteScroll
                     dataLength={totalNotification}
                     next={lazyLoadedMajorAuditList}
                     hasMore={!isNextListEmpty}
                     loader={<h4 className="loading-title">{loaderValidator()}</h4>}
                   >
-                    {notificationsArray.map((notification, i) => (
-                      <NotificationCard key={i}>
-                        <DeleteButton
-                          size="small"
-                          className="deleteButton"
-                          onClick={() => deleteNotification(notification.id)}
-                        >
-                          <Icon className="icon">clear</Icon>
-                        </DeleteButton>
+                    {notificationsArray.map((notification, i) => {
+                      const timeAgo = moment(notification.createdAt).fromNow();
+                      return (
+                        <NotificationCard key={i}>
+                          <DeleteButton
+                            size="small"
+                            className="deleteButton"
+                            onClick={() => deleteNotification(notification.id)}
+                          >
+                            <Icon className="icon">clear</Icon>
+                          </DeleteButton>
 
-                        <Card sx={{ mx: 2, mb: 3 }} elevation={3}>
-                          <CardLeftContent>
-                            <Box display="flex">
-                              <Icon className="icon" style={{ color: "#1976d2" }}>
-                                chat
-                              </Icon>
-                              {/* <Heading>{notification.notification_type}</Heading> */}
+                          <Card sx={{ mx: 2, mb: 3 }} elevation={3}>
+                            <CardLeftContent>
+                              <Box display="flex">
+                                <Icon className="icon" style={{ color: "#1976d2" }}>
+                                  chat
+                                </Icon>
+                                {/* <Heading>{notification.notification_type}</Heading> */}
+                              </Box>
+                              <Small className="messageTime" style={{ color: "#65a765" }}>
+                                {timeAgo}                                </Small>
+                            </CardLeftContent>
+                            <Box sx={{ px: 2, pt: 1, pb: 2 }}>
+                              <Paragraph sx={{ m: 0 }}>{notification.subject}</Paragraph>
+                              <div style={{ display: "flex", alignItems: "center" }}>
+                                <Small sx={{ color: secondary }}>{notification.content}</Small>
+                              </div>
                             </Box>
-                            <Small className="messageTime" style={{ color: "#65a765" }}>
-                              {getTimeDifference(new Date(notification.createdAt))}{" "}
-                              ago
-                            </Small>
-                          </CardLeftContent>
-                          <Box sx={{ px: 2, pt: 1, pb: 2 }}>
-                            <Paragraph sx={{ m: 0 }}>{notification.subject}</Paragraph>
-                            <div style={{ display: "flex", alignItems: "center" }}>
-                              <Small sx={{ color: secondary }}>{notification.content}</Small>
-                            </div>
-                          </Box>
-                        </Card>
-                      </NotificationCard>
-                    ))}
+                          </Card>
+                        </NotificationCard>
+                      );
+                    })}
                   </InfiniteScroll>
                 </div>
               )}
