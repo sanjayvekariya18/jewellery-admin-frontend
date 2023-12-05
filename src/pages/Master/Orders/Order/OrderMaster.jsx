@@ -746,11 +746,11 @@ const OrderMaster = () => {
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "fail",
+                    orderStatus: "faill",
                   })
                 }
                 style={
-                  filter.orderStatus === "fail"
+                  filter.orderStatus === "faill"
                     ? activeButtonStyle
                     : buttonStyle
                 }
