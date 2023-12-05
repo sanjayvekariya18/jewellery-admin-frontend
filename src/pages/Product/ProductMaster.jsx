@@ -29,21 +29,22 @@ const ProductMaster = () => {
 
   // ----Pagination code------
   const COLUMNS = [
-    { title: "Stock No", classNameWidth: "thead-second-width-stock-numbers" },
+    { title: "Stock No", classNameWidth: "thead-second-width-action-index" },
     { title: "Product Name", classNameWidth: "common-width-apply-th" },
     { title: "SubCategory", classNameWidth: "thead-second-width-stock-no" },
-    { title: "Gender", classNameWidth: "thead-second-width-address" },
-    { title: "Design Price", classNameWidth: "thead-second-width-address" },
-    { title: "Box Price", classNameWidth: "thead-second-width-address" },
+    { title: "Gender", classNameWidth: "thead-second-width-action-index" },
+    { title: "Design Price", classNameWidth: "thead-second-width-action-index" },
+    { title: "Box Price", classNameWidth: "thead-second-width-action-index" },
     { title: "Fedex UPS", classNameWidth: "thead-second-width-action-index" },
     { title: "India Post", classNameWidth: "thead-second-width-action-index" },
     { title: "Insurance", classNameWidth: "thead-second-width-action-index" },
-    { title: "Other Cost", classNameWidth: "thead-second-width-index" },
+    { title: "Other Cost", classNameWidth: "thead-second-width-action-index" },
     { title: "Profit", classNameWidth: "thead-second-width-action-index" },
-    { title: "Discount", classNameWidth: "thead-second-width-discount" },
-    { title: "Is Visible", classNameWidth: "thead-second-width-discount" },    {
+    { title: "Discount", classNameWidth: "thead-second-width-action-index" },
+    { title: "Is Visible", classNameWidth: "thead-second-width-action-index" },
+    {
       title: "Action",
-      classNameWidth: "thead-second-width-discount ",
+      classNameWidth: "thead-second-width-action-index",
     },
   ];
 
@@ -64,9 +65,9 @@ const ProductMaster = () => {
   };
 
 
-   // ---------------Visiblility Product Api----------------------
+  // ---------------Visiblility Product Api----------------------
 
-   const hiddenVisibleProduct = (Id) => {
+  const hiddenVisibleProduct = (Id) => {
     API.put(apiConfig.visibility_product.replace(":id", Id)).then((res) => {
       HELPER.toaster.success(res.message);
       paginate();
@@ -130,11 +131,11 @@ const ProductMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -194,14 +195,14 @@ const ProductMaster = () => {
           <span>{item.profit}</span>,
           <span>{item.discount}</span>,
           <span>
-          <ThemeSwitch
-            checked={item.isVisible}
-            color="warning"
-            onChange={() => {
-              hiddenVisibleProduct(item.id);
-            }}
-          />
-        </span>,
+            <ThemeSwitch
+              checked={item.isVisible}
+              color="warning"
+              onChange={() => {
+                hiddenVisibleProduct(item.id);
+              }}
+            />
+          </span>,
 
           <div>
             <IconButton onClick={(e) => handleButtonClick(item.id)}>

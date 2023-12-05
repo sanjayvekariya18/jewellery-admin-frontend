@@ -112,16 +112,12 @@ const NotificationBar = ({ container }) => {
   }, [page]);
 
   const getNotification = (prevPageNo = prevPage, is_next_list_empty = isNextListEmpty) => {
-    console.log('getNotification', prevPageNo != page , false == is_next_list_empty, prevPageNo, is_next_list_empty);
     if (prevPageNo != page && false == is_next_list_empty) {
       prevPage = page;
       API.get(`${apiConfig.notifications}?page=${page}&rowsPerPage=${formState.limit}`)
         .then((res) => {
-          console.log("res");
           let nextListEmpty = (isEmpty(res.rows) || formState.limit > res.rows.length) ? true : false;
-          console.log('called', nextListEmpty);
           setIsNextListEmpty(nextListEmpty);
-
           setTotalNotification(res.count);
 
           if (page == 0) {
@@ -133,7 +129,6 @@ const NotificationBar = ({ container }) => {
     };
 
   }
-  console.log(page, "page");
 
   const deleteNotification = (id) => {
     API.destroy(`${apiConfig.notifications}/${id}`)
@@ -182,7 +177,6 @@ const NotificationBar = ({ container }) => {
   useEffect(() => {
     API.get(apiConfig.unRead)
       .then((res) => {
-        console.log("res", res);
         setUnRead(res)
       })
   }, [])
@@ -205,10 +199,8 @@ const NotificationBar = ({ container }) => {
   }
 
   useEffect(() => {
-    console.log("hello");
     getNotification();
   }, [page, isNextListEmpty]);
-  console.log(notificationsArray.length, "notificationsArray.length");
   return (
     <Fragment>
 

@@ -149,7 +149,7 @@ const FeatureProductMaster = () => {
             };
         });
     }, [state.data]);
-
+console.log(state.page,"state.page");
     return (
         <Container>
             <Box
@@ -181,13 +181,12 @@ const FeatureProductMaster = () => {
                     header={COLUMNS}
                     rows={rows}
                     totalItems={state.total_items || 0}
-                    perPage={state.rowsPerPage}
-                    activePage={state.page}
+                    perPage={10}
+                    activePage={0}
                     checkboxColumn={false}
                     selectedRows={state.selectedRows}
                     enableOrder={true}
                     isLoader={loading}
-                    footerVisibility={false}
                     emptyTableImg={<img src={error400cover} width="400px" />}
                     {...otherTableActionProps}
                     orderBy={state.orderby}
