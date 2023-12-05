@@ -325,13 +325,15 @@ const ReturnOrderMaster = () => {
               : ""}
           </span>,
           <span>
-            {(!isNaN(item.OrderProduct.Gemstone?.price)
+            {((!isNaN(item.OrderProduct.Gemstone?.price)
               ? item.OrderProduct.Gemstone.price
               : 0) +
               (!isNaN(item.OrderProduct.ProductVariant?.totalPrice)
                 ? item.OrderProduct.ProductVariant.totalPrice
-                : "")}
-          </span>,
+                : 0)).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+          </span>
+          ,
+
           <div style={{ width: "80px" }}>
             <Button
               color="primary"

@@ -39,7 +39,7 @@ const FaqMaster = () => {
   };
   /* Pagination code */
   const COLUMNS = [
-    { title: "Category", classNameWidth: "thead-second-width-title" },
+    { title: "Category", classNameWidth: "thead-second-width-title-answer" },
     { title: "Question", classNameWidth: "thead-second-width-title-blog" },
     { title: "Answer", classNameWidth: "thead-second-width-title-answer" },
     { title: "Action", classNameWidth: "thead-second-width-action-index" },

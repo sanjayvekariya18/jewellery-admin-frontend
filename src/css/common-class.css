@@ -219,12 +219,13 @@ input::-webkit-inner-spin-button {
 }
 
 .thead-second-width-discount {
-  width: 80px !important;
+  width: 85px !important;
 }
 
 .thead-second-width-discount-85 {
   width: 85px !important;
 }
+
 
 .thead-second-width-action-index {
   width: 90px !important;

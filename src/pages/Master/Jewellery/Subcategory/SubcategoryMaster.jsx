@@ -41,7 +41,7 @@ const SubcategoryMaster = () => {
     { title: "Image", classNameWidth: "thead-second-width" },
     {
       title: "Details",
-      classNameWidth: "thead-second-width-title",
+      classNameWidth: "thead-second-width-title-answer",
     },
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
@@ -148,7 +148,7 @@ const SubcategoryMaster = () => {
           </span>,
           <div>
             <span
-              className="common-thead-second-width-title"
+              className="common-thead-second-width-title-answer"
               style={{ fontWeight: "500", cursor: "pointer" }}
               onClick={() => showAddressInDialog(item)}
             >

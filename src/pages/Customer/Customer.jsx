@@ -35,7 +35,7 @@ const Customer = () => {
   };
   /* Pagination code */
   const TITLE = [
-    { title: "Name", classNameWidth: "common-width-apply-th-new" },
+    { title: "Name", classNameWidth: "thead-second-width" },
     { title: "Email", classNameWidth: "common-width-apply-th-new" },
     { title: "Phone", classNameWidth: "thead-second-width-address " },
     { title: "Country", classNameWidth: "thead-second-width" },
