@@ -9,7 +9,7 @@ import CommonButton from "../../../../components/UI/CommonButton";
 
 
 const initialValues = {
-    slider_id:"",
+    slider_id: "",
     name: ""
 
 }
@@ -76,10 +76,12 @@ const SliderMasterDetail = ({ open, togglePopup, callBack, userData }) => {
                     data.slider_id === "" ? "Record created" : "Record saved"
                 );
                 togglePopup();
+                callBack()
             })
             .catch((e) => HELPER.toaster.error(e.errors.message))
             .finally(() => {
                 setIsLoader(false);
+                callBack();
             });
     };
     // -------------------onChange---------------------

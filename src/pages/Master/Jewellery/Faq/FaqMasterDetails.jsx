@@ -15,7 +15,7 @@ const initialValues = {
   category: "",
 };
 
-const FaqMasterDetails = ({ open, togglePopup, userData }) => {
+const FaqMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
@@ -42,6 +42,8 @@ const FaqMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
+
       })
       .catch((err) => {
         if (
@@ -59,6 +61,8 @@ const FaqMasterDetails = ({ open, togglePopup, userData }) => {
       })
       .finally(() => {
         setIsLoader(false);
+        callBack();
+
       });
   };
 

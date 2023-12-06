@@ -17,7 +17,7 @@ const initialValues = {
   rankk: "",
 };
 
-const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
+const ShapeMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
@@ -43,10 +43,12 @@ const ShapeMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))
       .finally(() => {
         setIsLoader(false);
+        callBack();
       });
   };
 

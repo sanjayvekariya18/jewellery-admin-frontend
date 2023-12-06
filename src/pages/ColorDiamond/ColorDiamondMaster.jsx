@@ -703,9 +703,10 @@ const ColorDiamondMaster = () => {
             open={findGemstone}
             togglePopup={() => {
               toggleGemstonePopup();
-              paginate();
+              // paginate();
             }}
             gemStoneData={gemStoneData}
+            callBack={() => paginate(true)}
           />
         </Container>
       </div>

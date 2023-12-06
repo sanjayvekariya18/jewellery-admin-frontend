@@ -14,7 +14,7 @@ const initialValues = {
   details: "",
 };
 
-const LabMasterDetails = ({ open, togglePopup, userData }) => {
+const LabMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
@@ -39,10 +39,12 @@ const LabMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))
       .finally(() => {
         setIsLoader(false);
+        callBack();
       });
   };
 

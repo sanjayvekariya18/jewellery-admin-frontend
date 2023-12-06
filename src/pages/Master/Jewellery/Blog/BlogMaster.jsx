@@ -351,10 +351,12 @@ const BlogMaster = () => {
         open={open}
         togglePopup={() => {
           togglePopup();
-          paginate();
+          // paginate();
         }}
         userData={selectedUserData}
         blogCategoryData={blogCategoryData}
+        callBack={() => paginate(true)}
+
       />
 
       {textModal && (

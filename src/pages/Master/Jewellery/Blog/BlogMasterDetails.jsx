@@ -27,6 +27,7 @@ const BlogMasterDetails = ({
   togglePopup,
   userData,
   blogCategoryData,
+  callBack
 }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
@@ -57,6 +58,7 @@ const BlogMasterDetails = ({
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((err) => {
         if (
@@ -74,6 +76,7 @@ const BlogMasterDetails = ({
       })
       .finally(() => {
         setIsLoader(false);
+        callBack();
       });
   };
 

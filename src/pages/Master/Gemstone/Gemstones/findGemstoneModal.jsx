@@ -3,7 +3,7 @@ import { Box, Button } from "@mui/material";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import { HELPER } from "../../../../services";
 
-const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
+const FindGemstoneModal = ({ open, togglePopup, gemStoneData, callBack }) => {
   const gemstoneInfo = [
     { label: "Gemstone Type : ", key: "gemstoneType" },
     { label: "Shape Name : ", key: "shapeName" },
@@ -154,7 +154,7 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData }) => {
                   </div>
                 </div>
                 <div className="right_product">
-               
+
                   {gemStoneData.images && gemStoneData.images.length > 0 ? (
                     gemStoneData.images && gemStoneData.images.map((item, index) => (
                       <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="all_product_img" />

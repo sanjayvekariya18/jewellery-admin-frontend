@@ -14,7 +14,7 @@ const initialValues = {
   description: "",
 };
 
-const BlogCategoryMasterDetails = ({ open, togglePopup, userData }) => {
+const BlogCategoryMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
@@ -40,6 +40,7 @@ const BlogCategoryMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((err) => {
         if (
@@ -57,6 +58,7 @@ const BlogCategoryMasterDetails = ({ open, togglePopup, userData }) => {
       })
       .finally(() => {
         setIsLoader(false);
+        callBack();
       });
   };
 

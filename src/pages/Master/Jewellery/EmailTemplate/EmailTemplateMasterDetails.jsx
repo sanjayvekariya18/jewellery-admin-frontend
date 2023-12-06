@@ -21,7 +21,7 @@ const initialValues = {
   key: generateUniqueKey(),
 };
 
-const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {
+const EmailTemplateMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
@@ -49,6 +49,7 @@ const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((err) => {
         if (
@@ -66,6 +67,7 @@ const EmailTemplateMasterDetails = ({ open, togglePopup, userData }) => {
       })
       .finally(() => {
         setIsLoader(false);
+        callBack();
       });
   };
 

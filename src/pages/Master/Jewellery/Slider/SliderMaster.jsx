@@ -3,7 +3,8 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Swal from "sweetalert2";
 import { API, HELPER } from "../../../../services";
 import { apiConfig, appConfig } from "../../../../config";
-import PaginationTable, { usePaginationTable, } from "../../../../components/UI/Pagination/PaginationTable";
+import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
+
 import _ from "lodash";
 import { Breadcrumb, Container } from "../../../../components";
 import { Box, Button, Icon, IconButton, Tooltip } from "@mui/material";
@@ -194,25 +195,26 @@ const SliderMaster = () => {
                     <PaginationTable
                         header={COLUMNS}
                         rows={rows}
-                        totalItems={state.total_items || 0}
+                        totalItems={state.total_items}
                         perPage={state.rowsPerPage}
                         activePage={state.page}
                         checkboxColumn={false}
                         selectedRows={state.selectedRows}
                         enableOrder={true}
+                        orderBy={state.orderby}
+                        order={state.order}
                         isLoader={state.loader}
                         emptyTableImg={<img src={error400cover} width="350px" />}
                         {...otherTableActionProps}
-                        orderBy={state.orderby}
-                        order={state.order}
                     ></PaginationTable>
                     <SliderMasterDetail
                         open={open}
                         togglePopup={() => {
                             togglePopup();
-                            paginate();
+                            // paginate();
                         }}
                         userData={selectedUserData}
+                        callBack={() => paginate(true)}
                     />
 
                     {viewBannerModal && (<BannerMaster modal={viewBannerModal} setModal={setViewBannerModal} sliderBanner={slider} toggle={BannerToggle} sliderId={initialState} callBack={() => paginate(true)} />)}

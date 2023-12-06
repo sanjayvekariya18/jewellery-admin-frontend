@@ -721,9 +721,9 @@ const GemstoneMaster = () => {
             open={findGemstone}
             togglePopup={() => {
               toggleGemstonePopup();
-              paginate();
             }}
             gemStoneData={gemStoneData}
+            callBack={() => paginate(true)}
           />
         </Container>
       </div>

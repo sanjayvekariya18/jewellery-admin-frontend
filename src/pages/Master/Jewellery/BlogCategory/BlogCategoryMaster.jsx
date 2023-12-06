@@ -266,9 +266,11 @@ const BlogCategoryMaster = () => {
         open={open}
         togglePopup={() => {
           togglePopup();
-          paginate();
+          // paginate();
         }}
         userData={selectedUserData}
+        callBack={() => paginate(true)}
+
       />
 
       {textModal && (

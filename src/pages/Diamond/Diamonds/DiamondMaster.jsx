@@ -982,9 +982,10 @@ const DiamondMaster = () => {
             open={findDiamond}
             togglePopup={() => {
               toggleGemstonePopup();
-              paginate();
+              // paginate();
             }}
             gemDiamondData={gemDiamondData}
+            callBack={() => paginate(true)}
           />
 
           {/* Diamond Bulk Master Details Modal */}

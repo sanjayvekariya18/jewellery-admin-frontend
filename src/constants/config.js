@@ -1,5 +1,5 @@
 export const API_BASE_URL = "http://192.168.0.220:6363/api/v1";
-export const API_BASE_URL_IMG = "http://192.168.0.220:6363 ";
+export const API_BASE_URL_IMG = "http://192.168.0.220:6363";
 
 export const DEFAULT_IMG = "img/user.png";
 
