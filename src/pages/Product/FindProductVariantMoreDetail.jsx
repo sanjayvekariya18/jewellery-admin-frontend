@@ -115,10 +115,10 @@ const FindProductVariantMoreDetail = () => {
         />
       </Box>
 
-      <section class="box">
-        <div class="content">
-          <div class="right">
-            <div class="product_description">
+      <section className="box">
+        <div className="content">
+          <div className="right">
+            <div className="product_description">
               <div style={{ display: "flex" }}>
                 <div style={{ width: "100%" }}>
                   <h2>{productData.title}</h2>
@@ -175,7 +175,7 @@ const FindProductVariantMoreDetail = () => {
                       <div style={{ marginLeft: "15px" }}>
                         <h4>Diamond</h4>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span><MonetizationOnOutlinedIcon ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.diamondPrice}</span>
+                          <span><MonetizationOnOutlinedIcon  style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.diamondPrice}</span>
                           <span style={{ marginLeft: "20px" }}><ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.totalCarat}</span>
                         </div>
                       </div>
@@ -185,7 +185,7 @@ const FindProductVariantMoreDetail = () => {
                       <div style={{ marginLeft: "15px" }}>
                         <h4>Gemstone</h4>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span><MonetizationOnOutlinedIcon ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.gemstonePrice}</span>
+                          <span><MonetizationOnOutlinedIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.gemstonePrice}</span>
                           <span style={{ marginLeft: "20px" }}><ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.totalGemstoneCarat}</span>
                         </div>
                       </div>
@@ -385,7 +385,7 @@ const FindProductVariantMoreDetail = () => {
               </div>
             </div>
           </div>
-          <div class="left">
+          <div className="left">
             <div>
               {productData.images && productData.images.length > 0 ? (
 

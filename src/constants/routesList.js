@@ -57,6 +57,7 @@ export const pageRoutes = {
       blogCategory: "/master/blogs/blog-cateogry",
       blog: "/master/blogs/blog",
       faq: "/master/blogs/faq",
+      contactUs: "/master/blogs/contact-us",
       emailTemplate: "/master/blogs/email-template",
       ourProduct: "/master/blogs/our-product",
       featureProduct: "/master/blogs/feature-product",

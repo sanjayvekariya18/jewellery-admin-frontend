@@ -13,7 +13,6 @@ import {
 import { Fragment, useEffect, useState } from 'react';
 import useSettings from '../../hooks/useSettings';
 import { sideNavWidth, topBarHeight } from '../../utils/constant';
-import { getTimeDifference } from '../../utils/utils.js';
 import { themeShadows } from '../MatxTheme/themeColors';
 import { Paragraph, Small } from '../Typography';
 import io from 'socket.io-client';
@@ -29,6 +28,7 @@ const Notification = styled('div')(() => ({
   marginBottom: '16px',
   display: 'flex',
   alignItems: 'center',
+  marginRight: "20px !important",
   height: topBarHeight,
   boxShadow: themeShadows[6],
   '& h5': {
@@ -205,11 +205,12 @@ const NotificationBar = ({ container }) => {
   return (
     <Fragment>
 
-      <IconButton onClick={handleDrawerToggle}>
-        <Badge color="secondary" badgeContent={unReads?.totalUnreadNoty === 0 ? "0" : unReads?.totalUnreadNoty} onClick={readNotification}>
+      <IconButton onClick={() => { handleDrawerToggle(); readNotification(); }} style={{marginRight:"20px"}}>
+        <Badge color="secondary" badgeContent={unReads?.totalUnreadNoty === 0 ? "0" : unReads?.totalUnreadNoty}>
           <Icon sx={{ color: textColor }}>notifications</Icon>
         </Badge>
       </IconButton>
+
       <ThemeProvider theme={settings.themes[settings.activeTheme]}>
         <Drawer
           width={'100px'}

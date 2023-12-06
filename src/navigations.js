@@ -147,6 +147,11 @@ export const navigations = [
         path: pageRoutes.master.blogs.faq,
       },
       {
+        name: "Contact Us",
+        iconText: "CU",
+        path: pageRoutes.master.blogs.contactUs,
+      },
+      {
         name: "Email Template",
         iconText: "ET",
         path: pageRoutes.master.blogs.emailTemplate,

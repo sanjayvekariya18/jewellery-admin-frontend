@@ -9,14 +9,16 @@ import CommonButton from "../../components/UI/CommonButton";
 
 const initialValues = {
   discount: "",
+  labDiscount: ""
 };
 
-const DiscountDetails = ({ open, togglePopup, userData }) => {
+const DiscountDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     discount: "required|numeric|between:0,100",
+    labDiscount: "required|numeric|between:0,100"
   };
 
   const handleSubmit = (data) => {
@@ -37,10 +39,12 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
           data.id === "" ? "Record created" : "Record saved"
         );
         togglePopup();
+        callBack();
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))
       .finally(() => {
         setIsLoader(false);
+        callBack();
       });
   };
 
@@ -102,6 +106,17 @@ const DiscountDetails = ({ open, togglePopup, userData }) => {
             value={formState.discount}
             onChange={onChange}
             error={errors?.discount}
+            sx={{ mb: 0, mt: 1, width: "100%" }}
+          />
+          <Textinput
+            size="small"
+            type="number"
+            name="labDiscount"
+            label="Lab Discount"
+            placeholder="Enter Lab Discount"
+            value={formState.labDiscount}
+            onChange={onChange}
+            error={errors?.labDiscount}
             sx={{ mb: 0, mt: 1, width: "100%" }}
           />
         </ThemeDialog>

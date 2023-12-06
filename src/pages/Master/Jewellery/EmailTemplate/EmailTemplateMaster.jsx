@@ -268,7 +268,6 @@ const EmailTemplateMaster = () => {
           // paginate();
         }}
         callBack={() => paginate(true)}
-
         userData={selectedUserData}
       />
 

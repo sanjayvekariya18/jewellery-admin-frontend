@@ -116,6 +116,9 @@ const DynamicMenuMaster = Loadable(
 const SettingMaster = Loadable(
   lazy(() => import("./Master/Jewellery/setting/SettingMaster"))
 );
+const ContactUsMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/ContactUs/ContactUsMaster"))
+);
 
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
@@ -217,6 +220,10 @@ const routes = [
       {
         path: pageRoutes.master.blogs.faq,
         element: <FaqMaster />,
+      },
+      {
+        path: pageRoutes.master.blogs.contactUs,
+        element: <ContactUsMaster />,
       },
       // Pages Load file
 

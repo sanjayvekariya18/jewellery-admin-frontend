@@ -12,7 +12,6 @@ import {
     Icon,
     IconButton,
     Button
-
 } from "@mui/material";
 import { toaster } from '../../../../services/helper';
 import ReactDragListView from "react-drag-listview";
@@ -149,7 +148,6 @@ const FeatureProductMaster = () => {
             };
         });
     }, [state.data]);
-console.log(state.page,"state.page");
     return (
         <Container>
             <Box
