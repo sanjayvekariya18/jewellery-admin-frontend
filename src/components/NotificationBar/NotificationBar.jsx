@@ -165,12 +165,11 @@ const NotificationBar = ({ container }) => {
         HELPER.toaster.success("Deleted Successfully");
         getNotification();
       })
-      .catch(console.error);
+      .catch(console.error);  
   }
   const readNotification = () => {
     API.post(apiConfig.readNotification)
       .then((res) => {
-        HELPER.toaster.success("Notification Read Successfully");
         getNotification();
       })
       .catch(console.error);

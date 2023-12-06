@@ -61,6 +61,9 @@ export const pageRoutes = {
       emailTemplate: "/master/blogs/email-template",
       ourProduct: "/master/blogs/our-product",
       featureProduct: "/master/blogs/feature-product",
+      popularGift:"/master/blogs/popular-gift",
+      popularWedding:"/master/blogs/popular-wedding",
+      popularEngagement:"/master/blogs/popularEngagement",
     },
     pages: {
       banner: "/master/pages/banner",

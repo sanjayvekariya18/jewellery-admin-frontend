@@ -6,7 +6,7 @@ import { API, HELPER } from '../../../../services';
 import { apiConfig } from '../../../../config';
 import Textinput from "../../../../components/UI/TextInput";
 
-const ReturnRejectMaster = ({ open, togglePopup, userData,callBack }) => {
+const ReturnRejectMaster = ({ open, togglePopup, userData, callBack }) => {
     const initialValues = {
         returnOrderProductIds: userData,
         rejectReason: "",
@@ -77,10 +77,10 @@ const ReturnRejectMaster = ({ open, togglePopup, userData,callBack }) => {
                         <Textinput
                             multiline={true}
                             size="small"
-                            label="Order Reject Reason"
+                            label="Order Reject Request"
                             name="rejectReason"
                             type="text"
-                            placeholder="Enter Order Reject Reason"
+                            placeholder="Enter Order Reject Request"
                             value={formState.rejectReason}
                             error={errors?.rejectReason}
                             onChange={onChange}

@@ -54,29 +54,64 @@ const FindProductVariant = () => {
           console.error(err);
         }
       })
-      .finally(()=>{
+      .finally(() => {
         setLoading(false);
       })
   };
 
-const addToFeature = (id) => {
-  API.post(`${apiConfig.featureProduct.replace(':id', id)}`)
-    .then((res) => {
-      HELPER.toaster.success(res.message)
-    })
-    .catch((error) => {
-      HELPER.toaster.error(error.errors.productVariant[0])
-    });
-};
+  // addToFeature in Post api
+  const addToFeature = (id) => {
+    API.post(`${apiConfig.featureProduct.replace(':id', id)}`)
+      .then((res) => {
+        HELPER.toaster.success(res.message)
+      })
+      .catch((error) => {
+        HELPER.toaster.error(error.errors.productVariant[0])
+      });
+  };
 
+  // addToOurProduct in Post api
   const addToOurProduct = (id) => {
     API.post(`${apiConfig.ourProduct.replace(':id', id)}`)
-    .then((res) => {
-      HELPER.toaster.success(res.message)
-    })
-    .catch((error) => {
-      HELPER.toaster.error(error.errors.productVariant[0])
-    });
+      .then((res) => {
+        HELPER.toaster.success(res.message)
+      })
+      .catch((error) => {
+        HELPER.toaster.error(error.errors.productVariant[0])
+      });
+  };
+
+  // addToWedding in post api
+  const addToWedding = (id) => {
+    API.post(`${apiConfig.popularWedding.replace(':id', id)}`)
+      .then((res) => {
+        HELPER.toaster.success(res.message)
+      })
+      .catch((error) => {
+        HELPER.toaster.error(error.errors.productVariant[0])
+      });
+  };
+
+  // addToGift in post APi
+  const addToGift = (id) => {
+    API.post(`${apiConfig.popularGift.replace(':id', id)}`)
+      .then((res) => {
+        HELPER.toaster.success(res.message)
+      })
+      .catch((error) => {
+        HELPER.toaster.error(error.errors.productVariant[0])
+      });
+  };
+
+  // addToEngagement in post api
+  const addToEngagement = (id) => {
+    API.post(`${apiConfig.popularEngagement.replace(':id', id)}`)
+      .then((res) => {
+        HELPER.toaster.success(res.message)
+      })
+      .catch((error) => {
+        HELPER.toaster.error(error.errors.productVariant[0])
+      });
   };
 
   const COLUMNS = [
@@ -95,10 +130,10 @@ const addToFeature = (id) => {
     { title: "Action", classNameWidth: "thead-second-width-discount" },
   ];
 
-  
-   // ---------------Visibility Product Api----------------------
 
-   const hiddenVisibleProductVariant = (Id) => {
+  // ---------------Visibility Product Api----------------------
+
+  const hiddenVisibleProductVariant = (Id) => {
     API.put(apiConfig.visibility_productVariant.replace(":id", Id)).then((res) => {
       HELPER.toaster.success(res.message);
       paginate();
@@ -113,17 +148,41 @@ const addToFeature = (id) => {
           key: "Add to Features",
           color: "rgba(52, 49, 76, 1)",
           icon: "control_point_icon",
-          fontSize:"12px",
-          iconSize:"14px",
+          fontSize: "12px",
+          iconSize: "14px",
           onClick: () => addToFeature(item.id),
         },
         {
           key: "Add to Our Products",
           color: "rgba(52, 49, 76, 1)",
           icon: "control_point_icon",
-          fontSize:"12px",
-          iconSize:"14px",
+          fontSize: "12px",
+          iconSize: "14px",
           onClick: () => addToOurProduct(item.id),
+        },
+        {
+          key: "Popular Wedding",
+          color: "rgba(52, 49, 76, 1)",
+          icon: "control_point_icon",
+          fontSize: "12px",
+          iconSize: "14px",
+          onClick: () => addToWedding(item.id),
+        },
+        {
+          key: "Popular Gift",
+          color: "rgba(52, 49, 76, 1)",
+          icon: "control_point_icon",
+          fontSize: "12px",
+          iconSize: "14px",
+          onClick: () => addToGift(item.id),
+        },
+        {
+          key: "Popular Engagement",
+          color: "rgba(52, 49, 76, 1)",
+          icon: "control_point_icon",
+          fontSize: "12px",
+          iconSize: "14px",
+          onClick: () => addToEngagement(item.id),
         },
       ];
 
@@ -142,14 +201,14 @@ const addToFeature = (id) => {
           <span>${item.diamondPrice}</span>,
           <span>${item.totalPrice}</span>,
           <span>
-          <ThemeSwitch
-            checked={item.isVisible}
-            color="warning"
-            onChange={() => {
-              hiddenVisibleProductVariant(item.id);
-            }}
-          />
-        </span>,
+            <ThemeSwitch
+              checked={item.isVisible}
+              color="warning"
+              onChange={() => {
+                hiddenVisibleProductVariant(item.id);
+              }}
+            />
+          </span>,
           <span style={{ display: "flex" }}>
             <IconButton onClick={(e) => handleButtonClick(item.id)}>
               <Icon color="primary">remove_red_eye</Icon>

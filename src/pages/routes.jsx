@@ -119,6 +119,16 @@ const SettingMaster = Loadable(
 const ContactUsMaster = Loadable(
   lazy(() => import("./Master/Jewellery/ContactUs/ContactUsMaster"))
 );
+const PopularGiftMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/PopularGift/PopularGiftMaster"))
+);
+const PopularWeddingMaster = Loadable(
+  lazy(() => import("./Master/Jewellery/PopularWedding/PopularWeddingMaster"))
+);
+const PopularEngagement = Loadable(
+  lazy(() => import("./Master/Jewellery/PopularEngagement/PopularEngagement"))
+);
+
 
 // echart page
 // const AppEchart = Loadable(lazy(() => import('./charts/echarts/AppEchart')));
@@ -216,7 +226,18 @@ const routes = [
         path: pageRoutes.master.blogs.featureProduct,
         element: <FeatureProductMaster />,
       },
-
+      {
+        path: pageRoutes.master.blogs.popularGift,
+        element: <PopularGiftMaster />,
+      },
+      {
+        path: pageRoutes.master.blogs.popularWedding,
+        element: <PopularWeddingMaster />,
+      },
+      {
+        path: pageRoutes.master.blogs.popularEngagement,
+        element: <PopularEngagement />,
+      },
       {
         path: pageRoutes.master.blogs.faq,
         element: <FaqMaster />,

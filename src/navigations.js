@@ -166,6 +166,21 @@ export const navigations = [
         iconText: "FP",
         path: pageRoutes.master.blogs.featureProduct,
       },
+      {
+        name: "Popular Gift",
+        iconText: "FP",
+        path: pageRoutes.master.blogs.popularGift,
+      },
+      {
+        name: "Popular Wedding",
+        iconText: "FP",
+        path: pageRoutes.master.blogs.popularWedding,
+      },
+      {
+        name: "Popular Engagement",
+        iconText: "FP",
+        path: pageRoutes.master.blogs.popularEngagement,
+      },
     ],
   },
   {

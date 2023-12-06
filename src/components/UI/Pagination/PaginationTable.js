@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import StyledTable from "../../StyledTable";
 import { visuallyHidden } from "@mui/utils";
+import { CheckBox, Input, Tab } from "@mui/icons-material";
 
 const rowsPerPageOptions = [10, 25, 50, 100];
 
@@ -128,25 +129,29 @@ export default function PaginationTable({
   isModalTrue = false,
   selectedRowId,
   footerVisibility,
+  selectAllCheckbox,
+
 }) {
   const _onChangeSelect = (e) => {
-    if (e.currentTarget.getAttribute("data-all")) {
-      if (e.currentTarget.checked) {
-        onCheckBoxSelect(_.map(rows, "checkboxValue"));
-      } else {
-        onCheckBoxSelect([]);
-      }
+    console.log("Event:", e);
+  
+    if (e.target.getAttribute("data-all")) {
+      // Handle "Select All" checkbox
+      const newSelectedRows = e.target.checked ? rows.map((row) => row.checkboxValue) : [];
+      console.log("New Selected Rows:", newSelectedRows);
+      onCheckBoxSelect(newSelectedRows);
     } else {
-      let tempSelected = [...selectedRows].filter(
-        (currentCheckVal) => e.currentTarget.value != currentCheckVal
-      );
-      if (e.currentTarget.checked) {
-        onCheckBoxSelect([...tempSelected, e.currentTarget.value]);
-      } else {
-        onCheckBoxSelect(tempSelected);
-      }
+      // Handle individual checkboxes
+      const currentValue = e.target.value;
+      const updatedSelectedRows = e.target.checked
+        ? [...selectedRows, currentValue]
+        : selectedRows.filter((value) => value !== currentValue);
+  
+      console.log("Updated Selected Rows:", updatedSelectedRows);
+      onCheckBoxSelect(updatedSelectedRows);
     }
   };
+  
 
   // Show Page
   const selectOptions = pageSizeArr.map((pageSize) => ({
@@ -160,6 +165,12 @@ export default function PaginationTable({
         <StyledTable>
           <TableHead>
             <TableRow>
+              {selectAllCheckbox && (
+                <TableCell>
+                  {selectAllCheckbox}
+                </TableCell>
+              )}
+
               {header.map((headerItem, headerIndex) => {
                 return (
                   <TableCell
@@ -220,24 +231,26 @@ export default function PaginationTable({
               </TableRow>
             ) : (
               rows.map((row, rowIndex) => (
-                <TableRow key={`tr_${rowIndex}`} className={selectedRowId && (row.item.banner_id === selectedRowId || row.item.slider_id === selectedRowId ? 'selected-row' : '')}>
-                  {row.columns.map((column, columnIndex) => (
-                    <TableCell key={`td_${rowIndex}_${columnIndex}`} align="center">
-                      <label
-                        htmlFor={
-                         row.item.slider_id
-                        }
-                        style={{
-                          height: '50%', // Adjust the percentage value as needed
-                          width: '100%',
-                          display: 'block',
+                < TableRow key={`tr_${rowIndex}`} className={selectedRowId && (row.item.banner_id === selectedRowId || row.item.slider_id === selectedRowId ? 'selected-row' : '')}>
+                  <>
+                    {row.columns.map((column, columnIndex) => (
+                      <TableCell key={`td_${rowIndex}_${columnIndex}`} align="center">
+                        <label
+                          htmlFor={
+                            row.item.slider_id
+                          }
+                          style={{
+                            height: '50%', // Adjust the percentage value as needed
+                            width: '100%',
+                            display: 'block',
 
-                        }}
-                      >
-                        {column}
-                      </label>
-                    </TableCell>
-                  ))}
+                          }}
+                        >
+                          {column}
+                        </label>
+                      </TableCell>
+                    ))}
+                  </>
                 </TableRow>
               ))
             )}
@@ -259,27 +272,29 @@ export default function PaginationTable({
         )}
       </Box>
 
-      {footerVisibility && (
-        <div className="main-footer-table-pagination">
-          <TablePagination
-            sx={{ px: 2 }}
-            page={activePage}
-            component="div"
-            rowsPerPage={perPage}
-            count={totalItems}
-            onPageChange={(_, pageNumber) => changeActivePage(pageNumber)}
-            rowsPerPageOptions={rowsPerPageOptions}
-            onRowsPerPageChange={(event) =>
-              changePerPage(Number(event.target.value))
-            }
-            nextIconButtonProps={{ "aria-label": "Next Page" }}
-            backIconButtonProps={{ "aria-label": "Previous Page" }}
-            showFirstButton={true}
-            showLastButton={true}
-          />
-        </div>
-      )}
-    </React.Fragment>
+      {
+        footerVisibility && (
+          <div className="main-footer-table-pagination">
+            <TablePagination
+              sx={{ px: 2 }}
+              page={activePage}
+              component="div"
+              rowsPerPage={perPage}
+              count={totalItems}
+              onPageChange={(_, pageNumber) => changeActivePage(pageNumber)}
+              rowsPerPageOptions={rowsPerPageOptions}
+              onRowsPerPageChange={(event) =>
+                changePerPage(Number(event.target.value))
+              }
+              nextIconButtonProps={{ "aria-label": "Next Page" }}
+              backIconButtonProps={{ "aria-label": "Previous Page" }}
+              showFirstButton={true}
+              showLastButton={true}
+            />
+          </div>
+        )
+      }
+    </React.Fragment >
   );
 }
 
@@ -291,6 +306,8 @@ PaginationTable.defaultProps = {
 
   enableOrder: false,
   footerVisibility: true,
+  selectAllCheckbox: null,
+
 };
 
 PaginationTable.propTypes = {
@@ -317,4 +334,5 @@ PaginationTable.propTypes = {
 
   footerVisibility: PropTypes.bool,
   selectedRowId: PropTypes.string,
+  selectAllCheckbox: PropTypes.element,
 };
