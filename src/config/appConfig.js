@@ -1,5 +1,5 @@
 const appConfig = {
-  host: 'http://localhost:6464/',
+  host: process.env.REACT_APP_API_HOST,
   prefix: process.env.REACT_APP_API_PREFIX,
   version: process.env.REACT_APP_API_VERSION,
 
