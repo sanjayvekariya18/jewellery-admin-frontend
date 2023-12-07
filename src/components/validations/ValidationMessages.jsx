@@ -3,7 +3,7 @@ import { HELPER } from "./../../services";
 
 export default function ValidationMessages({ errors, label = "" }) {
   return (
-    <>
+    <div style={{ marginBottom: '2px' }}>
       {!HELPER.isEmpty(errors) && !HELPER.isEmpty(errors.message) && (
         <div className="invalid-input">{errors.message}</div>
       )}
@@ -15,6 +15,6 @@ export default function ValidationMessages({ errors, label = "" }) {
             {error.replace(":attribute", label).replace("*", "")}
           </div>
         ))}
-    </>
+    </div>
   );
 }

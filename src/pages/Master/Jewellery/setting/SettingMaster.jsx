@@ -13,6 +13,7 @@ import { API, HELPER } from '../../../../services';
 import { apiConfig } from '../../../../config';
 import ImgUploadBoxInput from '../../../../components/UI/ImgUploadBoxInput';
 import Textinput from '../../../../components/UI/TextInput';
+import ProductSettings from './partials/ProductSettings';
 
 const useStyles = makeStyles({
     horizontalIconLabel: {
@@ -130,6 +131,15 @@ const SettingMaster = () => {
                             </div>
                         }
                     />
+                    <Tab
+                        value={'home_products'}
+                        label={
+                            <div className={classes.horizontalIconLabel}>
+                                <AddCardIcon />
+                                <span>Home Product</span>
+                            </div>
+                        }
+                    />
                 </Tabs>
             </Box>
 
@@ -213,7 +223,6 @@ const SettingMaster = () => {
                             </>
                         )}
 
-
                         {formOpen && value === 'social_link' && (
                             <>
                                 <Textinput
@@ -283,22 +292,26 @@ const SettingMaster = () => {
                             />
                         )}
 
-                        <Button type="button" variant="contained" color="primary" onClick={() => {
-                            if (formState?.logo && typeof formState?.logo != 'string') {
-                                uploadLogo((logoUrl) => {
+                        {formOpen && value === 'home_products' ? (
+                            <ProductSettings homeProduct={setting?.meta?.home_product || {}} callback={() => getAllAppSettings()} />
+                        ) : (
+                            <Button type="button" variant="contained" color="primary" onClick={() => {
+                                if (formState?.logo && typeof formState?.logo != 'string') {
+                                    uploadLogo((logoUrl) => {
+                                        handleSubmit({
+                                            ...formState,
+                                            logo: logoUrl
+                                        })
+                                    })
+                                } else {
                                     handleSubmit({
                                         ...formState,
-                                        logo: logoUrl
                                     })
-                                })
-                            } else {
-                                handleSubmit({
-                                    ...formState,
-                                })
-                            }
-                        }}>
-                            Submit
-                        </Button>
+                                }
+                            }}>
+                                Submit
+                            </Button>
+                        )}
                     </form>
 
                 </Box>

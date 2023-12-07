@@ -119,6 +119,7 @@ const apiConfig = {
   productDownload: "product/template/:id",
   visibility_product: "product/visibility/:id",
   visibility_productVariant: "product/variant/visibility/:id",
+  productBySku: 'product/by-sku/:sku',
 
   // orders 
   orders: "orders",
@@ -150,7 +151,7 @@ const apiConfig = {
 
   // popular wedding
   popularWedding: "popularWedding/:id",
-  allPopularWedding:"popularWedding",
+  allPopularWedding: "popularWedding",
 
 
   // gift
@@ -161,7 +162,7 @@ const apiConfig = {
 
   // addToEngagement
   popularEngagement: "popularEngagement/:id",
-  allPopularEngagement:"popularEngagement",
+  allPopularEngagement: "popularEngagement",
 
   // banner
   banner: "banner",
@@ -181,6 +182,7 @@ const apiConfig = {
   appSettings: "app-settings",
   appSettingsEdit: "app-settings/update",
   appSettingsUploadFile: "app-settings/upload-file",
+  saveAppSettingsHomeProduct: "app-settings/home-product",
 
   // dymanic menu
   dynamicMenuList: "page",

@@ -886,3 +886,13 @@ input::-webkit-inner-spin-button {
   font-weight: bold;
 }
 
+.textInput-error {
+  border: 1px solid #ff3d57;
+}
+.textInput-error::placeholder {
+  color: #ff3d57;
+}
+.tippy-box {
+  background-color: #dddbdb !important;
+  color: black !important;
+}

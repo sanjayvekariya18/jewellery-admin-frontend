@@ -31,6 +31,13 @@ const StyledTextarea = styled(TextareaAutosize)(
     }
   `
 );
+
+const styles = {
+  error: {
+    border: '1px solid red'
+  }
+}
+
 const Textarea = ({
   type,
   label,
@@ -51,6 +58,7 @@ const Textarea = ({
       <StyledTextarea
         size="small"
         name={name}
+        className={`${error ? 'textInput-error' : ''}`}
         type="text"
         maxLength={255}
         minRows={3}
