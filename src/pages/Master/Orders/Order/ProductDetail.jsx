@@ -45,7 +45,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     { title: "Making Price", classNameWidth: "thead-second-width" },
     { title: "Metal Price", classNameWidth: "thead-second-width" },
     { title: "Diamond Price", classNameWidth: "thead-second-width" },
-    { title: "GemstonePrice", classNameWidth: "thead-second-width" },
+    { title: "Gemstone Price", classNameWidth: "thead-second-width" },
     { title: "Total Price", classNameWidth: "thead-second-width" },
     { title: "Attribute", classNameWidth: "thead-second-width" },
     { title: productDetail?.orderProduct?.engraving !== null && "Engraving Details ", classNameWidth: "thead-second-width1" },
@@ -62,16 +62,16 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
         <span
           className="common-width-three-dot-text"
           style={{ fontWeight: "500", cursor: "pointer" }}
-          onClick={() => showAddressInDialog(productDetail?.productVariant)}
+          onClick={() => showTitleInDialog(productDetail?.productVariant)}
         >
-          {productDetail?.productVariant?.description}
+          {productDetail?.productVariant?.title}
         </span>,
         <span
           className="common-width-three-dot-text"
           style={{ fontWeight: "500", cursor: "pointer" }}
-          onClick={() => showTitleInDialog(productDetail?.productVariant)}
+          onClick={() => showAddressInDialog(productDetail?.productVariant)}
         >
-          {productDetail?.productVariant?.title}
+          {productDetail?.productVariant?.description}
         </span>,
         <span>{productDetail?.productVariant?.metalWeight}</span>,
         <span>{productDetail?.productVariant?.totalCarat}</span>,
@@ -100,14 +100,13 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
   // gemstone details display
 
   const GEMSTONE = [
-    { title: "Sr no", classNameWidth: "thead-second-width" },
+    { title: "Sr No", classNameWidth: "thead-second-width" },
     { title: "Title", classNameWidth: "thead-second-width-title" },
     { title: "Description", classNameWidth: "thead-second-width-title" },
     { title: "Origin", classNameWidth: "thead-second-width" },
     { title: "Color", classNameWidth: "thead-second-width" },
     { title: "MLength", classNameWidth: "thead-second-width" },
     { title: "MWidth", classNameWidth: "thead-second-width" },
-    { title: "MDepth", classNameWidth: "thead-second-width" },
     { title: "Clarity", classNameWidth: "thead-second-width" },
     { title: "Price", classNameWidth: "thead-second-width" },
   ];
@@ -138,7 +137,6 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
         <span>{productDetail?.orderProduct?.Gemstone?.color}</span>,
         <span>{productDetail?.orderProduct?.Gemstone?.mLength}</span>,
         <span>{productDetail?.orderProduct?.Gemstone?.mWidth}</span>,
-        <span>{productDetail?.orderProduct?.Gemstone?.mDepth}</span>,
         <span>{productDetail?.orderProduct?.Gemstone?.clarity}</span>,
         <span>${productDetail?.orderProduct?.Gemstone?.price}</span>,
       ],
@@ -187,21 +185,21 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
   ];
   const rowsDiamond = [
     {
-      item: productDetail?.diamond,
+      item: productDetail.orderProduct?.Diamond,
       columns: [
-        <div className="common-thead-second-width-title">
-          <span>{productDetail?.diamond?.stockId}</span>
+        <div className="common-thead-second-width">
+          <span>{productDetail.orderProduct?.Diamond?.stockId}</span>
         </div>,
-        <span>{productDetail?.diamond?.carat}</span>,
-        <span>{productDetail?.diamond?.shapeName}</span>,
-        <span>{productDetail?.diamond?.color}</span>,
-        <span>{productDetail?.diamond?.clarity}</span>,
-        <span>{productDetail?.diamond?.origin}</span>,
-        <span>{productDetail?.diamond?.mLength}</span>,
-        <span>{productDetail?.diamond?.mWidth}</span>,
-        <span>{productDetail?.diamond?.mDepth}</span>,
-        <span>{productDetail?.diamond?.labName}</span>,
-        <span>${productDetail?.diamond?.price}</span>,
+        <span>{productDetail.orderProduct?.Diamond?.carat}</span>,
+        <span>{productDetail.orderProduct?.Diamond?.shapeName}</span>,
+        <span>{productDetail.orderProduct?.Diamond?.color}</span>,
+        <span>{productDetail.orderProduct?.Diamond?.clarity}</span>,
+        <span>{productDetail.orderProduct?.Diamond?.origin}</span>,
+        <span>{productDetail.orderProduct?.Diamond?.mLength}</span>,
+        <span>{productDetail.orderProduct?.Diamond?.mWidth}</span>,
+        <span>{productDetail.orderProduct?.Diamond?.mDepth}</span>,
+        <span>{productDetail.orderProduct?.Diamond?.labName}</span>,
+        <span>${productDetail.orderProduct?.Diamond?.price}</span>,
       ],
     },
   ];
@@ -269,43 +267,44 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
         ) : (
           <>
             {Object.keys(productDetail).length !== 0 && (
-
               <Box style={{ display: "flex" }}>
-                {(rowsProductVariant[0].item !== undefined && rowsProductVariant[0].item !== null) && <div style={{ width: "50%", padding: "20px" }}>
-                  {/* <h3>Product Variant Details</h3> */}
-                  {rowsProductVariant[0] &&
-                    Object.keys(rowsProductVariant[0]?.item || {}).length >
-                    0 && (
-                      <div align="center">
-                        <h3>Product Variant Details</h3>
-                      </div>
-                    )}
-                  {PRODUCTVARIANT.map((header, index) => (
-                    <>
-                      <TableContainer key={index}>
-                        <Table>
-                          <TableBody>
-                            {header?.title !== false && <TableRow>
-                              {/* Product Variant Details */}
-                              {/* <div style={{ display: "flex" }}> */}
-                              <TableCell style={{ fontWeight: "bold" }} >
-                                {header?.title}
-                              </TableCell>
-                              <TableCell style={{ fontWeight: "bold" }}>
-                                {rowsProductVariant[0]?.columns[index]}
-                              </TableCell>
-                              {/* </div> */}
-                            </TableRow>}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    </>
-                  ))}
-                </div>}
+                {Object.keys(productDetail.productVariant).length !== 0 && (
+                  <div style={{ width: "50%", padding: "20px" }}>
+                    {/* <h3>Product Variant Details</h3> */}
+                    {console.log(rowsProductVariant[0]?.columns)}
+                    {rowsProductVariant[0] &&
+                      Object.keys(rowsProductVariant[0]?.columns).length >
+                      0 && (
+                        <div align="center">
+                          <h3>Product Variant Details</h3>
+                        </div>
+                      )}
+                    {PRODUCTVARIANT.map((header, index) => (
+                      <>
+                        <TableContainer key={index}>
+                          <Table>
+                            <TableBody>
+                              {header?.title !== false && <TableRow>
+                                {/* Product Variant Details */}
+                                {/* <div style={{ display: "flex" }}> */}
+                                <TableCell style={{ fontWeight: "bold" }} >
+                                  {header?.title}
+                                </TableCell>
+                                <TableCell style={{ fontWeight: "bold" }}>
+                                  {rowsProductVariant[0]?.columns[index]}
+                                </TableCell>
+                                {/* </div> */}
+                              </TableRow>}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </>
+                    ))}
+                  </div>)}
                 {(rowsGemstone[0].item !== undefined && rowsGemstone[0].item !== null) && <div style={{ width: "50%", padding: "20px" }}>
-
+                  {console.log(rowsProductVariant[0], Object.keys(rowsProductVariant[0]?.item || {}), "rowsProductVariant[0]")}
                   {rowsProductVariant[0] &&
-                    Object.keys(rowsProductVariant[0]?.item || {}).length >
+                    Object.keys(rowsProductVariant[0]?.columns).length >
                     0 && (
                       <div align="center">
                         <h3>Gemstone Details</h3>
@@ -334,17 +333,14 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                         </Table>
                       </TableContainer>
                     </div>
-
-
                   ))}
                 </div>}
                 {(rowsDiamond[0].item !== undefined && rowsDiamond[0].item !== null) && <div style={{ width: "50%", padding: "20px" }}>
-
                   {rowsProductVariant[0] &&
-                    Object.keys(rowsProductVariant[0]?.item || {}).length >
+                    Object.keys(rowsProductVariant[0]?.columns).length >
                     0 && (
                       <div align="center">
-                        <h3>Diamond Details</h3>
+                        <h4>Diamond Details</h4>
                       </div>
                     )}
                   {DIAMOND.map((header, index) => (

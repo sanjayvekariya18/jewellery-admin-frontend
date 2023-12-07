@@ -185,6 +185,10 @@ input::-webkit-inner-spin-button {
 .thead-second-width-stock-numbers {
   width: 160px !important;
 }
+.thead-second-width-stock-numbers-refundAmount {
+  width: 120px !important;
+  text-align: center !important;
+}
 
 .thead-second-width-order-date {
   width: 180px !important;
@@ -225,7 +229,6 @@ input::-webkit-inner-spin-button {
 .thead-second-width-discount-85 {
   width: 85px !important;
 }
-
 
 .thead-second-width-action-index {
   width: 90px !important;
@@ -873,7 +876,7 @@ input::-webkit-inner-spin-button {
 
 /* Define the styles for the selected row */
 .selected-row {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
   /* Add any other styles you want for the entire row */
 }
 
@@ -885,6 +888,13 @@ input::-webkit-inner-spin-button {
   color: #333;
   font-weight: bold;
 }
+.main-input-padding-div {
+  width: 50px;
+}
+/* Add this style to your CSS */
+.hidden-checkbox {
+  display: none;
+}
 
 .textInput-error {
   border: 1px solid #ff3d57;
@@ -895,4 +905,14 @@ input::-webkit-inner-spin-button {
 .tippy-box {
   background-color: #dddbdb !important;
   color: black !important;
+}
+
+/* Add this style to hide the entire table cell when is_read is true */
+.hide-cell {
+  display: none;
+}
+.contact_checkBox .css-1bwc6vp-MuiTable-root thead tr th:first-child {
+  text-transform: none !important;
+  padding-left: 20px !important;
+  width: 75px;
 }

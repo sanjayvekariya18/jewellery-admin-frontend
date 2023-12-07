@@ -177,7 +177,7 @@ const ContactUsMaster = () => {
     };
 
     const selectAllCheckbox = (
-        <div className="main-input-padding-div">
+        <div className="checkBox">
             {is_read == false ? (
                 <Checkbox
                     checked={selectedCheckboxes.length === state.data.length}
@@ -196,8 +196,8 @@ const ContactUsMaster = () => {
             return {
                 item: item,
                 columns: [
-                    <div>
-                        {is_read == false ? (
+                    <div className="checkBox">
+                        {is_read == false && (
                             <CustomCheckbox
                                 id={`checkbox_${item.contact_id}`}
                                 checked={selectedCheckboxes.some(
@@ -205,11 +205,9 @@ const ContactUsMaster = () => {
                                 )}
                                 onChange={() => handleCheckbox(item)}
                             />
-                        ) : (
-
-                            ""
                         )}
                     </div>,
+
                     <span>{item.first_name + " " + item.last_name}</span>,
                     <div className="span-permision">
                         <span>{item.email}</span>
@@ -286,28 +284,30 @@ const ContactUsMaster = () => {
                         </Button>
                     </div>
                 </div>
-                <PaginationTable
-                    header={COLUMNS}
-                    rows={rows}
-                    totalItems={state.total_items}
-                    perPage={state.rowsPerPage}
-                    activePage={state.page}
-                    checkboxColumn={false}
-                    selectedRows={state.selectedRows}
-                    enableOrder={true}
-                    orderBy={state.orderby}
-                    order={state.order}
-                    isLoader={state.loader}
-                    selectAllCheckbox={selectAllCheckbox}
-                    emptyTableImg={<img src={error400cover} width="350px" />}
-                    {...otherTableActionProps}
-                >
-                </PaginationTable>
+                <div className="contact_checkBox">
+                    <PaginationTable
+                        header={COLUMNS}
+                        rows={rows}
+                        totalItems={state.total_items}
+                        perPage={state.rowsPerPage}
+                        activePage={state.page}
+                        checkboxColumn={false}
+                        selectedRows={state.selectedRows}
+                        enableOrder={true}
+                        orderBy={state.orderby}
+                        order={state.order}
+                        isLoader={state.loader}
+                        selectAllCheckbox={selectAllCheckbox}
+                        emptyTableImg={<img src={error400cover} width="350px" />}
+                        {...otherTableActionProps}
+                    >
+                    </PaginationTable>
+                </div>
             </Container>
 
             {textModal && (
                 <ThemeDialog
-                    title="Description"
+                    title="Message"
                     id="showModal"
                     isOpen={textModal}
                     toggle={textModaltoggle}
