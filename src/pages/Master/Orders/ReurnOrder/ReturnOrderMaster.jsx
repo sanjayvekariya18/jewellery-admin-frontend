@@ -875,7 +875,7 @@ const ReturnOrderMaster = () => {
 
         {textModal && (
           <ThemeDialog
-            title="Return Order Reason"
+            title="Reject Order Reason"
             id="showModal"
             isOpen={textModal}
             toggle={textModaltoggle}
