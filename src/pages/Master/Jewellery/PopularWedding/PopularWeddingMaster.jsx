@@ -17,7 +17,7 @@ import { toaster } from '../../../../services/helper';
 import ReactDragListView from "react-drag-listview";
 import PaginationTable, { usePaginationTable } from '../../../../components/UI/Pagination/PaginationTable';
 
-const OurProductMaster = () => {
+const PopularWeddingMaster = () => {
     const [loading, setLoading] = useState();
     const [rowMoved, setRowMoved] = useState(false);
 
@@ -44,7 +44,7 @@ const OurProductMaster = () => {
         changeState("loader", true);
 
         setLoading(true);
-        API.get(apiConfig.allOurProduct)
+        API.get(apiConfig.allPopularWedding)
             .then((res) => {
                 setLoading(false);
                 setState({
@@ -82,9 +82,9 @@ const OurProductMaster = () => {
                 products: updatedDataOrder,
             };
 
-            API.put(apiConfig.allOurProduct, payload)
+            API.put(apiConfig.allPopularWedding, payload)
                 .then((res) => {
-                    toaster.success('OurProducts updated successfully');
+                    toaster.success('Popular Wedding updated successfully');
                     setRowMoved(false);
                     paginate();
                 })
@@ -98,7 +98,7 @@ const OurProductMaster = () => {
     const onClickDelete = (id) => {
         Swal.fire({
             title: "Are You Sure",
-            text: "Are you sure you want to remove this Our Product ?",
+            text: "Are you sure you want to remove this Popular Wedding ?",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "green",
@@ -108,7 +108,7 @@ const OurProductMaster = () => {
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
-                API.destroy(`${apiConfig.allOurProduct}/${id}`)
+                API.destroy(`${apiConfig.allPopularWedding}/${id}`)
                     .then((res) => {
                         toaster.success("Deleted Successfully");
                         paginate();
@@ -159,7 +159,7 @@ const OurProductMaster = () => {
                 <Breadcrumb
                     routeSegments={[
                         { name: "Masters", path: pageRoutes.master.user.user },
-                        { name: "Our Products" },
+                        { name: "Popular Gift" },
                     ]}
                 />
             </Box>
@@ -194,4 +194,4 @@ const OurProductMaster = () => {
     );
 }
 
-export default OurProductMaster;
+export default PopularWeddingMaster;

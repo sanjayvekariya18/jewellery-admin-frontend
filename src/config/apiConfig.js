@@ -145,7 +145,23 @@ const apiConfig = {
   // Our Product Details
   ourProduct: "ourProduct/:id",
   allOurProduct: "ourProduct",
-  updateOurProduct: "ourProduct",
+  // updateOurProduct: "ourProduct",
+
+
+  // popular wedding
+  popularWedding: "popularWedding/:id",
+  allPopularWedding:"popularWedding",
+
+
+  // gift
+  popularGift: "popularGift/:id",
+  allPopularGift: "popularGift",
+  // updatePopularGift: "popularGift",
+
+
+  // addToEngagement
+  popularEngagement: "popularEngagement/:id",
+  allPopularEngagement:"popularEngagement",
 
   // banner
   banner: "banner",
@@ -178,7 +194,14 @@ const apiConfig = {
   notifications: "notifications",
   clearAllNotification: "notifications/clear-all",
   readNotification: "notifications/read",
-  unRead: "notifications/unread-notifications"
+  unRead: "notifications/unread-notifications",
+
+
+  //Contact us
+  contactUs: "contact-us",
+  contactUsBulk: "contact-us/bulk",
+
+
 };
 
 export default apiConfig;
