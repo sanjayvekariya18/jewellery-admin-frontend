@@ -105,33 +105,33 @@ const ReturnOrderMaster = () => {
       title: "Reject Reason",
       order: false,
       field: "returnReason",
-      classNameWidth: "thead-second-width-order-date",
+      classNameWidth: "thead-second-width-stock-numbers",
     },
     {
       title: "Return Date",
       order: true,
       field: "createdAt",
-      classNameWidth: "thead-second-width-order-date",
+      classNameWidth: "thead-second-width-stock-numbers",
     },
     filter.returnOrderStatus === "refund"
       ? {
         title: "Refund Date",
         order: false,
         field: "refundDate",
-        classNameWidth: "thead-second-width-order-date",
+        classNameWidth: "thead-second-width-stock-numbers",
       }
       : {
         title: "",
         order: false,
         field: "",
-        classNameWidth: "thead-width-zero",
+        classNameWidth: "thead-second-width-stock-numbers",
       },
     filter.returnOrderStatus === "refund"
       ? {
         title: "Refund Amount",
         order: false,
         field: "refundAmount",
-        classNameWidth: "thead-second-width-order-date",
+        classNameWidth: "thead-second-width-stock-numbers-refundAmount",
       }
       : {
         title: "",
@@ -144,7 +144,7 @@ const ReturnOrderMaster = () => {
         title: "Total Return Products",
         order: false,
         field: "totalReturnProducts",
-        classNameWidth: "thead-second-width-order-date",
+        classNameWidth: "thead-second-width-stock-numbers",
       }
       : {
         title: "",
@@ -156,7 +156,7 @@ const ReturnOrderMaster = () => {
       title: "Action",
       order: false,
       field: "",
-      classNameWidth: "thead-second-width-order-date",
+      classNameWidth: "thead-second-width-stock-numbers",
     },
   ];
 
@@ -283,7 +283,7 @@ const ReturnOrderMaster = () => {
       if (_type == 'price') {
         _field += '$'
       }
-      
+
       if (product) {
         _field += `${product}`
 
@@ -306,7 +306,7 @@ const ReturnOrderMaster = () => {
         } else if (product.Gemstone) {
           type = 'Gemstone'
         }
-        
+
         return type;
 
       case "title":
@@ -317,27 +317,25 @@ const ReturnOrderMaster = () => {
         let gemstoneTitle = "";
 
         if (product.ProductVariant && product.Diamond) {
-          diamondDetails = `(${product.Diamond.carat} Carat ${
-            product.Diamond.ShapeMaster
-              ? product.Diamond.ShapeMaster.shape
-              : ""
-          } Diamond)`;
+          diamondDetails = `(${product.Diamond.carat} Carat ${product.Diamond.ShapeMaster
+            ? product.Diamond.ShapeMaster.shape
+            : ""
+            } Diamond)`;
         } else if (product.ProductVariant && product.Gemstone) {
           gemstoneTitle = product.Gemstone
             ? `(${product.Gemstone.title} Gemstone)`
             : "";
         } else if (product.Diamond) {
-          diamondDetails = `${product.Diamond.carat} Carat ${
-            product.Diamond.ShapeMaster
-              ? product.Diamond.ShapeMaster.shape
-              : ""
-          } Diamond`;
+          diamondDetails = `${product.Diamond.carat} Carat ${product.Diamond.ShapeMaster
+            ? product.Diamond.ShapeMaster.shape
+            : ""
+            } Diamond`;
         } else if (product.Gemstone) {
           gemstoneTitle = product.Gemstone
             ? `${product.Gemstone.title} Gemstone`
             : "";
         }
-        
+
         return _mergeField(title, gemstoneTitle, diamondDetails, 'title');
 
       case "price":
@@ -427,9 +425,11 @@ const ReturnOrderMaster = () => {
                 appConfig.dateAndTimeDisplayFormat
               )}
           </span>,
-          <span>
-            {filter.returnOrderStatus === "refund" && item.refundAmount}
-          </span>,
+          <div className="thead-second-width-stock-numbers-refundAmount">
+            <span>
+              {filter.returnOrderStatus === "refund" && item.refundAmount}
+            </span>
+          </div>,
 
           <span>
             {filter.returnOrderStatus === "verified" ? (
@@ -455,16 +455,18 @@ const ReturnOrderMaster = () => {
                 ]}
               />
             ) : (
-              <Tooltip title={'View Return Order Files'} placement="top">
-                <IconButton onClick={() => {
-                  if (!HELPER.isEmpty(item.file)) {
-                    setReturnProductFiles(item.file)
-                    setIsShowReturnOrderFiles(true)
-                  }
-                }}>
-                  <Icon color="info">article</Icon>
-                </IconButton>
-              </Tooltip>
+              <span>
+                <Tooltip title={'View Return Order Files'} placement="top">
+                  <IconButton onClick={() => {
+                    if (!HELPER.isEmpty(item.file)) {
+                      setReturnProductFiles(item.file)
+                      setIsShowReturnOrderFiles(true)
+                    }
+                  }}>
+                    <Icon color="info">article</Icon>
+                  </IconButton>
+                </Tooltip>
+              </span>
             )}
           </span>,
 

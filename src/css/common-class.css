@@ -185,6 +185,10 @@ input::-webkit-inner-spin-button {
 .thead-second-width-stock-numbers {
   width: 160px !important;
 }
+.thead-second-width-stock-numbers-refundAmount {
+  width: 120px !important;
+  text-align: center !important;
+}
 
 .thead-second-width-order-date {
   width: 180px !important;
