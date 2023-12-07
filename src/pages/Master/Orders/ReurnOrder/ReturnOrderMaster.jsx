@@ -79,8 +79,14 @@ const ReturnOrderMaster = () => {
       },
     {
       title: "Order No",
-      order: true,
+      order: false,
       field: "orderNo",
+      classNameWidth: "thead-second-width-stone",
+    },
+    {
+      title: "Type",
+      order: false,
+      field: "",
       classNameWidth: "thead-second-width-stone",
     },
     {
@@ -103,7 +109,7 @@ const ReturnOrderMaster = () => {
     },
     {
       title: "Return Date",
-      order: false,
+      order: true,
       field: "createdAt",
       classNameWidth: "thead-second-width-order-date",
     },
@@ -270,6 +276,94 @@ const ReturnOrderMaster = () => {
     setRefundAmount(true);
   };
 
+  const generateProductField = (product, type) => {
+    const _mergeField = (product, gemstone, diamond, _type) => {
+      let _field = '';
+
+      if (_type == 'price') {
+        _field += '$'
+      }
+      
+      if (product) {
+        _field += `${product}`
+
+        if (gemstone || diamond) {
+          _field += '<br />'
+        }
+      }
+
+      return `${_field}${gemstone}${diamond}`
+    }
+
+    switch (type) {
+      case "type":
+        let type = ''
+
+        if ((product.ProductVariant && product.Diamond) || (product.ProductVariant && product.Gemstone) || product.ProductVariant) {
+          type = 'Jewellery'
+        } else if (product.Diamond) {
+          type = 'Diamond'
+        } else if (product.Gemstone) {
+          type = 'Gemstone'
+        }
+        
+        return type;
+
+      case "title":
+        let title = product.ProductVariant
+          ? product.ProductVariant.title
+          : "";
+        let diamondDetails = "";
+        let gemstoneTitle = "";
+
+        if (product.ProductVariant && product.Diamond) {
+          diamondDetails = `(${product.Diamond.carat} Carat ${
+            product.Diamond.ShapeMaster
+              ? product.Diamond.ShapeMaster.shape
+              : ""
+          } Diamond)`;
+        } else if (product.ProductVariant && product.Gemstone) {
+          gemstoneTitle = product.Gemstone
+            ? `(${product.Gemstone.title} Gemstone)`
+            : "";
+        } else if (product.Diamond) {
+          diamondDetails = `${product.Diamond.carat} Carat ${
+            product.Diamond.ShapeMaster
+              ? product.Diamond.ShapeMaster.shape
+              : ""
+          } Diamond`;
+        } else if (product.Gemstone) {
+          gemstoneTitle = product.Gemstone
+            ? `${product.Gemstone.title} Gemstone`
+            : "";
+        }
+        
+        return _mergeField(title, gemstoneTitle, diamondDetails, 'title');
+
+      case "price":
+        let priceVariant = product.ProductVariant
+          ? product.ProductVariant.totalPrice
+          : "";
+        let gemstonePrice = "";
+        let diamondPrice = "";
+
+        if (product.ProductVariant && product.Diamond) {
+          diamondPrice = `($${product.Diamond.price || 0})`;
+        } else if (product.ProductVariant && product.Gemstone) {
+          gemstonePrice = `($${product.Gemstone.price || 0})`;
+        } else if (product.Diamond) {
+          diamondPrice = product.Diamond.price || 0;
+        } else if (product.Gemstone) {
+          gemstonePrice = product.Gemstone.price || 0;
+        }
+
+        return _mergeField(priceVariant, gemstonePrice, diamondPrice, 'price')
+
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
     paginate();
   }, [
@@ -279,6 +373,7 @@ const ReturnOrderMaster = () => {
     state.order,
     state.orderby,
   ]);
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -303,34 +398,12 @@ const ReturnOrderMaster = () => {
           <div className="span-permision">
             <span>{item.order.orderNo}</span>
           </div>,
-          <span>
-            {item.OrderProduct.ProductVariant?.title}
-            {item.productVariant ? item.productVariant.title : ""}
-            {item.OrderProduct.Gemstone
-              ? ` ${item.OrderProduct.Gemstone?.title}`
-              : item.Gemstone?.title}
-            {item.OrderProduct && item.OrderProduct.Diamond
-              ? ` ${item.OrderProduct.Diamond.carat} Carat ${item.OrderProduct.Diamond.ShapeMaster
-                ? item.OrderProduct.Diamond.ShapeMaster.shape
-                : ""
-              }`
-              : item.OrderProduct.Diamond
-                ? ` ${item.OrderProduct.Diamond.carat} Carat ${item.OrderProduct.Diamond.ShapeMaster
-                  ? item.OrderProduct.Diamond.ShapeMaster.shape
-                  : ""
-                }`
-                : ""}
-            {!item.OrderProduct && !item.gemstone && !item.diamond
-              ? "No details available"
-              : ""}
+          <div className="span-permision">
+            <span>{generateProductField(item.OrderProduct, 'type')}</span>
+          </div>,
+          <span dangerouslySetInnerHTML={{ __html: generateProductField(item.OrderProduct, 'title') }} >
           </span>,
-          <span>
-            {((!isNaN(item.OrderProduct.Gemstone?.price)
-              ? item.OrderProduct.Gemstone.price
-              : 0) +
-              (!isNaN(item.OrderProduct.ProductVariant?.totalPrice)
-                ? item.OrderProduct.ProductVariant.totalPrice
-                : 0)).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+          <span dangerouslySetInnerHTML={{ __html: generateProductField(item.OrderProduct, 'price') }}>
           </span>
           ,
 

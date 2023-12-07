@@ -22,6 +22,7 @@ import { isEmpty } from '../../services/helper.js';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { BottomScrollListener } from 'react-bottom-scroll-listener';
 import moment from 'moment';
+import AuthStorage from '../../utils/authStorage.js';
 
 const Notification = styled('div')(() => ({
   padding: '16px',
@@ -91,12 +92,13 @@ const NotificationBar = ({ container }) => {
   const [notificationsArray, setNotificationsArray] = useState([]);
   const [unReads, setUnRead] = useState({});
   const [isNextListEmpty, setIsNextListEmpty] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [totalNotification, setTotalNotification] = useState(0);
+  const userData = AuthStorage.getStorageJsonData(AuthStorage.STORAGEKEY.userData)
 
   let prevPage = 0;
   const [formState, setFormState] = useState({
-    limit: 4,
+    limit: 10,
   });
   // const { deleteNotification, clearNotifications, notifications } = useNotification();
 
@@ -141,22 +143,24 @@ const NotificationBar = ({ container }) => {
   }
 
   useEffect(() => {
-    const socket = io(apiConfig.publicURL);
-    socket.emit("room", 'admin-notifications');
-    socket.on("notification", (data) => {
-      console.log("Received notification from socket:", data);
-      setNotificationsArray(prevNotifications => {
-        if (!Array.isArray(prevNotifications)) {
-          return [data];
-        } else {
-          return [...prevNotifications, data];
-        }
+    if (userData?.id) {
+      const socket = io(apiConfig.publicURL);
+      socket.emit("room", `admin-notifications-${userData?.id}`);
+      socket.on("notification", (data) => {
+        setNotificationsArray(prevNotifications => {
+          return [data.data, ...prevNotifications];
+        });
+
+        setUnRead(prev => ({
+          ...prev,
+          totalUnreadNoty: data.totalUnreadNoty
+        }))
       });
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, []); // Empty dependency array to run the effect only once
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [userData?.id]); // Empty dependency array to run the effect only once
 
 
   const clearNotifications = () => {
@@ -200,8 +204,8 @@ const NotificationBar = ({ container }) => {
   }
 
   useEffect(() => {
-    getNotification();
-  }, [page, isNextListEmpty]);
+    getNotification(-1);
+  }, []);
   return (
     <Fragment>
 
