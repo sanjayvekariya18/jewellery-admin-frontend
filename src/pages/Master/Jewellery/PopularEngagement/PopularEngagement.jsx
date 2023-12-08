@@ -172,6 +172,7 @@ const PopularEngagement = () => {
                     Save
                 </Button>
             </div>
+            {/* paginationTable and draggbale in inside  */}
             <ReactDragListView onDragEnd={handleDragEnd}>
             <PaginationTable
                     header={COLUMNS}

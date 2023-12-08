@@ -196,8 +196,6 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
            
     };
 
-   
-
     const textModaltoggle = () => {
         setTextModal(!textModal);
     };
@@ -231,6 +229,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                         <i className="ri-add-line align-bottom me-1"></i> Add Slider Banner
                     </Button>
                 </div>
+                {/*  */}
                 <PaginationTable
                     header={COLUMNS}
                     rows={rows}

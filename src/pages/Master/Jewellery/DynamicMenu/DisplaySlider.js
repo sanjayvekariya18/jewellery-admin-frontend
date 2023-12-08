@@ -5,11 +5,10 @@ import { apiConfig, appConfig } from '../../../../config';
 import { API, HELPER } from '../../../../services';
 import _ from "lodash"
 import error400cover from "../../../../assets/no-data-found-page.png";
-import { Box, Button, Icon, IconButton, Slider, Tooltip, Checkbox, Radio } from "@mui/material";
+import { Box, Button, Radio } from "@mui/material";
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
 function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
 
-    const [sliderId, setSliderId] = useState("")
     const [selectedRowId, setSelectedRowId] = useState(null);
 
     const COLUMNS = [

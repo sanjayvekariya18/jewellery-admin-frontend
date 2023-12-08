@@ -44,6 +44,8 @@ const OrderMaster = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // filter in state define
   const [filter, setFilter] = useState({
     orderStatus: "pending",
   });
@@ -210,20 +212,24 @@ const OrderMaster = () => {
     });
   };
 
+  // handleCancelOrder define function
   const handleCancelOrder = (data) => {
     setSelectedUserData(data);
     setOpen(true);
   };
 
+  // handleOrderDetail define function
   const handleOrderDetail = (id) => {
     navigate(`${pageRoutes.findOrder}/${id}`);
   };
 
+  // approveCancelOrder define function
   const approveCancelOrder = (data) => {
     setApproveCancel(data);
     setApproveOrder(true);
   };
 
+  // downloadInvoice of a pdf file
   const downloadInvoice = (Id) => {
     downloadFile(`${apiConfig.downloadInvoice}/${Id}`, {
         file_name: 'order-invoice.pdf'
@@ -243,6 +249,7 @@ const OrderMaster = () => {
     state.orderby,
   ]);
 
+  // successLabel in true button
   const successLabel = {
     backgroundColor: "#e9fbf0d6",
     border: "1px solid #1a8d488f",
@@ -255,6 +262,7 @@ const OrderMaster = () => {
     borderRadius: "20px",
   };
 
+  // failLabel in false button
   const failLabel = {
     backgroundColor: "rgb(253, 237, 237)",
     border: "1px solid #f16e5d9e",
@@ -270,12 +278,14 @@ const OrderMaster = () => {
   const rows = useMemo(() => {
     return state.data.map((item) => {
       let optionsArray = [
+        // order details display tooltip
         {
           key: "Order Details",
           color: "#2d5ce8",
           icon: "remove_red_eye",
           onClick: () => handleOrderDetail(item.id),
         },
+        // cancel Order display tooltip 
         {
           key: "Cancel Order",
           color: "red",
@@ -283,6 +293,7 @@ const OrderMaster = () => {
           onClick: () => handleCancelOrder(item.id),
           isShow: !["delivered", "cancel", "return", "faill", 'cancel_request'].includes(filter.orderStatus)
         },
+        // DownLoad Invoice tooltip 
         {
           key: "Download Invoice",
           color: "info",
@@ -290,6 +301,7 @@ const OrderMaster = () => {
           onClick: () => downloadInvoice(item.id),
         },
       ];
+      // Approve or reject request tooltips
       if (filter.orderStatus === "cancel_request") {
         optionsArray.splice(1, 0, {
           key: "Approve or reject request ",
@@ -474,6 +486,7 @@ const OrderMaster = () => {
               ]}
             />
             <div>
+              {/* filter tooltip */}
               <Tooltip title="Filter">
                 <IconButton
                   color="inherit"
@@ -485,6 +498,8 @@ const OrderMaster = () => {
                 </IconButton>
               </Tooltip>
             </div>
+
+            {/* search Filter */}
             <SearchFilterDialog
               isOpen={openSearch}
               onClose={() => setOpenSearch(false)}
@@ -785,6 +800,8 @@ const OrderMaster = () => {
               </div>
             )}
           </div>
+
+          {/* pagination code */}
           {loading ? (
             <div style={{ margin: "30px  auto", textAlign: "center" }}>
               <img
@@ -823,6 +840,8 @@ const OrderMaster = () => {
             </div>
           )}
         </Container>
+
+        {/* FindOne Order Detail display in model open */}
         {openOrderDetail && (
           <FindOneOrderDetail
             open={openOrderDetail}
@@ -834,6 +853,7 @@ const OrderMaster = () => {
             userData={orderDetail}
           />
         )}
+        {/* Order Master Detail in model open */}
         {open && (
           <OrderMasterDetail
             open={open}
@@ -845,6 +865,8 @@ const OrderMaster = () => {
             userData={selectedUserData}
           />
         )}
+
+        {/* Approve or Cancel Order in model open */}
         {approveOrder && (
           <ApproveCancelOrder
             open={approveOrder}

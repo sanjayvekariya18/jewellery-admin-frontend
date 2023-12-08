@@ -286,6 +286,7 @@ const ProductMaster = () => {
               </Button>
             </div>
           </Box>
+          {/* search of the filter code */}
           <SearchFilterDialog
             isOpen={openSearch}
             maxWidth="sm"
@@ -349,6 +350,8 @@ const ProductMaster = () => {
               </div>
             </div>
           </SearchFilterDialog>
+
+          {/* pagination code */}
           <PaginationTable
             header={COLUMNS}
             rows={rows}
@@ -365,6 +368,8 @@ const ProductMaster = () => {
             order={state.order}
           ></PaginationTable>
           {/* <div></div> */}
+
+          {/* Product Bulk master add to model  */}
           {bulkOpen && (
             <ProductBulkMasterDetails
               open={bulkOpen}

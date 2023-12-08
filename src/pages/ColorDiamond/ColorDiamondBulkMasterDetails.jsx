@@ -7,22 +7,26 @@ import { apiConfig } from "../../config";
 import FileDrop from "../../components/UI/FileDrop";
 import { API_BASE_URL_IMG } from "../../constants/config";
 
+// --------------- initialValues value-------------------
 const initialValues = {
   colorDiamond: "",
 };
 
-const ColorDiamondBulkMasterDetails = ({ open, togglePopup,callBack }) => {
+const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [errorModel, setErrorModel] = useState(false);
   const [err, setErr] = useState();
   const [errorState, setErrorState] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isLoader, setIsLoader] = useState(false);
 
+  // ---------Validator --------------------------------
   const rules = {
     colorDiamond: "required",
   };
-  const [isLoader, setIsLoader] = useState(false);
 
+
+  // ---------------handleSubmit-------------------------
   const handleSubmit = () => {
     if (selectedFile) {
       setIsLoader(true);
@@ -61,10 +65,15 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup,callBack }) => {
         });
     }
   };
+
+  // ------------------handleDownload of ColoredDiamond-----------------
   const handleDownload = () => {
     const fileURL = `${API_BASE_URL_IMG}/excelTemplate/Colored_Diamond_Data.xlsx`;
     window.open(fileURL, "_blank");
   };
+
+
+  // ------------------selected files------------------------
   const onFileSelected = (selectedFile) => {
     setSelectedFile(selectedFile);
   };
@@ -184,9 +193,8 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup,callBack }) => {
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
               ]}
               icon="cloud_upload"
-              label={`Drag & drop an Excel file here, or click to select one ${
-                selectedFile === null ? "" : ` (${selectedFile.name})`
-              }`}
+              label={`Drag & drop an Excel file here, or click to select one ${selectedFile === null ? "" : ` (${selectedFile.name})`
+                }`}
             />
           </Box>
         </ThemeDialog>

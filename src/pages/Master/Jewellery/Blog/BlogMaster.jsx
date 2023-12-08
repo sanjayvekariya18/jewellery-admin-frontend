@@ -72,20 +72,20 @@ const BlogMaster = () => {
       from_date:
         !clear && dateRange[0]
           ? momentTimezone
-              .tz(
-                dateRange[0],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[0],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       to_date:
         !clear && dateRange[1]
           ? momentTimezone
-              .tz(
-                dateRange[1],
-                Intl.DateTimeFormat().resolvedOptions().timeZone
-              )
-              .format(appConfig.dateDisplayEditFormat)
+            .tz(
+              dateRange[1],
+              Intl.DateTimeFormat().resolvedOptions().timeZone
+            )
+            .format(appConfig.dateDisplayEditFormat)
           : null,
       category_id: state.category_id,
       isActive: state.isActive,
@@ -114,11 +114,11 @@ const BlogMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -139,7 +139,7 @@ const BlogMaster = () => {
     // });
   };
 
-  //------------ Delete Lab --------------
+  //------------ Delete Blog --------------
 
   const onClickDelete = (id) => {
     Swal.fire({
@@ -267,6 +267,7 @@ const BlogMaster = () => {
           </IconButton>
         </Tooltip>
       </Box>
+      {/* Pagination Table */}
       <PaginationTable
         header={COLUMNS}
         rows={rows}
@@ -283,6 +284,7 @@ const BlogMaster = () => {
         order={state.order}
       ></PaginationTable>
 
+      {/* search filter */}
       <SearchFilterDialog
         isOpen={openSearch}
         maxWidth="sm"
@@ -336,6 +338,7 @@ const BlogMaster = () => {
         </div>
       </SearchFilterDialog>
 
+      {/* added to model */}
       <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"
@@ -347,6 +350,7 @@ const BlogMaster = () => {
         </StyledAddButton>
       </Tooltip>
 
+      {/* Blog Master details */}
       <BlogMasterDetails
         open={open}
         togglePopup={() => {

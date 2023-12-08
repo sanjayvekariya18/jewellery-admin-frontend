@@ -7,17 +7,21 @@ import { apiConfig } from '../../../../config';
 import { Box, Button } from "@mui/material";
 import CommonButton from '../../../../components/UI/CommonButton';
 
+
 const RefundAmountReturnOrder = ({ open, togglePopup, userData, callBack }) => {
+    // initialValues 
     const initialValues = {
         returnProductId: userData,
         refundAmount: "",
     };
+    // validator
     const rules = {
         refundAmount: "required",
     };
     const [formState, setFormState] = useState({ ...initialValues });
     const [isLoader, setIsLoader] = useState(false);
 
+    // onChange define
     const onChange = useCallback((e) => {
         setFormState((prevProps) => {
             return {
@@ -26,6 +30,8 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData, callBack }) => {
             };
         });
     }, []);
+
+    // handleSubmit define
     const handleSubmit = (data) => {
         setIsLoader(true);
         API.post(apiConfig.refundReturnOrder, data)

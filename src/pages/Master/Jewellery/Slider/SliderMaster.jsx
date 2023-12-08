@@ -7,28 +7,18 @@ import PaginationTable, { usePaginationTable } from "../../../../components/UI/P
 
 import _ from "lodash";
 import { Breadcrumb, Container } from "../../../../components";
-import { Box, Button, Icon, IconButton, Tooltip } from "@mui/material";
+import { Box, Button, Icon, IconButton } from "@mui/material";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import SliderMasterDetail from "./SliderMasterDetail";
 import BannerMaster from "./BannerMaster";
 
 
 const SliderMaster = () => {
-    const [isEdit, setIsEdit] = useState(false);
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [open, setOpen] = useState(false);
     const [initialState, setInitialState] = useState("");
     const [slider, setSlider] = useState("");
-    const [modal, setModal] = useState(false);
     const [viewBannerModal, setViewBannerModal] = useState(false);
-
-    const toggle = useCallback(() => {
-        setModal(false);
-    }, [modal]);
-
-    const IsEditToggle = useCallback(() => {
-        setIsEdit(false);
-    }, [isEdit]);
 
     const BannerToggle = useCallback(() => {
         setViewBannerModal(false)
@@ -57,7 +47,7 @@ const SliderMaster = () => {
             }
         });
     };
-
+    // COLUMNS define
     const COLUMNS = [
         { title: "Name" },
         { title: "Slider Banners" },
@@ -68,6 +58,7 @@ const SliderMaster = () => {
         usePaginationTable({
         });
 
+    // paginate code
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
         let clearStates = {
@@ -111,7 +102,7 @@ const SliderMaster = () => {
         paginate();
     }, [state.page, state.rowsPerPage]);
 
-
+    // handleEdit data edit function
     const handleEdit = (data) => {
         setSelectedUserData(data);
         setOpen(true);
@@ -192,6 +183,7 @@ const SliderMaster = () => {
                         </div>
 
                     </Box>
+                    {/* pagination code  */}
                     <PaginationTable
                         header={COLUMNS}
                         rows={rows}
@@ -216,8 +208,15 @@ const SliderMaster = () => {
                         userData={selectedUserData}
                         callBack={() => paginate(true)}
                     />
-
-                    {viewBannerModal && (<BannerMaster modal={viewBannerModal} setModal={setViewBannerModal} sliderBanner={slider} toggle={BannerToggle} sliderId={initialState} callBack={() => paginate(true)} />)}
+                    {/* BannerMaster details in model dispaly */}
+                    {viewBannerModal &&
+                        (<BannerMaster modal={viewBannerModal}
+                            setModal={setViewBannerModal}
+                            sliderBanner={slider}
+                            toggle={BannerToggle}
+                            sliderId={initialState}
+                            callBack={() => paginate(true)} />
+                        )}
                 </Container>
             </div>
         </>

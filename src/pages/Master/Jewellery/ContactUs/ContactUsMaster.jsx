@@ -8,7 +8,6 @@ import {
     Typography,
     Checkbox
 } from "@mui/material";
-import { makeStyles } from '@mui/styles';
 import { API, HELPER } from "../../../../services";
 import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "../../../../config";
@@ -18,14 +17,7 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 import { Breadcrumb, Container } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-const useStyles = makeStyles({
-    mainInputPaddingDiv: {
-        margin: 0,
-        padding: 0,
-        // width: '25px',
-        // height: '50px',
-    },
-});
+
 const ContactUsMaster = () => {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [descriptionModal, setDescriptionModal] = useState("");
@@ -34,6 +26,8 @@ const ContactUsMaster = () => {
     const textModaltoggle = () => {
         setTextModal(!textModal);
     };
+
+    // all select in checkBox
     const handleSelectAll = () => {
         const selectAllChecked = selectedCheckboxes.length === state.data.length;
         const updatedCheckboxes = selectAllChecked
@@ -49,8 +43,7 @@ const ContactUsMaster = () => {
             orderBy: "",
         });
 
-
-
+    // column define
     const COLUMNS = [
         { title: "Name" },
         { title: "Email" },
@@ -59,6 +52,7 @@ const ContactUsMaster = () => {
         { title: "Is Read" },
     ];
 
+    // paginate code
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
         let clearStates = {
@@ -117,6 +111,7 @@ const ContactUsMaster = () => {
         paginate();
     }, [is_read, state.page, state.rowsPerPage, state.order, state.orderby]);
 
+    // onClickUpdateBulk on a contact us
     const onClickUpdateBulk = () => {
         Swal.fire({
             text: `Are you sure you Read this ${selectedCheckboxes.length} Contact Message ?`,
@@ -144,12 +139,15 @@ const ContactUsMaster = () => {
         });
     };
 
+    // showDecsription display description
+
     const showDecsription = (item) => {
         const description = item.message;
         setTextModal(true);
         setDescriptionModal(description);
     };
 
+    // handleCheckbox function
     const handleCheckbox = (item) => {
         const isChecked = selectedCheckboxes.some(
             (selectedItem) => selectedItem.contact_id === item.contact_id
@@ -168,6 +166,7 @@ const ContactUsMaster = () => {
         setSelectedCheckboxes(updatedCheckboxes);
     };
 
+    // CustomCheckbox all select box in a that function
     const CustomCheckbox = ({ id, checked, onChange }) => {
         return (
             <div>
@@ -176,6 +175,7 @@ const ContactUsMaster = () => {
         );
     };
 
+    // selectAllCheckbox all select box
     const selectAllCheckbox = (
         <div className="checkBox">
             {is_read == false ? (
@@ -284,6 +284,7 @@ const ContactUsMaster = () => {
                         </Button>
                     </div>
                 </div>
+                {/* pagination code */}
                 <div className="contact_checkBox">
                     <PaginationTable
                         header={COLUMNS}
@@ -304,7 +305,7 @@ const ContactUsMaster = () => {
                     </PaginationTable>
                 </div>
             </Container>
-
+            {/* Message display that model */}
             {textModal && (
                 <ThemeDialog
                     title="Message"
@@ -328,7 +329,7 @@ const ContactUsMaster = () => {
                             {descriptionModal}
                         </Typography>
                     </div>
-                </ThemeDialog>
+                </ThemeDialog> 
             )}
         </>
     );

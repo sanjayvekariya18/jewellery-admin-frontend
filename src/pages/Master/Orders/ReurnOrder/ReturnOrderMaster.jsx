@@ -46,13 +46,13 @@ const ReturnOrderMaster = () => {
   const [loading, setLoading] = useState(false);
   const [isShowReturnOrderFiles, setIsShowReturnOrderFiles] = useState(false);
   const [returnProductFiles, setReturnProductFiles] = useState([]);
-
+  const [textModal, setTextModal] = useState(false);
+  const [addressText, setAddressText] = useState("");
+  // validator
   const [filter, setFilter] = useState({
     returnOrderStatus: "request",
   });
 
-  const [textModal, setTextModal] = useState(false);
-  const [addressText, setAddressText] = useState("");
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
@@ -169,6 +169,8 @@ const ReturnOrderMaster = () => {
     ...otherTableActionProps
   } = usePaginationTable({});
 
+
+  // paginate code
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
@@ -271,6 +273,8 @@ const ReturnOrderMaster = () => {
       }
     });
   };
+
+  // refundAmountOrder handel
   const refundAmountOrder = (data) => {
     setRefundAmountCancel(data);
     setRefundAmount(true);
@@ -586,6 +590,8 @@ const ReturnOrderMaster = () => {
               ]}
             />
             <div>
+
+              {/* filter tooltip */}
               <Tooltip title="Filter">
                 <IconButton
                   color="inherit"
@@ -597,6 +603,8 @@ const ReturnOrderMaster = () => {
                 </IconButton>
               </Tooltip>
             </div>
+
+            {/* search filter */}
             <SearchFilterDialog
               isOpen={openSearch}
               onClose={() => setOpenSearch(false)}
@@ -810,6 +818,9 @@ const ReturnOrderMaster = () => {
               </div>
             )}
           </div>
+
+
+          {/* pagination code */}
           {loading ? (
             <div style={{ margin: "25px  auto", textAlign: "center" }}>
               <img
@@ -848,6 +859,9 @@ const ReturnOrderMaster = () => {
             </div>
           )}
         </Container>
+
+
+        {/* returnRaject master code */}
         {open && selectedUserData && (
           <ReturnRejectMaster
             open={open}
@@ -863,6 +877,7 @@ const ReturnOrderMaster = () => {
           />
         )}
 
+        {/* RefundAmountReturnOrder model open */}
         {refundAmount && (
           <RefundAmountReturnOrder
             open={refundAmount}
@@ -875,6 +890,8 @@ const ReturnOrderMaster = () => {
           />
         )}
 
+
+        {/* theme dialog of the Reject Order Reason */}
         {textModal && (
           <ThemeDialog
             title="Reject Order Reason"

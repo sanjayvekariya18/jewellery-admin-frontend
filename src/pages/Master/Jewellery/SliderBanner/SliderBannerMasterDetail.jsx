@@ -4,7 +4,7 @@ import Validators from '../../../../components/validations/Validator';
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
 import { API, HELPER } from '../../../../services';
 import { apiConfig, appConfig } from '../../../../config';
-import { Box, Button, Icon, IconButton, Tooltip, Checkbox } from "@mui/material";
+import { Box, Button} from "@mui/material";
 import CommonButton from '../../../../components/UI/CommonButton';
 import ReactSelect from '../../../../components/UI/ReactSelect';
 import SliderBannerMaster from './SliderBannerMaster';
@@ -25,11 +25,13 @@ const SliderBannerMasterDetail = ({ modal, setModal, selectedCheckboxes, updateS
     slider_banner: "required"
   };
 
+  // bannerToggle model display
   const bannerToggle = useCallback(() => {
     setBannerModal(false);
     setModal(false)
   }, [bannerModal]);
 
+  // handel submit in slider Banner
   const handleSubmit = (data) => {
     setIsLoader(true);
     API.post(apiConfig.sliderBanner, data)
@@ -55,6 +57,7 @@ const SliderBannerMasterDetail = ({ modal, setModal, selectedCheckboxes, updateS
       });
   };
 
+  // useEffect Of a slider data display
   useEffect(() => {
     API.get(apiConfig.slider, {
       rowsPerPage: appConfig.defaultPerPage,
@@ -68,6 +71,7 @@ const SliderBannerMasterDetail = ({ modal, setModal, selectedCheckboxes, updateS
       });
   }, []);
 
+  // onChangeSlider function
   const onChangeSlider = (selectedOption) => {
     const sliderId = selectedOption.target.value;
     fetchSliderBannerData(sliderId);

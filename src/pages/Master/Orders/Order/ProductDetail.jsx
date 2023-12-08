@@ -34,7 +34,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     setTitleModal(!titleModal);
   };
 
-
+  // Product variant column define
   const PRODUCTVARIANT = [
     { title: "Stock No", classNameWidth: "thead-second-width" },
     { title: "Title", classNameWidth: "thead-second-width-title" },
@@ -204,11 +204,15 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     },
   ];
 
+
+  // description detail display
   const showAddressInDialog = (productDetail) => {
     const description = productDetail.description;
     setAddressText(description);
     textModaltoggle();
   };
+
+  // title detail display
   const showTitleInDialog = (productDetail) => {
     const title = productDetail.title;
     setAddressText(title);
@@ -222,6 +226,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
     ...otherTableActionProps
   } = usePaginationTable({});
 
+  // paginate code
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     setLoading(true);
@@ -266,6 +271,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
           </div>
         ) : (
           <>
+            {/* product variant in product detail display */}
             {Object.keys(productDetail).length !== 0 && (
               <Box style={{ display: "flex" }}>
                 {Object.keys(productDetail.productVariant).length !== 0 && (
@@ -301,6 +307,8 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                       </>
                     ))}
                   </div>)}
+
+                {/* gemstone detail dispaly */}
                 {(rowsGemstone[0].item !== undefined && rowsGemstone[0].item !== null) && <div style={{ width: "50%", padding: "20px" }}>
                   {console.log(rowsProductVariant[0], Object.keys(rowsProductVariant[0]?.item || {}), "rowsProductVariant[0]")}
                   {rowsProductVariant[0] &&
@@ -335,6 +343,8 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                     </div>
                   ))}
                 </div>}
+
+                {/* diamond detail display */}
                 {(rowsDiamond[0].item !== undefined && rowsDiamond[0].item !== null) && <div style={{ width: "50%", padding: "20px" }}>
                   {rowsProductVariant[0] &&
                     Object.keys(rowsProductVariant[0]?.columns).length >

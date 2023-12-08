@@ -190,9 +190,6 @@ const FindProductVariantMoreDetail = () => {
                         </div>
                       </div>
                     </div>
-
-
-
                   </CardContent>
                 </Card>
               </div>

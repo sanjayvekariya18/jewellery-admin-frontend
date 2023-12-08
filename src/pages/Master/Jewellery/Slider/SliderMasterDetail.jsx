@@ -4,7 +4,7 @@ import { apiConfig } from "../../../../config";
 import Validators from "../../../../components/validations/Validator";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Textinput from "../../../../components/UI/TextInput";
-import { Box, Button, Icon, IconButton, Tooltip, Checkbox } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import CommonButton from "../../../../components/UI/CommonButton";
 
 
@@ -35,31 +35,6 @@ const SliderMasterDetail = ({ open, togglePopup, callBack, userData }) => {
     };
 
     //  --------------handle onSubmit Slider  --------------
-    // const handleSubmit = (data) => {
-    //     setIsLoader(true);
-
-    //     API.post(apiConfig.slider, data)
-    //         .then((res) => {
-    //             HELPER.toaster.success("Slider add successfully");
-    //             setModal(false);
-    //             callBack();
-    //         })
-    //         .catch((err) => {
-    //             if (
-    //                 err.status == 400 ||
-    //                 err.status == 401 ||
-    //                 err.status == 409 ||
-    //                 err.status == 403
-    //             ) {
-    //                 HELPER.toaster.error(err.errors.message);
-    //             } else {
-    //                 console.error(err);
-    //             }
-    //         })
-    //         .finally(() => {
-    //             setIsLoader(false);
-    //         });
-    // };
     const handleSubmit = (data) => {
         setIsLoader(true);
 
@@ -93,10 +68,7 @@ const SliderMasterDetail = ({ open, togglePopup, callBack, userData }) => {
     };
 
     return (
-        // --------Add Slider Modal--------------------
         <>
-
-
             <Validators formData={formState} rules={rules}>
                 {({ onSubmit, errors, resetValidation }) => (
                     <ThemeDialog

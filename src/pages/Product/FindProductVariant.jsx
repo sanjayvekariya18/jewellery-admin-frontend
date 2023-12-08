@@ -17,12 +17,11 @@ import ThemeSwitch from "../../components/UI/ThemeSwitch";
 const FindProductVariant = () => {
   const { productId } = useParams();
   const [loading, setLoading] = useState(false);
-
   const { state, setState, changeState, ...otherTableActionProps } = usePaginationTable();
   const navigate = useNavigate();
+  // paginate
   const paginate = () => {
     changeState("loader", true);
-    // paginate
 
     let updatedFilter = {
       page: state.page,

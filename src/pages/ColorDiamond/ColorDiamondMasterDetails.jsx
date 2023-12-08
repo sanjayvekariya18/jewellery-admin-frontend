@@ -33,6 +33,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
   const [shapMaster, setShapMaster] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
 
+  // validation
   const rules = {
     stockId: "required",
     origin: "required",
@@ -48,6 +49,8 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
     mWidth: "numeric|min:0|required",
   };
 
+
+  // Onchange define
     const onChange = useCallback((e) => {
       setFormState((prevProps) => {
         return {
@@ -56,6 +59,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
         };
       });
     }, []);
+
 
   // -------- handleSubmit-------------
   const handleSubmit = (data) => {
@@ -176,6 +180,8 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
     value: option.value,
   }));
 
+
+  // --------------------Option Origin
   const sortOptionsOrigin = [
     { label: "Lab", value: "Lab" },
     { label: "Natural", value: "Natural" },
@@ -184,6 +190,8 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
     label: option.label,
     value: option.value,
   }));
+
+  // useEffect of a data show
   useEffect(() => {
     if (open === true && userData !== null) {
       setFormState(userData);

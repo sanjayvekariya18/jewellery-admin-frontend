@@ -1,16 +1,10 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
-import { appConfig } from "../../config";
 import { HELPER } from "../../services";
 // import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
 const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
-  // Function to retrieve values from a dictionary
-  const getDictionaryValue = (dictionary, key) => {
-    return dictionary && dictionary[key] ? dictionary[key] : "";
-  };
-
   const gemstoneInfo = [
     // { label: "Title : ", key: gemStoneData ? gemStoneData.title : "" },
     {

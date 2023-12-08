@@ -85,30 +85,6 @@ const useStyles = makeStyles((theme) => ({
     outline: "none",
   },
 }));
-// const useStyles = makeStyles((theme) => ({
-//   table: {
-//     tableLayout: "fixed",
-//     width: "100%",
-//   },
-//   tableRow: {
-//     backgroundColor: theme.palette.background.default,
-//   },
-//   productCell: {
-//     width: "25%",
-//   },
-//   priceCell: {
-//     width: "15%",
-//   },
-//   quantityCell: {
-//     width: "15%",
-//   },
-//   statusCell: {
-//     width: "15%",
-//   },
-//   totalCell: {
-//     width: "15%",
-//   },
-// }));
 
 const FindOneOrderDetail = () => {
   const { Id } = useParams();
@@ -117,6 +93,8 @@ const FindOneOrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState({});
   const [loading, setLoading] = useState(true);
 
+
+  // useEffect of a findOrder api
   useEffect(() => {
     setLoading(true);
     API.get(apiConfig.findOrder.replace(":Id", Id))
@@ -129,15 +107,21 @@ const FindOneOrderDetail = () => {
       });
   }, []);
 
+  // ToggleGemstonePopup open 
   const toggleGemstonePopup = () => {
     if (findProduct) {
       setProductDetail(null); // Reset gemStoneData when closing the modal
     }
     setFindProduct(!findProduct); // Toggle modal visibility
   };
+  // Order Product data display variable
   const productData = orderDetail.orderProducts;
+  // Order Tracking  data display variable
   const orderTracking = orderDetail.orderTracking;
+  // using style variable
   const classes = useStyles();
+
+  // subTotal display  of product,gemstone or diamond 
   const totalSubtotal =
     productData &&
     productData.reduce((accumulator, product) => {
@@ -157,6 +141,7 @@ const FindOneOrderDetail = () => {
       return accumulator + subtotal;
     }, 0);
 
+  // getProductDetail model open
   const getProductDetail = (id) => {
     // API.get(apiConfig.findProductDetail.replace(":id", id)).then((res) => {
     setFindProduct(true);
@@ -164,25 +149,28 @@ const FindOneOrderDetail = () => {
     // });
   };
 
+  // downloadInvoice file 
   const downloadInvoice = () => {
     downloadFile(`${apiConfig.downloadInvoice}/${Id}`, {
       file_name: 'order-invoice.pdf'
     }).then(() => { }).catch(() => { })
   };
-
+  // refund the order
   const isReturned =
-  productData &&
-  productData.some(
-    (product) => product.OrderReturn?.status === "refund"
-  );
+    productData &&
+    productData.some(
+      (product) => product.OrderReturn?.status === "refund"
+    );
+
+  // refundAmount of the order
   const refundAmount =
-  productData &&
-  productData.reduce((accumulator, product) => {
-    if (product.OrderReturn?.status === "refund") {
-      return accumulator + (product.OrderReturn?.refundAmount || 0); // Accumulate refund amounts
-    }
-    return accumulator; // Return accumulator if status is not "refund"
-  }, 0); // Initialize accumulator with 0
+    productData &&
+    productData.reduce((accumulator, product) => {
+      if (product.OrderReturn?.status === "refund") {
+        return accumulator + (product.OrderReturn?.refundAmount || 0);
+      }
+      return accumulator;
+    }, 0);
 
 
   return (
@@ -210,102 +198,6 @@ const FindOneOrderDetail = () => {
           </Button>
         </div>
       </Box>
-      {/* <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "auto auto",
-          alignItems: "baseline",
-          marginBottom: "10px",
-          paddingBottom: "10px",
-          borderBottom: " 1px solid #8080802b",
-        }}
-      >
-        <div className="main-billing-address-div">
-          <Typography
-            className={classes.billing}
-            style={{
-              fontSize: "15px",
-              fontWeight: "500",
-              paddingBottom: "5px",
-            }}
-          >
-            Order Number
-          </Typography>
-          <Typography
-            className={classes.billing}
-            style={{ paddingBottom: "0px", paddingTop: "0px" }}
-          >
-            # {orderDetail.order?.orderNo}
-          </Typography>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "end",
-          }}
-          className="pricing-main-div"
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              className={classes.billing}
-              style={{
-                fontSize: "14px",
-                fontWeight: "600",
-                color: "#000000d9",
-                paddingBottom: "0",
-              }}
-            >
-              Order Status :
-            </Typography>
-            <Typography
-              className={classes.billing}
-              style={{
-                fontSize: "14px",
-                fontWeight: "400",
-                paddingBottom: "0",
-              }}
-            >
-              {orderDetail.order?.status}
-            </Typography>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              className={classes.billing}
-              style={{
-                fontSize: "14px",
-                fontWeight: "600",
-                color: "#000000d9",
-              }}
-            >
-              Order Date :
-            </Typography>
-            <Typography
-              className={classes.billing}
-              style={{
-                fontSize: "14px",
-                fontWeight: "400",
-              }}
-            >
-              {moment(orderDetail.order?.updatedAt).format(
-                appConfig.dateDisplayFormat
-              )}
-            </Typography>
-          </div>
-        </div>
-      </div> */}
       {loading ? (
         <div style={{ margin: "40px  auto", textAlign: "center" }}>
           <img
@@ -674,8 +566,7 @@ const FindOneOrderDetail = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-
-                {/* <div
+                <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -704,9 +595,7 @@ const FindOneOrderDetail = () => {
                     >
                       Sub Total :
                     </Typography>
-                    <Typography>
-                      
-                    </Typography>
+                    <Typography></Typography>
                     <Typography
                       className={classes.billing}
                       style={{
@@ -718,16 +607,42 @@ const FindOneOrderDetail = () => {
                       ${totalSubtotal}
                     </Typography>
                   </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      paddingBottom: "0",
-                      width: "250px",
-                    }}
-                  >
-                  </div>
+
+                  {isReturned && (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        paddingBottom: "0",
+                        width: "250px",
+                      }}
+                    >
+                      <Typography
+                        className={classes.billing}
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          color: "#000000d9",
+                          paddingTop: "3px",
+                        }}
+                      >
+                        Refund amount:
+                      </Typography>
+                      <Typography
+                        className={classes.billing}
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          paddingTop: "3px",
+                          borderBottom: "1px solid #a3a3a3",
+                        }}
+                      >
+                        - ${refundAmount}
+                      </Typography>
+                    </div>
+                  )}
+
                   <div
                     style={{
                       display: "flex",
@@ -735,6 +650,7 @@ const FindOneOrderDetail = () => {
                       alignItems: "center",
                       paddingTop: "6px",
                       width: "250px",
+
                     }}
                   >
                     <Typography
@@ -756,122 +672,12 @@ const FindOneOrderDetail = () => {
                         paddingTop: "3px",
                       }}
                     >
-                      ${orderDetail.order?.payableAmount}
+                      ${isReturned
+                        ? orderDetail.order?.payableAmount - refundAmount
+                        : orderDetail.order?.payableAmount}
                     </Typography>
                   </div>
-                </div> */}
-               <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "end",
-                paddingTop: "15px",
-                marginRight: "5px",
-              }}
-              className="pricing-main-div"
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "250px",
-                }}
-              >
-                <Typography
-                  className={classes.billing}
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    color: "#000000d9",
-                    paddingBottom: "0",
-                  }}
-                >
-                  Sub Total :
-                </Typography>
-                <Typography></Typography>
-                <Typography
-                  className={classes.billing}
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    paddingBottom: "0",
-                  }}
-                >
-                  ${totalSubtotal}
-                </Typography>
-              </div>
-
-              {isReturned && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    paddingBottom: "0",
-                    width: "250px",
-                  }}
-                >
-                  <Typography
-                    className={classes.billing}
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      color: "#000000d9",
-                      paddingTop: "3px",
-                    }}
-                  >
-                    Refund amount:
-                  </Typography>
-                  <Typography
-                    className={classes.billing}
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      paddingTop: "3px",
-                      borderBottom:"1px solid #a3a3a3",
-                    }}
-                  >
-                    - ${refundAmount}
-                  </Typography>
                 </div>
-              )}
-            
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  paddingTop: "6px",
-                  width: "250px",
-                
-                }}
-              >
-                <Typography
-                  className={classes.billing}
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    color: "#000000d9",
-                    paddingTop: "3px",
-                  }}
-                >
-                  Estimate Total *:
-                </Typography>
-                <Typography
-                  className={classes.billing}
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    paddingTop: "3px",
-                  }}
-                >
-                  ${isReturned
-                    ? orderDetail.order?.payableAmount - refundAmount
-                    : orderDetail.order?.payableAmount}
-                </Typography>
-              </div>
-            </div>
 
 
                 {orderTracking && orderTracking.length > 0 ? (
@@ -985,6 +791,7 @@ const FindOneOrderDetail = () => {
         </>
       )}
 
+      {/*ProductDetail in model open  */}
       {findProduct && (
         <ProductDetail
           open={findProduct}

@@ -8,6 +8,7 @@ import Textinput from "../../../../components/UI/TextInput";
 import ThemeRadioGroup from "../../../../components/UI/ThemeRadioGroup";
 
 const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
+  // initialValues 
   const initialValues = {
     orderId: userData,
     cancelAmount: "",
@@ -16,7 +17,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
   };
 
   const [formState, setFormState] = useState({ ...initialValues });
-
+  // validatation
   const rules = {
     ...(formState.status == 'approve' && {
       cancelAmount: "required",
@@ -26,6 +27,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
     }),
   };
 
+  // onChange define
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
       return {
@@ -35,6 +37,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
     });
   }, []);
 
+  // handleSubmit define
   const handleSubmit = (data) => {
     API.put(apiConfig.approveOrRejectCancelOrder, data)
       .then((res) => {

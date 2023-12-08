@@ -8,18 +8,23 @@ import Textinput from '../../../../components/UI/TextInput';
 
 
 const OrderMasterDetail = ({ open, togglePopup, userData ,callBack}) => {
+  // initialValues define 
   const initialValues = {
     orderId: userData,
     cancelReason: "",
     cancelAmount: "",
   };
 
+  // validators define
   const rules = {
     cancelAmount: "required",
     cancelReason: "required",
   };
+
+  // formstate define
   const [formState, setFormState] = useState({ ...initialValues });
 
+  // onChange define
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
       return {
@@ -29,6 +34,7 @@ const OrderMasterDetail = ({ open, togglePopup, userData ,callBack}) => {
     });
   }, []);
 
+  // andle submit of cancel Order
   const handleSubmit = (data) => {
     API.post(apiConfig.cancelOrder, data)
       .then((res) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Button, Icon, IconButton, Tooltip, Checkbox ,Typography} from "@mui/material";
+import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import ReactDragListView from "react-drag-listview";
 import _ from "lodash"
@@ -7,14 +7,14 @@ import PaginationTable, { usePaginationTable } from "../../../../components/UI/P
 import { apiConfig, appConfig } from "../../../../config";
 import error400cover from "../../../../assets/no-data-found-page.png"
 import { API, HELPER } from "../../../../services";
-import { Breadcrumb, Container } from "../../../../components";
+import { Container } from "../../../../components";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
 const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }) => {
     const [rowMoved, setRowMoved] = useState(false);
     const [addressText, setAddressText] = useState("");
     const [textModal, setTextModal] = useState(false);
-
+    // column define
     const COLUMNS = [
         { title: "Drag" },
         { title: "Image" },
@@ -59,6 +59,7 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
             orderBy: "",
         });
 
+    // paginate code
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
         let clearStates = {
@@ -106,6 +107,7 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
     }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
 
+    // row is dragged code
     const handleDragEnd = (fromIndex, toIndex) => {
         if (fromIndex !== toIndex) {
             const newData = [...state.data];
@@ -120,6 +122,7 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
         }
     };
 
+    // handleSaveButtonClick on click of a drag
     const handleSaveButtonClick = () => {
         if (rowMoved) {
             const updatedDataOrder = state.data.map((item, index) => ({
@@ -142,11 +145,13 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
                 });
         }
     };
+    // show in subTitle display function
     const showAddressInDialog = (item) => {
         const sub_title = item.Banner.sub_title;
         setAddressText(sub_title); // Set the address text
         textModaltoggle(); // Show the dialog
     };
+
     const textModaltoggle = () => {
         setTextModal(!textModal);
     };
@@ -167,20 +172,20 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
                                 src={HELPER.getImageUrl(item.Banner.image_url)}
                                 alt=""
                                 height={50}
-                                width={50}  
+                                width={50}
                             />
                         )}
                     </span>,
-                     <div className="common-thead-second-width-title">
-                     <span>{item.title}</span>
-                 </div>,
+                    <div className="common-thead-second-width-title">
+                        <span>{item.title}</span>
+                    </div>,
                     <div
-                    className="common-thead-second-width-title"
-                    style={{ fontWeight: "500", cursor: "pointer" }}
-                    onClick={() => showAddressInDialog(item)}
-                >
-                    <span>{item.Banner.sub_title}</span>
-                </div>,
+                        className="common-thead-second-width-title"
+                        style={{ fontWeight: "500", cursor: "pointer" }}
+                        onClick={() => showAddressInDialog(item)}
+                    >
+                        <span>{item.Banner.sub_title}</span>
+                    </div>,
 
                     <span>
                         <IconButton onClick={() => {
@@ -217,15 +222,15 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
             >
                 <Container>
                     <Box
-                        
+
                         sx={{
                             display: "flex",
                             justifyContent: "flex-end",
                             alignItems: "center",
-                            paddingBottom:"10px"
+                            paddingBottom: "10px"
                         }}
                     >
-                        
+
                         <div>
                             <div style={{ display: "flex" }}>
 
@@ -237,39 +242,36 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
                                 >
                                     Save
                                 </Button>
-                                
+
                             </div>
                         </div>
                     </Box>
 
-                <div className="card-body pt-0">
-                    <ReactDragListView onDragEnd={handleDragEnd}>
-                        <div>
-                            <PaginationTable
-                                header={COLUMNS}
-                                rows={rows}
-                                totalItems={state.total_items}
-                                perPage={state.rowsPerPage}
-                                activePage={state.page}
-                                checkboxColumn={false}
-                                selectedRows={state.selectedRows}
-                                enableOrder={true}
-                                orderBy={state.orderby}
-                                order={state.order}
-                                isLoader={state.loader}
-                                emptyTableImg={<img src={error400cover} width="350px" />}
-                                {...otherTableActionProps}
-                            ></PaginationTable>
-                        </div>
-                    </ReactDragListView>
-                </div>
-
-
+                    {/* pagination and draggble code */}
+                    <div className="card-body pt-0">
+                        <ReactDragListView onDragEnd={handleDragEnd}>
+                            <div>
+                                <PaginationTable
+                                    header={COLUMNS}
+                                    rows={rows}
+                                    totalItems={state.total_items}
+                                    perPage={state.rowsPerPage}
+                                    activePage={state.page}
+                                    checkboxColumn={false}
+                                    selectedRows={state.selectedRows}
+                                    enableOrder={true}
+                                    orderBy={state.orderby}
+                                    order={state.order}
+                                    isLoader={state.loader}
+                                    emptyTableImg={<img src={error400cover} width="350px" />}
+                                    {...otherTableActionProps}
+                                ></PaginationTable>
+                            </div>
+                        </ReactDragListView>
+                    </div>
                 </Container>
-
-
-
             </ThemeDialog >
+            {/* subTitle display in model code */}
             {textModal && (
                 <ThemeDialog
                     title="Sub Title"

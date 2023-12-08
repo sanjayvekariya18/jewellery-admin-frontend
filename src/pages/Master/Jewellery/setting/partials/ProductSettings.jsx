@@ -22,13 +22,13 @@ const rules = {
 export default function ProductSettings({ callback, homeProduct }) {
     const [step, setStep] = useState(1);
     const [formState, setFormState] = useState({
-        description: "", 
-        img_height: "", 
+        description: "",
+        img_height: "",
         img_width: "",
-        product_sku: "", 
-        title: "", 
-        point_coordinates: null, 
-        loggedInUserId: "", 
+        product_sku: "",
+        title: "",
+        point_coordinates: null,
+        loggedInUserId: "",
         main_img: "",
         is_visible: false,
         ...homeProduct
@@ -120,11 +120,9 @@ export default function ProductSettings({ callback, homeProduct }) {
                             <div className="item-title">
                                 <a href="#!">{state?.productDetail?.title}</a>
                             </div>
-                            <span className="price">
-                                <ins>
-                                    <span>${state?.productDetail?.totalPrice}</span>
-                                </ins>
-                            </span>
+                            <div className="price">
+                                <div className="total_price">${state?.productDetail?.totalPrice}</div>
+                            </div>
                         </div>
                     </>
                 )}
@@ -150,22 +148,31 @@ export default function ProductSettings({ callback, homeProduct }) {
                                 error={errors?.title}
                                 sx={{ mb: 2, mt: 1, width: "100%" }}
                             />
-
-                            <Textarea
-                                size="small"
-                                type="text"
-                                label={'Description'}
+                            {/* <Textarea
+                                size="medium"
+                                label="description"
                                 name="description"
+                                type="text"
                                 maxLength={255}
                                 minRows={3}
                                 maxRows={3}
-                                placeholder="Enter Description"
-                                value={formState?.description}
+                                placeholder="Details"
+                                value={formState.description}
                                 onChange={onChange}
-                                error={errors?.description}
+                                sx={{ mb: 1.5 }}
+                            /> */}
+                            <Textinput
+                                id="outlined-multiline-static"
+                                label="Description"
+                                multiline
+                                fullWidth
+                                name="description"
+                                rows={5}
+                                maxLength={255}
+                                onChange={onChange}
+                                value={formState.description}
                                 sx={{ mb: 1.5 }}
                             />
-
                             <Textinput
                                 size="medium"
                                 label="Product Sku"
@@ -177,23 +184,27 @@ export default function ProductSettings({ callback, homeProduct }) {
                                 error={errors?.product_sku}
                                 sx={{ mb: 2, mt: 1, width: "100%" }}
                             />
-
-                            <label className="label-class">Main Image</label>
-                            <ImgUploadBoxInput
-                                name="main_img"
-                                onChange={onChange}
-                                value={HELPER.getImageUrl(formState?.main_img) || ''}
-                                label={"Main Image"}
-                                error={errors?.main_img}
-                            />
-
-                            <label className="label-class">Visible</label>
-                            <ThemeSwitch
-                                name={"is_visible"}
-                                checked={formState?.is_visible}
-                                color="warning"
-                                onChange={onChange}
-                            />
+                            <div style={{ display: "flex" }}>
+                                <div>
+                                    <label className="label-class">Main Image</label>
+                                    <ImgUploadBoxInput
+                                        name="main_img"
+                                        onChange={onChange}
+                                        value={HELPER.getImageUrl(formState?.main_img) || ''}
+                                        label={"Main Image"}
+                                        error={errors?.main_img}
+                                    />
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", marginLeft: "20px" }}>
+                                    <label className="label-class" style={{ marginBottom: "10px" }}>Visible</label>
+                                    <ThemeSwitch
+                                        name={"is_visible"}
+                                        checked={formState?.is_visible}
+                                        color="warning"
+                                        onChange={onChange}
+                                    />
+                                </div>
+                            </div>
                             <br />
                             <Button
                                 type="button"
@@ -218,32 +229,39 @@ export default function ProductSettings({ callback, homeProduct }) {
             <>
                 <div className="customize-settings">
                     <div className="product-setting-details">
-                        <Textinput
-                            size="medium"
-                            label="Main Image Hight"
-                            value={formState?.img_height || ""}
-                            onChange={onChange}
-                            type="number"
-                            name="img_height"
-                            sx={{ mb: 2, mt: 1, width: "100%" }}
-                        />
+                        <div style={{ display: "flex" }}>
+                            <div style={{ marginRight: "20px" }}>
+                                <Textinput
+                                    size="small"
+                                    label="Main Image Hight"
+                                    value={formState?.img_height || ""}
+                                    onChange={onChange}
+                                    type="number"
+                                    name="img_height"
+                                    sx={{ mb: 2, mt: 1 }}
+                                />
+                            </div>
+                            <div style={{ marginRight: "20px" }}>
+                                <Textinput
+                                    size="small"
+                                    label="Main Image Width"
+                                    value={formState?.img_width || ""}
+                                    onChange={onChange}
+                                    type="number"
+                                    name="img_width"
+                                    sx={{ mb: 2, mt: 1 }}
+                                />
+                            </div>
+                            <div style={{ marginRight: "20px", marginTop: "12px" }}>
 
-                        <Textinput
-                            size="medium"
-                            label="Main Image Width"
-                            value={formState?.img_width || ""}
-                            onChange={onChange}
-                            type="number"
-                            name="img_width"
-                            sx={{ mb: 2, mt: 1, width: "100%" }}
-                        />
+                                <PinDropIcon color={state?.isPinClicked ? 'info' : 'default'} onClick={() => {
+                                    changeState({
+                                        isPinClicked: !state?.isPinClicked
+                                    })
+                                }} />
 
-                        <PinDropIcon color={state?.isPinClicked ? 'info' : 'default'} onClick={() => {
-                            changeState({
-                                isPinClicked: !state?.isPinClicked
-                            })
-                        }} />
-
+                            </div>
+                        </div>
                         <br />
 
                         {formState?.main_img && (
@@ -255,7 +273,9 @@ export default function ProductSettings({ callback, homeProduct }) {
                                         top: `${formState?.point_coordinates?.y - 10}px`
                                     }}>
                                         <TooltipButton title={tooltipContent()} placement="right" arrow={false}>
-                                            <AddCircleOutlineIcon />
+                                            {/* <AddCircleOutlineIcon  className="tooltip_icon"/> */}
+                                            <div className="tooltip_icon">+</div>
+
                                         </TooltipButton>
                                     </div>
                                 )}
@@ -280,25 +300,27 @@ export default function ProductSettings({ callback, homeProduct }) {
                     </div>
                 </div>
 
-                <Button
-                    type="button"
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                        setStep((prev) => prev - 1);
-                    }}
-                >
-                    Previous
-                </Button>
-
-                <Button
-                    type="button"
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSubmit}
-                >
-                    Submit
-                </Button>
+                <div style={{ display: "flex", paddingTop: "10px" }}>
+                    <Button
+                        type="button"
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                            setStep((prev) => prev - 1);
+                        }}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        style={{ marginLeft: "10px" }}
+                        type="button"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSubmit}
+                    >
+                        Submit
+                    </Button>
+                </div >
             </>
         );
     };

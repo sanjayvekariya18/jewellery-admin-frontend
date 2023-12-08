@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
@@ -14,6 +13,7 @@ import { apiConfig } from '../../../../config';
 import ImgUploadBoxInput from '../../../../components/UI/ImgUploadBoxInput';
 import Textinput from '../../../../components/UI/TextInput';
 import ProductSettings from './partials/ProductSettings';
+import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 
 const useStyles = makeStyles({
     horizontalIconLabel: {
@@ -135,7 +135,7 @@ const SettingMaster = () => {
                         value={'home_products'}
                         label={
                             <div className={classes.horizontalIconLabel}>
-                                <AddCardIcon />
+                                <AddHomeWorkIcon />
                                 <span>Home Product</span>
                             </div>
                         }

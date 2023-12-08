@@ -17,6 +17,7 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanne
     const [textModal, setTextModal] = useState(false);
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [open, setOpen] = useState(false);
+    // column data display
     const COLUMNS = [
         { title: "Drag" },
         { title: "Image" },
@@ -62,6 +63,7 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanne
             orderBy: "",
         });
 
+    // paginate code
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
         let clearStates = {
@@ -109,7 +111,7 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanne
     }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
 
-
+    // handleDragEnd rows to move
     const handleDragEnd = (fromIndex, toIndex) => {
         if (fromIndex !== toIndex) {
             const newData = [...state.data];
@@ -123,6 +125,7 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanne
         }
     };
 
+    // handleSaveButtonClick that draggeble row in save
     const handleSaveButtonClick = () => {
         if (rowMoved) {
             const updatedDataOrder = state.data.map((item, index) => ({
@@ -251,6 +254,7 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanne
                             </div>
                         </Box>
 
+                        {/* PaginationTable and handel draggble */}
                         <div className="card-body pt-0">
                             <ReactDragListView onDragEnd={handleDragEnd}>
                                 <div>
@@ -271,12 +275,8 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanne
                                     ></PaginationTable>
                                 </div>
                             </ReactDragListView>
-                        </div>
-
+                        </div>                                                                          
                     </Container>
-
-
-
                 </ThemeDialog >
             </>
             {textModal && (

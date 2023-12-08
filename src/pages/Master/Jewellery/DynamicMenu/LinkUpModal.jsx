@@ -7,7 +7,7 @@ import _ from 'lodash'
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { API, HELPER } from "../../../../services";
 import { apiConfig } from "../../../../config";
-import { Box, Button, Icon, IconButton, Slider, Tooltip } from "@mui/material";
+import { Box, Button, Icon, IconButton, } from "@mui/material";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import DisplayBanner from "./DisplayBanner";
 import DisplaySlider from "./DisplaySlider";
@@ -19,25 +19,22 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
     const [sliderModal, setSliderModal] = useState(false);
     const [videoModal, setVideoModal] = useState(false);
 
-    const videoToggle = useCallback(() => {
-        setVideoModal(false);
-    }, [videoModal]);
-
-
+    // Banner Toggle model in a function
     const bannerToggle = useCallback(() => {
         setBannerModal(false);
     }, [bannerModal]);
 
+    // Slider Toggle model in a function
     const sliderToggle = useCallback(() => {
         setSliderModal(false);
     }, [sliderModal]);
 
-
+    // Columns Define
     const COLUMNS = [
-        { title: "Position"},
+        { title: "Position" },
         { title: "Type" },
-        { title: "Banner Image"},
-        { title: "Slider Name"},
+        { title: "Banner Image" },
+        { title: "Slider Name" },
         { title: "Action" }
     ];
 
@@ -46,7 +43,7 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
         usePaginationTable({
 
         });
-
+    // Paginate
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
 
@@ -99,16 +96,6 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
     useEffect(() => {
         paginate();
     }, [state.page, state.rowsPerPage, state.order, state.orderby]);
-
-
-
-
-    const handleButtonClick = (item) => {
-        setInitialState(item);
-        setVideoModal(true);
-    };
-
-
 
     const rows = useMemo(() => {
         return state.data.map((item) => {
@@ -175,14 +162,6 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
     document.title = "Link Up Page List ";
     return (
         <>
-            <div>
-
-                {/* {bannerModal && (
-                    <DisplayBanner modal={bannerModal} setModal={setBannerModal} toggle={bannerToggle} callBack={() => paginate(true)} linkUp={selectedLinkId} />
-                )}
-                {sliderModal && (<DisplaySlider modal={sliderModal} setModal={setSliderModal} toggle={sliderToggle} callBack={() => paginate(true)} linkUp={selectedLinkId} />)} */}
-            </div>
-
 
             <ThemeDialog
                 title={"Link Up Model"}
@@ -217,10 +196,20 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
                 </div>
             </ThemeDialog>
 
-            {bannerModal && (
-                <DisplayBanner modal={bannerModal} setModal={setBannerModal} toggle={bannerToggle} callBack={() => paginate(true)} linkUp={selectedLinkId} />
-            )}
-            {sliderModal && (<DisplaySlider modal={sliderModal} setModal={setSliderModal} toggle={sliderToggle} callBack={() => paginate(true)} linkUp={selectedLinkId} />)}
+            {bannerModal &&
+                (<DisplayBanner modal={bannerModal}
+                    setModal={setBannerModal}
+                    toggle={bannerToggle}
+                    callBack={() => paginate(true)}
+                    linkUp={selectedLinkId} />
+                )}
+            {sliderModal &&
+                (<DisplaySlider modal={sliderModal}
+                    setModal={setSliderModal}
+                    toggle={sliderToggle}
+                    callBack={() => paginate(true)}
+                    linkUp={selectedLinkId} />
+                )}
 
         </>
 

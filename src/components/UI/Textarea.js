@@ -65,6 +65,7 @@ const Textarea = ({
         maxRows={3}
         placeholder={placeholder}
         value={value}
+        label={label}
         onChange={onChange}
         sx={{ mb: 1.5 }}
       />

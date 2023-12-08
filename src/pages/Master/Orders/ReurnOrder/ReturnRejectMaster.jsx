@@ -12,11 +12,12 @@ const ReturnRejectMaster = ({ open, togglePopup, userData, callBack }) => {
         rejectReason: "",
         status: "reject",
     };
-
+    // validator
     const rules = {
         rejectReason: "required",
     };
     const [formState, setFormState] = useState({ ...initialValues });
+    // handle submitting
     const handleSubmit = (data) => {
         API.put(apiConfig.changeReturnOrderStatus, data)
             .then((res) => {
@@ -28,6 +29,8 @@ const ReturnRejectMaster = ({ open, togglePopup, userData, callBack }) => {
                 HELPER.toaster.error(e.errors.returnOrderProductIds[0]);
             });
     };
+
+    // onChange Defined
     const onChange = useCallback((e) => {
         setFormState((prevProps) => {
             return {

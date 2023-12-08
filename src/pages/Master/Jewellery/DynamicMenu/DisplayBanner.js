@@ -1,8 +1,8 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import _ from 'lodash'
-import { apiConfig, appConfig } from '../../../../config';
-import { Box, Button, Icon, IconButton, Slider, Tooltip, Checkbox, Radio,Typography } from "@mui/material";
+import { apiConfig } from '../../../../config';
+import { Box, Button, Radio, Typography } from "@mui/material";
 import { API, HELPER } from '../../../../services';
 import PaginationTable, { usePaginationTable } from '../../../../components/UI/Pagination/PaginationTable';
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
@@ -11,17 +11,12 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 
 const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
 
-    const [bannerId, setBannerId] = useState("")
     const [selectedRowId, setSelectedRowId] = useState(null);
 
     const [initialState, setInitialState] = useState("");
     const [videoModal, setVideoModal] = useState(false);
     const [addressText, setAddressText] = useState("");
     const [textModal, setTextModal] = useState(false);
-
-    const videoToggle = useCallback(() => {
-        setVideoModal(false);
-    }, [videoModal]);
 
     const handleButtonClick = (item) => {
         setInitialState(item);
@@ -67,11 +62,13 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
         paginate();
     }, [state.page, state.rowsPerPage, state.order, state.orderby]);
 
+    // handleCheckbox function define
     const handleCheckbox = (item) => {
         const bannerId = item.banner_id;
         setSelectedRowId(bannerId);
-      };
-      
+    };
+
+    //   handleUpdate banner update function
     const handleUpdate = () => {
         const data = {
             type: "Banner",
@@ -99,6 +96,7 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                 }
             });
     }
+
     const rows = useMemo(() => {
         return state.data.map((item) => {
             const isSelected = item.banner_id === selectedRowId;  // Check if the item's ID matches the selected row ID
@@ -112,7 +110,7 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                             value="a"
                             name="radio-buttons"
                             inputProps={{ 'aria-label': 'A' }}
-                            id = {item.banner_id}
+                            id={item.banner_id}
                         />
                     </span>,
                     <span>
@@ -138,7 +136,7 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                     <span>
                         {HELPER.isEmpty(item.title) ? "" : item.title}
                     </span>,
-                   
+
                     <div
                         className="common-width-three-dot-text"
                         style={{ fontWeight: "500", cursor: "pointer" }}
@@ -146,11 +144,12 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                     >
                         <span>{HELPER.isEmpty(item.sub_title) ? "" : item.sub_title}</span>
                     </div>,
-
                 ],
             };
         });
     }, [state.data, selectedRowId]);
+
+    // subTitle display in model
     const showAddressInDialog = (item) => {
         const sub_title = item.sub_title;
         setAddressText(sub_title); // Set the address text
@@ -185,6 +184,7 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                     Update Banner
                 </Button>
             </div>
+            {/* pagination code */}
             <div>
                 <PaginationTable
                     header={COLUMNS}
@@ -200,10 +200,12 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                     emptyTableImg={<img src={error400cover} width="400px" />}
                     {...otherTableActionProps}
                     orderBy={state.orderby}
-                    selectedRowId={selectedRowId} 
+                    selectedRowId={selectedRowId}
                     order={state.order}
                 ></PaginationTable>
             </div>
+
+            {/* subTitle model in display */}
             {textModal && (
                 <ThemeDialog
                     title="Sub Title"

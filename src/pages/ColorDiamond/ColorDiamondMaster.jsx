@@ -331,21 +331,26 @@ const ColorDiamondMaster = () => {
     setOpen(!open);
   };
 
+  // -------------togglePopupBulk --------------------
   const togglePopupBulk = () => {
     // if (bulkOpen) {
     //     setSelectedUserData(null);
     // }
     setBulkOpen(!bulkOpen);
   };
+
+  // --------------------search --------------------
   const togglePopupSearch = () => {
     setOpenSearch(!openSearch);
   };
 
+  // ----------------handel Edit--------------------------------
   const handleEdit = (data) => {
     setSelectedUserData(data);
     setOpen(true);
   };
 
+  // --------------toggleGemstonePopup------------------
   const toggleGemstonePopup = () => {
     if (findGemstone) {
       setGemstoneData(null); // Reset gemStoneData when closing the modal
@@ -392,6 +397,8 @@ const ColorDiamondMaster = () => {
                 </Button>
               </div>
             </div>
+
+            {/* search Filter */}
             <SearchFilterDialog
               isOpen={openSearch}
               onClose={() => setOpenSearch(false)}
@@ -654,6 +661,9 @@ const ColorDiamondMaster = () => {
               </div>
             </SearchFilterDialog>
           </Box>
+
+
+          {/* pagination Table */}
           <PaginationTable
             header={COLUMNS}
             rows={rows}
@@ -669,6 +679,9 @@ const ColorDiamondMaster = () => {
             orderBy={state.orderby}
             order={state.order}
           ></PaginationTable>
+
+
+          {/* single add Colored Diamond */}
           <Tooltip title="Create" placement="top">
             <StyledAddButton
               color="secondary"
@@ -679,6 +692,9 @@ const ColorDiamondMaster = () => {
               <Icon>add</Icon>
             </StyledAddButton>
           </Tooltip>
+
+
+          {/* add coloredDiamond Details added form */}
           {open && (
             <ColorDiamondMasterDetails
               open={open}
@@ -690,6 +706,8 @@ const ColorDiamondMaster = () => {
               userData={selectedUserData}
             />
           )}
+
+            {/* add coloredDiamond Bulk Details added form */}
           <ColorDiamondBulkMasterDetails
             open={bulkOpen}
             togglePopup={() => {
@@ -699,6 +717,8 @@ const ColorDiamondMaster = () => {
             callBack={() => paginate(true)}
             //   userData={selectedUserData}
           />
+
+          {/*  Find One colored dimaond model open*/}
           <FindColoredModal
             open={findGemstone}
             togglePopup={() => {

@@ -3,15 +3,12 @@ import { API, HELPER } from "../../../../services";
 import { apiConfig } from "../../../../config";
 import _ from "lodash";
 import { Breadcrumb, Container } from "../../../../components";
-import { Box, Button, Icon, IconButton, Slider, Tooltip } from "@mui/material";
-import error400cover from "../../../../assets/no-data-found-page.png";
-import DynamicMenuAccordion from "./DynamicMenuAccordion";
+import { Box, Button } from "@mui/material";
 import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
 import LinkUpModal from "./LinkUpModal";
 
 const DynamicMenuMaster = () => {
   const [menus, setMenus] = useState([]);
-  const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState();
   const [linkModal, setLinkModal] = useState(false)
   const [selectedMenuItemId, setSelectedMenuItemId] = useState(null);
@@ -19,52 +16,12 @@ const DynamicMenuMaster = () => {
 
   /* ==================================== new Code ====================================  */
 
-  const toggle = useCallback(() => {
-    setModal(false);
-  }, [modal]);
+
   const linkToggle = useCallback(() => {
     setLinkModal(false);
   }, [linkModal]);
 
-
-  const prepareDynamicMenusTree = (oldMenus) => {
-    const findChildrens = (parentId) => {
-      let childs = oldMenus.filter((e) => e.parent_id == parentId);
-      let newMyArray = [];
-      if (childs.length > 0) {
-        childs.forEach((item) => {
-          newMyArray.push({
-            ...item,
-            childs: findChildrens(item.menu_id),
-          });
-        });
-      }
-
-      return _.sortBy(newMyArray, [
-        function (o) {
-          return o.position;
-        },
-      ]);
-    };
-
-    let newMenus = [];
-
-    oldMenus
-      .filter((e) => e.parent_id == null)
-      .forEach((item) => {
-        newMenus.push({
-          ...item,
-          childs: findChildrens(item.menu_id),
-        });
-      });
-
-    return _.sortBy(newMenus, [
-      function (o) {
-        return o.position;
-      },
-    ]);
-  };
-
+  // dynamicMenuList                                                      
   const loadMenus = () => {
     API.get(apiConfig.dynamicMenuList)
       .then((res) => {
@@ -79,7 +36,8 @@ const DynamicMenuMaster = () => {
     loadMenus();
   }, []);
 
-  const hiddenVisibleDiamond = (Id) => {
+  // hiddenVisibleMenu visibility on or off
+  const hiddenVisibleMenu = (Id) => {
     API.put(apiConfig.visibility_menu.replace(":id", Id)).then((res) => {
       HELPER.toaster.success(res.message);
       setLoading(false);
@@ -117,38 +75,35 @@ const DynamicMenuMaster = () => {
                       checked={menuItem.isVisible}
                       color="warning"
                       onChange={() => {
-                        hiddenVisibleDiamond(menuItem.id);
+                        hiddenVisibleMenu(menuItem.id);
                       }}
                     />
-                 <Button 
+                    <Button
 
-                  style={{ marginLeft: "10px" }}
-                  variant="contained"
-                  onClick={() => {
-                    setSelectedMenuItemId(menuItem.url);
-                    setLinkModal(true);
-                  }}
-                >
-                  Link Up
-                </Button>
+                      style={{ marginLeft: "10px" }}
+                      variant="contained"
+                      onClick={() => {
+                        setSelectedMenuItemId(menuItem.url);
+                        setLinkModal(true);
+                      }}
+                    >
+                      Link Up
+                    </Button>
                   </div>
                 </div>
               )
             })}
           </div>
         </Box>
-
-
       </Container>
-      {linkModal && (<LinkUpModal modal={linkModal} setModal={setLinkModal} toggle={linkToggle} menuId={selectedMenuItemId} callBack={loadMenus} />)}
-      {/* {modal && (
-          <AddDynamicMenuModal
-            modal={modal}
-            toggle={toggle}s
-            setModal={setModal}
-            callBack={loadMenus}
-          />
-        )} */}
+      {/* Link up model ni model open */}
+      {linkModal &&
+        (<LinkUpModal modal={linkModal}
+          setModal={setLinkModal}
+          toggle={linkToggle}
+          menuId={selectedMenuItemId}
+          callBack={loadMenus} />
+        )}
     </div>
   );
 };
