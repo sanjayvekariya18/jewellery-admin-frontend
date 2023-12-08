@@ -274,7 +274,7 @@ export default function ProductSettings({ callback, homeProduct }) {
                                     }}>
                                         <TooltipButton title={tooltipContent()} placement="right" arrow={false}>
                                             {/* <AddCircleOutlineIcon  className="tooltip_icon"/> */}
-                                            <div className="tooltip_icon">+</div>
+                                            <div className="pulse-base pulse-circle">+</div>
 
                                         </TooltipButton>
                                     </div>
