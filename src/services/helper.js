@@ -237,3 +237,7 @@ export const downloadFile = (url, data = {}) => {
     xhr.send();
   });
 };
+
+export function _bool(val) {
+  return (!isEmpty(val) && (val == true || val == "true")) ? true : false
+};

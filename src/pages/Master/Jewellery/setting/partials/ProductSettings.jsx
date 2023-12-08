@@ -68,8 +68,8 @@ export default function ProductSettings({ callback, homeProduct }) {
                 target: {
                     name: 'point_coordinates',
                     value: {
-                        x: ((offsetX - 10) / imageWidth) * 100,
-                        y: ((offsetY - 10) / imageHeight) * 100
+                        x: ((offsetX - 25) / imageWidth) * 100,
+                        y: ((offsetY - 25) / imageHeight) * 100
                     }
                 }
             })
@@ -204,7 +204,8 @@ export default function ProductSettings({ callback, homeProduct }) {
                                     <label className="label-class" style={{ marginBottom: "10px" }}>Visible</label>
                                     <ThemeSwitch
                                         name={"is_visible"}
-                                        checked={formState?.is_visible}
+                                        checked={HELPER._bool(formState?.is_visible)}
+                                        value={HELPER._bool(formState?.is_visible)}
                                         color="warning"
                                         onChange={onChange}
                                     />
