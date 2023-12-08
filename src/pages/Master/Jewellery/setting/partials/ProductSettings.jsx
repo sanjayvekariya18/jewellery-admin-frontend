@@ -59,13 +59,17 @@ export default function ProductSettings({ callback, homeProduct }) {
     };
 
     const getImgCoordinates = ({ nativeEvent: { offsetX, offsetY } }) => {
+        const img = document.getElementById('image_product')
+        const imageWidth = img.clientWidth; 
+		const imageHeight = img.clientHeight;
+
         if (state?.isPinClicked) {
             onChange({
                 target: {
                     name: 'point_coordinates',
                     value: {
-                        x: offsetX,
-                        y: offsetY
+                        x: ((offsetX - 10) / imageWidth) * 100,
+                        y: ((offsetY - 10) / imageHeight) * 100
                     }
                 }
             })
@@ -88,6 +92,7 @@ export default function ProductSettings({ callback, homeProduct }) {
 
     const handleSubmit = () => {
         const formData = new FormData()
+
         for (const key in formState) {
             if (Object.hasOwnProperty.call(formState, key)) {
                 let element = formState[key];
@@ -265,12 +270,12 @@ export default function ProductSettings({ callback, homeProduct }) {
                         <br />
 
                         {formState?.main_img && (
-                            <div style={{ position: 'relative' }}>
+                            <div style={{ position: 'relative', width: `${formState?.img_width}px` }}>
                                 {!HELPER.isEmpty(formState?.point_coordinates) && (
                                     <div style={{
                                         position: "absolute",
-                                        left: `${formState?.point_coordinates?.x - 10}px`,
-                                        top: `${formState?.point_coordinates?.y - 10}px`
+                                        left: `${formState?.point_coordinates?.x}%`,
+                                        top: `${formState?.point_coordinates?.y}%`
                                     }}>
                                         <TooltipButton title={tooltipContent()} placement="right" arrow={false}>
                                             {/* <AddCircleOutlineIcon  className="tooltip_icon"/> */}
