@@ -10,6 +10,7 @@ import {
   styled,
   useTheme
 } from '@mui/material';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { Fragment, useEffect, useState } from 'react';
 import useSettings from '../../hooks/useSettings';
 import { sideNavWidth, topBarHeight } from '../../utils/constant';
@@ -29,7 +30,7 @@ const Notification = styled('div')(() => ({
   marginBottom: '16px',
   display: 'flex',
   alignItems: 'center',
-  marginRight: "20px !important",
+  marginRight: "0 !important",
   height: topBarHeight,
   boxShadow: themeShadows[6],
   '& h5': {
@@ -169,7 +170,7 @@ const NotificationBar = ({ container }) => {
         HELPER.toaster.success("Deleted Successfully");
         getNotification();
       })
-      .catch(console.error);  
+      .catch(console.error);
   }
   const readNotification = () => {
     API.post(apiConfig.readNotification)
@@ -208,7 +209,7 @@ const NotificationBar = ({ container }) => {
   return (
     <Fragment>
 
-      <IconButton onClick={() => { handleDrawerToggle(); readNotification(); }} style={{marginRight:"20px"}}>
+      <IconButton onClick={() => { handleDrawerToggle(); readNotification(); }} style={{ marginRight: "20px" }}>
         <Badge color="secondary" badgeContent={unReads?.totalUnreadNoty === 0 ? "0" : unReads?.totalUnreadNoty}>
           <Icon sx={{ color: textColor }}>notifications</Icon>
         </Badge>
@@ -233,9 +234,12 @@ const NotificationBar = ({ container }) => {
                 <Icon color="primary">notifications</Icon>
                 <h5>Notifications</h5>
               </div>
-              <div style={{ borderRadius: "2px ", background: "#F75D59", color: "white", marginRight: "23px", padding: "0px 8px" }}>
+              <IconButton onClick={handleDrawerToggle}>
+                <HighlightOffIcon color="primary" />
+              </IconButton>
+              {/* <div style={{ borderRadius: "2px", background: "#F75D59", color: "white", marginRight: "23px", padding: "0px 8px" }}>
                 {notificationsArray.count}
-              </div>
+              </div> */}
             </Notification>
             {!!notificationsArray.length && (
 
@@ -244,7 +248,7 @@ const NotificationBar = ({ container }) => {
             {/* </div> */}
             <BottomScrollListener onBottom={() => lazyLoadedMajorAuditList()}>
               {(scrollRef) => (
-                <div ref={scrollRef} id="scrollableDiv" style={{ height: 400, overflow: "auto" }}>
+                <div ref={scrollRef} id="scrollableDiv" style={{ height: 1000, overflow: "auto" }}>
                   <InfiniteScroll
                     dataLength={totalNotification}
                     next={lazyLoadedMajorAuditList}
@@ -269,6 +273,7 @@ const NotificationBar = ({ container }) => {
                                 <Icon className="icon" style={{ color: "#1976d2" }}>
                                   chat
                                 </Icon>
+                                <span style={{ marginLeft: "20px" }}>Message</span>
                                 {/* <Heading>{notification.notification_type}</Heading> */}
                               </Box>
                               <Small className="messageTime" style={{ color: "#65a765" }}>

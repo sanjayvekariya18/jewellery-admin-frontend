@@ -11,6 +11,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { API, HELPER } from "../../../../../services";
 import Validators from "../../../../../components/validations/Validator";
 import { apiConfig } from "../../../../../config";
+import { Link } from "react-router-dom";
+import { pageRoutes } from "../../../../../constants/routesList";
 
 const rules = {
     title: 'required',
@@ -68,8 +70,8 @@ export default function ProductSettings({ callback, homeProduct }) {
 
     const getImgCoordinates = ({ nativeEvent: { offsetX, offsetY } }) => {
         const img = document.getElementById('image_product')
-        const imageWidth = img.clientWidth; 
-		const imageHeight = img.clientHeight;
+        const imageWidth = img.clientWidth;
+        const imageHeight = img.clientHeight;
 
         if (state?.isPinClicked) {
             changeFormState({
@@ -126,9 +128,9 @@ export default function ProductSettings({ callback, homeProduct }) {
                 {state?.productDetail && (
                     <>
                         <div className="item-thumb">
-                            <a href="#">
+                            <Link to={`${pageRoutes.productVariantId}/${state.productDetail.id}`}>
                                 <img src={state?.productDetail?.product_img} />
-                            </a>
+                            </Link>
                         </div>
                         <div className="content-lookbook-bottom">
                             <div className="item-title">
