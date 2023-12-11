@@ -21,7 +21,7 @@ import { apiConfig, appConfig } from "../../../../config";
 import { Breadcrumb, Container } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import ProductDetail from "./ProductDetail";
-import { downloadFile } from "../../../../services/helper";
+import { downloadFile, isEmpty } from "../../../../services/helper";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -121,26 +121,6 @@ const FindOneOrderDetail = () => {
   // using style variable
   const classes = useStyles();
 
-  // subTotal display  of product,gemstone or diamond 
-  const totalSubtotal =
-    productData &&
-    productData.reduce((accumulator, product) => {
-      const subtotal =
-        product.productVariant && product.gemstone
-          ? ((product.productVariant.totalPrice || 0) +
-            product.gemstone.price) *
-          product.quantity
-          : product.productVariant
-            ? (product.productVariant.totalPrice || 0) * product.quantity
-            : product.gemstone
-              ? product.gemstone.price * product.quantity
-              : product.diamond
-                ? product.diamond.price * product.quantity
-                : 0;
-
-      return accumulator + subtotal;
-    }, 0);
-
   // getProductDetail model open
   const getProductDetail = (id) => {
     // API.get(apiConfig.findProductDetail.replace(":id", id)).then((res) => {
@@ -171,6 +151,122 @@ const FindOneOrderDetail = () => {
       }
       return accumulator;
     }, 0);
+
+
+  const generateProductField = (product, type) => {
+    switch (type) {
+      case "type":
+        let type = ''
+
+        if ((product.productVariant && product.diamond) || (product.productVariant && product.gemstone) || product.productVariant) {
+          type = 'Jewellery'
+        } else if (product.diamond) {
+          type = 'Diamond'
+        } else if (product.gemstone) {
+          type = 'Gemstone'
+        }
+
+        return type;
+
+        case "title":
+          let title = product.productVariant
+            ? `<div class="mb-2"><b>Product :-</b> ${product.productVariant.title}</div>`
+            : "";
+          let diamondDetails = "";
+          let gemstoneTitle = "";
+          let engraving = ""
+      
+          if (product.productVariant && product.diamond) {
+            diamondDetails = `<div class="mb-2"><b>Diamond</b> :- (${product.diamond.carat} Carat ${
+            product.diamond.ShapeMaster
+              ? product.diamond.ShapeMaster.shape
+              : ""
+            } Diamond)</div>`;
+          } else if (product.productVariant && product.gemstone) {
+            gemstoneTitle = product.gemstone
+            ? `<div class="mb-2"><b>Gemstone</b> :- (${product.gemstone.title} Gemstone)</div>`
+            : "";
+          } else if (product.diamond) {
+            diamondDetails = `<div class="mb-2"><b>Diamond</b> :-  ${product.diamond.carat} Carat ${
+            product.diamond.ShapeMaster
+              ? product.diamond.ShapeMaster.shape
+              : ""
+            } Diamond</div>`;
+          } else if (product.gemstone) {
+            gemstoneTitle = product.gemstone
+            ? `<div class="mb-2"><b>Gemstone</b> :- ${product.gemstone.title} Gemstone</div>`
+            : "";
+          }
+      
+          if (!isEmpty(product?.engraving)) {
+            engraving += ` <div class="mb-2">
+              <strong>Engraving Detail</strong> <br /> 
+              &nbsp; <strong>Font:- </strong>${product?.engraving?.font}  <br />
+              &nbsp; <strong>Text:- </strong>${product?.engraving?.text}
+            </div>`
+          }
+          
+          return `${title}  ${gemstoneTitle}${diamondDetails}${engraving}`;
+
+          case "price":
+            let priceVariant = product.productVariant
+              ? `<div>$${product.productVariant.totalPrice}</div>`
+              : "";
+            let gemstonePrice = "";
+            let diamondPrice = "";
+            let engravingPrice = "";
+        
+            if (product.productVariant && product.diamond) {
+              diamondPrice = `<div>($${product.diamond.price || 0})</div>`;
+            } else if (product.productVariant && product.gemstone) {
+              gemstonePrice = `<div>($${product.gemstone.price || 0})</div>`;
+            } else if (product.diamond) {
+              diamondPrice = `<div>${product.diamond.price || 0}</div>`;
+            } else if (product.gemstone) {
+              gemstonePrice = `<div>${product.gemstone.price || 0}</div>`;
+            }
+        
+            if (!isEmpty(product?.engraving)) {
+              engravingPrice += `$${+product?.engraving?.price}`
+            }
+        
+            return `<div style="line-height: 2; position: absolute; top: 5px;">${priceVariant}${gemstonePrice}${diamondPrice}${engravingPrice}</div>`;
+
+      case "total_price":
+        let totalPrice = 0;
+        if (product.productVariant && product.gemstone) {
+          totalPrice = (
+            ((product.productVariant.totalPrice || 0) +
+              product.gemstone.price) *
+            product.quantity
+          );
+        } else if (product.productVariant && product.diamond) {
+          totalPrice = (
+            ((product.productVariant.totalPrice || 0) +
+              product.diamond.price) *
+            product.quantity
+          );
+        }
+        else if (product.productVariant) {
+          totalPrice = (product.productVariant.totalPrice || 0) * product.quantity;
+        } else if (product.gemstone) {
+          totalPrice = product.gemstone.price * product.quantity;
+        } else if (product.diamond) {
+          totalPrice = product.diamond.price * product.quantity;
+        } else {
+          totalPrice = 0;
+        }
+
+        if (!isEmpty(product?.engraving)) {
+          totalPrice += +product?.engraving?.price;
+        }
+
+        return `$${totalPrice}`;
+
+      default:
+        break;
+    }
+  };
 
 
   return (
@@ -490,68 +586,20 @@ const FindOneOrderDetail = () => {
                           return (
                             <TableRow key={index} className={classes.tableRow}>
                               <TableCell
-                                className={`${classes.noUnderline}  product-th-tag`}
+                                className={`${classes.noUnderline}  product-th-tag inline-height-1`}
+                                dangerouslySetInnerHTML={{__html: generateProductField(product, "title")}}
                               >
-                                {product.productVariant
-                                  ? product.productVariant.title
-                                  : ""}
-                                <br />
-                                {product.productVariant && product.gemstone
-                                  ? ` (${product.gemstone.title} Gemstone)`
-                                  : product.gemstone?.title}
-                                {product.productVariant && product.diamond
-                                  ? ` (${product.diamond.carat} Carat ${product.diamond.ShapeMaster
-                                    ? product.diamond.ShapeMaster.shape
-                                    : ""
-                                  } Diamond)`
-                                  : product.diamond
-                                    ? ` ${product.diamond.carat} Carat ${product.diamond.ShapeMaster
-                                      ? product.diamond.ShapeMaster.shape
-                                      : ""
-                                    }`
-                                    : ""}
-                                {!product.productVariant &&
-                                  !product.gemstone &&
-                                  !product.diamond
-                                  ? "No details available"
-                                  : ""}
                               </TableCell>
 
-                              <TableCell className={classes.noUnderline}>
-                                {`${product.productVariant
-                                  ? product.productVariant.totalPrice
-                                  : ""
-                                  }`}
-                                {product.productVariant
-                                  ? product.gemstone &&
-                                  !product.diamond &&
-                                  `(${product.gemstone.price})`
-                                  : product.gemstone?.price}
-                                {product.productVariant
-                                  ? !product.gemstone &&
-                                  product.diamond &&
-                                  ` (${product.diamond.price})`
-                                  : product.diamond?.price}
+                              <TableCell className={`${classes.noUnderline} inline-height-1 position-relative`} dangerouslySetInnerHTML={{__html: generateProductField(product, "price")}}>
                               </TableCell>
-                              <TableCell className={classes.noUnderline}>
+                              <TableCell className={`${classes.noUnderline} inline-height-1`}>
                                 {product.quantity}
                               </TableCell>
-                              <TableCell className={classes.noUnderline}>
+                              <TableCell className={`${classes.noUnderline} inline-height-1`}>
                                 {product.orderStatus}
                               </TableCell>
-                              <TableCell className={classes.noUnderline}>
-                                {product.productVariant && product.gemstone
-                                  ? ((product.productVariant.totalPrice || 0) +
-                                    product.gemstone.price) *
-                                  product.quantity
-                                  : product.productVariant
-                                    ? (product.productVariant.totalPrice || 0) *
-                                    product.quantity
-                                    : product.gemstone
-                                      ? product.gemstone.price * product.quantity
-                                      : product.diamond
-                                        ? product.diamond.price * product.quantity
-                                        : ""}
+                              <TableCell className={`${classes.noUnderline} inline-height-1`} dangerouslySetInnerHTML={{__html: generateProductField(product, "total_price")}}>
                               </TableCell>
                               <TableCell className="main-icon-details-button thead-second-width-action-35">
                                 <IconButton
@@ -604,7 +652,7 @@ const FindOneOrderDetail = () => {
                         paddingBottom: "0",
                       }}
                     >
-                      ${totalSubtotal}
+                      ${orderDetail.order?.payableAmount}
                     </Typography>
                   </div>
 

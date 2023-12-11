@@ -1044,3 +1044,11 @@ input::-webkit-inner-spin-button {
 #tippy-1{
   margin: 20px !important;
 }
+
+.inline-height-1 {
+  line-height: 0.9;
+}
+
+.position-relative {
+  position: relative;
+}
