@@ -21,7 +21,6 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup ,callBack}) => {
   const rules = {
     gemstoneData: "required",
   };
-
   const handleSubmit = () => {
     if (selectedFile) {
       const formData = new FormData();
