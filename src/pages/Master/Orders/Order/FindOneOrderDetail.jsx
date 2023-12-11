@@ -518,6 +518,16 @@ const FindOneOrderDetail = () => {
                   >
                     <TableHead>
                       <TableRow>
+                      <TableCell
+                          style={{
+                            paddingLeft: "20px",
+                            paddingTop: "11px",
+                            paddingBottom: "11px",
+                          }}
+                          className={`${classes.tableHeader} ${classes.noUnderline} common-width-apply-th`}
+                        >
+                          Type
+                        </TableCell>
                         <TableCell
                           style={{
                             paddingLeft: "20px",
@@ -585,6 +595,11 @@ const FindOneOrderDetail = () => {
                         productData.map((product, index) => {
                           return (
                             <TableRow key={index} className={classes.tableRow}>
+                              <TableCell
+                                className={`${classes.noUnderline}  product-th-tag inline-height-1`}
+                                dangerouslySetInnerHTML={{__html: generateProductField(product, "type")}}
+                              >
+                              </TableCell>
                               <TableCell
                                 className={`${classes.noUnderline}  product-th-tag inline-height-1`}
                                 dangerouslySetInnerHTML={{__html: generateProductField(product, "title")}}
