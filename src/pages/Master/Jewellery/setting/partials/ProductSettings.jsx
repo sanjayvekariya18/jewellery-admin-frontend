@@ -28,6 +28,7 @@ export default function ProductSettings({ callback, homeProduct }) {
         product_sku: "",
         title: "",
         point_coordinates: null,
+        admin_point_coordinates: null,
         loggedInUserId: "",
         main_img: "",
         is_visible: false,
@@ -36,7 +37,7 @@ export default function ProductSettings({ callback, homeProduct }) {
 
     const [state, setState] = useState({
         isPinClicked: false,
-        productDetail: null
+        productDetail: null,
     });
 
     useEffect(() => {
@@ -46,6 +47,13 @@ export default function ProductSettings({ callback, homeProduct }) {
 
     const changeState = (obj) => {
         setState((prevState) => ({
+            ...prevState,
+            ...obj
+        }));
+    };
+
+    const changeFormState = (obj) => {
+        setFormState((prevState) => ({
             ...prevState,
             ...obj
         }));
@@ -64,13 +72,14 @@ export default function ProductSettings({ callback, homeProduct }) {
 		const imageHeight = img.clientHeight;
 
         if (state?.isPinClicked) {
-            onChange({
-                target: {
-                    name: 'point_coordinates',
-                    value: {
-                        x: ((offsetX - 25) / imageWidth) * 100,
-                        y: ((offsetY - 25) / imageHeight) * 100
-                    }
+            changeFormState({
+                admin_point_coordinates: {
+                    x: ((offsetX - 25) / imageWidth) * 100,
+                    y: ((offsetY - 25) / imageHeight) * 100
+                },
+                point_coordinates: {
+                    x: ((offsetX - 10) / imageWidth) * 100,
+                    y: ((offsetY - 10) / imageHeight) * 100
                 }
             })
         }
@@ -96,7 +105,7 @@ export default function ProductSettings({ callback, homeProduct }) {
         for (const key in formState) {
             if (Object.hasOwnProperty.call(formState, key)) {
                 let element = formState[key];
-                if (key == 'point_coordinates' && element) {
+                if (['admin_point_coordinates', 'point_coordinates'].includes(key) && element) {
                     element = JSON.stringify(element)
                 }
                 formData.append(key, element)
@@ -153,19 +162,6 @@ export default function ProductSettings({ callback, homeProduct }) {
                                 error={errors?.title}
                                 sx={{ mb: 2, mt: 1, width: "100%" }}
                             />
-                            {/* <Textarea
-                                size="medium"
-                                label="description"
-                                name="description"
-                                type="text"
-                                maxLength={255}
-                                minRows={3}
-                                maxRows={3}
-                                placeholder="Details"
-                                value={formState.description}
-                                onChange={onChange}
-                                sx={{ mb: 1.5 }}
-                            /> */}
                             <Textinput
                                 id="outlined-multiline-static"
                                 label="Description"
@@ -272,14 +268,13 @@ export default function ProductSettings({ callback, homeProduct }) {
 
                         {formState?.main_img && (
                             <div style={{ position: 'relative', width: `${formState?.img_width}px` }}>
-                                {!HELPER.isEmpty(formState?.point_coordinates) && (
+                                {!HELPER.isEmpty(formState?.admin_point_coordinates) && (
                                     <div style={{
                                         position: "absolute",
-                                        left: `${formState?.point_coordinates?.x}%`,
-                                        top: `${formState?.point_coordinates?.y}%`
+                                        left: `${formState?.admin_point_coordinates?.x}%`,
+                                        top: `${formState?.admin_point_coordinates?.y}%`
                                     }}>
                                         <TooltipButton title={tooltipContent()} placement="right" arrow={false}>
-                                            {/* <AddCircleOutlineIcon  className="tooltip_icon"/> */}
                                             <div className="pulse-base pulse-circle">+</div>
 
                                         </TooltipButton>
