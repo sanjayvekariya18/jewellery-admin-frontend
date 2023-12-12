@@ -375,7 +375,6 @@ export default function ProductSettings({ callback, homeProduct }) {
                             )}
 
                             <div>
-                                {console.log('dd', state?.selectedProduct)}
                                 <PinProductList 
                                     products={state?.products} 
                                     selectedProduct={state?.selectedProduct}

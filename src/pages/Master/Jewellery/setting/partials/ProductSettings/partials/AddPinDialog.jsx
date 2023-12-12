@@ -4,15 +4,15 @@ import ThemeDialog from '../../../../../../../components/UI/Dialog/ThemeDialog';
 import { Box, Button } from '@mui/material';
 import Textinput from '../../../../../../../components/UI/TextInput';
 import { apiConfig } from '../../../../../../../config';
-import { API } from '../../../../../../../services';
+import { API, HELPER } from '../../../../../../../services';
 
 const rules = {
-    sku: 'required'
+    sku: 'required|regex:/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
 }
 
 export default function AddPinDialog({ onClose, isOpen, onSave }) {
     const [formState, setFormState] = useState({
-        sku: "6fb43203-5671-4a88-81e9-698508f7116f"
+        sku: ""
     });
 
     const onChange = ({ target: { name, value } }) => {
@@ -21,17 +21,28 @@ export default function AddPinDialog({ onClose, isOpen, onSave }) {
             [name]: value,
         }));
     };
+    const resetForm = () => {
+        setFormState({
+            sku: ''
+        });
+    };
+
 
     const handleSubmit = (data) => {
         API.post(apiConfig.productBySku, {
             sku: [data?.sku]
         })
             .then((res) => {
+                console.log(res, "res");
                 const product = res[0]
                 onSave({
                     ...product,
                     product_img: `${apiConfig.publicURL}/productsFiles/${product?.Product?.stockId}/${product?.sku}/main.jpg`
                 })
+                setFormState("")
+            })
+            .catch((err) => {
+                HELPER.toaster.error(err.errors.sku[0], "err");
             })
     };
 
@@ -50,7 +61,10 @@ export default function AddPinDialog({ onClose, isOpen, onSave }) {
                                     style={{ marginLeft: "20px" }}
                                     variant="outlined"
                                     color="secondary"
-                                    onClick={onClose}
+                                    onClick={() => {
+                                        resetForm(); // Reset the form on Cancel button click
+                                        onClose();
+                                    }}
                                 >
                                     Cancel
                                 </Button>
