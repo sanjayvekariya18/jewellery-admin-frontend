@@ -119,7 +119,7 @@ const apiConfig = {
   productDownload: "product/template/:id",
   visibility_product: "product/visibility/:id",
   visibility_productVariant: "product/variant/visibility/:id",
-  productBySku: 'product/by-sku/:sku',
+  productBySku: 'product/by-skus',
 
   // orders 
   orders: "orders",
