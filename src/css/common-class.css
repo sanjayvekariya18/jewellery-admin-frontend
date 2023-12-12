@@ -1056,3 +1056,13 @@ input::-webkit-inner-spin-button {
 .position-relative {
   position: relative;
 }
+
+.active-product {
+  background: grey;
+  color: white;
+}
+
+.active-pin {
+  background: green;
+  color: #fff !important;
+}
