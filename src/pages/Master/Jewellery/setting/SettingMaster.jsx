@@ -14,6 +14,8 @@ import ImgUploadBoxInput from '../../../../components/UI/ImgUploadBoxInput';
 import Textinput from '../../../../components/UI/TextInput';
 import ProductSettings from './partials/ProductSettings';
 import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
+import MetalPriceSetting from './partials/MetalPriceSetting';
+import DataSaverOnIcon from '@mui/icons-material/DataSaverOn';
 
 const useStyles = makeStyles({
     horizontalIconLabel: {
@@ -29,7 +31,9 @@ const SettingMaster = () => {
     const [value, setValue] = useState('general');
     const [formOpen, setFormOpen] = useState(true);
     const [setting, setSetting] = useState({});
+    const [settingMetal, setSettingMetal] = useState({});
     const [formState, setFormState] = useState({});
+    const [formStateMetal, setFormStateMetal] = useState({});
 
     const handleChange = (event, batch) => {
         setValue(batch);
@@ -37,6 +41,15 @@ const SettingMaster = () => {
 
         setFormState((prevState) => ({
             ...setting[batch]
+        }));
+    };
+
+    const handleChangeMetal = (event, batch) => {
+        setValue(batch);
+        setFormOpen(true); // Open form when tab is clicked
+
+        setFormStateMetal((prevState) => ({
+            ...settingMetal[batch]
         }));
     };
 
@@ -66,10 +79,16 @@ const SettingMaster = () => {
             });
 
     };
-
     const onChange = useCallback((e) => {
         const { name, value } = e.target;
         setFormState((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    }, []);
+    const onChangeMetal = useCallback((e) => {
+        const { name, value } = e.target;
+        setFormStateMetal((prevState) => ({
             ...prevState,
             [name]: value,
         }));
@@ -87,9 +106,22 @@ const SettingMaster = () => {
                 console.error('Error fetching settings:', error);
             });
     }
+    const getAllAppSettingsMetal = () => {
+        API.get(apiConfig.metalPrice)
+            .then((res) => {
+                setSettingMetal(res);
+                setFormStateMetal((prevState) => ({
+                    ...res[value],
+                }));
+            })
+            .catch((error) => {
+                console.error('Error fetching settings:', error);
+            });
+    }
 
     useEffect(() => {
         getAllAppSettings()
+        getAllAppSettingsMetal()
     }, []);
 
 
@@ -137,6 +169,15 @@ const SettingMaster = () => {
                             <div className={classes.horizontalIconLabel}>
                                 <AddHomeWorkIcon />
                                 <span>Home Product</span>
+                            </div>
+                        }
+                    />
+                    <Tab
+                        value={'metal_price'}
+                        label={
+                            <div className={classes.horizontalIconLabel}>
+                                <DataSaverOnIcon />
+                                <span>Metal Price</span>
                             </div>
                         }
                     />
@@ -291,26 +332,34 @@ const SettingMaster = () => {
                                 sx={{ mb: 2, mt: 1, width: "100%" }}
                             />
                         )}
+                        {formOpen && value === 'metal_price' && (
+                            <MetalPriceSetting metalProduct={settingMetal} callback={() => getAllAppSettingsMetal()} />
+                        )}
 
-                        {formOpen && value === 'home_products' ? (
+                        {formOpen && value === 'home_products' && (
                             <ProductSettings homeProduct={setting?.meta?.home_product || {}} callback={() => getAllAppSettings()} />
-                        ) : (
-                            <Button type="button" variant="contained" color="primary" onClick={() => {
-                                if (formState?.logo && typeof formState?.logo != 'string') {
-                                    uploadLogo((logoUrl) => {
+                        )}
+
+                        {!['home_products', 'metal_price'].includes(value) && (
+                            <>
+                                <Button type="button" variant="contained" color="primary" onClick={() => {
+                                    if (formState?.logo && typeof formState?.logo != 'string') {
+                                        uploadLogo((logoUrl) => {
+                                            handleSubmit({
+                                                ...formState,
+                                                logo: logoUrl
+                                            })
+                                        })
+                                    } else {
                                         handleSubmit({
                                             ...formState,
-                                            logo: logoUrl
                                         })
-                                    })
-                                } else {
-                                    handleSubmit({
-                                        ...formState,
-                                    })
-                                }
-                            }}>
-                                Submit
-                            </Button>
+                                    }
+                                }}>
+                                    Submit
+                                </Button>
+                                
+                            </>
                         )}
                     </form>
 

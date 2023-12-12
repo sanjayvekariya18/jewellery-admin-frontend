@@ -16,7 +16,10 @@ import _ from "lodash";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { Breadcrumb, Container } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
+import { CiRead, CiUnread } from "react-icons/ci";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const ContactUsMaster = () => {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
@@ -49,7 +52,7 @@ const ContactUsMaster = () => {
         { title: "Email" },
         { title: "Mobile Number" },
         { title: "Message" },
-        { title: "Is Read" },
+        { title: "Is Read", classNameWidth: "thead-second-width-action-index-95" },
     ];
 
     // paginate code
@@ -214,23 +217,29 @@ const ContactUsMaster = () => {
                     </div>,
                     <span>{item.mobile_number}</span>,
                     <span
-                        className="three-dot-text"
+                        className="common-width-three-dot-text"
                         style={{ fontWeight: 500, cursor: "pointer" }}
                         onClick={() => showDecsription(item)}
                     >
                         {item.message}
                     </span>,
-                    <Typography>
-                        {item.is_read == true ? (
-                            <span className="badgeSuccess">
-                                True
-                            </span>
-                        ) : (
-                            <span className="badgeFail">
-                                False
-                            </span>
-                        )}
-                    </Typography>,
+                    <IconButton>
+                        <Icon color={item.is_read ? "primary" : "error"}>
+                            {item.is_read ? <VisibilityIcon style={{ fontSize: "24px", color: "green", fontWeight: "bold" }} /> : <VisibilityOffIcon style={{ fontSize: "24px", fontWeight: "bold" }} />}
+                        </Icon>
+                    </IconButton>
+
+                    // <Typography>
+                    //     {item.is_read == true ? (
+                    //         <span className="badgeSuccess">
+                    //             True
+                    //         </span>
+                    //     ) : (
+                    //         <span className="badgeFail">
+                    //             False
+                    //         </span>
+                    //     )}
+                    // </Typography>,
                 ],
             };
         });
@@ -329,7 +338,7 @@ const ContactUsMaster = () => {
                             {descriptionModal}
                         </Typography>
                     </div>
-                </ThemeDialog> 
+                </ThemeDialog>
             )}
         </>
     );

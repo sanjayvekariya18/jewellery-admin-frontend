@@ -88,9 +88,9 @@ const FeatureProductMaster = Loadable(
 const FaqMaster = Loadable(
   lazy(() => import("./Master/Jewellery/Faq/FaqMaster"))
 );
-const MetalPriceMaster = Loadable(
-  lazy(() => import("./Master/Jewellery/Metal/MetalPriceMaster"))
-);
+// const MetalPriceMaster = Loadable(
+//   lazy(() => import("./Master/Jewellery/Metal/MetalPriceMaster"))
+// );
 const ColorDiamondMaster = Loadable(
   lazy(() => import("./ColorDiamond/ColorDiamondMaster"))
 );
@@ -282,10 +282,10 @@ const routes = [
         path: pageRoutes.master.orders.returnOrder,
         element: <ReturnOrderMaster />,
       },
-      {
-        path: pageRoutes.master.jewellery.metal,
-        element: <MetalPriceMaster />,
-      },
+      // {
+      //   path: pageRoutes.master.jewellery.metal,
+      //   element: <MetalPriceMaster />,
+      // },
     ],
   },
 

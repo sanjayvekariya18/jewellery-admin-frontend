@@ -6,15 +6,13 @@ import Validators from "../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
 import { apiConfig } from "../../../../config";
 import CommonButton from "../../../../components/UI/CommonButton";
-
 const initialValues = {
   id: "",
   gold_price: "",
   platinum_price: "",
   silver_price: "",
 };
-
-const MetalPriceMasterDetails = ({ open, togglePopup, userData }) => {
+const MetalPriceMasterDetails = ({ open, togglePopup, userData, getMetalPriceData }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
@@ -42,6 +40,7 @@ const MetalPriceMasterDetails = ({ open, togglePopup, userData }) => {
         HELPER.toaster.success(
           data.id === "" ? "Record created" : "Record saved"
         );
+        getMetalPriceData();
         togglePopup();
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))

@@ -277,7 +277,6 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                 {Object.keys(productDetail.productVariant).length !== 0 && (
                   <div style={{ width: "50%", padding: "20px" }}>
                     {/* <h3>Product Variant Details</h3> */}
-                    {console.log(rowsProductVariant[0]?.columns)}
                     {rowsProductVariant[0] &&
                       Object.keys(rowsProductVariant[0]?.columns).length >
                       0 && (
@@ -310,7 +309,6 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
 
                 {/* gemstone detail dispaly */}
                 {(rowsGemstone[0].item !== undefined && rowsGemstone[0].item !== null) && <div style={{ width: "50%", padding: "20px" }}>
-                  {console.log(rowsProductVariant[0], Object.keys(rowsProductVariant[0]?.item || {}), "rowsProductVariant[0]")}
                   {rowsProductVariant[0] &&
                     Object.keys(rowsProductVariant[0]?.columns).length >
                     0 && (

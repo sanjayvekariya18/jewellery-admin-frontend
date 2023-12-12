@@ -23,7 +23,7 @@ const MetalPriceMaster = () => {
   const [state, setState] = useState([]);
   const [loading, setLoading] = useState();
 
-  
+
   const getMetalPriceData = async () => {
     setLoading(true);
     try {
@@ -249,9 +249,10 @@ const MetalPriceMaster = () => {
           open={open}
           togglePopup={() => {
             togglePopup();
-            getMetalPriceData();
           }}
           userData={selectedUserData}
+          getMetalPriceData={getMetalPriceData}
+
         />
       </Container>
     </Card>

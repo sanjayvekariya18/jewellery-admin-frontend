@@ -89,11 +89,11 @@ export const navigations = [
       //   iconText: "ET",
       //   path: pageRoutes.master.jewellery.emailTemplate,
       // },
-      {
-        name: "Metal Price",
-        iconText: "MP",
-        path: pageRoutes.master.jewellery.metal,
-      },
+      // {
+      //   name: "Metal Price",
+      //   iconText: "MP",
+      //   path: pageRoutes.master.jewellery.metal,
+      // },
     ],
   },
 
