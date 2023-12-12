@@ -10,6 +10,7 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
     return dictionary && dictionary[key] ? dictionary[key] : "";
   };
 
+  // gemstoneInfo all label code define
   const gemstoneInfo = [
     { label: "Shape: ", key: gemDiamondData ? gemDiamondData.shapeName : "" },
     { label: "Carat: ", key: gemDiamondData ? gemDiamondData.carat : "" },

@@ -9,7 +9,7 @@ import ReactSelect from "../../../../components/UI/ReactSelect";
 import Textarea from "../../../../components/UI/Textarea";
 import CommonButton from "../../../../components/UI/CommonButton";
 
-// ----------initialValues----------------------------------------
+// ----------initialValues-------------------------
 const initialValues = {
   id: "",
   stockId: "",
@@ -37,7 +37,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
     gemstoneType: "required",
     origin: "required",
     shape: "required",
-    color: "required",
+    color: "required", 
     price: "required|numeric|min:1",
     mDepth: "numeric|min:0",
     mLength: "numeric|min:0|required",
@@ -249,7 +249,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
             <div className="text-input-top">
               <Textinput
                 size="small"
-                type="number"
+                type="number"  // Change the type to "text" instead of "number"
                 name="carat"
                 label="Carat"
                 placeholder="Enter Carat"
@@ -257,7 +257,9 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 onChange={onChange}
                 error={errors?.carat}
                 sx={{ mb: 0, width: "100%" }}
+                inputProps={{ step: "any" }}
               />
+
             </div>
           </div>
           <div

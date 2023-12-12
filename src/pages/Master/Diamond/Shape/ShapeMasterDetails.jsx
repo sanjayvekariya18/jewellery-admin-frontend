@@ -9,6 +9,7 @@ import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import Textarea from "../../../../components/UI/Textarea";
 import CommonButton from "../../../../components/UI/CommonButton";
 
+// initialValues define
 const initialValues = {
   id: "",
   shape: "",
@@ -17,16 +18,17 @@ const initialValues = {
   rankk: "",
 };
 
-const ShapeMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
+const ShapeMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
+  // validators Js define
   const rules = {
     rankk: "required|integer",
     shape: "required",
     image: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
-
+  // --------------------------handleSubmit of a shape-----------------------------
   const handleSubmit = (data) => {
     setIsLoader(true);
 
@@ -52,6 +54,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
       });
   };
 
+  // onChange define
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
       return {
@@ -61,6 +64,7 @@ const ShapeMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
     });
   }, []);
 
+  // useEffect define the data loads
   useEffect(() => {
     if (open === true && userData !== null) {
       userData.image = HELPER.getImageUrl(userData.imgUrl);

@@ -7,6 +7,7 @@ import Textinput from "../../components/UI/TextInput";
 import { apiConfig } from "../../config";
 import CommonButton from "../../components/UI/CommonButton";
 
+// initialValues define
 const initialValues = {
   discount: "",
   labDiscount: ""
@@ -16,11 +17,13 @@ const DiscountDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
+  // validator Js define
   const rules = {
     discount: "required|numeric|between:0,100",
     labDiscount: "required|numeric|between:0,100"
   };
 
+  // handleSubmit function define
   const handleSubmit = (data) => {
     setIsLoader(true);
 
@@ -48,6 +51,7 @@ const DiscountDetails = ({ open, togglePopup, userData, callBack }) => {
       });
   };
 
+  // onChange function define
   const onChange = ({ target: { value, name } }) => {
     setFormState((prev) => ({
       ...prev,
@@ -55,6 +59,7 @@ const DiscountDetails = ({ open, togglePopup, userData, callBack }) => {
     }));
   };
 
+  // useEffect data load in data
   useEffect(() => {
     if (open === true && userData !== null) {
       userData.profile = HELPER.getImageUrl(userData.image);

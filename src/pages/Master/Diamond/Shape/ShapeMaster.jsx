@@ -31,7 +31,8 @@ const ShapeMaster = () => {
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
-  /* Pagination code */
+
+  /* ------------------columns code  define--------------------*/
   const COLUMNS = [
     { title: "Rank", classNameWidth: "thead-second-width-action-index" },
     { title: "Shape", classNameWidth: "thead-second-width-title" },
@@ -47,7 +48,7 @@ const ShapeMaster = () => {
       order: "",
       orderby: "",
     });
-
+  // pagination table code define
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
@@ -118,6 +119,7 @@ const ShapeMaster = () => {
     textModaltoggle(); // Show the dialog
   };
 
+  // rows code define
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -211,6 +213,7 @@ const ShapeMaster = () => {
         />
       </Box>
 
+      {/* PaginationTable code define */}
       <PaginationTable
         header={COLUMNS}
         rows={rows}
@@ -237,7 +240,7 @@ const ShapeMaster = () => {
           <Icon>add</Icon>
         </StyledAddButton>
       </Tooltip>
-
+      {/* ShapeMasterDetails form define */}
       <ShapeMasterDetails
         open={open}
         togglePopup={() => {
@@ -247,6 +250,7 @@ const ShapeMaster = () => {
         callBack={() => paginate(true)}
         userData={selectedUserData}
       />
+      {/* ThemeDialog details define */}
       {textModal && (
         <ThemeDialog
           title="Details"

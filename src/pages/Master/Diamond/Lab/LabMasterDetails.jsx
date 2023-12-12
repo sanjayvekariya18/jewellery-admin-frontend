@@ -8,6 +8,7 @@ import { apiConfig } from "../../../../config";
 import Textarea from "../../../../components/UI/Textarea";
 import CommonButton from "../../../../components/UI/CommonButton";
 
+// initialValues define
 const initialValues = {
   id: "",
   labName: "",
@@ -18,6 +19,7 @@ const LabMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
 
+  // validator Js
   const rules = {
     labName: "required",
   };
@@ -48,6 +50,7 @@ const LabMasterDetails = ({ open, togglePopup, userData, callBack }) => {
       });
   };
 
+  // onChange define
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
       return {

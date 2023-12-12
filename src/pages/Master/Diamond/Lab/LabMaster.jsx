@@ -41,6 +41,7 @@ const LabMaster = () => {
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({});
 
+  // paginate code
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
@@ -129,6 +130,7 @@ const LabMaster = () => {
     textModaltoggle(); // Show the dialog
   };
 
+  // rows define
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -163,6 +165,7 @@ const LabMaster = () => {
     setOpen(!open);
   };
 
+  // handleEdit data is a edit
   const handleEdit = (data) => {
     setSelectedUserData(data);
     setOpen(true);
@@ -181,6 +184,7 @@ const LabMaster = () => {
           ]}
         />
       </Box>
+      {/* PaginationTable define */}
       <PaginationTable
         header={COLUMNS}
         rows={rows}
@@ -209,6 +213,7 @@ const LabMaster = () => {
         </StyledAddButton>
       </Tooltip>
 
+      {/* LabMasterDetails add the data */}
       <LabMasterDetails
         open={open}
         togglePopup={() => {
@@ -219,6 +224,7 @@ const LabMaster = () => {
         callBack={() => paginate(true)}
       />
 
+      {/* ThemeDialog detail dispaly */}
       {textModal && (
         <ThemeDialog
           title="Details"

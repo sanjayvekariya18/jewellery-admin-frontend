@@ -52,6 +52,7 @@ const DiamondMaster = () => {
     },
   ];
 
+  // toggleGemstonePopup gemstone model open
   const toggleGemstonePopup = () => {
     if (findDiamond) {
       setDiamondData(null); // Reset gemStoneData when closing the modal
@@ -59,6 +60,7 @@ const DiamondMaster = () => {
     setFindDiamond(!findDiamond); // Toggle modal visibility
   };
 
+  // diamond detail get by single
   const getDataDiamond = (id) => {
     API.get(apiConfig.findDiamond.replace(":id", id)).then((res) => {
       setDiamondData(res); // Update gemStoneData when fetching data
@@ -74,6 +76,7 @@ const DiamondMaster = () => {
     ...otherTableActionProps
   } = usePaginationTable({});
 
+  // paginate code
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
@@ -938,6 +941,7 @@ const DiamondMaster = () => {
               </div>
             </SearchFilterDialog>
           </Box>
+          {/* PaginationTable code define */}
           <PaginationTable
             header={COLUMNS}
             rows={rows}

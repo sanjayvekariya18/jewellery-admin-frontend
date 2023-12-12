@@ -29,22 +29,22 @@ const ProductMaster = () => {
 
   // ----Pagination code------
   const COLUMNS = [
-    { title: "Stock No", classNameWidth: "thead-second-width-action-index" },
+    { title: "Stock No", classNameWidth: "thead-second-width" },
     { title: "Product Name", classNameWidth: "common-width-apply-th" },
     { title: "SubCategory", classNameWidth: "thead-second-width-stock-no" },
-    { title: "Gender", classNameWidth: "thead-second-width-action-index" },
-    { title: "Design Price", classNameWidth: "thead-second-width-action-index" },
-    { title: "Box Price", classNameWidth: "thead-second-width-action-index" },
-    { title: "Fedex UPS", classNameWidth: "thead-second-width-action-index" },
-    { title: "India Post", classNameWidth: "thead-second-width-action-index" },
-    { title: "Insurance", classNameWidth: "thead-second-width-action-index" },
-    { title: "Other Cost", classNameWidth: "thead-second-width-action-index" },
-    { title: "Profit", classNameWidth: "thead-second-width-action-index" },
-    { title: "Discount", classNameWidth: "thead-second-width-action-index" },
-    { title: "Is Visible", classNameWidth: "thead-second-width-action-index" },
+    { title: "Gender", classNameWidth: "thead-second-width-discount-85-align-center" },
+    { title: "Design Price", classNameWidth: "thead-second-width-discount-85-align-center" },
+    { title: "Box Price", classNameWidth: "thead-second-width-discount-85-align-center" },
+    { title: "Fedex UPS", classNameWidth: "thead-second-width-discount-85-align-center" },
+    { title: "India Post", classNameWidth: "thead-second-width-discount-85-align-center" },
+    { title: "Insurance", classNameWidth: "thead-second-width-discount-85-align-center" },
+    { title: "Other Cost", classNameWidth: "thead-second-width-discount-85-align-center" },
+    { title: "Profit", classNameWidth: "thead-second-width-discount-85-align-center" },
+    { title: "Discount", classNameWidth: "thead-second-width-discount-85-align-center" },
+    { title: "Is Visible", classNameWidth: "thead-second-width-discount-85-align-center" },
     {
       title: "Action",
-      classNameWidth: "thead-second-width-action-index",
+      classNameWidth: "thead-second-width-discount-85-align-center",
     },
   ];
 

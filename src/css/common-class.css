@@ -230,6 +230,10 @@ input::-webkit-inner-spin-button {
 .thead-second-width-discount-85 {
   width: 85px !important;
 }
+.thead-second-width-discount-85-align-center{
+  width: 85px !important;
+  text-align: start !important;
+}
 
 .thead-second-width-action-index {
   width: 90px !important;

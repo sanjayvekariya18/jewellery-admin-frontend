@@ -4,6 +4,7 @@ import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import { HELPER } from "../../../../services";
 
 const FindGemstoneModal = ({ open, togglePopup, gemStoneData, callBack }) => {
+  // gemstoneInfo title define
   const gemstoneInfo = [
     { label: "Gemstone Type : ", key: "gemstoneType" },
     { label: "Shape Name : ", key: "shapeName" },

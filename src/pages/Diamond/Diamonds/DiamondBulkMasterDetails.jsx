@@ -7,6 +7,7 @@ import { Box, Button } from "@mui/material";
 import FileDrop from "../../../components/UI/FileDrop";
 import { API_BASE_URL_IMG } from "../../../constants/config";
 
+// intialValues define
 const initialValues = {
   gemstoneData: "",
 };
@@ -18,9 +19,12 @@ const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [errorState, setErrorState] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
 
+  // validator Js 
   const rules = {
     diamondData: "required",
   };
+
+  // handleSubmit function of a diamond
   const handleSubmit = () => {
     if (selectedFile) {
       const formData = new FormData();
@@ -56,6 +60,7 @@ const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
     }
   };
 
+  // handleDownload in a diamond data 
   const handleDownload = () => {
     const fileURL = `${API_BASE_URL_IMG}/excelTemplate/Diamond_Data.xlsx`;
     window.open(fileURL, "_blank");
@@ -171,6 +176,8 @@ const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
             </>
           }
         >
+
+          {/* file drag and drop code */}
           <Box>
             <FileDrop
               onFileSelected={onFileSelected}

@@ -7,11 +7,12 @@ import { apiConfig } from "../../../../config";
 import { API_BASE_URL_IMG } from "../../../../constants/config";
 import FileDrop from "../../../../components/UI/FileDrop";
 
+// initialValues define
 const initialValues = {
   gemstoneData: "",
 };
 
-const GemstoneBulkMasterDetails = ({ open, togglePopup ,callBack}) => {
+const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [errorModel, setErrorModel] = useState(false);
   const [err, setErr] = useState();
@@ -195,9 +196,8 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup ,callBack}) => {
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
               ]}
               icon="cloud_upload"
-              label={`Drag & drop an Excel file here, or click to select one ${
-                selectedFile === null ? "" : ` (${selectedFile.name})`
-              }`}
+              label={`Drag & drop an Excel file here, or click to select one ${selectedFile === null ? "" : ` (${selectedFile.name})`
+                }`}
             />
           </Box>
         </ThemeDialog>

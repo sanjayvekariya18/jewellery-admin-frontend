@@ -4,7 +4,6 @@ import {
     Icon,
     IconButton,
     Button,
-    Tooltip,
     Typography,
     Checkbox
 } from "@mui/material";
@@ -16,10 +15,9 @@ import _ from "lodash";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { Breadcrumb, Container } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
-import { CiRead, CiUnread } from "react-icons/ci";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import MarkEmailUnreadOutlinedIcon from '@mui/icons-material/MarkEmailUnreadOutlined';
+import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 
 const ContactUsMaster = () => {
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
@@ -225,7 +223,7 @@ const ContactUsMaster = () => {
                     </span>,
                     <IconButton>
                         <Icon color={item.is_read ? "primary" : "error"}>
-                            {item.is_read ? <VisibilityIcon style={{ fontSize: "24px", color: "green", fontWeight: "bold" }} /> : <VisibilityOffIcon style={{ fontSize: "24px", fontWeight: "bold" }} />}
+                            {item.is_read ? <MarkEmailReadOutlinedIcon style={{ fontSize: "24px", color: "green", fontWeight: "bold" }} /> : <MarkEmailUnreadOutlinedIcon style={{ fontSize: "24px", fontWeight: "bold" }} />}
                         </Icon>
                     </IconButton>
 

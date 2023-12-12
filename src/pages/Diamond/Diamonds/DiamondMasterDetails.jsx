@@ -39,6 +39,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
   const [labMaster, setLabMaster] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
 
+  // validator Js
   const rules = {
     stockId: "required",
     carat: "required",
@@ -130,6 +131,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
         setIsLoader(false);
       });
   };
+  // onChange define
   const onChange = useCallback((e) => {
     setFormState((prevProps) => {
       return {

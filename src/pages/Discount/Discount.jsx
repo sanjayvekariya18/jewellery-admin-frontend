@@ -16,7 +16,7 @@ const Discount = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [loading, setLoading] = useState();
 
-
+  // columns define
   const COLUMNS = [
     { title: "High Size" },
     { title: "Low Size" },
@@ -33,6 +33,7 @@ const Discount = () => {
       orderby: "",
     });
 
+  // paginate code define
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
@@ -114,6 +115,7 @@ const Discount = () => {
     setOpen(!open);
   };
 
+  // handleEdit define in a edit data
   const handleEdit = (data) => {
     setSelectedUserData(data);
     setOpen(true);
@@ -129,6 +131,7 @@ const Discount = () => {
           ]}
         />
       </Box>
+      {/* PaginationTable code define */}
       <PaginationTable
         header={COLUMNS}
         rows={rows}
@@ -146,6 +149,7 @@ const Discount = () => {
         footerVisibility={false}
       ></PaginationTable>
 
+      {/* DiscountDetails model open */}
       <DiscountDetails
         open={open}
         togglePopup={() => {
