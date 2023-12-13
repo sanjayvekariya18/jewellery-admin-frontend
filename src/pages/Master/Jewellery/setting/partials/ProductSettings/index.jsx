@@ -135,8 +135,8 @@ export default function ProductSettings({ callback, homeProduct }) {
             if (item?.sku == _sku) {
                 return {
                     ...item,
-                    x: offsetX,
-                    y: offsetY
+                    x: offsetX + 2,
+                    y: offsetY + 2
                 }
             }
 
@@ -339,7 +339,6 @@ export default function ProductSettings({ callback, homeProduct }) {
                         <div style={{ display: 'flex', alignContent: 'center', gap: '10px' }}>
                             {formState?.main_img && (
                                 <div style={{ position: 'relative', width: `${formState?.img_width}px` }}>
-                                    {console.log('products', state?.products)}
                                     {!HELPER.isEmpty(state?.products) && state?.products.map((product, i) => (
                                         <Draggable
                                             key={i}
@@ -351,6 +350,7 @@ export default function ProductSettings({ callback, homeProduct }) {
                                             onStop={(event) => onStopDrag(event, product?.sku)}>
                                             <div className="draggable_handle" style={{
                                                 position: "absolute",
+                                                cursor: 'pointer'
                                             }}>
                                                 <TooltipButton title={tooltipContent(product)} placement="right" arrow={false}>
                                                     <div className={`pulse-base pulse-circle ${state?.selectedProduct == product?.sku ? 'active-pin' : ''}`}>+</div>
