@@ -113,7 +113,7 @@ const PopularEngagement = () => {
                         toaster.success("Deleted Successfully");
                         paginate();
                     })
-                    .catch(console.error);
+                    .catch((e) => HELPER.toaster.error(e.errors.message))
             }
         });
     };

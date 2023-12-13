@@ -7,7 +7,7 @@ import _ from "lodash"
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { Box, Button, Radio } from "@mui/material";
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
-function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
+function DisplaySlider({ open, setModal, togglePopup, callBack, linkUp }) {
 
     const [selectedRowId, setSelectedRowId] = useState(null);
 
@@ -23,10 +23,14 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
         changeState("loader", true);
 
 
+        let filter = {
+            page: state.page,
+            rowsPerPage: state.rowsPerPage,
+        };
 
         // -----------Get Slider Api----------------------
 
-        API.get(apiConfig.slider)
+        API.get(apiConfig.slider, filter)
             .then((res) => {
                 setState({
                     ...state,
@@ -71,6 +75,7 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
                 callBack()
                 setModal(false)
                 HELPER.toaster.success("Slider Updated SuccessFully")
+                togglePopup();
             })
             .catch((err) => {
                 if (
@@ -82,7 +87,7 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
                 ) {
                     HELPER.toaster.error(err.errors.message);
                 } else {
-                    console.error(err);
+                    HELPER.toaster.error(err)
                 }
             });
     }
@@ -101,7 +106,7 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
                             value="a"
                             name="radio-buttons"
                             inputProps={{ 'aria-label': 'A' }}
-                            id = {item.slider_id}
+                            id={item.slider_id}
                         />
 
                     </span>,
@@ -114,12 +119,16 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
     return (
         <ThemeDialog
             title={"Slider Modal"}
-            isOpen={modal}
-            toggle={toggle}
+            isOpen={open}
+            onClose={() => {
+                togglePopup();
+            }}
             maxWidth="lg"
             actionBtns={
                 <Box>
-                    <Button variant="contained" color="secondary" onClick={toggle}>
+                    <Button variant = "contained" color = "secondary" onClick={() => {
+                        togglePopup();
+                    }}>
                         Close
                     </Button>
                 </Box>
@@ -138,18 +147,19 @@ function DisplaySlider({ modal, setModal, toggle, callBack, linkUp }) {
                 <PaginationTable
                     header={COLUMNS}
                     rows={rows}
-                    totalItems={state.total_items}
+                    totalItems={state.total_items || 0}
                     perPage={state.rowsPerPage}
                     activePage={state.page}
                     checkboxColumn={false}
+                    isSelected={true}
                     selectedRows={state.selectedRows}
                     enableOrder={true}
+                    isLoader={state.loader}
+                    emptyTableImg={<img src={error400cover} width="400px" />}
+                    {...otherTableActionProps}
                     orderBy={state.orderby}
                     selectedRowId={selectedRowId}
                     order={state.order}
-                    isLoader={state.loader}
-                    emptyTableImg={<img src={error400cover} width="350px" />}
-                    {...otherTableActionProps}
                 >
                 </PaginationTable>
             </div>

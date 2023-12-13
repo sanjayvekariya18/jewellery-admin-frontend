@@ -56,7 +56,7 @@ const StatCards = () => {
         setTotalCustomer(res.count);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   useEffect(() => {
@@ -68,7 +68,7 @@ const StatCards = () => {
         setTotalProduct(res.count);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   useEffect(() => {
@@ -80,7 +80,7 @@ const StatCards = () => {
         setTotalCategory(res.count);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   // useEffect(() => {
@@ -92,7 +92,7 @@ const StatCards = () => {
   //       setTotalDiamond(res.count);
   //     })
   //     .catch((err) => {
-  //       console.error(err);
+  //       HELPER.toaster.error(err)
   //     });
   // }, []);
 

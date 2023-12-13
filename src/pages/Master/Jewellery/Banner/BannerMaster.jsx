@@ -62,7 +62,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                 ) {
                     HELPER.toaster.error(err.errors.message);
                 } else {
-                    console.error(err);
+                    HELPER.toaster.error(err)
                 }
                 setState({
                     ...state,
@@ -190,7 +190,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                 ) {
                     HELPER.toaster.error(err.errors.message);
                 } else {
-                    console.error(err);
+                    HELPER.toaster.error(err)
                 }
             })
            

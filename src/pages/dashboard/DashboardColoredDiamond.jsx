@@ -59,7 +59,7 @@ const ColoredDiamondDashboard = () => {
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
         setState({
           ...state,

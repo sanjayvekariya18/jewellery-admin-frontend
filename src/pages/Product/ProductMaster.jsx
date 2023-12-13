@@ -94,7 +94,7 @@ const ProductMaster = () => {
         toaster.error("Pending Backed Side");
         // paginate();
         // })
-        // .catch(console.error);
+        // .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };
@@ -150,7 +150,7 @@ const ProductMaster = () => {
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
         setState({
           ...state,
@@ -304,6 +304,7 @@ const ProductMaster = () => {
                 type="text"
                 name="searchTxt"
                 label="Search Text"
+                autoFocus={true} 
                 variant="outlined"
                 value={state?.searchTxt}
                 onChange={(e) => changeState("searchTxt", e.target.value)}

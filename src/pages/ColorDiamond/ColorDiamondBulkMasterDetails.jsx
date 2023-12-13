@@ -84,6 +84,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
           title="Add Colored Diamond Bulk"
           isOpen={open}
           maxWidth="sm"
+          // onKeyDown
           onClose={() => {
             togglePopup();
             resetValidation();

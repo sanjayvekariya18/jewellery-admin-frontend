@@ -79,11 +79,11 @@ const BlogCategoryMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -124,7 +124,7 @@ const BlogCategoryMaster = () => {
             toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };
@@ -241,7 +241,7 @@ const BlogCategoryMaster = () => {
           name="searchTxt"
           label="Search Text"
           variant="outlined"
-          focused={true}
+          autoFocus={true} 
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}

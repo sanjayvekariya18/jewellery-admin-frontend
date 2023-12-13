@@ -171,7 +171,7 @@ const DiamondMaster = () => {
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
         setState({
           ...state,
@@ -190,7 +190,7 @@ const DiamondMaster = () => {
         setShapMaster(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
 
@@ -208,7 +208,7 @@ const DiamondMaster = () => {
         setLabMaster(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
 
@@ -248,7 +248,7 @@ const DiamondMaster = () => {
             HELPER.toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };
@@ -354,7 +354,7 @@ const DiamondMaster = () => {
         setCarat(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   // ---------------Carat Filter----------------------
@@ -370,7 +370,7 @@ const DiamondMaster = () => {
         setPrice(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
 
@@ -386,7 +386,7 @@ const DiamondMaster = () => {
         setDepth(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   const handleChangeDepth = (event, newValue) => {
@@ -401,7 +401,7 @@ const DiamondMaster = () => {
         setTable(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   const handleChangeTable = (event, newValue) => {

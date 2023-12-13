@@ -52,7 +52,7 @@ const PermissionMasterDetails = ({ open, togglePopup, userData }) => {
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
       });
   };

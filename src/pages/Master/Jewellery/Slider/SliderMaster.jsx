@@ -43,7 +43,7 @@ const SliderMaster = () => {
                         HELPER.toaster.success("Deleted Successfully");
                         paginate();
                     })
-                    .catch(console.error);
+                    .catch((e) => HELPER.toaster.error(e.errors.message))
             }
         });
     };
@@ -187,7 +187,7 @@ const SliderMaster = () => {
                     <PaginationTable
                         header={COLUMNS}
                         rows={rows}
-                        totalItems={state.total_items}
+                        totalItems={state.total_items || 0}
                         perPage={state.rowsPerPage}
                         activePage={state.page}
                         checkboxColumn={false}

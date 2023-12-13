@@ -87,7 +87,7 @@ const SubcategoryMasterDetails = ({
         setCategoryId(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   };
   useEffect(() => {

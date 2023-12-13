@@ -89,7 +89,7 @@ const OptionMaster = () => {
         ) {
           toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
         setState({
           ...state,
@@ -217,7 +217,7 @@ const OptionMaster = () => {
             ) {
               HELPER.toaster.error(err.errors.message);
             } else {
-              console.error(err);
+              HELPER.toaster.error(err)
             }
           });
       }

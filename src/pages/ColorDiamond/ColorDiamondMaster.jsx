@@ -38,7 +38,7 @@ const ColorDiamondMaster = () => {
         setPrice(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   // ---------------Price Filter----------------------
@@ -53,7 +53,7 @@ const ColorDiamondMaster = () => {
         setCarat(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   // ---------------Carat Filter----------------------
@@ -69,7 +69,7 @@ const ColorDiamondMaster = () => {
         setIntensity(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   const _intensityOptions = intensity.map((item) => ({
@@ -84,7 +84,7 @@ const ColorDiamondMaster = () => {
         setColor(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
   const _colorOptions = color.map((item) => ({
@@ -200,7 +200,7 @@ const ColorDiamondMaster = () => {
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
         setState({
           ...state,
@@ -224,7 +224,7 @@ const ColorDiamondMaster = () => {
         setShapMaster(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
 
@@ -263,7 +263,7 @@ const ColorDiamondMaster = () => {
             HELPER.toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };

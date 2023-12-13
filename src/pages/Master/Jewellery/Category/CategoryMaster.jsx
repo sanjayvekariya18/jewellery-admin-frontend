@@ -86,7 +86,7 @@ const CategoryMaster = () => {
         ) {
           toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
         setState({
           ...state,
@@ -208,7 +208,7 @@ const CategoryMaster = () => {
             toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };

@@ -95,7 +95,7 @@ const UserMaster = () => {
         ) {
           toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
         setState({
           ...state,
@@ -261,7 +261,7 @@ const UserMaster = () => {
           size="small"
           type="text"
           name="searchTxt"
-          focused={true}
+          autoFocus={true} 
           label="Search Text"
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}

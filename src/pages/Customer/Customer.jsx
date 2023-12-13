@@ -130,7 +130,7 @@ const Customer = () => {
             toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };
@@ -262,6 +262,7 @@ const Customer = () => {
           type="text"
           name="searchTxt"
           label="Search Text"
+          autoFocus={true} 
           variant="outlined"
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}

@@ -132,7 +132,7 @@ const UserPermissionsMaster = () => {
             toaster.success("Deleted Successfully");
             getTableData();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };

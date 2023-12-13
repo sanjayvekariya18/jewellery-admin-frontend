@@ -120,7 +120,7 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
             HELPER.toaster.error(err.errors.message);
           }
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
       })
       .finally(() => {

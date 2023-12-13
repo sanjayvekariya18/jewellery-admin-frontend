@@ -114,7 +114,7 @@ const DetailsGroupMaster = () => {
             toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };
@@ -226,6 +226,7 @@ const DetailsGroupMaster = () => {
           name="searchTxt"
           label="Search Text"
           value={state?.searchTxt}
+          autoFocus={true} 
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 2, mt: 1 }}
         />

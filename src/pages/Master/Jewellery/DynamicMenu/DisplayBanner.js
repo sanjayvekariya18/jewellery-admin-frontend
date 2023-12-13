@@ -9,7 +9,8 @@ import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
 import error400cover from "../../../../assets/no-data-found-page.png";
 
 
-const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
+const DisplayBanner = ({ open, setModal, togglePopup, callBack, linkUp }) => {
+    console.log(togglePopup, "togglePopup")
 
     const [selectedRowId, setSelectedRowId] = useState(null);
 
@@ -36,23 +37,24 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
         changeState("loader", true);
 
 
-
+        let filter = {
+            page: state.page,
+            rowsPerPage: state.rowsPerPage,
+        };
         // -----------Get Slider Api----------------------
 
-        API.get(apiConfig.banner)
+        API.get(apiConfig.banner, filter)
             .then((res) => {
                 setState({
                     ...state,
                     total_items: res.count,
                     data: res.rows,
-
                     loader: false,
                 });
             })
             .catch(() => {
                 setState({
                     ...state,
-
                     loader: false,
                 });
             });
@@ -81,6 +83,7 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                 callBack()
                 setModal(false)
                 HELPER.toaster.success("Banner Updated SuccessFully")
+                togglePopup();
             })
             .catch((err) => {
                 if (
@@ -92,14 +95,14 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
                 ) {
                     HELPER.toaster.error(err.errors.message);
                 } else {
-                    console.error(err);
+                    HELPER.toaster.error(err)
                 }
             });
     }
 
     const rows = useMemo(() => {
         return state.data.map((item) => {
-            const isSelected = item.banner_id === selectedRowId;  // Check if the item's ID matches the selected row ID
+            const isSelected = item.banner_id === selectedRowId;
             return {
                 item: item,
                 columns: [
@@ -164,12 +167,16 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
     return (
         <ThemeDialog
             title={"Banner Modal"}
-            isOpen={modal}
-            toggle={toggle}
+            isOpen={open}
+            onClose={() => {
+                togglePopup();
+            }}
             maxWidth="lg"
             actionBtns={
                 <Box>
-                    <Button variant="contained" color="secondary" onClick={toggle}>
+                    <Button variant="contained" color="secondary" onClick={() => {
+                        togglePopup();
+                    }}>
                         Close
                     </Button>
                 </Box>
@@ -209,10 +216,8 @@ const DisplayBanner = ({ modal, setModal, toggle, callBack, linkUp }) => {
             {textModal && (
                 <ThemeDialog
                     title="Sub Title"
-                    id="showModal"
                     isOpen={textModal}
                     toggle={textModaltoggle}
-                    centered
                     maxWidth="sm"
                     actionBtns={
                         <Button

@@ -36,7 +36,7 @@ const ChangePassword = ({ open, togglePopup }) => {
         } else if (err.status === 401) {
           HELPER.toaster.error(err.errors);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
       })
       .finally(() => {

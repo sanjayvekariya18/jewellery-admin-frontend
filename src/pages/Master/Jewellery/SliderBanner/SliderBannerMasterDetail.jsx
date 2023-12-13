@@ -49,7 +49,7 @@ const SliderBannerMasterDetail = ({ modal, setModal, selectedCheckboxes, updateS
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
       })
       .finally(() => {
@@ -67,7 +67,7 @@ const SliderBannerMasterDetail = ({ modal, setModal, selectedCheckboxes, updateS
         setSliderData(res.rows);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
 
@@ -107,7 +107,7 @@ const SliderBannerMasterDetail = ({ modal, setModal, selectedCheckboxes, updateS
         slider_banner: mergedData,
       }));
     } catch (err) {
-      console.error(err);
+      HELPER.toaster.error(err)
     }
   };
 

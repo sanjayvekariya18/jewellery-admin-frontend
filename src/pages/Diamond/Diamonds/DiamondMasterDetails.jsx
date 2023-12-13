@@ -61,7 +61,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
         setShapMaster(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
 
@@ -79,7 +79,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
         setLabMaster(res);
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
 
@@ -124,7 +124,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
             HELPER.toaster.error("An error occurred with the carat field.");
           }
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
       })
       .finally(() => {

@@ -183,6 +183,7 @@ export default function ProductSettings({ callback, homeProduct }) {
     const tooltipContent = (product) => {
         return (
             <>
+            <div className="main-thumb">
                 <div className="item-thumb">
                     <Link to={`${pageRoutes.productVariantId}/${product?.id}`}>
                         <img src={product?.product_img} />
@@ -193,8 +194,9 @@ export default function ProductSettings({ callback, homeProduct }) {
                         <a href="#!">{product?.title}</a>
                     </div>
                     <div className="price">
-                        <div className="total_price">${product?.totalPrice}</div>
+                        <div className="total_price ribbon ribbon-top-right"><span>${product?.totalPrice}</span></div>
                     </div>
+                </div>
                 </div>
             </>
         )

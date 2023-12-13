@@ -140,7 +140,7 @@ const NotificationBar = ({ container }) => {
         HELPER.toaster.success("Deleted Successfully");
         getNotification();
       })
-      .catch(console.error);
+      .catch((e) => HELPER.toaster.error(e.errors.message))
   }
 
   useEffect(() => {
@@ -170,14 +170,14 @@ const NotificationBar = ({ container }) => {
         HELPER.toaster.success("Deleted Successfully");
         getNotification();
       })
-      .catch(console.error);
+      .catch((e) => HELPER.toaster.error(e.errors.message))
   }
   const readNotification = () => {
     API.post(apiConfig.readNotification)
       .then((res) => {
         getNotification();
       })
-      .catch(console.error);
+      .catch((e) => HELPER.toaster.error(e.errors.message))
   }
   useEffect(() => {
     API.get(apiConfig.unRead)

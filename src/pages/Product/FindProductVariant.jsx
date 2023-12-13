@@ -50,7 +50,7 @@ const FindProductVariant = () => {
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
       })
       .finally(() => {
@@ -133,11 +133,15 @@ const FindProductVariant = () => {
   // ---------------Visibility Product Api----------------------
 
   const hiddenVisibleProductVariant = (Id) => {
-    API.put(apiConfig.visibility_productVariant.replace(":id", Id)).then((res) => {
+    API.put(apiConfig.visibility_productVariant.replace(":id", Id))
+    .then((res) => {
       HELPER.toaster.success(res.message);
       paginate();
       setLoading(false);
-    });
+    })
+    .catch((err)=>{
+      HELPER.toaster.error(err);
+    })
   };
 
   const rows = useMemo(() => {

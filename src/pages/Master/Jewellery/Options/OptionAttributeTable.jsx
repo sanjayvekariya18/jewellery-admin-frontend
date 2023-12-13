@@ -59,7 +59,7 @@ const OptionsAttributeTable = ({ open, togglePopup, initialState }) => {
         ) {
           toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
         setState({
           ...state,

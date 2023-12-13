@@ -123,7 +123,7 @@ const FaqMaster = () => {
             toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };
@@ -246,6 +246,7 @@ const FaqMaster = () => {
           label="Search Text Question"
           variant="outlined"
           value={state?.searchTxt}
+          autoFocus={true} 
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}
         />

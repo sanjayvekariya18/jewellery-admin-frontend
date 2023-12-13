@@ -10,6 +10,8 @@ import LinkUpModal from "./LinkUpModal";
 const DynamicMenuMaster = () => {
   const [menus, setMenus] = useState([]);
   const [loading, setLoading] = useState();
+  const [selectedUserData, setSelectedUserData] = useState(null);
+  const [open, setOpen] = useState(false);
   const [linkModal, setLinkModal] = useState(false)
   const [selectedMenuItemId, setSelectedMenuItemId] = useState(null);
 
@@ -17,10 +19,17 @@ const DynamicMenuMaster = () => {
   /* ==================================== new Code ====================================  */
 
 
-  const linkToggle = useCallback(() => {
-    setLinkModal(false);
-  }, [linkModal]);
+  // const linkToggle = useCallback(() => {
+  //   setLinkModal(false);
+  // }, [linkModal]);
 
+
+  const togglePopup = () => {
+    if (open) {
+      setSelectedUserData(null);
+    }
+    setOpen(!open);
+  };
   // dynamicMenuList                                                      
   const loadMenus = () => {
     API.get(apiConfig.dynamicMenuList)
@@ -83,8 +92,8 @@ const DynamicMenuMaster = () => {
                       style={{ marginLeft: "10px" }}
                       variant="contained"
                       onClick={() => {
+                        togglePopup();
                         setSelectedMenuItemId(menuItem.url);
-                        setLinkModal(true);
                       }}
                     >
                       Link Up
@@ -97,12 +106,19 @@ const DynamicMenuMaster = () => {
         </Box>
       </Container>
       {/* Link up model ni model open */}
-      {linkModal &&
-        (<LinkUpModal modal={linkModal}
+      {open &&
+        (<LinkUpModal
+          open={open}
           setModal={setLinkModal}
-          toggle={linkToggle}
+          // toggle={linkToggle}
+          togglePopup={() => {
+            togglePopup();
+            // paginate();
+          }}
+          userData={selectedUserData}
           menuId={selectedMenuItemId}
-          callBack={loadMenus} />
+          // callBack={loadMenus} 
+          />
         )}
     </div>
   );

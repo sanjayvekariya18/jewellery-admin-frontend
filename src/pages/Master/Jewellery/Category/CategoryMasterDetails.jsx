@@ -97,7 +97,7 @@ const CategoryMasterDetails = ({
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          console.error(err);
+          HELPER.toaster.error(err)
         }
       })
       .finally(() => {

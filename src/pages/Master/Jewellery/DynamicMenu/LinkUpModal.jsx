@@ -12,18 +12,33 @@ import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import DisplayBanner from "./DisplayBanner";
 import DisplaySlider from "./DisplaySlider";
 
-const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
+const LinkUpModal = ({ open, togglePopup, menuId }) => {
     const [selectedLinkId, setSelectedLinkId] = useState("");
-    const [initialState, setInitialState] = useState("");
     const [bannerModal, setBannerModal] = useState(false);
+    const [selectedUserData, setSelectedUserData] = useState(null);
+    const [openBanner, setOpenBanner] = useState(false);
+    const [openSlider, setOpenSlider] = useState(false);
     const [sliderModal, setSliderModal] = useState(false);
-    const [videoModal, setVideoModal] = useState(false);
 
     // Banner Toggle model in a function
-    const bannerToggle = useCallback(() => {
-        setBannerModal(false);
-    }, [bannerModal]);
+    // const bannerToggle = useCallback(() => {
+    //     setBannerModal(false);
+    // }, [bannerModal]);
 
+    const togglePopupBanner = () => {
+        console.log("hello");
+        if (openBanner) {
+            setSelectedUserData(null);
+        }
+        setOpenBanner(!openBanner);
+    };
+
+    const togglePopupSlider = () => {
+        if (openSlider) {
+            setSelectedUserData(null);
+        }
+        setOpenSlider(!openSlider);
+    };
     // Slider Toggle model in a function
     const sliderToggle = useCallback(() => {
         setSliderModal(false);
@@ -46,7 +61,6 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
     // Paginate
     const paginate = (clear = false, isNewFilter = false) => {
         changeState("loader", true);
-
         // -------------Get Banner Api-----------------
         API.get(`${apiConfig.linkUp}?menuURL=${menuId}`)
             .then((res) => {
@@ -88,14 +102,14 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
                         HELPER.toaster.success("Deleted Successfully");
                         paginate();
                     })
-                    .catch(console.error);
+                    .catch((e) => HELPER.toaster.error(e.errors.message))
             }
         });
     };
 
     useEffect(() => {
         paginate();
-    }, [state.page, state.rowsPerPage, state.order, state.orderby]);
+    }, [state.page, state.rowsPerPage, state.order, state.orderby, openBanner, openSlider]);
 
     const rows = useMemo(() => {
         return state.data.map((item) => {
@@ -109,13 +123,17 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
                             item.Banner === null ? (
                                 <Button
                                     variant="contained"
-                                    onClick={() => { setBannerModal(true); setSelectedLinkId(item); }}
+                                    onClick={() => {
+                                        togglePopupBanner();
+                                        // setOpenBanner(true)  
+                                        setSelectedLinkId(item);
+                                    }}
                                 >
                                     Select Banner
                                 </Button>
 
                             ) : (
-                                <div onClick={() => { setBannerModal(true); setSelectedLinkId(item); }}>
+                                <div onClick={() => { togglePopupBanner(); setSelectedLinkId(item); }}>
                                     <img
                                         className="table-image-display"
                                         src={HELPER.getImageUrl(item.Banner.image_url ? item.Banner.image_url : "")}
@@ -143,11 +161,11 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
                             item.Slider === null ? (
                                 <Button
                                     variant="contained"
-                                    onClick={() => { setSliderModal(true); setSelectedLinkId(item); }}
+                                    onClick={() => { togglePopupSlider(); setSelectedLinkId(item); }}
                                 >
                                     Select Slider
                                 </Button>
-                            ) : (<div onClick={() => { setSliderModal(true); setSelectedLinkId(item) }}>{HELPER.isEmpty(item.Slider) ? "" : item.Slider.name}</div>)
+                            ) : (<div onClick={() => { togglePopupSlider(); setSelectedLinkId(item) }}>{HELPER.isEmpty(item.Slider) ? "" : item.Slider.name}</div>)
                         }
 
                     </div>,
@@ -160,17 +178,21 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
     }, [state.data]);
 
     document.title = "Link Up Page List ";
+    console.log(openBanner, "openBanner")
     return (
         <>
-
             <ThemeDialog
                 title={"Link Up Model"}
-                isOpen={modal}
-                toggle={toggle}
+                isOpen={open}
+                onClose={() => {
+                    togglePopup();
+                }}
                 maxWidth="lg"
                 actionBtns={
                     <Box>
-                        <Button variant="contained" color="secondary" onClick={toggle}>
+                        <Button variant="contained" color="secondary" onClick={() => {
+                            togglePopup();
+                        }}>
                             Close
                         </Button>
                     </Box>
@@ -180,9 +202,9 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
                     <PaginationTable
                         header={COLUMNS}
                         rows={rows}
-                        // totalItems={state.total_items || 0}
-                        // perPage={state.rowsPerPage}
-                        // activePage={state.page}
+                        totalItems={state.total_items || 0}
+                        perPage={state.rowsPerPage}
+                        activePage={state.page}
                         footerVisibility={false}
                         checkboxColumn={false}
                         selectedRows={state.selectedRows}
@@ -196,17 +218,26 @@ const LinkUpModal = ({ modal, setModal, toggle, menuId, callBack }) => {
                 </div>
             </ThemeDialog>
 
-            {bannerModal &&
-                (<DisplayBanner modal={bannerModal}
+            {openBanner &&
+                (<DisplayBanner
+                    open={openBanner}
                     setModal={setBannerModal}
-                    toggle={bannerToggle}
+                    togglePopup={() => {
+                        togglePopupBanner();
+                        // paginate();
+                    }}
                     callBack={() => paginate(true)}
-                    linkUp={selectedLinkId} />
+                    linkUp={selectedLinkId}
+                />
                 )}
-            {sliderModal &&
-                (<DisplaySlider modal={sliderModal}
+            {openSlider &&
+                (<DisplaySlider
+                    open={openSlider}
                     setModal={setSliderModal}
-                    toggle={sliderToggle}
+                    togglePopup={() => {
+                        togglePopupSlider();
+                        // paginate();
+                    }}
                     callBack={() => paginate(true)}
                     linkUp={selectedLinkId} />
                 )}

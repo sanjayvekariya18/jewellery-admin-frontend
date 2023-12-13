@@ -159,7 +159,7 @@ const BlogMaster = () => {
             toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };
@@ -175,7 +175,7 @@ const BlogMaster = () => {
         paginate();
       })
       .catch((err) => {
-        console.error(err);
+        HELPER.toaster.error(err)
       });
   }, []);
 
@@ -302,7 +302,7 @@ const BlogMaster = () => {
           name="searchTxt"
           label="Search Text"
           variant="outlined"
-          focused={true}
+          autoFocus={true} 
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}

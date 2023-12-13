@@ -31,7 +31,7 @@ const MetalPriceMaster = () => {
       setState(res);
       setLoading(false);
     } catch (err) {
-      console.error(err);
+      HELPER.toaster.error(err)
       setLoading(false);
     }
   };

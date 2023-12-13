@@ -123,7 +123,7 @@ const EmailTemplateMaster = () => {
             toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch(console.error);
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };
@@ -243,7 +243,7 @@ const EmailTemplateMaster = () => {
           name="searchTxt"
           label="Search Text"
           variant="outlined"
-          focused={true}
+          autoFocus={true} 
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}
