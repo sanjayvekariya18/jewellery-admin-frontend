@@ -115,7 +115,8 @@ const FindProductVariant = () => {
 
   const COLUMNS = [
     { title: "Index", classNameWidth: "thead-second-width-action-index" },
-    { title: "Title", classNameWidth: "head-second-width-title-blog" },
+    { title: "Title", classNameWidth: "thead-second-width-title2" },
+    { title: "SKU", classNameWidth: "thead-second-width-title-email" },
     { title: "Total Carat", classNameWidth: "thead-second-width-address-100" },
     { title: "Metal Weight", classNameWidth: "thead-second-width-address-100" },
     { title: "Metal Price", classNameWidth: "thead-second-width-address-100" },
@@ -134,14 +135,14 @@ const FindProductVariant = () => {
 
   const hiddenVisibleProductVariant = (Id) => {
     API.put(apiConfig.visibility_productVariant.replace(":id", Id))
-    .then((res) => {
-      HELPER.toaster.success(res.message);
-      paginate();
-      setLoading(false);
-    })
-    .catch((err)=>{
-      HELPER.toaster.error(err);
-    })
+      .then((res) => {
+        HELPER.toaster.success(res.message);
+        paginate();
+        setLoading(false);
+      })
+      .catch((err) => {
+        HELPER.toaster.error(err);
+      })
   };
 
   const rows = useMemo(() => {
@@ -197,6 +198,7 @@ const FindProductVariant = () => {
           <div className="common-thead-second-width-title-blog   span-permision">
             <span>{item.title}</span>
           </div>,
+          <span>{item.sku}</span>,
           <span>{item.totalCarat}</span>,
           <span>${item.makingPrice}</span>,
           <span>{item.metalWeight}</span>,

@@ -255,7 +255,9 @@ input::-webkit-inner-spin-button {
 .thead-second-width-title {
   width: 400px !important;
 }
-
+.thead-second-width-title2 {
+  width: 390px !important;
+}
 .thead-second-width-title-email {
   width: 300px !important;
 }
@@ -270,6 +272,10 @@ input::-webkit-inner-spin-button {
 
 .thead-second-width-title-780 {
   width: 780px !important;
+}
+
+.thead-second-width-title-750 {
+  width: 700px !important;
 }
 
 .thead-second-width-title-option {
