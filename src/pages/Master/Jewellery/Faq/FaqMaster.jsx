@@ -21,7 +21,6 @@ import _ from "lodash";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
-import { toaster } from "../../../../services/helper";
 import Textinput from "../../../../components/UI/TextInput";
 import FaqMasterDetails from "./FaqMasterDetails";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
@@ -120,7 +119,7 @@ const FaqMaster = () => {
       if (result.isConfirmed) {
         API.destroy(`${apiConfig.faq}/${id}`)
           .then((res) => {
-            toaster.success("Deleted Successfully");
+            HELPER.toaster.success("Deleted Successfully");
             paginate();
           })
           .catch((e) => HELPER.toaster.error(e.errors.message))
