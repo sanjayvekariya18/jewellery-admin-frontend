@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { API, HELPER } from "../../../services";
-import { apiConfig } from "../../../config";
+import { apiConfig, appConfig } from "../../../config";
 import Validators from "../../../components/validations/Validator";
 import ThemeDialog from "../../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
 import FileDrop from "../../../components/UI/FileDrop";
-import { API_BASE_URL_IMG } from "../../../constants/config";
 
 // intialValues define
 const initialValues = {
@@ -62,7 +61,7 @@ const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
 
   // handleDownload in a diamond data 
   const handleDownload = () => {
-    const fileURL = `${API_BASE_URL_IMG}/excelTemplate/Diamond_Data.xlsx`;
+    const fileURL = `${appConfig.host}/excelTemplate/Diamond_Data.xlsx`;
     window.open(fileURL, "_blank");
   };
   const onFileSelected = (selectedFile) => {

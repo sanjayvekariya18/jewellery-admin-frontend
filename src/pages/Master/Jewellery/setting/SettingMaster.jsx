@@ -253,6 +253,15 @@ const SettingMaster = () => {
                                     name="deliveryDays"
                                     sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
                                 />
+                                 <Textinput
+                                    size="medium"
+                                    label="Map Link"
+                                    value={formState.map_link || ""}
+                                    onChange={onChange}
+                                    type="text"
+                                    name="map_link"
+                                    sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
+                                />
 
                                 <label className="label-class">Logo</label>
                                 <ImgUploadBoxInput

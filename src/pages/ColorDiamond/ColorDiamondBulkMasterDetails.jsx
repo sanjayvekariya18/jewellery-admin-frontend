@@ -3,10 +3,8 @@ import Validators from "../../components/validations/Validator";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../services";
-import { apiConfig } from "../../config";
+import { apiConfig, appConfig } from "../../config";
 import FileDrop from "../../components/UI/FileDrop";
-import { API_BASE_URL_IMG } from "../../constants/config";
-
 // --------------- initialValues value-------------------
 const initialValues = {
   colorDiamond: "",
@@ -68,7 +66,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
 
   // ------------------handleDownload of ColoredDiamond-----------------
   const handleDownload = () => {
-    const fileURL = `${API_BASE_URL_IMG}/excelTemplate/Colored_Diamond_Data.xlsx`;
+    const fileURL = `${appConfig.host}/excelTemplate/Colored_Diamond_Data.xlsx`;
     window.open(fileURL, "_blank");
   };
 

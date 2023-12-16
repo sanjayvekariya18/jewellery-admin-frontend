@@ -3,8 +3,7 @@ import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
-import { apiConfig } from "../../../../config";
-import { API_BASE_URL_IMG } from "../../../../constants/config";
+import { apiConfig, appConfig } from "../../../../config";
 import FileDrop from "../../../../components/UI/FileDrop";
 
 // initialValues define
@@ -58,7 +57,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   };
 
   const handleDownload = () => {
-    const fileURL = `${API_BASE_URL_IMG}/excelTemplate/Gemstone_Data.xlsx`;
+    const fileURL = `${appConfig.host}/excelTemplate/Gemstone_Data.xlsx`;
     window.open(fileURL, "_blank");
   };
 

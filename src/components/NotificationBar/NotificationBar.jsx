@@ -110,11 +110,6 @@ const NotificationBar = ({ container }) => {
   const { palette } = useTheme();
   const textColor = palette.text.primary;
 
-  useEffect(() => {
-    getNotification(page);
-
-  }, [page]);
-
   const getNotification = (prevPageNo = prevPage, is_next_list_empty = isNextListEmpty) => {
     if (prevPageNo != page && false == is_next_list_empty) {
       prevPage = page;
@@ -123,7 +118,6 @@ const NotificationBar = ({ container }) => {
           let nextListEmpty = (isEmpty(res.rows) || formState.limit > res.rows.length) ? true : false;
           setIsNextListEmpty(nextListEmpty);
           setTotalNotification(res.count);
-
           if (page == 0) {
             setNotificationsArray(res.rows);
           } else {
@@ -133,12 +127,11 @@ const NotificationBar = ({ container }) => {
     };
 
   }
-
   const deleteNotification = (id) => {
     API.destroy(`${apiConfig.notifications}/${id}`)
       .then((res) => {
         HELPER.toaster.success("Deleted Successfully");
-        getNotification();
+        getNotification(-1, false);
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))
   }
@@ -167,8 +160,8 @@ const NotificationBar = ({ container }) => {
   const clearNotifications = () => {
     API.post(apiConfig.clearAllNotification)
       .then((res) => {
-        HELPER.toaster.success("Deleted Successfully");
-        getNotification();
+        // HELPER.toaster.success("Deleted Successfully");
+        getNotification(-1, false);
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))
   }
@@ -206,6 +199,7 @@ const NotificationBar = ({ container }) => {
   useEffect(() => {
     getNotification(-1);
   }, []);
+
   return (
     <Fragment>
 
@@ -243,7 +237,7 @@ const NotificationBar = ({ container }) => {
             </Notification>
             {!!notificationsArray.length && (
 
-              <div variant='contained' style={{ margin: "0px 10px 20px 147px", color: "#1976d2" }} onClick={clearNotifications}>Clear All Notifications</div>
+              <div variant='contained' style={{ margin: "0px 10px 20px 147px", color: "#1976d2", cursor: "pointer" }} onClick={clearNotifications}>Clear All Notifications</div>
             )}
             {/* </div> */}
             <BottomScrollListener onBottom={() => lazyLoadedMajorAuditList()}>
