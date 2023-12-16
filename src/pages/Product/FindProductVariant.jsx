@@ -189,8 +189,6 @@ const FindProductVariant = () => {
           onClick: () => addToEngagement(item.id),
         },
       ];
-
-
       return {
         item: item,
         columns: [
@@ -200,9 +198,9 @@ const FindProductVariant = () => {
           </div>,
           <span>{item.sku}</span>,
           <span>{item.totalCarat}</span>,
-          <span>${item.makingPrice}</span>,
           <span>{item.metalWeight}</span>,
           <span>${item.metalPrice}</span>,
+          <span>${item.makingPrice}</span>,
           <span>${item.diamondPrice}</span>,
           <span>${item.totalPrice}</span>,
           <span>

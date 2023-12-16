@@ -30,6 +30,12 @@ const Textinput = ({
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  
+const handleKeyPress = (e) => {
+  if (type === "number" && !/^\d*\.?\d*$/.test(e.key)) {
+    e.preventDefault();
+  }
+};
 
   return (
     <div className="mb-3">
@@ -46,7 +52,7 @@ const Textinput = ({
         value={value} // Display the value directly
         disabled={disabled}
         multiline={multiline}
-
+        onKeyPress={handleKeyPress}
         inputProps={{
           min: "0",
           accept: "image/png,image/jpg,image/jpeg,image/webp,image/svg",
@@ -77,6 +83,7 @@ const Textinput = ({
             </InputAdornment>
           ),
         }}
+        
       />
       <ValidationMessages errors={error} label={label} />
     </div>

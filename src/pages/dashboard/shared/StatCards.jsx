@@ -47,37 +47,41 @@ const StatCards = () => {
   const [totalCustomer, setTotalCustomer] = useState(0);
   const [totalProduct, setTotalProduct] = useState(0);
   const [totalCategory, setTotalCategory] = useState(0);
+  const [totalOrder, setTotalOrder] = useState(0);
   // const [totalDiamond, setTotalDiamond] = useState(0);
 
   //  Total Customer Count APi
   useEffect(() => {
-    API.get(apiConfig.customer)
+    API.get(apiConfig.dashboardCustomer)
       .then((res) => {
-        setTotalCustomer(res.count);
+        setTotalCustomer(res);
       })
       .catch((err) => {
         HELPER.toaster.error(err)
       });
   }, []);
   useEffect(() => {
-    API.get(apiConfig.product, {
-      page: 0,
-      rowsPerPage: 1,
-    })
+    API.get(apiConfig.dashboardProduct)
       .then((res) => {
-        setTotalProduct(res.count);
+        setTotalProduct(res);
       })
       .catch((err) => {
         HELPER.toaster.error(err)
       });
   }, []);
   useEffect(() => {
-    API.get(apiConfig.category, {
-      page: 0,
-      rowsPerPage: 1,
-    })
+    API.get(apiConfig.dashboardCategory)
       .then((res) => {
-        setTotalCategory(res.count);
+        setTotalCategory(res);
+      })
+      .catch((err) => {
+        HELPER.toaster.error(err)
+      });
+  }, []);
+  useEffect(() => {
+    API.get(apiConfig.dashboardOrder)
+      .then((res) => {
+        setTotalOrder(res);
       })
       .catch((err) => {
         HELPER.toaster.error(err)
@@ -100,7 +104,7 @@ const StatCards = () => {
     { name: "Total Customer", amount: totalCustomer, icon: "group" },
     { name: "Total Products", amount: totalProduct, icon: "shopping_cart" },
     { name: "Total Category", amount: totalCategory, icon: "category" },
-    { name: "Total Orders", amount: 500, icon: "shopping_cart" },
+    { name: "Total Orders", amount: totalOrder, icon: "shopping_cart" },
   ];
 
   return (

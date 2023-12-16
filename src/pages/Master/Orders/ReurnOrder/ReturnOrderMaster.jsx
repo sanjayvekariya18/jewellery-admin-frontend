@@ -14,7 +14,11 @@ import {
   IconButton,
   Tooltip,
   Typography,
+  Grid,
+
 } from "@mui/material";
+import { SlideshowLightbox } from 'lightbox.js-react'
+import 'lightbox.js-react/dist/index.css'
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ReactSelect from "../../../../components/UI/ReactSelect";
@@ -29,13 +33,14 @@ import moment from "moment-timezone";
 import ReturnRejectMaster from "./ReturnRejectMaster";
 import RefundAmountReturnOrder from "./RefundAmountReturnOrder";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
-import { Col, Row } from "reactstrap";
 import { checkFileType, setImageSrc } from "../../../../services/helper";
 
 const ReturnOrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [refundAmountCancel, setRefundAmountCancel] = useState(null);
   const [openSearch, setOpenSearch] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [refundAmount, setRefundAmount] = useState(false);
   const [dropDown, setDropDown] = useState([]);
@@ -55,6 +60,14 @@ const ReturnOrderMaster = () => {
 
   const textModaltoggle = () => {
     setTextModal(!textModal);
+  };
+  const images = returnProductFiles
+    .filter((item) => checkFileType(item) === 'image')
+    .map((item) => setImageSrc(item));
+
+  const handleImageClick = (index) => {
+    setPhotoIndex(index);
+    setIsOpen(true);
   };
 
   // ----Pagination code------
@@ -102,7 +115,7 @@ const ReturnOrderMaster = () => {
       classNameWidth: "thead-second-width-stone",
     },
     {
-      title: "Reject Reason",
+      title: "Return Reason",
       order: false,
       field: "returnReason",
       classNameWidth: "thead-second-width-stock-numbers",
@@ -894,7 +907,7 @@ const ReturnOrderMaster = () => {
         {/* theme dialog of the Reject Order Reason */}
         {textModal && (
           <ThemeDialog
-            title="Reject Order Reason"
+            title="Return Order Reason"
             id="showModal"
             isOpen={textModal}
             toggle={textModaltoggle}
@@ -928,7 +941,7 @@ const ReturnOrderMaster = () => {
             isOpen={isShowReturnOrderFiles}
             toggle={() => setIsShowReturnOrderFiles(!isShowReturnOrderFiles)}
             centered
-            maxWidth="sm"
+            maxWidth="md"
             actionBtns={
               <Button
                 variant="contained"
@@ -942,27 +955,73 @@ const ReturnOrderMaster = () => {
             <div
               style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}
             >
-              <Row>
-                {returnProductFiles &&
+              <Grid container spacing={2}>
+                <SlideshowLightbox className="container grid grid-cols-3 gap-2 mx-auto">
+                  {returnProductFiles &&
+                    returnProductFiles.map((item, i) => {
+                      console.log('item:', item);
+                      const fileType = checkFileType(item);
+
+                      if (fileType === 'image') {
+                        const imageSrc = item && setImageSrc(item);
+                        console.log(imageSrc, 'image');
+                        console.log(fileType, 'image', 'w4t5wy');
+                        return (
+                          <img
+                            src={imageSrc}
+                            className="img-fluid image_return" 
+                            alt={`Image ${i}`}
+                            onClick={() => handleImageClick(i)}
+                          />
+                        );
+                      } else if (fileType === 'video') {
+                        const videoSrc = setImageSrc(item);
+                        console.log(videoSrc, 'video');
+                        console.log(fileType, 'video', 'w4t5wy');
+                        return (
+                          <video
+                            controls
+                          >
+                            <source key={i} 
+                              src={videoSrc}
+                              type="video/mp4"
+                              className="video_return"
+                              alt={`Video ${i}`} />
+                          </video>
+                        );
+                      }
+
+                      return null; // or any other default content if not an image or video
+                    })}
+                </SlideshowLightbox>
+                {/* {returnProductFiles &&
                   returnProductFiles.map((item, i) => {
+                    const videoUrl = setImageSrc(item);
+
+                    console.log(`Video URL ${i + 1}:`, videoUrl);
+
                     return (
-                      <Col xl={3} key={i}>
-                        {((checkFileType(item)) == 'image' ?
-                          <img src={setImageSrc(item)} className="img-fluid" /> :
+                      <Grid key={i} item>
+                        {checkFileType(item) === 'video' ? (
                           <video width="320" height="240" controls>
-                            <source src={setImageSrc(item)} type="video/mp4" />
+                            <source src={videoUrl} type="video/mp4" />
                             Your browser does not support the video tag.
                           </video>
+                        ) : (
+                          // Handle other file types or provide default content
+                          <p>Not a video file</p>
                         )}
-
-                      </Col>
+                      </Grid>
                     );
-                  })}
-              </Row>
+                  })} */}
+
+
+              </Grid>
+
             </div>
           </ThemeDialog>
         )}
-      </div>
+      </div >
     </>
   );
 };

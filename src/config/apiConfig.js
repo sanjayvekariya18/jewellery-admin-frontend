@@ -204,6 +204,11 @@ const apiConfig = {
   contactUsBulk: "contact-us/bulk",
 
 
+  // dashboard
+  dashboardOrder:"dashboard/totalOrders",
+  dashboardCustomer:"dashboard/totalCustomers",
+  dashboardProduct:"dashboard/totalProducts",
+  dashboardCategory:"dashboard/totalCategory"
 };
 
 export default apiConfig;

@@ -1167,3 +1167,8 @@ input::-webkit-inner-spin-button {
   height: 400px;
   width: 100%;
 }
+.image_return
+{
+  height: 250px;
+  width: 250px;
+}
