@@ -147,6 +147,7 @@ const FindProductVariantMoreDetail = () => {
                       )}
                     </div>
                   </div>
+                  <h4 style={{ paddingTop: "15px" }}>Total Price :  <span style={{ color: "#808080" }}>${productData.totalPrice}</span></h4>
                 </div>
                 <Card style={{ width: "40%", marginTop: 30, marginRight: 17, height: "50%" }}>
                   <CardContent>
@@ -175,7 +176,7 @@ const FindProductVariantMoreDetail = () => {
                       <div style={{ marginLeft: "15px" }}>
                         <h4>Diamond</h4>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span><MonetizationOnOutlinedIcon  style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.diamondPrice}</span>
+                          <span><MonetizationOnOutlinedIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.diamondPrice}</span>
                           <span style={{ marginLeft: "20px" }}><ScaleIcon style={{ fontSize: "18px" }} /></span><span style={{ marginLeft: "5px" }}>{productData.totalCarat}</span>
                         </div>
                       </div>
@@ -285,7 +286,7 @@ const FindProductVariantMoreDetail = () => {
                                 <TableCell>
                                   <strong>{productData?.VariantSkuDiamondLinks?.length}</strong>
                                 </TableCell>
-                                
+
                                 <TableCell style={{ textAlign: "right" }}>
                                   <strong style={{ textAlign: "right" }}>{totalDiamondCarat}</strong>
                                 </TableCell>
@@ -387,7 +388,14 @@ const FindProductVariantMoreDetail = () => {
               {productData.images && productData.images.length > 0 ? (
 
                 productData.images && productData.images.map((item, index) => (
-                  <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
+                  item.fileType === "image" ?
+                    <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
+                    :
+                    
+                    <video autoPlay loop muted className="video_url" controls>
+                      <source src={HELPER.getImageUrl(item.fileUrl)} type="video/mp4"/>
+                    </video>
+                  // <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
                 ))
 
               ) : (
