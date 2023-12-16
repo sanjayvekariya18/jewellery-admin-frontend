@@ -243,7 +243,7 @@ const NotificationBar = ({ container }) => {
             </Notification>
             {!!notificationsArray.length && (
 
-              <div variant='contained' style={{ margin: "0px 10px 20px 165px", color: "#1976d2" }} onClick={clearNotifications}>Clear All Notifications</div>
+              <div variant='contained' style={{ margin: "0px 10px 20px 147px", color: "#1976d2" }} onClick={clearNotifications}>Clear All Notifications</div>
             )}
             {/* </div> */}
             <BottomScrollListener onBottom={() => lazyLoadedMajorAuditList()}>
