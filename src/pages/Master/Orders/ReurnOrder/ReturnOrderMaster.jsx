@@ -63,44 +63,13 @@ const ReturnOrderMaster = () => {
     .filter((item) => checkFileType(item) === 'image')
     .map((item) => setImageSrc(item));
 
-  const handleImageClick = (index) => {
-    setPhotoIndex(index);
-    setIsOpen(true);
-  };
-  // const data = [
-  //   {
-  //     index: 0,
-  //     url: "https://placekitten.com/450/300",
-  //     thumbnail: "https://placekitten.com/450/300",
-  //     type: "photo"
-  //   },
-  //   {
-  //     index: 1,
-  //     url: "https://www.youtube.com/embed/ScMzIvxBSi4",
-  //     thumbnail: "https://www.youtube.com/embed/ScMzIvxBSi4",
-  //     type: "video"
-  //   },
-  //   {
-  //     index: 2,
-  //     url: "https://placekitten.com/550/500",
-  //     thumbnail: "https://placekitten.com/550/500",
-  //     type: "photo"
-  //   },
-  //   {
-  //     index: 3,
-  //     url: "https://www.youtube.com/embed/ScMzIvxBSi4",
-  //     type: "video"
-  //   }
-  // ];
-
   const data = returnProductFiles.map((link, index) => {
     const url = link && setImageSrc(link);
     const type = url.endsWith('.jpg') || url.endsWith('.png') ? 'photo' : 'video';
-    // const 
     return {
       index,
       url,
-      thumbnail: link, // You can modify this based on your thumbnail logic
+      thumbnail: link,
       type
     };
   });
@@ -1003,18 +972,10 @@ const ReturnOrderMaster = () => {
                     return (
                       <Grid key={index} item>
                         {(item.type) === 'photo' && (
-                          <img src={imageSrc} onClick={() => openlightbox(index)} key={index} className="image_return" title="hello" />
+                          <img src={imageSrc} onClick={() => openlightbox(index)} key={index} className="image_return" />
                         )}
-                      </Grid>
-                    );
-                  })}
-
-                {data &&
-                  data.map((item, index) => {
-                    return (
-                      <Grid key={index} item>
-                        {(item.type) === 'video' && (
-                          <div onClick={() => openlightbox(index)} >
+                         {(item.type) === 'video' && (
+                          <div onClick={() => openlightbox(index)} className="image_return">
                             <video className="video_url">
                               <source src={item.url} key={index}></source>
                             </video>
@@ -1023,6 +984,15 @@ const ReturnOrderMaster = () => {
                       </Grid>
                     );
                   })}
+                  
+                {/* {data &&
+                  data.map((item, index) => {
+                    return (
+                      <Grid key={index} item>
+                       
+                      </Grid>
+                    );
+                  })} */}
                 {open && (
                   <ReactImageVideoLightbox
                     data={data}
