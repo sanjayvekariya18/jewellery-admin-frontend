@@ -1166,11 +1166,13 @@ input::-webkit-inner-spin-button {
 .video_url{
   height: 100%;
   width: 100%;
+  cursor: pointer;
 }
 .image_return
 {
   height: 250px;
   width: 250px;
+  cursor: pointer;
 }
 /* styles.css */
 
