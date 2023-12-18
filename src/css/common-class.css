@@ -1164,11 +1164,16 @@ input::-webkit-inner-spin-button {
   width: 330px !important;
 }
 .video_url{
-  height: 400px;
+  height: 100%;
   width: 100%;
 }
 .image_return
 {
   height: 250px;
   width: 250px;
+}
+/* styles.css */
+
+.MuiDialogTitle-root+.css-ypiqx9-MuiDialogContent-root{
+ z-index: 1 ;
 }

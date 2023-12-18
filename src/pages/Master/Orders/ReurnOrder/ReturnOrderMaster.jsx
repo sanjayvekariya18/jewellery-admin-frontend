@@ -17,7 +17,7 @@ import {
   Grid,
 
 } from "@mui/material";
-import { SlideshowLightbox } from 'lightbox.js-react'
+import ReactImageVideoLightbox from "react-image-video-lightbox";
 import 'lightbox.js-react/dist/index.css'
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
@@ -57,7 +57,6 @@ const ReturnOrderMaster = () => {
   const [filter, setFilter] = useState({
     returnOrderStatus: "request",
   });
-
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
@@ -68,6 +67,49 @@ const ReturnOrderMaster = () => {
   const handleImageClick = (index) => {
     setPhotoIndex(index);
     setIsOpen(true);
+  };
+  // const data = [
+  //   {
+  //     index: 0,
+  //     url: "https://placekitten.com/450/300",
+  //     thumbnail: "https://placekitten.com/450/300",
+  //     type: "photo"
+  //   },
+  //   {
+  //     index: 1,
+  //     url: "https://www.youtube.com/embed/ScMzIvxBSi4",
+  //     thumbnail: "https://www.youtube.com/embed/ScMzIvxBSi4",
+  //     type: "video"
+  //   },
+  //   {
+  //     index: 2,
+  //     url: "https://placekitten.com/550/500",
+  //     thumbnail: "https://placekitten.com/550/500",
+  //     type: "photo"
+  //   },
+  //   {
+  //     index: 3,
+  //     url: "https://www.youtube.com/embed/ScMzIvxBSi4",
+  //     type: "video"
+  //   }
+  // ];
+
+  const data = returnProductFiles.map((link, index) => {
+    const url = link && setImageSrc(link);
+    const type = url.endsWith('.jpg') || url.endsWith('.png') ? 'photo' : 'video';
+    // const 
+    return {
+      index,
+      url,
+      thumbnail: link, // You can modify this based on your thumbnail logic
+      type
+    };
+  });
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const openlightbox = (index) => {
+    setCurrentIndex(index);
+    setOpen(true);
   };
 
   // ----Pagination code------
@@ -956,72 +998,48 @@ const ReturnOrderMaster = () => {
               style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}
             >
               <Grid container spacing={2}>
-                <SlideshowLightbox className="container grid grid-cols-3 gap-2 mx-auto">
-                  {returnProductFiles &&
-                    returnProductFiles.map((item, i) => {
-                      console.log('item:', item);
-                      const fileType = checkFileType(item);
-
-                      if (fileType === 'image') {
-                        const imageSrc = item && setImageSrc(item);
-                        console.log(imageSrc, 'image');
-                        console.log(fileType, 'image', 'w4t5wy');
-                        return (
-                          <img
-                            src={imageSrc}
-                            className="img-fluid image_return" 
-                            alt={`Image ${i}`}
-                            onClick={() => handleImageClick(i)}
-                          />
-                        );
-                      } else if (fileType === 'video') {
-                        const videoSrc = setImageSrc(item);
-                        console.log(videoSrc, 'video');
-                        console.log(fileType, 'video', 'w4t5wy');
-                        return (
-                          <video
-                            controls
-                          >
-                            <source key={i} 
-                              src={videoSrc}
-                              type="video/mp4"
-                              className="video_return"
-                              alt={`Video ${i}`} />
-                          </video>
-                        );
-                      }
-
-                      return null; // or any other default content if not an image or video
-                    })}
-                </SlideshowLightbox>
-                {/* {returnProductFiles &&
-                  returnProductFiles.map((item, i) => {
-                    const videoUrl = setImageSrc(item);
-
-                    console.log(`Video URL ${i + 1}:`, videoUrl);
-
+                {data &&
+                  data.map((item, index) => {
+                    const imageSrc = item && setImageSrc(item.thumbnail);
                     return (
-                      <Grid key={i} item>
-                        {checkFileType(item) === 'video' ? (
-                          <video width="320" height="240" controls>
-                            <source src={videoUrl} type="video/mp4" />
-                            Your browser does not support the video tag.
-                          </video>
-                        ) : (
-                          // Handle other file types or provide default content
-                          <p>Not a video file</p>
+                      <Grid key={index} item>
+                        {(item.type) === 'photo' && (
+                          <img src={imageSrc} onClick={() => openlightbox(index)} key={index} className="image_return" />
                         )}
                       </Grid>
                     );
-                  })} */}
+                  })}
 
-
+                {data &&
+                  data.map((item, index) => {
+                    return (
+                      <Grid key={index} item>
+                        {(item.type) === 'video' && (
+                          <div onClick={() => openlightbox(index)} >
+                            <video className="video_url">
+                              <source src={item.url} key={index} ></source>
+                            </video>
+                          </div>
+                        )}
+                      </Grid>
+                    );
+                  })}
+                {open && (
+                  <ReactImageVideoLightbox
+                    data={data}
+                    startIndex={currentIndex}
+                    showResourceCount={true}
+                    onCloseCallback={() => setOpen(false)}
+                    onNavigationCallback={(currentIndex) =>
+                      console.log(`Current index: ${currentIndex}`)
+                    }
+                  />
+                )}
               </Grid>
-
             </div>
           </ThemeDialog>
         )}
-      </div >
+      </div>
     </>
   );
 };
