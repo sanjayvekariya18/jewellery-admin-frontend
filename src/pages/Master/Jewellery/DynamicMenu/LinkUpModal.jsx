@@ -26,7 +26,6 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
     // }, [bannerModal]);
 
     const togglePopupBanner = () => {
-        console.log("hello");
         if (openBanner) {
             setSelectedUserData(null);
         }
@@ -178,7 +177,6 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
     }, [state.data]);
 
     document.title = "Link Up Page List ";
-    console.log(openBanner, "openBanner")
     return (
         <>
             <ThemeDialog

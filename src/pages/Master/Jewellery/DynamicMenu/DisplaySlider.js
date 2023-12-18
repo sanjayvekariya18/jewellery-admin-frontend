@@ -139,6 +139,7 @@ function DisplaySlider({ open, setModal, togglePopup, callBack, linkUp }) {
                     variant="contained"
                     style={{ marginBottom: "10px" }}
                     onClick={handleUpdate}
+                    disabled={!selectedRowId}
                 >
                     Update Slider
                 </Button>

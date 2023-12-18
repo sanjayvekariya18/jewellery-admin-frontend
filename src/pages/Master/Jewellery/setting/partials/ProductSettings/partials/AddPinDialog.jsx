@@ -33,7 +33,6 @@ export default function AddPinDialog({ onClose, isOpen, onSave }) {
             sku: [data?.sku]
         })
             .then((res) => {
-                console.log(res, "res");
                 const product = res[0]
                 onSave({
                     ...product,

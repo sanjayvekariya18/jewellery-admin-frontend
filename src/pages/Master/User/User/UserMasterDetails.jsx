@@ -18,7 +18,6 @@ const initialValues = {
 };
 
 const UserMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
-  console.log(userData,"cus");
   const [isLoader, setIsLoader] = useState(false);
 
   const url = apiEndPoint.user;

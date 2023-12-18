@@ -165,19 +165,27 @@ const NotificationBar = ({ container }) => {
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))
   }
-  const readNotification = () => {
-    API.post(apiConfig.readNotification)
-      .then((res) => {
-        getNotification();
-      })
-      .catch((e) => HELPER.toaster.error(e.errors.message))
-  }
-  useEffect(() => {
+
+  const unRead = () => {
     API.get(apiConfig.unRead)
       .then((res) => {
         setUnRead(res)
       })
+  }
+
+  const readNotification = () => {
+    API.post(apiConfig.readNotification)
+      .then((res) => {
+        getNotification();
+        unRead();
+      })
+      .catch((e) => HELPER.toaster.error(e.errors.message))
+  }
+
+  useEffect(() => {
+    unRead();
   }, [])
+
 
   const lazyLoadedMajorAuditList = () => {
     if (false === isNextListEmpty) {
@@ -198,7 +206,7 @@ const NotificationBar = ({ container }) => {
 
   useEffect(() => {
     getNotification(-1);
-  }, []);
+  }, [page]);
 
   return (
     <Fragment>
@@ -242,7 +250,7 @@ const NotificationBar = ({ container }) => {
             {/* </div> */}
             <BottomScrollListener onBottom={() => lazyLoadedMajorAuditList()}>
               {(scrollRef) => (
-                <div ref={scrollRef} id="scrollableDiv" style={{ height: 1000, overflow: "auto" }}>
+                <div ref={scrollRef} style={{ height: 1000, overflow: "auto" }}>
                   <InfiniteScroll
                     dataLength={totalNotification}
                     next={lazyLoadedMajorAuditList}

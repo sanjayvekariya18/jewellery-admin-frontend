@@ -10,7 +10,6 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 
 
 const DisplayBanner = ({ open, setModal, togglePopup, callBack, linkUp }) => {
-    console.log(togglePopup, "togglePopup")
 
     const [selectedRowId, setSelectedRowId] = useState(null);
 
@@ -183,10 +182,12 @@ const DisplayBanner = ({ open, setModal, togglePopup, callBack, linkUp }) => {
             }
         >
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
+                
+                    <Button
                     variant="contained"
                     style={{ marginBottom: "10px" }}
                     onClick={handleUpdate}
+                    disabled={!selectedRowId}
                 >
                     Update Banner
                 </Button>

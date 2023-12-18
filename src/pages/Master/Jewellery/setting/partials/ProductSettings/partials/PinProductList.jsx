@@ -19,9 +19,7 @@ export default function PinProductList(props) {
         removeProduct
     } = props
 
-    console.log(selectedProduct, "products");
     const handleSelectProduct = (sku) => {
-        console.log("hello");
         if (selectedProduct !== sku) {
             onSelectProduct(sku);
         } else {

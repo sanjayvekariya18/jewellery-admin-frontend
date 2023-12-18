@@ -15,7 +15,6 @@ import {
   Tooltip,
   Typography,
   Grid,
-
 } from "@mui/material";
 import ReactImageVideoLightbox from "react-image-video-lightbox";
 import 'lightbox.js-react/dist/index.css'
@@ -1004,7 +1003,7 @@ const ReturnOrderMaster = () => {
                     return (
                       <Grid key={index} item>
                         {(item.type) === 'photo' && (
-                          <img src={imageSrc} onClick={() => openlightbox(index)} key={index} className="image_return" />
+                          <img src={imageSrc} onClick={() => openlightbox(index)} key={index} className="image_return" title="hello" />
                         )}
                       </Grid>
                     );
@@ -1017,7 +1016,7 @@ const ReturnOrderMaster = () => {
                         {(item.type) === 'video' && (
                           <div onClick={() => openlightbox(index)} >
                             <video className="video_url">
-                              <source src={item.url} key={index} ></source>
+                              <source src={item.url} key={index}></source>
                             </video>
                           </div>
                         )}

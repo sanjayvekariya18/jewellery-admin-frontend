@@ -70,15 +70,21 @@ const SettingMaster = () => {
     };
 
     const handleSubmit = (formData) => {
+        if (formData.engraving_price === null || formData.engraving_price === undefined) {
+            HELPER.toaster.error('Engraving Price is required and at least provide 0.');
+            return;
+        }
+        // Continue with the API call if engraving_price is not null
         API.put(apiConfig.appSettingsEdit, formData)
             .then((res) => {
-                getAllAppSettings()
-                HELPER.toaster.success('Setting updated successfully!')
+                getAllAppSettings();
+                HELPER.toaster.success('Setting updated successfully!');
             })
             .catch((error) => {
+                // Handle API error
             });
-
     };
+    
     const onChange = useCallback((e) => {
         const { name, value } = e.target;
         setFormState((prevState) => ({
