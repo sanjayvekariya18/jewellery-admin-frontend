@@ -826,7 +826,7 @@ const ReturnOrderMaster = () => {
                     options={
                       statuses && Array.isArray(statuses) && statuses.length > 0
                         ? statuses.map((status) => ({
-                          label: status,
+                          label: status.charAt(0).toUpperCase() + status.slice(1).toLowerCase(),
                           value: status,
                         }))
                         : []

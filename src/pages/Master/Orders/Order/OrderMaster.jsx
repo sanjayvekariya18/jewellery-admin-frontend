@@ -232,10 +232,10 @@ const OrderMaster = () => {
   // downloadInvoice of a pdf file
   const downloadInvoice = (Id) => {
     downloadFile(`${apiConfig.downloadInvoice}/${Id}`, {
-        file_name: 'order-invoice.pdf'
+      file_name: 'order-invoice.pdf'
     }).then(() => {
     }).catch(() => {
-        HELPER.toaster.error('Invoice not found')
+      HELPER.toaster.error('Invoice not found')
     })
   };
 
@@ -693,7 +693,7 @@ const OrderMaster = () => {
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "dispatch",
+                    orderStatus: "Dispatch",
                   })
                 }
                 style={
@@ -787,7 +787,7 @@ const OrderMaster = () => {
                         state.status && state.status.length !== 0
                           ? [
                             {
-                              label: state.status[0],
+                              label: state.status[0].charAt(0).toUpperCase() + state.status[0].slice(1).toLowerCase(),
                               value: state.status[0],
                             },
                           ]
