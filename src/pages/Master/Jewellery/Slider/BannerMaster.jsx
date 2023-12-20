@@ -11,7 +11,7 @@ import { Breadcrumb, Container } from "../../../../components";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import BannerMaster2 from "../Banner/BannerMaster";
 
-const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanner }) => {
+const BannerMaster = ({ model, setModal, togglePopupBanner, callBack, sliderId, sliderBanner }) => {
     const [rowMoved, setRowMoved] = useState(false);
     const [addressText, setAddressText] = useState("");
     const [textModal, setTextModal] = useState(false);
@@ -207,8 +207,10 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanne
             <>
                 <ThemeDialog
                     title={"Slider Banner List"}
-                    isOpen={modal}
-                    toggle={toggle}
+                    isOpen={model}
+                    onClose={() => {
+                        togglePopupBanner();
+                    }}
                     maxWidth='lg'
                     actionBtns={
                         <Box>
@@ -216,9 +218,9 @@ const BannerMaster = ({ modal, setModal, toggle, callBack, sliderId, sliderBanne
                                 variant="contained"
                                 color="secondary"
                                 onClick={() => {
-                                    toggle();
-                                }}
-                            >
+                                    togglePopupBanner();
+                                }}>
+                            
                                 Cancel
                             </Button>
                         </Box>

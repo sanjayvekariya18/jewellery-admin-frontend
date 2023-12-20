@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
-import {  Button, Typography, Checkbox } from "@mui/material";
+import { Button, Typography, Checkbox } from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
@@ -7,10 +7,12 @@ import { apiConfig } from "../../../../config";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
 const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
+
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
     const [loading, setLoading] = useState();
     const [addressText, setAddressText] = useState("");
     const [textModal, setTextModal] = useState(false);
+
     // ----Pagination code------
     const COLUMNS = [
         { title: "Select", classNameWidth: "thead-second-width-discount" },
@@ -20,7 +22,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
         { title: "Button Text", classNameWidth: "thead-second-width-stone" },
         { title: "Is Clickable", classNameWidth: "thead-second-width-discount-85" },
         { title: "Show Button", classNameWidth: "thead-second-width-discount-85" },
-     
+
     ];
     const showAddressInDialog = (item) => {
         const sub_title = item.sub_title;
@@ -34,7 +36,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
         changeState,
         ...otherTableActionProps
     } = usePaginationTable({
-        
+
     });
     const paginate = (clear = false, isNewFilter = false) => {
         let filter = {
@@ -69,12 +71,12 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                     loader: false,
                 });
             });
-        
+
     };
 
     //------------ Delete Colored Diamond --------------
 
-    
+
     const handleCheckbox = (item) => {
         setSelectedCheckboxes((prevSelectedCheckboxes) => {
             if (prevSelectedCheckboxes.some((selectedItem) => selectedItem.banner_id === item.banner_id)) {
@@ -85,7 +87,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
         });
     };
 
-   
+
     useEffect(() => {
         paginate();
     }, [state.page, state.rowsPerPage]);
@@ -112,7 +114,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                     >
                         <span>{item.sub_title}</span>
                     </div>,
-                  
+
                     <span className="common-thead-second-width-title">
                         {item.image_url && (
 
@@ -148,7 +150,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                         )}
                     </span>,
 
-                  
+
                 ],
             };
         });
@@ -169,7 +171,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
         ...selectedCheckboxesWithPosition,
         ...bannerDataFromAPI
     ];
-   
+
     const handleSubmit = () => {
         const data = {
             slider_id: userData,
@@ -193,9 +195,8 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                     HELPER.toaster.error(err)
                 }
             })
-           
-    };
 
+    };
     const textModaltoggle = () => {
         setTextModal(!textModal);
     };
@@ -205,20 +206,24 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                 title="Add Slider Banner"
                 id="showModal"
                 isOpen={open}
-                toggle={togglePopup2}
+                onClose={() => {
+                    togglePopup2();
+                }}
                 centered
                 maxWidth="xl"
                 actionBtns={
                     <Button
                         variant="contained"
                         color="secondary"
-                        onClick={togglePopup2}
-                    >
+                        onClick={() => {
+                            togglePopup2();
+                        }}>
+
                         Close
                     </Button>
                 }
             >
-                <div style={{ display: "flex", justifyContent: "end",marginBottom:"10px" }}>
+                <div style={{ display: "flex", justifyContent: "end", marginBottom: "10px" }}>
 
                     <Button
                         style={{ marginLeft: "20px" }}
@@ -245,8 +250,8 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                     orderBy={state.orderby}
                     order={state.order}
                 ></PaginationTable>
-
             </ThemeDialog>
+
             {textModal && (
                 <ThemeDialog
                     title="Sub Title"

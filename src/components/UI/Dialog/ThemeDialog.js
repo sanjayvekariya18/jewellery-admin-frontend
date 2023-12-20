@@ -14,6 +14,7 @@ export default function ThemeDialog({
   maxWidth = "md",
   fullWidth = true,
   actionBtns,
+  className 
 }) {
   return (
     <Dialog
@@ -21,6 +22,7 @@ export default function ThemeDialog({
       onClose={onClose}
       fullWidth={fullWidth}
       maxWidth={maxWidth}
+      className={className}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">{title}</DialogTitle>

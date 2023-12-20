@@ -16,14 +16,21 @@ import BannerMaster from "./BannerMaster";
 const SliderMaster = () => {
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [open, setOpen] = useState(false);
+    const [openBanner, setOpenBanner] = useState(false);
     const [initialState, setInitialState] = useState("");
     const [slider, setSlider] = useState("");
     const [viewBannerModal, setViewBannerModal] = useState(false);
 
-    const BannerToggle = useCallback(() => {
-        setViewBannerModal(false)
-    }, [viewBannerModal])
+    // const BannerToggle = useCallback(() => {
+    //     setViewBannerModal(false)
+    // }, [viewBannerModal])
 
+    const BannerToggle = () => {
+        if (openBanner) {
+          setSelectedUserData(null);
+        }
+        setOpenBanner(!openBanner);
+      };
     //-------------- Delete Silder------------
     const onClickDelete = (slider_id) => {
         Swal.fire({
@@ -122,6 +129,7 @@ const SliderMaster = () => {
                                 setInitialState(item.slider_id);
                                 setSlider(item.SliderBanners)
                                 setViewBannerModal(true)
+                                BannerToggle();
                             }}
                         >
                             View Banner
@@ -209,11 +217,15 @@ const SliderMaster = () => {
                         callBack={() => paginate(true)}
                     />
                     {/* BannerMaster details in model dispaly */}
-                    {viewBannerModal &&
-                        (<BannerMaster modal={viewBannerModal}
+                    {openBanner &&
+                        (<BannerMaster
+                            model={openBanner}
                             setModal={setViewBannerModal}
                             sliderBanner={slider}
-                            toggle={BannerToggle}
+                            togglePopupBanner={() => {
+                                BannerToggle();
+                                // paginate();
+                              }}
                             sliderId={initialState}
                             callBack={() => paginate(true)} />
                         )}

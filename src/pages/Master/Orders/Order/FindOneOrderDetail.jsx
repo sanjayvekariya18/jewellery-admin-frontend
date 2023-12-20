@@ -219,29 +219,44 @@ const FindOneOrderDetail = () => {
 
         return `${title}  ${gemstoneTitle}${diamondDetails}${engraving}`;
 
+      // case "price":
+      //   let priceVariant = product.productVariant
+      //     ? `<div>$${product.productVariant.totalPrice}</div>`
+      //     : "";
+      //   let gemstonePrice = "";
+      //   let diamondPrice = "";
+      //   let engravingPrice = "";
+
+      //   if (product.productVariant && product.diamond) {
+      //     diamondPrice = `<div>($${product.diamond.price || 0})</div>`;
+      //   } else if (product.productVariant && product.gemstone) {
+      //     gemstonePrice = `<div>($${product.gemstone.price || 0})</div>`;
+      //   } else if (product.diamond) {
+      //     diamondPrice = `<div>${product.diamond.price || 0}</div>`;
+      //   } else if (product.gemstone) {
+      //     gemstonePrice = `<div>${product.gemstone.price || 0}</div>`;
+      //   }
+
+      //   if (!isEmpty(product?.engraving)) {
+      //     engravingPrice += `<div style="margin-top: 8px;">$${+product?.engraving?.price}</div>`
+      //   }
+
+      //   return `<div style="line-height: 2; position: absolute; top: 5px;">${priceVariant}${gemstonePrice}${diamondPrice}${engravingPrice}</div>`;
       case "price":
-        let priceVariant = product.productVariant
-          ? `<div>$${product.productVariant.totalPrice}</div>`
-          : "";
-        let gemstonePrice = "";
-        let diamondPrice = "";
-        let engravingPrice = "";
-
-        if (product.productVariant && product.diamond) {
-          diamondPrice = `<div>($${product.diamond.price || 0})</div>`;
-        } else if (product.productVariant && product.gemstone) {
-          gemstonePrice = `<div>($${product.gemstone.price || 0})</div>`;
-        } else if (product.diamond) {
-          diamondPrice = `<div>${product.diamond.price || 0}</div>`;
+        let total = 0;
+        if (product.productVariant) {
+          total += +product.productVariant.totalPrice || 0;
+        }
+        if (product.diamond) {
+          total += +product.diamond.price || 0;
         } else if (product.gemstone) {
-          gemstonePrice = `<div>${product.gemstone.price || 0}</div>`;
+          total += +product.gemstone.price || 0;
         }
-
         if (!isEmpty(product?.engraving)) {
-          engravingPrice += `<div style="margin-top: 8px;">$${+product?.engraving?.price}</div>`
+          total += +product?.engraving?.price || 0;
         }
+        return `<div style="line-height: 2; position: absolute; top: 5px;">$${total}</div>`;
 
-        return `<div style="line-height: 2; position: absolute; top: 5px;">${priceVariant}${gemstonePrice}${diamondPrice}${engravingPrice}</div>`;
 
       case "total_price":
         let totalPrice = 0;
@@ -604,6 +619,7 @@ const FindOneOrderDetail = () => {
                     <TableBody>
                       {productData &&
                         productData.map((product, index) => {
+                          console.log(product, "product")
                           return (
                             <TableRow key={index} className={classes.tableRow}>
                               <TableCell

@@ -100,11 +100,13 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                     .then((res) => {
                         HELPER.toaster.success("Deleted Successfully");
                         paginate();
+                        // Close the SweetAlert modal
                     })
                     .catch((e) => HELPER.toaster.error(e.errors.message))
             }
         });
     };
+    
 
     useEffect(() => {
         paginate();
@@ -185,6 +187,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                 onClose={() => {
                     togglePopup();
                 }}
+                // className="custom-swal-container"
                 maxWidth="lg"
                 actionBtns={
                     <Box>

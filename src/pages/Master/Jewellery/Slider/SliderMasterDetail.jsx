@@ -112,6 +112,7 @@ const SliderMasterDetail = ({ open, togglePopup, callBack, userData }) => {
                             placeholder="Enter Slider Name"
                             onChange={onChange}
                             style={{ width: "100%" }}
+                            autoFocus={true} 
                         />
 
                     </ThemeDialog>
