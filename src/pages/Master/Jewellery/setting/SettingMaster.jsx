@@ -70,10 +70,11 @@ const SettingMaster = () => {
     };
 
     const handleSubmit = (formData) => {
-        if (formData.engraving_price === null || formData.engraving_price === undefined) {
-            HELPER.toaster.error('Engraving Price is required and at least provide 0.');
-            return;
-        }
+        if (formOpen && value === 'fixed_price')
+            if (formData.engraving_price === null || formData.engraving_price === undefined || formData.engraving_price === "") {
+                HELPER.toaster.error('Engraving Price is required and at least provide 0.');
+                return;
+            }
         // Continue with the API call if engraving_price is not null
         API.put(apiConfig.appSettingsEdit, formData)
             .then((res) => {
@@ -84,7 +85,7 @@ const SettingMaster = () => {
                 // Handle API error
             });
     };
-    
+
     const onChange = useCallback((e) => {
         const { name, value } = e.target;
         setFormState((prevState) => ({
@@ -259,7 +260,7 @@ const SettingMaster = () => {
                                     name="deliveryDays"
                                     sx={{ mb: 2, mt: 1, width: "100%", height: "100%" }}
                                 />
-                                 <Textinput
+                                <Textinput
                                     size="medium"
                                     label="Map Link"
                                     value={formState.map_link || ""}
@@ -373,7 +374,7 @@ const SettingMaster = () => {
                                 }}>
                                     Submit
                                 </Button>
-                                
+
                             </>
                         )}
                     </form>

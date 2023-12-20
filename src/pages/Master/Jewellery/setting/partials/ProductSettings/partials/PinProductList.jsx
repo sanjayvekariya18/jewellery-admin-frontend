@@ -28,35 +28,39 @@ export default function PinProductList(props) {
     };
     const useStyles = makeStyles((theme) => ({
         redText: {
-          color: '#00A300',
-          marginTop:"5px"
+            color: '#00A300',
+            marginTop: "5px"
         },
-      }));
+    }));
     const classes = useStyles();
     return (
-        <div className='pin_box'>
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                {products.map((product) => (
-                    <>
-                        <ListItem
-                            className={selectedProduct === product.sku ? 'active-product' : ''}
-                            onClick={() => handleSelectProduct(product.sku)}
-                        >
-                            <ListItemAvatar>
-                                <Avatar  style={{backgroundColor:"red"}}>
-                                    <PinDropIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary={product?.title} secondary={`$${product?.totalPrice}`}  classes={{ secondary: classes.redText }}/>
-                            <CancelIcon style={{ color: "#1976D2" }} onClick={() => {
-                                removeProduct(product?.sku)
-                            }} />
-                        </ListItem>
-                        {/* <Divider variant="inset" component="li" /> */}
 
-                    </>
-                ))}
-            </List>
-        </div>
+        products.length > 0 && (
+            <div className='pin_box'>
+                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                    {products.map((product) => (
+                        <>
+                            <ListItem
+                                className={selectedProduct === product.sku ? 'active-product' : ''}
+                                onClick={() => handleSelectProduct(product.sku)}
+                            >
+                                <ListItemAvatar>
+                                    <Avatar style={{ backgroundColor: "red" }}>
+                                        <PinDropIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary={product?.title} secondary={`$${product?.totalPrice}`} classes={{ secondary: classes.redText }} />
+                                <CancelIcon style={{ color: "#1976D2" }} onClick={() => {
+                                    removeProduct(product?.sku)
+                                }} />
+                            </ListItem>
+                            {/* <Divider variant="inset" component="li" /> */}
+
+                        </>
+                    ))}
+                </List>
+            </div>
+        )
+
     )
 }

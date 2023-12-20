@@ -429,9 +429,7 @@ const ReturnOrderMaster = () => {
           <span dangerouslySetInnerHTML={{ __html: generateProductField(item.OrderProduct, 'title') }} >
           </span>,
           <span dangerouslySetInnerHTML={{ __html: generateProductField(item.OrderProduct, 'price') }}>
-          </span>
-          ,
-
+          </span>,
           <div style={{ width: "80px" }}>
             <Button
               color="primary"
@@ -454,10 +452,9 @@ const ReturnOrderMaster = () => {
           </span>,
           <div className="thead-second-width-stock-numbers-refundAmount">
             <span>
-              {filter.returnOrderStatus === "refund" && item.refundAmount}
+              {filter.returnOrderStatus === "refund" && `$${item.refundAmount}`}
             </span>
           </div>,
-
           <span>
             {filter.returnOrderStatus === "verified" ? (
               <MaxHeightMenu
@@ -484,19 +481,21 @@ const ReturnOrderMaster = () => {
             ) : (
               <span>
                 <Tooltip title={'View Return Order Files'} placement="top">
-                  <IconButton onClick={() => {
-                    if (!HELPER.isEmpty(item.file)) {
-                      setReturnProductFiles(item.file)
-                      setIsShowReturnOrderFiles(true)
-                    }
-                  }}>
-                    <Icon color="info">article</Icon>
-                  </IconButton>
+              
+                    <IconButton onClick={() => {
+                      if (!HELPER.isEmpty(item.file)) {
+                        setReturnProductFiles(item.file)
+                        setIsShowReturnOrderFiles(true)
+                      }
+                    }}>
+                      <Icon color="info">article</Icon>
+                    </IconButton>
+                  
                 </Tooltip>
               </span>
             )}
           </span>,
-
+          <div></div>
         ],
       };
     });
@@ -974,7 +973,7 @@ const ReturnOrderMaster = () => {
                         {(item.type) === 'photo' && (
                           <img src={imageSrc} onClick={() => openlightbox(index)} key={index} className="image_return" />
                         )}
-                         {(item.type) === 'video' && (
+                        {(item.type) === 'video' && (
                           <div onClick={() => openlightbox(index)} className="image_return">
                             <video className="video_url">
                               <source src={item.url} key={index}></source>
@@ -984,7 +983,7 @@ const ReturnOrderMaster = () => {
                       </Grid>
                     );
                   })}
-                  
+
                 {/* {data &&
                   data.map((item, index) => {
                     return (
