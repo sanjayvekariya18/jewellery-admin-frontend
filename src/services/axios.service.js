@@ -86,7 +86,7 @@ instance.interceptors.response.use(
       AuthStorage.deauthenticateUser();
     }
 
-    return Promise.reject({
+    let _obj = {
       errors:
         error?.response && error.response?.data?.error
           ? error.response?.data?.error
@@ -95,7 +95,13 @@ instance.interceptors.response.use(
         error?.response && error.response?.data?.status
           ? error.response?.data?.status
           : 501,
-    });
+    }
+
+    if ([400, 403].includes(_obj.status)) {
+      HELPER.toaster.error(_obj.errors?.message)
+    }
+
+    return Promise.reject(_obj);
   }
 );
 
