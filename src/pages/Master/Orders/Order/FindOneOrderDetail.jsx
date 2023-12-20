@@ -168,69 +168,80 @@ const FindOneOrderDetail = () => {
 
         return type;
 
-        case "title":
-          let title = product.productVariant
-            ? `<div class="mb-2"><b>Product :-</b> ${product.productVariant.title}</div>`
-            : "";
-          let diamondDetails = "";
-          let gemstoneTitle = "";
-          let engraving = ""
-      
-          if (product.productVariant && product.diamond) {
-            diamondDetails = `<div class="mb-2"><b>Diamond</b> :- (${product.diamond.carat} Carat ${
-            product.diamond.ShapeMaster
-              ? product.diamond.ShapeMaster.shape
-              : ""
+      case "title":
+        let title = product.productVariant
+          ? `<div class="mb-2"><b>Product :-</b> ${product.productVariant.title}</div>`
+          : "";
+        let diamondDetails = "";
+        let gemstoneTitle = "";
+        let engraving = ""
+
+        if (product.productVariant && product.diamond) {
+          diamondDetails = `<div class="mb-2"><b>Diamond</b> :- (${product.diamond.carat} Carat ${product.diamond.ShapeMaster
+            ? product.diamond.ShapeMaster.shape
+            : ""
             } Diamond)</div>`;
-          } else if (product.productVariant && product.gemstone) {
-            gemstoneTitle = product.gemstone
+        } else if (product.productVariant && product.gemstone) {
+          gemstoneTitle = product.gemstone
             ? `<div class="mb-2"><b>Gemstone</b> :- (${product.gemstone.title} Gemstone)</div>`
             : "";
-          } else if (product.diamond) {
-            diamondDetails = `<div class="mb-2"><b>Diamond</b> :-  ${product.diamond.carat} Carat ${
-            product.diamond.ShapeMaster
-              ? product.diamond.ShapeMaster.shape
-              : ""
+        } else if (product.diamond) {
+          diamondDetails = `<div class="mb-2"><b>Diamond</b> :-  ${product.diamond.carat} Carat ${product.diamond.ShapeMaster
+            ? product.diamond.ShapeMaster.shape
+            : ""
             } Diamond</div>`;
-          } else if (product.gemstone) {
-            gemstoneTitle = product.gemstone
+        } else if (product.gemstone) {
+          gemstoneTitle = product.gemstone
             ? `<div class="mb-2"><b>Gemstone</b> :- ${product.gemstone.title} Gemstone</div>`
             : "";
-          }
-      
-          if (!isEmpty(product?.engraving)) {
-            engraving += ` <div class="mb-2">
-              <strong>Engraving Detail</strong> <br /> 
-              &nbsp; <strong>Font:- </strong>${product?.engraving?.font}  <br />
-              &nbsp; <strong>Text:- </strong>${product?.engraving?.text}
-            </div>`
-          }
-          
-          return `${title}  ${gemstoneTitle}${diamondDetails}${engraving}`;
+        }
 
-          case "price":
-            let priceVariant = product.productVariant
-              ? `<div>$${product.productVariant.totalPrice}</div>`
-              : "";
-            let gemstonePrice = "";
-            let diamondPrice = "";
-            let engravingPrice = "";
-        
-            if (product.productVariant && product.diamond) {
-              diamondPrice = `<div>($${product.diamond.price || 0})</div>`;
-            } else if (product.productVariant && product.gemstone) {
-              gemstonePrice = `<div>($${product.gemstone.price || 0})</div>`;
-            } else if (product.diamond) {
-              diamondPrice = `<div>${product.diamond.price || 0}</div>`;
-            } else if (product.gemstone) {
-              gemstonePrice = `<div>${product.gemstone.price || 0}</div>`;
-            }
-        
-            if (!isEmpty(product?.engraving)) {
-              engravingPrice += `$${+product?.engraving?.price}`
-            }
-        
-            return `<div style="line-height: 2; position: absolute; top: 5px;">${priceVariant}${gemstonePrice}${diamondPrice}${engravingPrice}</div>`;
+        // if (!isEmpty(product?.engraving)) {
+        //   engraving += ` <div class="mb-2">
+        //     <strong>Engraving Detail</strong> <br /> 
+        //     &nbsp; <strong>Font:- </strong>${product?.engraving?.font}  <br />
+        //     &nbsp; <strong>Text:- </strong>${product?.engraving?.text}
+        //   </div>`
+        // }
+        if (!isEmpty(product?.engraving)) {
+          const font = product?.engraving?.font; // Use Avenir Medium as the default font
+          console.log(font, "font");
+          const engravingText = product?.engraving?.text; // Use 'Default Text' if none is specified
+          console.log(engravingText, "engravingText");
+
+          engraving += `<div class="mb-2">
+              <strong style="margin-left: -50px;">Engraving Detail</strong> <br /> 
+              <strong style="margin-left: -40px;">Text:-  </strong><span style="font-family: ${font === "Lucida Calligraphy W01" ? font : ""};">${engravingText}</span>
+          </div>`;
+        }
+
+
+
+        return `${title}  ${gemstoneTitle}${diamondDetails}${engraving}`;
+
+      case "price":
+        let priceVariant = product.productVariant
+          ? `<div>$${product.productVariant.totalPrice}</div>`
+          : "";
+        let gemstonePrice = "";
+        let diamondPrice = "";
+        let engravingPrice = "";
+
+        if (product.productVariant && product.diamond) {
+          diamondPrice = `<div>($${product.diamond.price || 0})</div>`;
+        } else if (product.productVariant && product.gemstone) {
+          gemstonePrice = `<div>($${product.gemstone.price || 0})</div>`;
+        } else if (product.diamond) {
+          diamondPrice = `<div>${product.diamond.price || 0}</div>`;
+        } else if (product.gemstone) {
+          gemstonePrice = `<div>${product.gemstone.price || 0}</div>`;
+        }
+
+        if (!isEmpty(product?.engraving)) {
+          engravingPrice += `<div style="margin-top: 8px;">$${+product?.engraving?.price}</div>`
+        }
+
+        return `<div style="line-height: 2; position: absolute; top: 5px;">${priceVariant}${gemstonePrice}${diamondPrice}${engravingPrice}</div>`;
 
       case "total_price":
         let totalPrice = 0;
@@ -518,7 +529,7 @@ const FindOneOrderDetail = () => {
                   >
                     <TableHead>
                       <TableRow>
-                      <TableCell
+                        <TableCell
                           style={{
                             paddingLeft: "20px",
                             paddingTop: "11px",
@@ -597,16 +608,16 @@ const FindOneOrderDetail = () => {
                             <TableRow key={index} className={classes.tableRow}>
                               <TableCell
                                 className={`${classes.noUnderline}  product-th-tag inline-height-1`}
-                                dangerouslySetInnerHTML={{__html: generateProductField(product, "type")}}
+                                dangerouslySetInnerHTML={{ __html: generateProductField(product, "type") }}
                               >
                               </TableCell>
                               <TableCell
                                 className={`${classes.noUnderline}  product-th-tag inline-height-1`}
-                                dangerouslySetInnerHTML={{__html: generateProductField(product, "title")}}
+                                dangerouslySetInnerHTML={{ __html: generateProductField(product, "title") }}
                               >
                               </TableCell>
 
-                              <TableCell className={`${classes.noUnderline} inline-height-1 position-relative`} dangerouslySetInnerHTML={{__html: generateProductField(product, "price")}}>
+                              <TableCell className={`${classes.noUnderline} inline-height-1 position-relative`} dangerouslySetInnerHTML={{ __html: generateProductField(product, "price") }}>
                               </TableCell>
                               <TableCell className={`${classes.noUnderline} inline-height-1`}>
                                 {product.quantity}
@@ -614,13 +625,13 @@ const FindOneOrderDetail = () => {
                               <TableCell className={`${classes.noUnderline} inline-height-1`}>
                                 {product.orderStatus}
                               </TableCell>
-                              <TableCell className={`${classes.noUnderline} inline-height-1`} dangerouslySetInnerHTML={{__html: generateProductField(product, "total_price")}}>
+                              <TableCell className={`${classes.noUnderline} inline-height-1`} dangerouslySetInnerHTML={{ __html: generateProductField(product, "total_price") }}>
                               </TableCell>
                               <TableCell className="main-icon-details-button thead-second-width-action-35">
                                 <IconButton
                                   onClick={(e) => getProductDetail(product.id)}
                                 >
-                                  <Icon color="error">remove_red_eye</Icon>
+                                  <Icon color="primary">remove_red_eye</Icon>
                                 </IconButton>
                               </TableCell>
                             </TableRow>
