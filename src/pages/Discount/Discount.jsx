@@ -9,7 +9,7 @@ import { API } from "../../services";
 import { apiConfig, appConfig } from "../../config";
 import DiscountDetails from "./DiscountDetails";
 import { pageRoutes } from "../../constants/routesList";
-
+import _ from "lodash";
 const Discount = () => {
   const [open, setOpen] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
