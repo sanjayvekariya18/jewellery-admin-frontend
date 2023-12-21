@@ -1,6 +1,5 @@
 import {
   Badge,
-  Button,
   Card,
   Drawer,
   Icon,
@@ -79,11 +78,11 @@ const CardLeftContent = styled('div')(({ theme }) => ({
   }
 }));
 
-const Heading = styled('span')(({ theme }) => ({
-  fontWeight: '500',
-  marginLeft: '16px',
-  color: theme.palette.text.secondary
-}));
+// const Heading = styled('span')(({ theme }) => ({
+//   fontWeight: '500',
+//   marginLeft: '16px',
+//   color: theme.palette.text.secondary
+// }));
 
 const NotificationBar = ({ container }) => {
   const { settings } = useSettings();
@@ -111,14 +110,14 @@ const NotificationBar = ({ container }) => {
   const textColor = palette.text.primary;
 
   const getNotification = (prevPageNo = prevPage, is_next_list_empty = isNextListEmpty) => {
-    if (prevPageNo != page && false == is_next_list_empty) {
+    if (prevPageNo != page && false === is_next_list_empty) {
       prevPage = page;
       API.get(`${apiConfig.notifications}?page=${page}&rowsPerPage=${formState.limit}`)
         .then((res) => {
           let nextListEmpty = (isEmpty(res.rows) || formState.limit > res.rows.length) ? true : false;
           setIsNextListEmpty(nextListEmpty);
           setTotalNotification(res.count);
-          if (page == 0) {
+          if (page === 0) {
             setNotificationsArray(res.rows);
           } else {
             setNotificationsArray(prev => ([...prev, ...res.rows]))
@@ -198,7 +197,7 @@ const NotificationBar = ({ container }) => {
   function loaderValidator() {
     if (false === isNextListEmpty) {
       return (<img src='../../../../assets/loading.gif' className='mx-auto' height={30} width={30} />)
-    } else if (notificationsArray == "") {
+    } else if (notificationsArray === "") {
       return ('No Data Found')
     }
     else {

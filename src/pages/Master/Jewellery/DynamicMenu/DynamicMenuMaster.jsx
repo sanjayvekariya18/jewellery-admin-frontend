@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { API, HELPER } from "../../../../services";
 import { apiConfig } from "../../../../config";
-import _ from "lodash";
 import { Breadcrumb, Container } from "../../../../components";
 import { Box, Button } from "@mui/material";
 import ThemeSwitch from "../../../../components/UI/ThemeSwitch";
@@ -9,10 +8,9 @@ import LinkUpModal from "./LinkUpModal";
 
 const DynamicMenuMaster = () => {
   const [menus, setMenus] = useState([]);
-  const [loading, setLoading] = useState();
+  // const [loading, setLoading] = useState();
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [open, setOpen] = useState(false);
-  const [linkModal, setLinkModal] = useState(false)
   const [selectedMenuItemId, setSelectedMenuItemId] = useState(null);
 
 
@@ -50,7 +48,7 @@ const DynamicMenuMaster = () => {
     API.put(apiConfig.visibility_menu.replace(":id", Id))
     .then((res) => {
       HELPER.toaster.success(res.message);
-      setLoading(false);
+      // setLoading(false);
       loadMenus();
     })
     .catch(() => { })
@@ -111,7 +109,6 @@ const DynamicMenuMaster = () => {
       {open &&
         (<LinkUpModal
           open={open}
-          setModal={setLinkModal}
           // toggle={linkToggle}
           togglePopup={() => {
             togglePopup();

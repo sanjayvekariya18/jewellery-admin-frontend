@@ -13,8 +13,7 @@ import { API, HELPER } from "../../../../services";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
-import { apiConfig, appConfig } from "./../../../../config";
-import _ from "lodash";
+import { apiConfig } from "./../../../../config";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
@@ -44,22 +43,12 @@ const LabMaster = () => {
   // paginate code
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
-    let clearStates = {
-      ...appConfig.default_pagination_state,
-    };
+    
 
-    let filter = {
-      page: state.page,
-      rowsPerPage: state.rowsPerPage,
-    };
+   
 
-    let newFilterState = { ...appConfig.default_pagination_state };
+  
 
-    if (clear) {
-      filter = _.merge(filter, clearStates);
-    } else if (isNewFilter) {
-      filter = _.merge(filter, newFilterState);
-    }
     setLoading(true);
     // ----------Get Lab Api------------
     API.get(apiConfig.lab)
@@ -69,8 +58,7 @@ const LabMaster = () => {
           ...state,
           total_items: res.count,
           data: res,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
+          
           loader: false,
         });
       })
@@ -88,8 +76,7 @@ const LabMaster = () => {
         }
         setState({
           ...state,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
+         
           loader: false,
         });
       });

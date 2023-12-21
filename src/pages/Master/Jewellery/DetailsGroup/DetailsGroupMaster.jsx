@@ -15,7 +15,6 @@ import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "./../../../../config";
-import _ from "lodash";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
@@ -52,22 +51,10 @@ const DetailsGroupMaster = () => {
       ...appConfig.default_pagination_state,
     };
 
-    let filter = {
-      page: state.page,
-      searchTxt: state.searchTxt,
-      isActive: state.isActive,
-      rowsPerPage: state.rowsPerPage,
-      order: state.order,
-      orderBy: state.orderby,
-    };
+ 
+   
 
-    let newFilterState = { ...appConfig.default_pagination_state };
-
-    if (clear) {
-      filter = _.merge(filter, clearStates);
-    } else if (isNewFilter) {
-      filter = _.merge(filter, newFilterState);
-    }
+   
 
     // ----------Get Product Details Group Api------------
     setLoading(true);
@@ -78,8 +65,7 @@ const DetailsGroupMaster = () => {
           ...state,
           total_items: res.count,
           data: res,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
+         
           loader: false,
         });
       })
@@ -87,8 +73,7 @@ const DetailsGroupMaster = () => {
         setLoading(false);
         setState({
           ...state,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
+    
           loader: false,
         });
       });

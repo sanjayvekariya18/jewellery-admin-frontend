@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Box, CircularProgress, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
-import { apiConfig, appConfig } from "../../../../config";
+import { apiConfig, } from "../../../../config";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import Textarea from "../../../../components/UI/Textarea";
 import ReactSelect from "../../../../components/UI/ReactSelect";

@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
-import { Box, Button, Icon, IconButton, Typography, Checkbox } from "@mui/material";
+import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import { API, HELPER } from "../../../../services";
-import { Breadcrumb, StyledAddButton, Container } from "../../../../components";
+import { Breadcrumb, Container } from "../../../../components";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
 import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
-import { apiConfig, appConfig } from "../../../../config";
+import { apiConfig } from "../../../../config";
 import BannerMasterDetail from "./BannerMasterDetail";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
@@ -171,7 +171,7 @@ const BannerViewMaster = ({ open, togglePopup2, userData }) => {
                     </span>,
                     <span>{item.button_txt}</span>,
                     <span>
-                        {item.is_clickable == true ? (
+                        {item.is_clickable === true ? (
                             <span className="badgeSuccess ">
                                 True
                             </span>
@@ -182,7 +182,7 @@ const BannerViewMaster = ({ open, togglePopup2, userData }) => {
                         )}
                     </span>,
                     <span>
-                        {item.show_button == true ? (
+                        {item.show_button === true ? (
                             <span className="badgeSuccess ">
                                 True
                             </span>

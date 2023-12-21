@@ -8,8 +8,6 @@ import error400cover from "../../assets/no-data-found-page.png";
 import {
   Box,
   Card,
-  Icon,
-  IconButton,
   styled,
   Select,
   MenuItem,
@@ -49,11 +47,11 @@ const ProductDashboard = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -80,7 +78,7 @@ const ProductDashboard = () => {
 
   useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage]);
+  }, [state.page, state.rowsPerPage, paginate]);
 
   const CardHeader = styled(Box)(() => ({
     display: "flex",

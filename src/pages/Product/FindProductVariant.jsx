@@ -5,7 +5,6 @@ import PaginationTable, {
 } from "../../components/UI/Pagination/PaginationTable";
 import { API, HELPER } from "../../services";
 import { apiConfig } from "../../config";
-import _ from "lodash";
 import { useParams } from "react-router-dom";
 import { Breadcrumb, Container } from "../../components";
 import { Box, IconButton, Icon } from "@mui/material";

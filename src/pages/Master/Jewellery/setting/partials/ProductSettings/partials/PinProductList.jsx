@@ -4,7 +4,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import { Divider } from '@mui/material';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { makeStyles } from '@material-ui/core/styles';

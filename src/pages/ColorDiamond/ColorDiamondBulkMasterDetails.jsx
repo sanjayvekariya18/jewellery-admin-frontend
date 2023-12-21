@@ -16,7 +16,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [err, setErr] = useState();
   const [errorState, setErrorState] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
-  const [isLoader, setIsLoader] = useState(false);
+  // const [isLoader, setIsLoader] = useState(false);
 
   // ---------Validator --------------------------------
   const rules = {
@@ -27,7 +27,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   // ---------------handleSubmit-------------------------
   const handleSubmit = () => {
     if (selectedFile) {
-      setIsLoader(true);
+      // setIsLoader(true);
       const formData = new FormData();
       formData.append("colorDiamond", selectedFile);
 
@@ -59,7 +59,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
           }
         })
         .finally(() => {
-          setIsLoader(false);
+          // setIsLoader(false);
         });
     }
   };

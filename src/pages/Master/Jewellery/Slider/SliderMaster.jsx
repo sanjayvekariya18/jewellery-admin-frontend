@@ -1,11 +1,9 @@
 
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Swal from "sweetalert2";
 import { API, HELPER } from "../../../../services";
 import { apiConfig, appConfig } from "../../../../config";
 import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
-
-import _ from "lodash";
 import { Breadcrumb, Container } from "../../../../components";
 import { Box, Button, Icon, IconButton } from "@mui/material";
 import error400cover from "../../../../assets/no-data-found-page.png";
@@ -19,7 +17,6 @@ const SliderMaster = () => {
     const [openBanner, setOpenBanner] = useState(false);
     const [initialState, setInitialState] = useState("");
     const [slider, setSlider] = useState("");
-    const [viewBannerModal, setViewBannerModal] = useState(false);
 
     // const BannerToggle = useCallback(() => {
     //     setViewBannerModal(false)
@@ -128,7 +125,7 @@ const SliderMaster = () => {
                             onClick={() => {
                                 setInitialState(item.slider_id);
                                 setSlider(item.SliderBanners)
-                                setViewBannerModal(true)
+                                // setViewBannerModal(true)
                                 BannerToggle();
                             }}
                         >
@@ -220,7 +217,7 @@ const SliderMaster = () => {
                     {openBanner &&
                         (<BannerMaster
                             model={openBanner}
-                            setModal={setViewBannerModal}
+                            // setModal={setViewBannerModal}
                             sliderBanner={slider}
                             togglePopupBanner={() => {
                                 BannerToggle();

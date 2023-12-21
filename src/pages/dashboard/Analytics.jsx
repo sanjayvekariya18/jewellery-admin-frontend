@@ -1,32 +1,23 @@
 import {
   Box,
   Grid,
-  MenuItem,
   styled,
-  Select,
-  Card,
   IconButton,
   Icon,
 } from "@mui/material";
 import { Fragment } from "react";
 import StatCards from "./shared/StatCards";
 import { Breadcrumb } from "../../components";
-import GemstoneDashboard from "./DashboardGemstone";
-import DiamondDashboard from "./DashboardDiamond";
-import CategoryDashboard from "./DashboardCategory";
 import CustomerDashboard from "./DashboardCustomer";
-import RowCards from "./shared/RowCards";
 import TopSellingTable from "./shared/TopSellingTable";
 import RevenueChart from "./Charts/RevenueCharts";
-import DoughnutChart from "./shared/Doughnut";
-import { useTheme } from "@emotion/react";
+// import { useTheme } from "@emotion/react";
 import DeliveryStatusChart from "./Charts/DeliverdStatusCharts";
 import ProfitChart from "./Charts/ProfitCharts";
 import PendingShippment from "./PendingShipment";
 import DateRangePicker from "../../components/UI/DatePicker";
 import { useNavigate } from "react-router-dom";
 import { pageRoutes } from "../../constants/routesList";
-import ProductDashboard from "./DashboardProduct";
 
 const ContentBox = styled("div")(({ theme }) => ({
   margin: "30px",
@@ -48,7 +39,7 @@ const handleDateRangeChange = (selectedDates) => {
 };
 
 const Analytics = () => {
-  const { palette } = useTheme();
+  // const { palette } = useTheme();
   const navigate = useNavigate();
 
   const handleOnClick = () => {

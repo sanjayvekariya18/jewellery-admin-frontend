@@ -1,18 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, Tooltip } from "@mui/material";
-import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
+import { Box } from "@mui/material";
+import { Breadcrumb, Container } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API } from "../../../../services";
 import { apiConfig, appConfig } from "./../../../../config";
-import _ from "lodash";
-
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
 import PermissionMasterDetails from "./PermissionMasterDetails";
 
 const PermissionsMaster = () => {
-  const [openSearch, setOpenSearch] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
 
@@ -115,16 +112,6 @@ const PermissionsMaster = () => {
         orderBy={state.orderby}
         order={state.order}
       ></PaginationTable>
-      {/* <Tooltip title="Create" placement="top">
-        <StyledAddButton
-          color="secondary"
-          aria-label="Add"
-          className="button"
-          onClick={togglePopup}
-        >
-          <Icon>add</Icon>
-        </StyledAddButton>
-      </Tooltip> */}
       <PermissionMasterDetails
         open={open}
         togglePopup={() => {

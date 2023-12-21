@@ -1,16 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
-  DialogContent,
-  DialogTitle,
   Icon,
-  TextField,
   Typography,
   Tooltip,
 } from "@mui/material";
 import { Breadcrumb, Container } from "../../components";
 import { apiConfig, appConfig } from "../../config";
-import _ from "lodash";
 import Swal from "sweetalert2";
 import { toaster } from "../../../src/services/helper";
 import PaginationTable from "../../components/UI/Pagination/PaginationTable";
@@ -22,6 +18,7 @@ import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
 import LabMasterDetails from "../Master/Diamond/Lab/LabMasterDetails";
 import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import Textinput from "../../components/UI/TextInput";
+import _ from "lodash"
 
 const Customer = () => {
   const [open, setOpen] = useState(false);
@@ -169,7 +166,7 @@ const Customer = () => {
           <span>
             <IconButton onClick={() => handleToggle(item.id)}>
               <Icon
-                color={item.isActive == true ? "success" : "error"}
+                color={item.isActive === true ? "success" : "error"}
                 style={{ fontWeight: 700 }}
               >
                 power_settings_new

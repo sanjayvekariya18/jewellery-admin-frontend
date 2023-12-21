@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Icon,
   IconButton,
   Table,
@@ -19,24 +18,16 @@ import Textinput from "../../../../components/UI/TextInput";
 import Validators from "../../../../components/validations/Validator";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import { Select } from "react-select-virtualized"; // Import Select from react-select-virtualized
-import { useNavigate } from "react-router-dom";
 import { pageRoutes } from "../../../../constants/routesList";
 import { Breadcrumb, Container } from "../../../../components";
 import Textarea from "../../../../components/UI/Textarea";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ReactDragListView from "react-drag-listview";
 import CommonButton from "../../../../components/UI/CommonButton";
-const CategoryMasterDetails = ({
-  open,
-  togglePopup,
-  userData,
-  fullWidth,
-  maxWidth,
-}) => {
+const CategoryMasterDetails = () => {
   const [selected, setSelected] = useState([]);
   const [selected2, setSelected2] = useState([]);
   const [productDetails, setProductDetails] = useState([]);
-  const navigate = useNavigate();
   const [options, setOptions] = useState([]);
   const [select, setSelect] = useState([]);
   const [isLoader, setIsLoader] = useState(false);

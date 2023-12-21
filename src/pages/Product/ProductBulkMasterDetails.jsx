@@ -13,7 +13,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [errorState, setErrorState] = useState({});
   const [category, setCategory] = useState([]);
   const [store, setStore] = useState("");
-  const [isLoader, setIsLoader] = useState(false);
+  // const [isLoader, setIsLoader] = useState(false);
   const [formState, setFormState] = useState({ productData: null });
   const [selectedFile, setSelectedFile] = useState(null);
   const rules = {
@@ -64,7 +64,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   // Handle file upload submit
   const handleSubmit = () => {
     if (selectedFile) {
-      setIsLoader(true);
+      // setIsLoader(true);
       const formData = new FormData();
       formData.append("productData", selectedFile);
 
@@ -95,7 +95,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
           }
         })
         .finally(() => {
-          setIsLoader(false);
+          // setIsLoader(false);
         });
     }
   };

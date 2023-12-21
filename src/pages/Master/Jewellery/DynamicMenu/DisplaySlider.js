@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import PaginationTable, { usePaginationTable } from '../../../../components/UI/Pagination/PaginationTable';
 import { apiConfig, appConfig } from '../../../../config';
 import { API, HELPER } from '../../../../services';
-import _ from "lodash"
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { Box, Button, Radio } from "@mui/material";
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
@@ -79,11 +78,11 @@ function DisplaySlider({ open, setModal, togglePopup, callBack, linkUp }) {
             })
             .catch((err) => {
                 if (
-                    err.status == 400 ||
-                    err.status == 401 ||
-                    err.status == 409 ||
-                    err.status == 403 ||
-                    err.status == 422
+                    err.status === 400 ||
+                    err.status === 401 ||
+                    err.status === 409 ||
+                    err.status === 403 ||
+                    err.status === 422
                 ) {
                     HELPER.toaster.error(err.errors.message);
                 } else {

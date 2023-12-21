@@ -3,9 +3,6 @@ import {
   Box,
   Card,
   Icon,
-  IconButton,
-  MenuItem,
-  Select,
   styled,
   Table,
   TableBody,
@@ -15,7 +12,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { Paragraph } from "../../components/Typography";
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css"; // Import a Flatpickr theme
 import "flatpickr/dist/flatpickr.css"; // Import the default Flatpickr styles
 import DateRangePicker from "../../components/UI/DatePicker";

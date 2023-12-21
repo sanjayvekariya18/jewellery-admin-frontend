@@ -52,7 +52,7 @@ export default function ImgUploadBoxInput({
                   }),
                 }}
                 src={
-                  typeof value == "string" ? value : URL.createObjectURL(value)
+                  typeof value === "string" ? value : URL.createObjectURL(value)
                 }
                 onError={(e) => {
                   e.target.src = "/assets/camera.svg";

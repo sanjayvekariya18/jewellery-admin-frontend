@@ -10,7 +10,6 @@ import { API, HELPER } from "../../../services";
 import Swal from "sweetalert2";
 import Select from "react-select";
 import error400cover from "../../../assets/no-data-found-page.png";
-import _ from "lodash";
 import DiamondBulkMasterDetails from "./DiamondBulkMasterDetails";
 import SearchFilterDialog from "../../../components/UI/Dialog/SearchFilterDialog";
 import DiamondMasterDetails from "./DiamondMasterDetails";

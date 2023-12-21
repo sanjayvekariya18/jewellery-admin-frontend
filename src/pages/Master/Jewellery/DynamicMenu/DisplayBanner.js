@@ -1,6 +1,5 @@
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import _ from 'lodash'
+import React, {  useEffect, useMemo, useState } from 'react'
 import { apiConfig } from '../../../../config';
 import { Box, Button, Radio, Typography } from "@mui/material";
 import { API, HELPER } from '../../../../services';
@@ -12,15 +11,10 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 const DisplayBanner = ({ open, setModal, togglePopup, callBack, linkUp }) => {
 
     const [selectedRowId, setSelectedRowId] = useState(null);
-
-    const [initialState, setInitialState] = useState("");
-    const [videoModal, setVideoModal] = useState(false);
     const [addressText, setAddressText] = useState("");
     const [textModal, setTextModal] = useState(false);
 
     const handleButtonClick = (item) => {
-        setInitialState(item);
-        setVideoModal(true);
     };
 
     const COLUMNS = [
@@ -86,11 +80,11 @@ const DisplayBanner = ({ open, setModal, togglePopup, callBack, linkUp }) => {
             })
             .catch((err) => {
                 if (
-                    err.status == 400 ||
-                    err.status == 401 ||
-                    err.status == 409 ||
-                    err.status == 403 ||
-                    err.status == 422
+                    err.status === 400 ||
+                    err.status === 401 ||
+                    err.status === 409 ||
+                    err.status === 403 ||
+                    err.status === 422
                 ) {
                     HELPER.toaster.error(err.errors.message);
                 } else {
@@ -121,7 +115,7 @@ const DisplayBanner = ({ open, setModal, togglePopup, callBack, linkUp }) => {
                                 type="button"
                                 className="btn btn-primary "
                                 onClick={() => {
-                                    setVideoModal(true);
+                                    // setVideoModal(true);
                                     handleButtonClick(item);
                                 }}
                             >

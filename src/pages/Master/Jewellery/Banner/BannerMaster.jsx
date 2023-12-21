@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button, Typography, Checkbox } from "@mui/material";
 import { API, HELPER } from "../../../../services";
 import error400cover from "../../../../assets/no-data-found-page.png";
@@ -128,7 +128,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                     </span>,
                     <span>{item.button_txt}</span>,
                     <span>
-                        {item.is_clickable == true ? (
+                        {item.is_clickable === true ? (
                             <span className="badgeSuccess ">
                                 True
                             </span>
@@ -139,7 +139,7 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
                         )}
                     </span>,
                     <span>
-                        {item.show_button == true ? (
+                        {item.show_button === true ? (
                             <span className="badgeSuccess ">
                                 True
                             </span>
@@ -185,10 +185,10 @@ const BannerMaster = ({ open, togglePopup2, userData, sliderBanner }) => {
             })
             .catch((err) => {
                 if (
-                    err.status == 400 ||
-                    err.status == 401 ||
-                    err.status == 409 ||
-                    err.status == 403
+                    err.status === 400 ||
+                    err.status === 401 ||
+                    err.status === 409 ||
+                    err.status === 403
                 ) {
                     HELPER.toaster.error(err.errors.message);
                 } else {

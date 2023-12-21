@@ -6,7 +6,6 @@ import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "./../../../../config";
-import _ from "lodash";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { toaster } from "../../../../services/helper";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";

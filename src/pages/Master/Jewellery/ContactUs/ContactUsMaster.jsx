@@ -91,10 +91,10 @@ const ContactUsMaster = () => {
             })
             .catch((err) => {
                 if (
-                    err.status == 400 ||
-                    err.status == 401 ||
-                    err.status == 409 ||
-                    err.status == 403
+                    err.status === 400 ||
+                    err.status === 401 ||
+                    err.status === 409 ||
+                    err.status === 403
                 ) {
                     HELPER.toaster.error(err.errors.message);
                 } else {
@@ -179,7 +179,7 @@ const ContactUsMaster = () => {
     // selectAllCheckbox all select box
     const selectAllCheckbox = (
         <div className="checkBox">
-            {is_read == false ? (
+            {is_read === false ? (
                 <Checkbox
                     checked={selectedCheckboxes.length === state.data.length}
                     onChange={handleSelectAll}
@@ -198,7 +198,7 @@ const ContactUsMaster = () => {
                 item: item,
                 columns: [
                     <div className="checkBox">
-                        {is_read == false && (
+                        {is_read === false && (
                             <CustomCheckbox
                                 id={`checkbox_${item.contact_id}`}
                                 checked={selectedCheckboxes.some(

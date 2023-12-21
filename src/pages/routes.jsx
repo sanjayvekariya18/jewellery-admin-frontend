@@ -51,9 +51,9 @@ const DetailsGroupMaster = Loadable(
 const DetailsMaster = Loadable(
   lazy(() => import("./Master/Jewellery/Details/DetailsMaster"))
 );
-const PermissionsMaster = Loadable(
-  lazy(() => import("./Master/User/Permissions/PermissionsMaster"))
-);
+// const PermissionsMaster = Loadable(
+//   lazy(() => import("./Master/User/Permissions/PermissionsMaster"))
+// );
 const UserMaster = Loadable(
   lazy(() => import("./Master/User/User/UserMaster"))
 );

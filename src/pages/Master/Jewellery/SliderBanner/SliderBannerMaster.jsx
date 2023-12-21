@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import ReactDragListView from "react-drag-listview";
-import _ from "lodash"
 import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "../../../../config";
 import error400cover from "../../../../assets/no-data-found-page.png"

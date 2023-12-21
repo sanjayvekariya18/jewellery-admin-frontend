@@ -3,11 +3,7 @@ import ReactApexChart from "react-apexcharts";
 import {
   Box,
   Card,
-  Icon,
-  IconButton,
   styled,
-  Select,
-  MenuItem,
 } from "@mui/material";
 
 const RevenueChart = () => {

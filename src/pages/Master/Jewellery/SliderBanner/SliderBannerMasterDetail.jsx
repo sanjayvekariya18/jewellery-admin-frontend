@@ -42,10 +42,10 @@ const SliderBannerMasterDetail = ({ modal, setModal, selectedCheckboxes, updateS
       })
       .catch((err) => {
         if (
-          err.status == 400 ||
-          err.status == 401 ||
-          err.status == 409 ||
-          err.status == 403
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
