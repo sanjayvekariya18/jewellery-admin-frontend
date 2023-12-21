@@ -119,14 +119,15 @@ const AttributesMasterDetails = ({
         label: row.name,
         value: row.id,
       }))
-      .catch(() => { })
+
       setOptions(optionsFromApi);
 
       setFormState((prevFormState) => ({
         ...prevFormState,
         options: optionsFromApi,
       }));
-    });
+    })
+    .catch(() => { })
   }, []);
 
   const handleLogSelectedOption = () => {
