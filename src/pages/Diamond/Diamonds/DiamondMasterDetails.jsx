@@ -60,9 +60,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
       .then((res) => {
         setShapMaster(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // ------------------- Shap options --------------------------------
@@ -78,9 +76,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
       .then((res) => {
         setLabMaster(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // -------------------Lab options --------------------------------

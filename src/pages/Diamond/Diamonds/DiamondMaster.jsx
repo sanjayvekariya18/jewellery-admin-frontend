@@ -190,9 +190,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setShapMaster(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // --------------------Shap Filter----------------------------
@@ -208,9 +206,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setLabMaster(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // ------------------ Lab Filter --------------------------------
@@ -355,9 +351,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setCarat(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   // ---------------Carat Filter----------------------
   const handleChangeCarat = (event, newValue) => {
@@ -371,9 +365,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setPrice(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // ---------------Price Filter----------------------
@@ -387,9 +379,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setDepth(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   const handleChangeDepth = (event, newValue) => {
     changeState("fromDepth", newValue[0]);
@@ -402,9 +392,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setTable(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   const handleChangeTable = (event, newValue) => {
     changeState("fromTable", newValue[0]);

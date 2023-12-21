@@ -202,9 +202,7 @@ const DetailsMaster = () => {
         setProductDetailsGroupId(res);
         paginate();
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   let _sortOptions = productDetailsGroupId.map((option) => ({
