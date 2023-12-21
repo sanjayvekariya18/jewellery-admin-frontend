@@ -37,9 +37,7 @@ const ColorDiamondMaster = () => {
       .then((res) => {
         setPrice(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   // ---------------Price Filter----------------------
   const handleChangePrice = (event, newValue) => {
@@ -52,9 +50,7 @@ const ColorDiamondMaster = () => {
       .then((res) => {
         setCarat(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   // ---------------Carat Filter----------------------
   const handleChangeCarat = (event, newValue) => {
@@ -68,9 +64,7 @@ const ColorDiamondMaster = () => {
       .then((res) => {
         setIntensity(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   const _intensityOptions = intensity.map((item) => ({
     label: item,
@@ -83,9 +77,7 @@ const ColorDiamondMaster = () => {
       .then((res) => {
         setColor(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   const _colorOptions = color.map((item) => ({
     label: item,
@@ -223,9 +215,7 @@ const ColorDiamondMaster = () => {
       .then((res) => {
         setShapMaster(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // --------------------Shap Filter----------------------------

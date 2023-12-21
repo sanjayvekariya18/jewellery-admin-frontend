@@ -174,9 +174,7 @@ const BlogMaster = () => {
         setBlogCategoryData(res);
         paginate();
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   const rows = useMemo(() => {

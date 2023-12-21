@@ -113,9 +113,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
       .then((res) => {
         setShapMaster(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // -------------------Shap options --------------------------------

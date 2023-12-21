@@ -56,36 +56,28 @@ const StatCards = () => {
       .then((res) => {
         setTotalCustomer(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   useEffect(() => {
     API.get(apiConfig.dashboardProduct)
       .then((res) => {
         setTotalProduct(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   useEffect(() => {
     API.get(apiConfig.dashboardCategory)
       .then((res) => {
         setTotalCategory(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   useEffect(() => {
     API.get(apiConfig.dashboardOrder)
       .then((res) => {
         setTotalOrder(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
   // useEffect(() => {
   //   API.get(apiConfig.diamonds, {

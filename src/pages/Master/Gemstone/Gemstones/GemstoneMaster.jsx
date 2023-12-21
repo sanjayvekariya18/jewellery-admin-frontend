@@ -139,9 +139,7 @@ const GemstoneMaster = () => {
       .then((res) => {
         setShapMaster(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // ------------Shap List--------------------------------
@@ -195,9 +193,7 @@ const GemstoneMaster = () => {
       .then((res) => {
         setPrice(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // --------------- Price Filter ----------------------

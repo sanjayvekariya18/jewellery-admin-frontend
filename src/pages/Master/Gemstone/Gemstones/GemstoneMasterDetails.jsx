@@ -51,9 +51,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
       .then((res) => {
         setShapMaster(res);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // ------------------------Shape Options --------------------------------

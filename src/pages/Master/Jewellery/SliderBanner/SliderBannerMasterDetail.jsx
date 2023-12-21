@@ -66,9 +66,7 @@ const SliderBannerMasterDetail = ({ modal, setModal, selectedCheckboxes, updateS
       .then((res) => {
         setSliderData(res.rows);
       })
-      .catch((err) => {
-        HELPER.toaster.error(err)
-      });
+      .catch(() => { });
   }, []);
 
   // onChangeSlider function
