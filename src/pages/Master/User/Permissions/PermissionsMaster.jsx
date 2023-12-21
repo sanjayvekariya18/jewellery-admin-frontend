@@ -4,6 +4,7 @@ import { Breadcrumb, Container } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API } from "../../../../services";
 import { apiConfig, appConfig } from "./../../../../config";
+import _ from "lodash";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
