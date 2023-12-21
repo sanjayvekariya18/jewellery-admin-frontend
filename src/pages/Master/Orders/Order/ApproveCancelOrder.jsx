@@ -6,6 +6,7 @@ import { API, HELPER } from "../../../../services";
 import { apiConfig } from "../../../../config";
 import Textinput from "../../../../components/UI/TextInput";
 import ThemeRadioGroup from "../../../../components/UI/ThemeRadioGroup";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
   // initialValues 
@@ -17,6 +18,8 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
   };
 
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
+
   // validatation
   const rules = {
     ...(formState.status == 'approve' && {
@@ -39,6 +42,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
 
   // handleSubmit define
   const handleSubmit = (data) => {
+    setIsLoader(true);
     API.put(apiConfig.approveOrRejectCancelOrder, data)
       .then((res) => {
         HELPER.toaster.success(res.message);
@@ -47,6 +51,9 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
       })
       .catch((e) => {
         HELPER.toaster.error(e);
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
   return (
@@ -72,7 +79,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
               >
                 Cancel
               </Button>
-              <Button
+              {/* <Button
                 style={{ marginLeft: "20px" }}
                 type="submit"
                 variant="contained"
@@ -80,7 +87,17 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
-              </Button>
+              </Button> */}
+               <CommonButton
+                style={{ marginLeft: "20px" }}
+                loader={isLoader}
+                type="submit"
+                variant="contained"
+                color="success"
+                onClick={() => onSubmit(handleSubmit)}
+              >
+                Save
+              </CommonButton>
             </Box>
           }
         >
