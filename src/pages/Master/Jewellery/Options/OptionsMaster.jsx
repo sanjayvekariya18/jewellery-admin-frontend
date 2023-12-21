@@ -200,7 +200,8 @@ const OptionMaster = () => {
       cancelButtonText: "No",
       confirmButtonText: "Yes",
       reverseButtons: true,
-    }).then((result) => {
+    })
+    .then((result) => {
       if (result.isConfirmed) {
         API.destroy(`${apiConfig.options}/${id}`)
           .then((res) => {

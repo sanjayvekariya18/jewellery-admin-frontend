@@ -113,11 +113,13 @@ const AttributesMasterDetails = ({
   }, []);
 
   useEffect(() => {
-    API.get(apiConfig.optionsList, { is_public_url: true }).then((res) => {
+    API.get(apiConfig.optionsList, { is_public_url: true })
+    .then((res) => {
       const optionsFromApi = res.map((row) => ({
         label: row.name,
         value: row.id,
-      }));
+      }))
+      .catch(() => { })
       setOptions(optionsFromApi);
 
       setFormState((prevFormState) => ({

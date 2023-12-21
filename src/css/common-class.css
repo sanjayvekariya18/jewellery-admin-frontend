@@ -1167,6 +1167,7 @@ input::-webkit-inner-spin-button {
     0px 1px 8px 0px rgb(0 0 0 / 6%), 0px 1px 8px 0px rgb(0 0 0 / 6%) !important;
   margin-left: 20px;
   width: 330px !important;
+  cursor: pointer;
 }
 .video_url{
   height: 100%;

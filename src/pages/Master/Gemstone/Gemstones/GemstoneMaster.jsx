@@ -157,7 +157,8 @@ const GemstoneMaster = () => {
       HELPER.toaster.success(res.message);
       paginate();
       setLoading(false);
-    });
+    })
+    .catch(() => { })
   };
   //------------ Delete Gemstone --------------
 
@@ -270,7 +271,8 @@ const GemstoneMaster = () => {
     API.get(apiConfig.findGemstone.replace(":id", id)).then((res) => {
       setGemstoneData(res); // Update gemStoneData when fetching data
       setFindGemstone(true); // Open the modal when data is received
-    });
+    })
+    .catch(() => { })
   };
 
   // ----------Get Gemstone List Api-------------

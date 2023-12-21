@@ -101,7 +101,8 @@ export const sweetAlert = {
         if (result.isConfirmed) {
           resolve(result);
         }
-      });
+      })
+      .catch(() => { })
     });
   },
 

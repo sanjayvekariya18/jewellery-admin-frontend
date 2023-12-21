@@ -269,10 +269,12 @@ const ColorDiamondMaster = () => {
   };
 
   const getDataGemstone = (id) => {
-    API.get(apiConfig.findGemstone.replace(":id", id)).then((res) => {
+    API.get(apiConfig.findGemstone.replace(":id", id))
+    .then((res) => {
       setGemstoneData(res); // Update gemStoneData when fetching data
       setFindGemstone(true); // Open the modal when data is received
-    });
+    })
+    .catch(() => { })
   };
 
   // useEffect(() => {

@@ -68,6 +68,7 @@ export default function ProductSettings({ callback, homeProduct }) {
                     products: _products
                 })
             })
+            .catch(() => { })
     }
 
     const changeState = (obj) => {
@@ -114,6 +115,7 @@ export default function ProductSettings({ callback, homeProduct }) {
                 HELPER.toaster.success('Home Product updated!')
                 callback()
             })
+            .catch(() => { })
     };
 
     const onStopDrag = (event, _sku) => {

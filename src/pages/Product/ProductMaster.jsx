@@ -68,11 +68,13 @@ const ProductMaster = () => {
   // ---------------Visiblility Product Api----------------------
 
   const hiddenVisibleProduct = (Id) => {
-    API.put(apiConfig.visibility_product.replace(":id", Id)).then((res) => {
+    API.put(apiConfig.visibility_product.replace(":id", Id))
+    .then((res) => {
       HELPER.toaster.success(res.message);
       paginate();
       setLoading(false);
-    });
+    })
+    .catch(() => { })
   };
 
   // ------------------------------- Delete Category ---------------------------------
@@ -226,9 +228,11 @@ const ProductMaster = () => {
 
   // useEffect in SubCategory in Select
   useEffect(() => {
-    API.get(apiConfig.listSubCategory, { is_public_url: true }).then((res) => {
+    API.get(apiConfig.listSubCategory, { is_public_url: true })
+    .then((res) => {
       setSubCategory(res);
-    });
+    })
+    .catch(() => { })
   }, []);
   // --------------------SubCategory Filter----------------------------
   let _sortOptionsSubCategory = subCategory.map((option) => ({

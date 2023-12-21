@@ -81,9 +81,7 @@ const SettingMaster = () => {
                 getAllAppSettings();
                 HELPER.toaster.success('Setting updated successfully!');
             })
-            .catch((error) => {
-                // Handle API error
-            });
+            .catch(() => { })
     };
 
     const onChange = useCallback((e) => {
