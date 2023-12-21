@@ -18,53 +18,39 @@ const excelInstance = axios.create({
   responseType: "blob",
 });
 
+const requestMiddleware = (config) => {
+  let token = AuthStorage.getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  if (config?.data?.is_public_url || config?.params?.is_public_url) {
+    config.baseURL = apiConfig.publicURL;
+    delete config?.data?.is_public_url;
+    delete config?.params?.is_public_url;
+  }
+
+  if (config.method === "post" || config.method === "put") {
+    if (config.data instanceof FormData) {
+      config.headers["Content-Type"] = "multipart/form-data";
+    }
+  }
+
+  return config;
+}
+
 // Prepare request
 instance.interceptors.request.use(
-  (config) => {
-    let token = AuthStorage.getToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    if (config?.data?.is_public_url || config?.params?.is_public_url) {
-      config.baseURL = apiConfig.publicURL;
-      delete config?.data?.is_public_url;
-      delete config?.params?.is_public_url;
-    }
-
-    if (config.method === "post" || config.method === "put") {
-      if (config.data instanceof FormData) {
-        config.headers["Content-Type"] = "multipart/form-data";
-      }
-    }
-
-    return config;
-  },
+  requestMiddleware,
   (error) => Promise.reject(error)
 );
 
 // excel file instance
 excelInstance.interceptors.request.use(
-  (config) => {
-    let token = AuthStorage.getToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    if (config?.data?.is_public_url || config?.params?.is_public_url) {
-      config.baseURL = apiConfig.publicURL;
-      delete config?.data?.is_public_url;
-      delete config?.params?.is_public_url;
-    }
-
-    if (config.method === "post" || config.method === "put") {
-      if (config.data instanceof FormData) {
-        config.headers["Content-Type"] = "multipart/form-data";
-      }
-    }
-
-    return config;
-  },
+  requestMiddleware,
   (error) => Promise.reject(error)
 );
+
+
 // Prepare Response
 instance.interceptors.response.use(
   (response) => {
