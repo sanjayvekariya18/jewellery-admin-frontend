@@ -203,7 +203,7 @@ const BlogMaster = () => {
             )}
           </span>,
           <span>
-            {moment(item.publish_date).format(appConfig.dateDisplayFormat)}
+            {moment(item.publish_date).format(appConfig.dateAndTimeDisplayFormat)}
           </span>,
           <div>
             <IconButton onClick={(e) => handleEdit(item)}>
