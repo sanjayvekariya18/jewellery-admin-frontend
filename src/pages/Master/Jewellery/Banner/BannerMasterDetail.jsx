@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import Validators from '../../../../components/validations/Validator';
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
 import { Box, Button, InputLabel } from "@mui/material";
@@ -28,9 +28,9 @@ const BannerMasterDetail = ({ open, togglePopup, userData, callBack }) => {
 
   const rules = {
     button_txt:
-    formState.is_clickable == 1 ? "required" : formState.is_clickable == 0,
+    formState.is_clickable === 1 ? "required" : formState.is_clickable === 0,
   button_url:
-    formState.is_clickable == 1 ? "required" : formState.is_clickable == 0,
+    formState.is_clickable === 1 ? "required" : formState.is_clickable === 0,
     image_url: "required",
   };
 

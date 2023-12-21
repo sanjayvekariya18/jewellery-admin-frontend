@@ -11,7 +11,7 @@ export default function SimpleTable({ headerColumns, data, extraData = {} }) {
                     <TableRow>
                         {headerColumns.map((column, key) => (
                             <TableCell key={key} align={column.align || 'center'}  {...(column.width && { width: column.width })}>
-                                {typeof column.headerCell == 'string' ? column.headerCell : column.headerCell({ ...extraData })}
+                                {typeof column.headerCell === 'string' ? column.headerCell : column.headerCell({ ...extraData })}
                             </TableCell>
                         ))}
                     </TableRow>

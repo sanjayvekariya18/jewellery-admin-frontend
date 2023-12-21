@@ -4,7 +4,6 @@ import { API, HELPER } from '../../../../services';
 import { apiConfig } from '../../../../config';
 import Swal from "sweetalert2";
 import error400cover from "../../../../assets/no-data-found-page.png";
-import _ from "lodash";
 import { pageRoutes } from '../../../../constants/routesList';
 import {
     Box,

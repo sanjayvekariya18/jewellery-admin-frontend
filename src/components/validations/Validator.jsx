@@ -29,7 +29,7 @@ const _registerFileuploadValidations = () => {
   Validator.register(
     "mimes",
     function (value, requirement, attribute) {
-      if (typeof value == 'string') {
+      if (typeof value === 'string') {
         return true;
       }
 
@@ -46,7 +46,7 @@ const _registerFileuploadValidations = () => {
 Validator.register(
     "max_file_size",
     function (value, requirement, attribute) {
-        if (typeof value == 'string') {
+        if (typeof value === 'string') {
           return true;
         }
 
@@ -62,7 +62,7 @@ Validator.register(
   Validator.register(
     "min_file_size",
     function (value, requirement, attribute) {
-        if (typeof value == 'string') {
+        if (typeof value === 'string') {
           return true;
         }
 
@@ -122,7 +122,7 @@ export default function Validators({
   useEffect(() => {
     if (submitted) {
       let _isValidationFail = isValidationFail();
-      if (false == _isValidationFail) {
+      if (false === _isValidationFail) {
         setErrors({});
       }
     }
@@ -138,7 +138,7 @@ export default function Validators({
 
   const onSubmit = (callback) => {
     let isValidationFailed = isValidationFail();
-    if (false == isValidationFailed) {
+    if (false === isValidationFailed) {
       setErrors({});
       callback(_formData);
       setIsSubmitted(false);

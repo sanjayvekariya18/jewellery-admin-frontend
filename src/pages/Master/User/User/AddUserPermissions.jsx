@@ -56,7 +56,7 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
       return !_permission.create || !_permission.edit || !_permission.delete;
     });
 
-    let hasUserPermission = isAnyUnselected == true;
+    let hasUserPermission = isAnyUnselected === true;
 
     for (const permissions of _userPermissions[group]) {
       permissions.view = true;

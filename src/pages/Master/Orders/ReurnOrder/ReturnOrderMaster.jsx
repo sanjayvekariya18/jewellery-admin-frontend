@@ -15,7 +15,7 @@ import {
   Tooltip,
   Typography,
   Grid,
-  TableCell
+  
 } from "@mui/material";
 import ReactImageVideoLightbox from "react-image-video-lightbox";
 import 'lightbox.js-react/dist/index.css'
@@ -40,8 +40,6 @@ const ReturnOrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [refundAmountCancel, setRefundAmountCancel] = useState(null);
   const [openSearch, setOpenSearch] = useState(false);
-  const [photoIndex, setPhotoIndex] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [refundAmount, setRefundAmount] = useState(false);
   const [dropDown, setDropDown] = useState([]);

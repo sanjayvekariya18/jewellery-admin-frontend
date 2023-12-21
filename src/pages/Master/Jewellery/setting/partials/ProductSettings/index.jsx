@@ -134,7 +134,7 @@ export default function ProductSettings({ callback, homeProduct }) {
         const offsetY = y - (circle.offsetHeight / 2);
 
         const adminPointCoordinates = formState.admin_point_coordinates.map((item) => {
-            if (item?.sku == _sku) {
+            if (item?.sku === _sku) {
                 return {
                     ...item,
                     x: offsetX + 2,
@@ -160,9 +160,9 @@ export default function ProductSettings({ callback, homeProduct }) {
     }
 
     const onRemoveProduct = (_sku) => {
-        let _products = state?.products.filter(e => e.sku != _sku)
-        const adminPointCoordinates = formState.admin_point_coordinates.filter(e => e.sku != _sku)
-        const pointCoordinates = formState.point_coordinates.filter(e => e.sku != _sku)
+        let _products = state?.products.filter(e => e.sku !== _sku)
+        const adminPointCoordinates = formState.admin_point_coordinates.filter(e => e.sku !== _sku)
+        const pointCoordinates = formState.point_coordinates.filter(e => e.sku !== _sku)
 
         changeState({
             products: _products,
@@ -176,7 +176,7 @@ export default function ProductSettings({ callback, homeProduct }) {
 
     const findPointCoorBySku = (_sku) => {
         if (!HELPER.isEmpty(formState?.admin_point_coordinates)) {
-            const { sku, ...rest } = formState?.admin_point_coordinates.find(e => e.sku == _sku)
+            const { sku, ...rest } = formState?.admin_point_coordinates.find(e => e.sku === _sku)
             return rest;
         }
         return { x: 0, y: 0 }
@@ -355,7 +355,7 @@ export default function ProductSettings({ callback, homeProduct }) {
                                                 cursor: 'pointer'
                                             }}>
                                                 <TooltipButton title={tooltipContent(product)} placement="right" arrow={false}>
-                                                    <div className={`pulse-base pulse-circle ${state?.selectedProduct == product?.sku ? 'active-pin' : ''}`}>+</div>
+                                                    <div className={`pulse-base pulse-circle ${state?.selectedProduct === product?.sku ? 'active-pin' : ''}`}>+</div>
                                                 </TooltipButton>
                                             </div>
                                         </Draggable>
@@ -370,7 +370,7 @@ export default function ProductSettings({ callback, homeProduct }) {
                                             height: `${formState?.img_height}px`,
                                             width: `${formState?.img_width}px`,
                                         }}
-                                        src={typeof formState.main_img == 'string' ? HELPER.getImageUrl(formState.main_img) : URL.createObjectURL(formState.main_img)}
+                                        src={typeof formState.main_img === 'string' ? HELPER.getImageUrl(formState.main_img) : URL.createObjectURL(formState.main_img)}
                                         onError={(e) => {
                                             e.target.src = "/assets/camera.svg";
                                         }}
@@ -423,7 +423,7 @@ export default function ProductSettings({ callback, homeProduct }) {
     return (
         <>
             <form>
-                {step == 1
+                {step === 1
                     ? firstStepComponent()
                     : secondStepComponent()}
             </form>

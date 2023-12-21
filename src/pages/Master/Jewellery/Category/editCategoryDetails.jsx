@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Icon,
   IconButton,
   Table,

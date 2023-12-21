@@ -8,17 +8,17 @@ import "sweetalert2/dist/sweetalert2.css";
 import { apiConfig, appConfig } from "../config";
 
 export const isEmpty = (value) => {
-  if (value == null || value === "null") {
+  if (value === null || value === "null") {
     return true;
   }
-  if (typeof value == "object") {
+  if (typeof value === "object") {
     return Object.keys(value).length === 0;
   }
   return (
     (isArray(value) && value.length === 0) ||
     value === undefined ||
     value === "undefined" ||
-    value == null ||
+    value === null ||
     value === ""
   );
 };
@@ -101,8 +101,7 @@ export const sweetAlert = {
         if (result.isConfirmed) {
           resolve(result);
         }
-      })
-      .catch(() => { })
+      });
     });
   },
 
@@ -224,7 +223,7 @@ export const downloadFile = (url, data = {}) => {
       "Bearer " + sessionStorage.getItem(appConfig.localStorage.token)
     );
     xhr.onload = function (e) {
-      if (this.status == 200) {
+      if (this.status === 200) {
         var blob = new Blob([this.response], { type: "application/pdf" });
         var link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
@@ -240,5 +239,5 @@ export const downloadFile = (url, data = {}) => {
 };
 
 export function _bool(val) {
-  return (!isEmpty(val) && (val == true || val == "true")) ? true : false
+  return (!isEmpty(val) && (val === true || val === "true")) ? true : false
 };

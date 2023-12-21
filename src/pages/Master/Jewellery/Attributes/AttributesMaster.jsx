@@ -17,7 +17,6 @@ import { apiConfig, appConfig } from "./../../../../config";
 import _ from "lodash";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { toaster } from "../../../../services/helper";
-import Swal from "sweetalert2";
 import AttributesMasterDetails from "./AttributesMasterDetails";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 

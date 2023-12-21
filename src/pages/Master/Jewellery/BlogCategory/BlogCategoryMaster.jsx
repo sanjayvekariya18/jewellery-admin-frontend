@@ -14,7 +14,6 @@ import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
 import { apiConfig, appConfig } from "../../../../config";
-import _ from "lodash";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import Swal from "sweetalert2";
@@ -22,6 +21,7 @@ import { toaster } from "../../../../services/helper";
 import Textinput from "../../../../components/UI/TextInput";
 import BlogCategoryMasterDetails from "./BlogCategoryMasterDetails";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import _ from "lodash";
 
 const BlogCategoryMaster = () => {
   const [open, setOpen] = useState(false);
@@ -241,7 +241,7 @@ const BlogCategoryMaster = () => {
           name="searchTxt"
           label="Search Text"
           variant="outlined"
-          autoFocus={true} 
+          autoFocus={true}
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}

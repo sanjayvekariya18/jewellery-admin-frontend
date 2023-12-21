@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
@@ -29,16 +29,16 @@ import {
 const FindProductVariantMoreDetail = () => {
   const { productVariantId } = useParams();
   const [productData, setProductData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
 
   // paginate code
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, changeState} =
     usePaginationTable();
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     API.get(
       apiConfig.findProductVariant.replace(
         ":productVariantId",
@@ -46,7 +46,7 @@ const FindProductVariantMoreDetail = () => {
       )
     )
       .then((res) => {
-        setLoading(false);
+        // setLoading(false);
         setProductData(res);
         setState({
           ...state,
@@ -56,7 +56,7 @@ const FindProductVariantMoreDetail = () => {
         });
       })
       .catch((err) => {
-        setLoading(false);
+        // setLoading(false);
         if (
           err.status === 400 ||
           err.status === 401 ||

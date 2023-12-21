@@ -171,11 +171,11 @@ export default function PaginationTable({
                     {enableOrder && headerItem?.order ? (
                       <TableSortLabel
                         active={headerItem.field == orderBy}
-                        direction={order == "asc" ? "desc" : "asc"}
+                        direction={order === "asc" ? "desc" : "asc"}
                         onClick={() => {
                           changeOrder(
                             headerItem.field,
-                            order == "asc" ? "desc" : "asc"
+                            order === "asc" ? "desc" : "asc"
                           );
                         }}
                       >

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Icon, IconButton, TextField, Tooltip } from "@mui/material";
+import { Box, Icon, IconButton, Tooltip } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { apiEndPoint, pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
@@ -186,16 +186,16 @@ const UserMaster = () => {
     setOpen(true);
   };
 
-  const handleDelete = (id) => {
-    HELPER.sweetAlert.delete().then(() => {
-      API.destroy(`${url}/${id}`)
-        .then(() => {
-          HELPER.toaster.success("Record Deleted");
-          paginate();
-        })
-        .catch((e) => HELPER.toaster.error("Error " + e));
-    });
-  };
+  // const handleDelete = (id) => {
+  //   HELPER.sweetAlert.delete().then(() => {
+  //     API.destroy(`${url}/${id}`)
+  //       .then(() => {
+  //         HELPER.toaster.success("Record Deleted");
+  //         paginate();
+  //       })
+  //       .catch((e) => HELPER.toaster.error("Error " + e));
+  //   });
+  // };
 
   return (
     <Container>

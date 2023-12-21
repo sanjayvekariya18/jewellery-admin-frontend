@@ -26,7 +26,6 @@ import MaxHeightMenu from "../../../../components/MaxHeightMenu";
 import OrderMasterDetail from "./OrderMasterDetail";
 import { pageRoutes } from "../../../../constants/routesList";
 import ApproveCancelOrder from "./ApproveCancelOrder";
-import moment from "moment-timezone";
 import FindOneOrderDetail from "./FindOneOrderDetail";
 import { useNavigate } from "react-router-dom";
 import { downloadFile } from "../../../../services/helper";
@@ -312,7 +311,7 @@ const OrderMaster = () => {
       }
 
       optionsArray = optionsArray.filter(item => {
-        if (item?.isShow != undefined) {
+        if (item?.isShow !== undefined) {
           return item?.isShow;
         }
 

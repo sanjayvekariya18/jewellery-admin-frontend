@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useEffect, useMemo } from "react";
-import PaginationTable, {
+import {
   usePaginationTable,
 } from "../../components/UI/Pagination/DashboardPaginationTable";
 import { API, HELPER } from "../../services";

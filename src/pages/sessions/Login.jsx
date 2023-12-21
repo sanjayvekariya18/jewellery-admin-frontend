@@ -1,4 +1,4 @@
-import { Card, Grid, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import { Box, styled } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
@@ -11,12 +11,12 @@ const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
 
 const JustifyBox = styled(FlexBox)(() => ({ justifyContent: "center" }));
 
-const ContentBox = styled(Box)(() => ({
-  height: "100%",
-  padding: "32px",
-  position: "relative",
-  background: "rgba(0, 0, 0, 0.01)",
-}));
+// const ContentBox = styled(Box)(() => ({
+//   height: "100%",
+//   padding: "32px",
+//   position: "relative",
+//   background: "rgba(0, 0, 0, 0.01)",
+// }));
 
 const JWTRoot = styled(JustifyBox)(() => ({
   background: "#1A2038",

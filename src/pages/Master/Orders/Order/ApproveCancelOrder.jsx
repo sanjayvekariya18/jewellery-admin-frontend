@@ -22,10 +22,10 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
 
   // validatation
   const rules = {
-    ...(formState.status == 'approve' && {
+    ...(formState.status === 'approve' && {
       cancelAmount: "required",
     }),
-    ...(formState.status == 'reject' && {
+    ...(formState.status === 'reject' && {
       rejectReason: "required",
     }),
   };
@@ -124,7 +124,7 @@ const ApproveCancelOrder = ({ open, togglePopup, userData, callBack }) => {
             ]}
           />
 
-          {formState.status == 'approve'
+          {formState.status === 'approve'
             ? <Textinput
               size="small"
               type="number"

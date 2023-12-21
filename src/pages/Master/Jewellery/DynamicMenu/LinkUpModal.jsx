@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PaginationTable, {
     usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
 import Swal from "sweetalert2";
-import _ from 'lodash'
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { API, HELPER } from "../../../../services";
 import { apiConfig } from "../../../../config";
@@ -14,11 +13,10 @@ import DisplaySlider from "./DisplaySlider";
 
 const LinkUpModal = ({ open, togglePopup, menuId }) => {
     const [selectedLinkId, setSelectedLinkId] = useState("");
-    const [bannerModal, setBannerModal] = useState(false);
-    const [selectedUserData, setSelectedUserData] = useState(null);
+
     const [openBanner, setOpenBanner] = useState(false);
     const [openSlider, setOpenSlider] = useState(false);
-    const [sliderModal, setSliderModal] = useState(false);
+    // const [sliderModal, setSliderModal] = useState(false);
 
     // Banner Toggle model in a function
     // const bannerToggle = useCallback(() => {
@@ -26,22 +24,19 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
     // }, [bannerModal]);
 
     const togglePopupBanner = () => {
-        if (openBanner) {
-            setSelectedUserData(null);
-        }
         setOpenBanner(!openBanner);
     };
 
     const togglePopupSlider = () => {
         if (openSlider) {
-            setSelectedUserData(null);
+
         }
         setOpenSlider(!openSlider);
     };
     // Slider Toggle model in a function
-    const sliderToggle = useCallback(() => {
-        setSliderModal(false);
-    }, [sliderModal]);
+    // const sliderToggle = useCallback(() => {
+    //     setSliderModal(false);
+    // }, [sliderModal]);
 
     // Columns Define
     const COLUMNS = [
@@ -58,7 +53,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
 
         });
     // Paginate
-    const paginate = (clear = false, isNewFilter = false) => {
+    const paginate = () => {
         changeState("loader", true);
         // -------------Get Banner Api-----------------
         API.get(`${apiConfig.linkUp}?menuURL=${menuId}`)
@@ -106,7 +101,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
             }
         });
     };
-    
+
 
     useEffect(() => {
         paginate();
@@ -138,8 +133,9 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                                     <img
                                         className="table-image-display"
                                         src={HELPER.getImageUrl(item.Banner.image_url ? item.Banner.image_url : "")}
-                                        alt=""
+                                        alt="Banner"
                                     />
+
                                     {/* {item.Banner.image_url && item.Banner.image_url.toLowerCase().match(/\.(mp4|3gpp|3gpp2|3gp2|mov|ogg|wmv|qt|avi)$/) ? (
                                     <video className="table-media-display" controls height={90} width={90}>
                                         <source src={HELPER.getImageUrl(item.Banner.image_url)} type="video/mp4" />
@@ -211,7 +207,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                         selectedRows={state.selectedRows}
                         enableOrder={true}
                         isLoader={state.loader}
-                        emptyTableImg={<img src={error400cover} width="400px" />}
+                        emptyTableImg={<img src={error400cover} width="400px" alt="" />}
                         {...otherTableActionProps}
                         orderBy={state.orderby}
                         order={state.order}
@@ -222,7 +218,6 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
             {openBanner &&
                 (<DisplayBanner
                     open={openBanner}
-                    setModal={setBannerModal}
                     togglePopup={() => {
                         togglePopupBanner();
                         // paginate();
@@ -234,7 +229,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
             {openSlider &&
                 (<DisplaySlider
                     open={openSlider}
-                    setModal={setSliderModal}
+                    // setModal={setSliderModal}
                     togglePopup={() => {
                         togglePopupSlider();
                         // paginate();

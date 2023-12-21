@@ -33,7 +33,7 @@ const SettingMaster = () => {
     const [setting, setSetting] = useState({});
     const [settingMetal, setSettingMetal] = useState({});
     const [formState, setFormState] = useState({});
-    const [formStateMetal, setFormStateMetal] = useState({});
+    // const [formStateMetal, setFormStateMetal] = useState({});
 
     const handleChange = (event, batch) => {
         setValue(batch);
@@ -44,14 +44,14 @@ const SettingMaster = () => {
         }));
     };
 
-    const handleChangeMetal = (event, batch) => {
-        setValue(batch);
-        setFormOpen(true); // Open form when tab is clicked
+    // const handleChangeMetal = (event, batch) => {
+    //     setValue(batch);
+    //     setFormOpen(true); // Open form when tab is clicked
 
-        setFormStateMetal((prevState) => ({
-            ...settingMetal[batch]
-        }));
-    };
+    //     setFormStateMetal((prevState) => ({
+    //         ...settingMetal[batch]
+    //     }));
+    // };
 
     const uploadLogo = (callback) => {
         if (formState?.logo && typeof formState?.logo != 'string') {
@@ -91,13 +91,13 @@ const SettingMaster = () => {
             [name]: value,
         }));
     }, []);
-    const onChangeMetal = useCallback((e) => {
-        const { name, value } = e.target;
-        setFormStateMetal((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-    }, []);
+    // const onChangeMetal = useCallback((e) => {
+    //     const { name, value } = e.target;
+    //     setFormStateMetal((prevState) => ({
+    //         ...prevState,
+    //         [name]: value,
+    //     }));
+    // }, []);
 
     const getAllAppSettings = () => {
         API.get(apiConfig.appSettings)
@@ -115,9 +115,9 @@ const SettingMaster = () => {
         API.get(apiConfig.metalPrice)
             .then((res) => {
                 setSettingMetal(res);
-                setFormStateMetal((prevState) => ({
-                    ...res[value],
-                }));
+                // setFormStateMetal((prevState) => ({
+                //     ...res[value],
+                // }));
             })
             .catch((error) => {
                 console.error('Error fetching settings:', error);

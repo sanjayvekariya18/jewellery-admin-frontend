@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Box, Icon, IconButton } from "@mui/material";
 import { Breadcrumb, Container } from "../../components";
 import error400cover from "../../assets/no-data-found-page.png";
-import _ from "lodash";
 import PaginationTable, {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
