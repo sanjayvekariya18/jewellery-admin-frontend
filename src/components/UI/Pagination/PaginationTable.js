@@ -162,7 +162,7 @@ export default function PaginationTable({
   return (
     <React.Fragment>
       <Box width="100%" overflow="auto">
-        <StyledTable>
+        <StyledTable Table className="common-table-row">
           <TableHead>
             <TableRow>
               {selectAllCheckbox && (

@@ -47,39 +47,39 @@
   text-overflow: ellipsis;
 }
 
-.css-1bwc6vp-MuiTable-root {
+.common-table-row {
   border: 1px solid #80808036;
 }
 
-.css-1bwc6vp-MuiTable-root tbody tr td {
+.common-table-row tbody tr td {
   text-transform: none !important;
   padding-left: 0px !important;
   /* padding-top: 10px !important;
     padding-bottom: 10px !important; */
 }
 
-.css-1bwc6vp-MuiTable-root tbody tr td:first-child {
+.common-table-row tbody tr td:first-child {
   text-transform: none;
   padding-left: 20px !important;
   /* padding-top: 10px !important; */
   /* padding-bottom: 10px !important; */
 }
 
-.css-1bwc6vp-MuiTable-root thead tr th {
+.common-table-row thead tr th {
   text-transform: none !important;
   padding-left: 0px !important;
 }
 
-.css-1bwc6vp-MuiTable-root thead tr th:first-child {
+.common-table-row thead tr th:first-child {
   text-transform: none !important;
   padding-left: 20px !important;
 }
 
-.css-1bwc6vp-MuiTable-root thead tr {
+.common-table-row thead tr {
   background: #424d7924 !important;
 }
 
-.css-1bwc6vp-MuiTable-root thead tr th {
+.common-table-row thead tr th {
   font-weight: 500 !important;
   font-size: 14px !important;
 }
@@ -986,7 +986,7 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
   display: none;
 }
 
-.contact_checkBox .css-1bwc6vp-MuiTable-root thead tr th:first-child {
+.contact_checkBox .common-table-row thead tr th:first-child {
   text-transform: none !important;
   padding-left: 20px !important;
   width: 75px;
