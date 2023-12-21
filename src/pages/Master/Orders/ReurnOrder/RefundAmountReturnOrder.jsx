@@ -70,9 +70,9 @@ const RefundAmountReturnOrder = ({ open, togglePopup, userData, callBack }) => {
                             >
                                 Cancel
                             </Button>
-                                         <CommonButton
+                            <CommonButton
 
-                              loader={isLoader}
+                                loader={isLoader}
                                 style={{ marginLeft: "20px" }}
                                 type="submit"
                                 variant="contained"

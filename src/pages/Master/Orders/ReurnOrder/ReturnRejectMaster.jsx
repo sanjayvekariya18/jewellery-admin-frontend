@@ -5,6 +5,7 @@ import { Box, Button } from "@mui/material";
 import { API, HELPER } from '../../../../services';
 import { apiConfig } from '../../../../config';
 import Textinput from "../../../../components/UI/TextInput";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 const ReturnRejectMaster = ({ open, togglePopup, userData, callBack }) => {
     const initialValues = {
@@ -17,8 +18,11 @@ const ReturnRejectMaster = ({ open, togglePopup, userData, callBack }) => {
         rejectReason: "required",
     };
     const [formState, setFormState] = useState({ ...initialValues });
+    const [isLoader, setIsLoader] = useState(false);
+
     // handle submitting
     const handleSubmit = (data) => {
+        setIsLoader(true);
         API.put(apiConfig.changeReturnOrderStatus, data)
             .then((res) => {
                 HELPER.toaster.success(res.message);
@@ -27,6 +31,9 @@ const ReturnRejectMaster = ({ open, togglePopup, userData, callBack }) => {
             })
             .catch((e) => {
                 HELPER.toaster.error(e.errors.returnOrderProductIds[0]);
+            })
+            .finally(() => {
+                setIsLoader(false);
             });
     };
 
@@ -62,15 +69,16 @@ const ReturnRejectMaster = ({ open, togglePopup, userData, callBack }) => {
                             >
                                 Cancel
                             </Button>
-                            <Button
+                            <CommonButton
                                 style={{ marginLeft: "20px" }}
+                                loader={isLoader}
                                 type="submit"
                                 variant="contained"
                                 color="success"
                                 onClick={() => onSubmit(handleSubmit)}
                             >
                                 Save
-                            </Button>
+                            </CommonButton>
                         </Box>
                     }
                 >

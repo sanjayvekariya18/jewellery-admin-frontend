@@ -5,9 +5,10 @@ import { Box, Button } from "@mui/material";
 import { API, HELPER } from '../../../../services';
 import { apiConfig } from '../../../../config';
 import Textinput from '../../../../components/UI/TextInput';
+import CommonButton from "../../../../components/UI/CommonButton";
 
 
-const OrderMasterDetail = ({ open, togglePopup, userData ,callBack}) => {
+const OrderMasterDetail = ({ open, togglePopup, userData, callBack }) => {
   // initialValues define 
   const initialValues = {
     orderId: userData,
@@ -23,6 +24,8 @@ const OrderMasterDetail = ({ open, togglePopup, userData ,callBack}) => {
 
   // formstate define
   const [formState, setFormState] = useState({ ...initialValues });
+  const [isLoader, setIsLoader] = useState(false);
+
 
   // onChange define
   const onChange = useCallback((e) => {
@@ -36,6 +39,7 @@ const OrderMasterDetail = ({ open, togglePopup, userData ,callBack}) => {
 
   // andle submit of cancel Order
   const handleSubmit = (data) => {
+    setIsLoader(true);
     API.post(apiConfig.cancelOrder, data)
       .then((res) => {
         HELPER.toaster.success(res.message);
@@ -44,6 +48,9 @@ const OrderMasterDetail = ({ open, togglePopup, userData ,callBack}) => {
       })
       .catch((e) => {
         HELPER.toaster.error(e);
+      })
+      .finally(() => {
+        setIsLoader(false);
       });
   };
   return (
@@ -69,7 +76,7 @@ const OrderMasterDetail = ({ open, togglePopup, userData ,callBack}) => {
               >
                 Cancel
               </Button>
-              <Button
+              {/* <Button
                 style={{ marginLeft: "20px" }}
                 type="submit"
                 variant="contained"
@@ -77,7 +84,17 @@ const OrderMasterDetail = ({ open, togglePopup, userData ,callBack}) => {
                 onClick={() => onSubmit(handleSubmit)}
               >
                 Save
-              </Button>
+              </Button> */}
+               <CommonButton
+                style={{ marginLeft: "20px" }}
+                loader={isLoader}
+                type="submit"
+                variant="contained"
+                color="success"
+                onClick={() => onSubmit(handleSubmit)}
+              >
+                Save
+              </CommonButton>
             </Box>
           }
         >

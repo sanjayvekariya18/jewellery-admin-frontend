@@ -5,7 +5,7 @@ const appConfig = {
 
   dateDisplayFormat: "DD/MM/YYYY",
   dateDisplayEditFormat: "YYYY-MM-DD",
-  dateAndTimeDisplayFormat: "DD/MM/YYYY HH:mm A",
+  dateAndTimeDisplayFormat: "MMMM Do YYYY",
   defaultPerPage: 9999999,
   localStorage: {
     token: "jewellery-bearer-token", // for saving bearer token
