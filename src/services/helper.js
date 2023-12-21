@@ -24,21 +24,24 @@ export const isEmpty = (value) => {
 };
 
 export const toaster = {
-  error: (message, config = {}) =>
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      style: {
-        zIndex: 99999,
-      },
-      theme: "light",
-      ...config,
-    }),
+  error: (message, config = {}) => {
+    if (!isEmpty(message?.message) || !isEmpty(message)) {
+      toast.error(typeof message == 'object' ? message?.message : message, {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          zIndex: 99999,
+        },
+        theme: "light",
+        ...config,
+      })
+    }
+  },
   success: (message, config = {}) =>
     toast.success(message, {
       position: "top-center",

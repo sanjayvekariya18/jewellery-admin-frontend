@@ -18,6 +18,8 @@ const excelInstance = axios.create({
   responseType: "blob",
 });
 
+let numberOfAjaxCAllPending = 0;
+
 const requestMiddleware = (config) => {
   let token = AuthStorage.getToken();
   if (token) {
@@ -34,6 +36,8 @@ const requestMiddleware = (config) => {
       config.headers["Content-Type"] = "multipart/form-data";
     }
   }
+
+  numberOfAjaxCAllPending++;
 
   return config;
 }
@@ -57,16 +61,30 @@ instance.interceptors.response.use(
     if (
       response.config.url.includes(apiConfig.downloadInvoice)
   ) {
+      numberOfAjaxCAllPending--;
       return response.data;
   }
 
+    numberOfAjaxCAllPending--;
     return response.data.success ? response.data.data : response.error;
   },
   (error) => {
     // in the case, server is stoped
     if (error.code == "ERR_NETWORK") {
-      HELPER.toaster.error("Something went wrong, Please try after sometimes.");
+      if (numberOfAjaxCAllPending > 0) {
+        numberOfAjaxCAllPending = 0;
+        HELPER.toaster.error("Something went wrong, Please try after sometimes.");
+      }
+
+      numberOfAjaxCAllPending--;
+
+      return Promise.reject({
+        errors: { message: ["Somthing went wrong."] },
+        status: 501,
+      });
     }
+
+    numberOfAjaxCAllPending--;
 
     if (error.response.data.status === 401) {
       AuthStorage.deauthenticateUser();
