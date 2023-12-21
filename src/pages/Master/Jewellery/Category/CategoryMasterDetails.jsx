@@ -115,23 +115,27 @@ const CategoryMasterDetails = ({
   }, []);
 
   useEffect(() => {
-    API.get(apiConfig.attributesList, { is_public_url: true }).then((res) => {
+    API.get(apiConfig.attributesList, { is_public_url: true })
+    .then((res) => {
       const optionsFromApi = res.map((row) => ({
         label: row.name,
         value: row.id,
-      }));
+      }))
+      .catch(() => { })
       setOptions(optionsFromApi);
     });
   }, []);
 
   useEffect(() => {
-    API.get(apiConfig.productDetailsList, { is_public_url: true }).then(
+    API.get(apiConfig.productDetailsList, { is_public_url: true })
+    .then(
       (res) => {
         setProductDetails(res);
         const selectOptions = res.map((row) => ({
           label: row.detailName,
           value: row.id,
-        }));
+        }))
+        .catch(() => { })
         setSelect(selectOptions);
       }
     );

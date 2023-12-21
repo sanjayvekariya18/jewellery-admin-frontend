@@ -124,6 +124,7 @@ const NotificationBar = ({ container }) => {
             setNotificationsArray(prev => ([...prev, ...res.rows]))
           }
         })
+        .catch(() => { })
     };
 
   }
@@ -171,6 +172,7 @@ const NotificationBar = ({ container }) => {
       .then((res) => {
         setUnRead(res)
       })
+      .catch(() => { })
   }
 
   const readNotification = () => {

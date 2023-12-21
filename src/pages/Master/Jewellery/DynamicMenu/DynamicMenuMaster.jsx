@@ -47,11 +47,13 @@ const DynamicMenuMaster = () => {
 
   // hiddenVisibleMenu visibility on or off
   const hiddenVisibleMenu = (Id) => {
-    API.put(apiConfig.visibility_menu.replace(":id", Id)).then((res) => {
+    API.put(apiConfig.visibility_menu.replace(":id", Id))
+    .then((res) => {
       HELPER.toaster.success(res.message);
       setLoading(false);
       loadMenus();
-    });
+    })
+    .catch(() => { })
   };
 
   document.title = "Dynamic Menu Page List ";

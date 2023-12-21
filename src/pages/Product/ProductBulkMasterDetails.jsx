@@ -24,7 +24,8 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   useEffect(() => {
     API.get(apiConfig.category).then((res) => {
       setCategory(res.rows);
-    });
+    })
+    .catch(() => { })
   }, []);
 
   // Map category data for ReactSelect component

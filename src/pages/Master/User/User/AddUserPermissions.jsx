@@ -21,7 +21,8 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
   const [isLoader, setIsLoader] = useState(false);
 
   const getTableData = () => {
-    API.get(`${apiConfig.userPermission}/${userId}/not`).then((response) => {
+    API.get(`${apiConfig.userPermission}/${userId}/not`)
+    .then((response) => {
       const _userPermissions = {};
       for (const group of Object.keys(response)) {
         _userPermissions[group] = response[group].map((permissions) => {
@@ -36,7 +37,8 @@ const AddUserPermissions = ({ open, togglePopup, userId, refreshTable }) => {
         });
       }
       setUserPermissions(_userPermissions);
-    });
+    })
+    .catch(() => { })
   };
 
   useEffect(() => {

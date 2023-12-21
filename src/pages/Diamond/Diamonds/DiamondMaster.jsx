@@ -65,7 +65,8 @@ const DiamondMaster = () => {
     API.get(apiConfig.findDiamond.replace(":id", id)).then((res) => {
       setDiamondData(res); // Update gemStoneData when fetching data
       setFindDiamond(true); // Open the modal when data is received
-    });
+    })
+    .catch(() => { })
   };
 
   const {
@@ -226,7 +227,8 @@ const DiamondMaster = () => {
       HELPER.toaster.success(res.message);
       paginate();
       setLoading(false);
-    });
+    })
+    .catch(() => { })
   };
   //------------ Delete Diamond --------------
 
