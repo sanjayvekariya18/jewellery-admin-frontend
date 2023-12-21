@@ -167,9 +167,9 @@ const EditCategoryMasterDetails = () => {
         label: row.name,
         value: row.id,
       }))
-      .catch(() => { })
       setOptions(optionsFromApi);
-    });
+    })
+    .catch(() => { })
   };
   const productDetailsListData = () => {
     API.get(apiConfig.productDetailsList, { is_public_url: true })
@@ -180,10 +180,10 @@ const EditCategoryMasterDetails = () => {
           label: row.detailName,
           value: row.id,
         }))
-        .catch(() => { })
         setSelect(selectOptions);
       }
-    );
+      )
+      .catch(() => { })
   };
 
   useEffect(() => {
