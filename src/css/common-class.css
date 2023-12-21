@@ -204,9 +204,18 @@ input::-webkit-inner-spin-button {
 .thead-second-width-stone {
   width: 120px !important;
 }
-
+.thead-second-width-stone-order {
+  width: 150px !important;
+  text-align: center !important;
+}
+th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-sizeMedium.thead-second-width-stone.css-1o83ncy-MuiTableCell-root {
+  text-align: center;
+}
 .thead-second-width-stock-no {
   width: 200px !important;
+}
+.thead-second-width-stock-no-order-date {
+  width: 210px !important;
 }
 
 .thead-second-width-action {
@@ -261,9 +270,11 @@ input::-webkit-inner-spin-button {
 .thead-second-width-title {
   width: 400px !important;
 }
+
 .thead-second-width-title2 {
   width: 390px !important;
 }
+
 .thead-second-width-title-email {
   width: 300px !important;
 }
@@ -552,9 +563,9 @@ input::-webkit-inner-spin-button {
   padding-bottom: 5px !important;
 }
 
-.product-th-tag {
-  padding-left: 20px;
-}
+/* .product-th-tag {
+  padding-left: 10px;
+} */
 
 .main-icon-details-button button {
   padding: 0 !important;
@@ -903,6 +914,7 @@ input::-webkit-inner-spin-button {
   z-index: 9999 !important;
   /* Adjust the z-index value as needed */
 }
+
 .tab .css-tlb887-MuiButtonBase-root-MuiTab-root {
   align-items: start;
 }
@@ -1148,6 +1160,24 @@ input::-webkit-inner-spin-button {
   line-height: 0.9;
 }
 
+.product-title {
+  line-height: 18px;
+}
+
+.product-title .product-content {
+  margin-left: 10px;
+}
+td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnderline-22.product-th-tag.css-m6cb7p-MuiTableCell-root{
+  padding-left: 20px;
+}
+.product-span {
+  font-weight: 500;
+  margin-bottom: 10px
+}
+.order_price{
+  margin-left: 50px;
+}
+
 .position-relative {
   position: relative;
 }
@@ -1169,22 +1199,25 @@ input::-webkit-inner-spin-button {
   width: 330px !important;
   cursor: pointer;
 }
-.video_url{
+
+.video_url {
   height: 100%;
   width: 100%;
   cursor: pointer;
 }
-.image_return
-{
+
+.image_return {
   height: 250px;
   width: 250px;
   cursor: pointer;
 }
+
 /* styles.css */
 
-.MuiDialogTitle-root+.css-ypiqx9-MuiDialogContent-root{
- z-index: 1 ;
+.MuiDialogTitle-root+.css-ypiqx9-MuiDialogContent-root {
+  z-index: 1;
 }
-.css-in6a7o-MuiPaper-root-MuiDrawer-paper{
+
+.css-in6a7o-MuiPaper-root-MuiDrawer-paper {
   overflow-y: inherit;
 }

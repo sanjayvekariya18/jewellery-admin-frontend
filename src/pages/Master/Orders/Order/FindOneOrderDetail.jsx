@@ -507,9 +507,7 @@ const FindOneOrderDetail = () => {
                   >
                     Order Status :
                   </span>
-                  {` `}
-
-                  {orderDetail.order?.status}
+                  {orderDetail.order?.status ? orderDetail.order.status.charAt(0).toUpperCase() + orderDetail.order.status.slice(1) : ''}
                 </Typography>
 
                 <Typography
@@ -530,7 +528,7 @@ const FindOneOrderDetail = () => {
                   {` `}
 
                   {moment(orderDetail.order?.updatedAt).format(
-                    appConfig.dateDisplayFormat
+                    appConfig.dateAndTimeDisplayFormat
                   )}
                 </Typography>
               </div>
@@ -623,6 +621,7 @@ const FindOneOrderDetail = () => {
                           return (
                             <TableRow key={index} className={classes.tableRow}>
                               <TableCell
+                                style={{ paddingLeft: "20px" }}
                                 className={`${classes.noUnderline}  product-th-tag inline-height-1`}
                                 dangerouslySetInnerHTML={{ __html: generateProductField(product, "type") }}
                               >
@@ -639,7 +638,8 @@ const FindOneOrderDetail = () => {
                                 {product.quantity}
                               </TableCell>
                               <TableCell className={`${classes.noUnderline} inline-height-1`}>
-                                {product.orderStatus}
+                                {orderDetail.order?.status ? orderDetail.order.status.charAt(0).toUpperCase() + orderDetail.order.status.slice(1) : ''}
+
                               </TableCell>
                               <TableCell className={`${classes.noUnderline} inline-height-1`} dangerouslySetInnerHTML={{ __html: generateProductField(product, "total_price") }}>
                               </TableCell>
@@ -848,7 +848,10 @@ const FindOneOrderDetail = () => {
                               <TableCell
                                 className={`${classes.noUnderline} product-th-tag`}
                               >
-                                {moment(order.updatedAt).format("DD/MM/YYYY")}
+                                {/* {moment(order.updatedAt)} */}
+                                {moment(order?.updatedAt).format(
+                                  appConfig.dateAndTimeDisplayFormat
+                                )}
                               </TableCell>
                               <TableCell
                                 className={`${classes.noUnderline}  product-th-tag `}
@@ -879,19 +882,22 @@ const FindOneOrderDetail = () => {
             </div>
           </div>
         </>
-      )}
+      )
+      }
 
       {/*ProductDetail in model open  */}
-      {findProduct && (
-        <ProductDetail
-          open={findProduct}
-          togglePopup={() => {
-            toggleGemstonePopup();
-          }}
-          productDetailData={productDetail}
-        />
-      )}
-    </Container>
+      {
+        findProduct && (
+          <ProductDetail
+            open={findProduct}
+            togglePopup={() => {
+              toggleGemstonePopup();
+            }}
+            productDetailData={productDetail}
+          />
+        )
+      }
+    </Container >
   );
 };
 

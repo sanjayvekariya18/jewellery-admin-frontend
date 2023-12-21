@@ -351,9 +351,7 @@ const OrderMaster = () => {
           </span>,
 
           <span>
-            {moment(item.orderDate, "Do MMMM YYYY").format(
-              appConfig.dateDisplayFormat
-            )}
+            {item.orderDate}
           </span>,
           <div
             style={item.paymentStatus === "success" ? successLabel : failLabel}
