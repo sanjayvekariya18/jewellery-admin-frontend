@@ -266,7 +266,7 @@ const BlogCategoryMaster = () => {
           // paginate();
         }}
         userData={selectedUserData}
-        callBack={() => paginate(true)}
+        callBack={() => paginate()}
 
       />
 

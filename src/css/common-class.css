@@ -57,7 +57,10 @@
   /* padding-top: 10px !important;
     padding-bottom: 10px !important; */
 }
-
+.common-table-row tbody tr td button {
+  padding-left: 2px !important;
+    padding-right: 5px !important;
+}
 .common-table-row tbody tr td:first-child {
   text-transform: none;
   padding-left: 20px !important;
@@ -84,7 +87,7 @@
   font-size: 14px !important;
 }
 
-.css-1htgh2s-MuiTableCell-root {
+.common-table-row tbody tr td {
   padding: 4px 0px 4px 0px !important;
   text-align: start;
   vertical-align: middle;

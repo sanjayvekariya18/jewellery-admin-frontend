@@ -134,6 +134,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                                         className="table-image-display"
                                         src={HELPER.getImageUrl(item.Banner.image_url ? item.Banner.image_url : "")}
                                         alt="Banner"
+                                        style={{ cursor: "pointer" }}
                                     />
 
                                     {/* {item.Banner.image_url && item.Banner.image_url.toLowerCase().match(/\.(mp4|3gpp|3gpp2|3gp2|mov|ogg|wmv|qt|avi)$/) ? (
@@ -157,6 +158,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                         {
                             item.Slider === null ? (
                                 <Button
+                                    style={{ cursor: "pointer" }}
                                     variant="contained"
                                     onClick={() => { togglePopupSlider(); setSelectedLinkId(item); }}
                                 >

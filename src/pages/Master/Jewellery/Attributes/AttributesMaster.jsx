@@ -268,7 +268,7 @@ const AttributesMaster = () => {
           togglePopup();
           // paginate();
         }}
-        callBack={() => paginate(true)}
+        callBack={() => paginate()}
         userData={selectedUserData}
         editAttributeSingleData={editAttributeSingleData}
       />

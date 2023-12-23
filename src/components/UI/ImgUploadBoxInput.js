@@ -51,8 +51,15 @@ export default function ImgUploadBoxInput({
                     border: "2px solid #FF3D57",
                   }),
                 }}
+                // src={
+                //   typeof value == "string" ? value : URL.createObjectURL(value)
+                // }
                 src={
-                  typeof value === "string" ? value : URL.createObjectURL(value)
+                  typeof value === "string"
+                    ? value
+                    : value instanceof File
+                    ? URL.createObjectURL(value)
+                    : "/assets/camera.svg"
                 }
                 onError={(e) => {
                   e.target.src = "/assets/camera.svg";
@@ -72,3 +79,4 @@ export default function ImgUploadBoxInput({
     </>
   );
 }
+

@@ -6,7 +6,7 @@ import { API, HELPER } from '../../../../services';
 import error400cover from "../../../../assets/no-data-found-page.png";
 import { Box, Button, Radio } from "@mui/material";
 import ThemeDialog from '../../../../components/UI/Dialog/ThemeDialog';
-function DisplaySlider({ open, setModal, togglePopup, callBack, linkUp }) {
+function DisplaySlider({ open, togglePopup, callBack, linkUp }) {
 
     const [selectedRowId, setSelectedRowId] = useState(null);
 
@@ -72,7 +72,6 @@ function DisplaySlider({ open, setModal, togglePopup, callBack, linkUp }) {
         API.put(apiConfig.updateLinkUp.replace(":id", linkUp.page_slider_banner_id), data)
             .then((res) => {
                 callBack()
-                setModal(false)
                 HELPER.toaster.success("Slider Updated SuccessFully")
                 togglePopup();
             })

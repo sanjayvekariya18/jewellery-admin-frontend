@@ -247,7 +247,7 @@ const ShapeMaster = () => {
           togglePopup();
           // paginate();
         }}
-        callBack={() => paginate(true)}
+        callBack={() => paginate()}
         userData={selectedUserData}
       />
       {/* ThemeDialog details define */}

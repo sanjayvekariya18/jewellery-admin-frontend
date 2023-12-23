@@ -270,7 +270,7 @@ const OptionMaster = () => {
           togglePopup();
           // paginate();
         }}
-        callBack={() => paginate(true)}
+        callBack={() => paginate()}
         userData={selectedUserData}
       />
       {/* <OptionsAttributeTable
