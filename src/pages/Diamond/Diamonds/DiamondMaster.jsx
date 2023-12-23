@@ -965,7 +965,7 @@ const DiamondMaster = () => {
                 togglePopup();
                 // paginate();
               }}
-              callBack={() => paginate(true)}
+              callBack={() => paginate()}
               userData={selectedUserData}
             />
           )}

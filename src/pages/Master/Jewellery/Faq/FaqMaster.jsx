@@ -266,7 +266,7 @@ const FaqMaster = () => {
           // paginate();
         }}
         userData={selectedUserData}
-        callBack={() => paginate(true)}
+        callBack={() => paginate()}
       />
 
       {textModal && (

@@ -208,7 +208,7 @@ const LabMaster = () => {
           // paginate();
         }}
         userData={selectedUserData}
-        callBack={() => paginate(true)}
+        callBack={() => paginate()}
       />
 
       {/* ThemeDialog detail dispaly */}

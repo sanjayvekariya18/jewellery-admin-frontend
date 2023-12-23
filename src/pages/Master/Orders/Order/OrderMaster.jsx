@@ -690,7 +690,7 @@ const OrderMaster = () => {
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    orderStatus: "Dispatch",
+                    orderStatus: "dispatch",
                   })
                 }
                 style={

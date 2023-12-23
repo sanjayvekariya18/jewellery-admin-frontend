@@ -250,7 +250,7 @@ const DetailsGroupMaster = () => {
           // paginate();
         }}
         userData={selectedUserData}
-        callBack={() => paginate(true)}
+        callBack={() => paginate()}
       />
     </Container>
   );
