@@ -142,6 +142,7 @@ const SettingMaster = () => {
                     onChange={handleChange}
                 >
                     <Tab
+                    className='tab_master'
                         value={'general'}
                         label={
                             <div className={classes.horizontalIconLabel}>
@@ -151,6 +152,7 @@ const SettingMaster = () => {
                         }
                     />
                     <Tab
+                      className='tab_master'
                         value={'social_link'}
                         label={
                             <div className={classes.horizontalIconLabel}>
@@ -160,6 +162,7 @@ const SettingMaster = () => {
                         }
                     />
                     <Tab
+                      className='tab_master'
                         value={'fixed_price'}
                         label={
                             <div className={classes.horizontalIconLabel}>
@@ -169,6 +172,7 @@ const SettingMaster = () => {
                         }
                     />
                     <Tab
+                      className='tab_master'
                         value={'home_products'}
                         label={
                             <div className={classes.horizontalIconLabel}>
@@ -178,6 +182,7 @@ const SettingMaster = () => {
                         }
                     />
                     <Tab
+                      className='tab_master'
                         value={'metal_price'}
                         label={
                             <div className={classes.horizontalIconLabel}>
