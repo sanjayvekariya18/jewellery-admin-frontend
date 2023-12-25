@@ -2,8 +2,6 @@
 @import url(https://db.onlinewebfonts.com/c/efbd8f0d869bf61fbe0f139a1602cda8?family=Lucida+Calligraphy+W01);
 /*  Avenir Medium */
 
-
-
 /* --------------------- custome scrollbar css ---------------------- */
 /* width */
 
@@ -699,11 +697,13 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
   width: 65%;
   height: calc(100vh - 200px) !important;
   overflow-y: scroll;
+  margin: 31px 10px;
+
 }
 
 .right .product_description {
   text-align: left;
-  margin: 30px 20px;
+  /* margin: 30px 20px; */
 }
 
 .right::-webkit-scrollbar {

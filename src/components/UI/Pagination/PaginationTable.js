@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import StyledTable from "../../StyledTable";
 import { visuallyHidden } from "@mui/utils";
-import { CheckBox, Input, Tab } from "@mui/icons-material";
 
 const rowsPerPageOptions = [10, 25, 50, 100];
 
