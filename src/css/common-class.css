@@ -31,6 +31,10 @@
 
 /* --------------------------------------  commncomponent css --------------- */
 
+.action-center {
+  text-align: center !important;
+}
+
 .three-dot-text {
   display: block;
   width: 100px;
@@ -57,10 +61,12 @@
   /* padding-top: 10px !important;
     padding-bottom: 10px !important; */
 }
-.common-table-row tbody tr td button {
-  padding-left: 2px !important;
-    padding-right: 5px !important;
-}
+
+/* .common-table-row tbody tr td button {
+  padding-left: 0px !important;
+  padding-right: 5px !important;
+} */
+
 .common-table-row tbody tr td:first-child {
   text-transform: none;
   padding-left: 20px !important;
@@ -82,21 +88,25 @@
   background: #424d7924 !important;
 }
 
+
 .common-table-row thead tr th {
   font-weight: 500 !important;
   font-size: 14px !important;
+  text-align: start !important;
+  vertical-align: middle !important;
 }
 
 .common-table-row tbody tr td {
   padding: 4px 0px 4px 0px !important;
-  text-align: start;
-  vertical-align: middle;
+  text-align: start !important;
+  vertical-align: middle !important;
 }
 
+/* 
 .css-1o83ncy-MuiTableCell-root {
   text-align: start;
   vertical-align: middle;
-}
+} */
 
 .main-modal-fix-tabel thead {
   position: sticky;
@@ -207,16 +217,20 @@ input::-webkit-inner-spin-button {
 .thead-second-width-stone {
   width: 120px !important;
 }
+
 .thead-second-width-stone-order {
   width: 150px !important;
   text-align: center !important;
 }
+
 th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-sizeMedium.thead-second-width-stone.css-1o83ncy-MuiTableCell-root {
   text-align: center;
 }
+
 .thead-second-width-stock-no {
   width: 200px !important;
 }
+
 .thead-second-width-stock-no-order-date {
   width: 210px !important;
 }
@@ -316,10 +330,6 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
 
 .thead-second-width-title-subcategory {
   width: 500px !important;
-}
-
-.action-center {
-  text-align: center;
 }
 
 .common-thead-second-width-title-description {
@@ -1170,14 +1180,17 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
 .product-title .product-content {
   margin-left: 10px;
 }
-td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnderline-22.product-th-tag.css-m6cb7p-MuiTableCell-root{
+
+td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnderline-22.product-th-tag.css-m6cb7p-MuiTableCell-root {
   padding-left: 20px;
 }
+
 .product-span {
   font-weight: 500;
   margin-bottom: 10px
 }
-.order_price{
+
+.order_price {
   margin-left: 50px;
 }
 
