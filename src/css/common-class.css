@@ -62,8 +62,8 @@
 }
 
 .common-table-row tbody tr td button {
-  padding-left: 7px !important;
-  padding-right: 5px !important;
+  padding-left: 3px !important;
+  padding-right: 3px !important;
 }
 
 .common-table-row tbody tr td:first-child {
