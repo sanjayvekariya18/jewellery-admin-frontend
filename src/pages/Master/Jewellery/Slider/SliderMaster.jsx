@@ -26,10 +26,10 @@ const SliderMaster = () => {
 
     const BannerToggle = () => {
         if (openBanner) {
-          setSelectedUserData(null);
+            setSelectedUserData(null);
         }
         setOpenBanner(!openBanner);
-      };
+    };
     //-------------- Delete Silder------------
     const onClickDelete = (slider_id) => {
         Swal.fire({
@@ -122,6 +122,7 @@ const SliderMaster = () => {
                     <span>{item.name}</span>,
                     <div>
                         <Button
+                            style={{ width: "25%" }}
                             variant="contained"
                             className="btn btn-success"
                             onClick={() => {
@@ -224,7 +225,7 @@ const SliderMaster = () => {
                             togglePopupBanner={() => {
                                 BannerToggle();
                                 // paginate();
-                              }}
+                            }}
                             sliderId={initialState}
                             callBack={() => paginate(true)} />
                         )}

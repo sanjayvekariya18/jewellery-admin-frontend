@@ -118,6 +118,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                         {
                             item.Banner === null ? (
                                 <Button
+                                    style={{ width: "55%" }}
                                     variant="contained"
                                     onClick={() => {
                                         togglePopupBanner();
@@ -131,6 +132,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                             ) : (
                                 <div onClick={() => { togglePopupBanner(); setSelectedLinkId(item); }}>
                                     <img
+
                                         className="table-image-display"
                                         src={HELPER.getImageUrl(item.Banner.image_url ? item.Banner.image_url : "")}
                                         alt="Banner"
@@ -158,7 +160,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                         {
                             item.Slider === null ? (
                                 <Button
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: "pointer", width: "50%" }}
                                     variant="contained"
                                     onClick={() => { togglePopupSlider(); setSelectedLinkId(item); }}
                                 >

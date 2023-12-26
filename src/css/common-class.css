@@ -60,10 +60,10 @@
     padding-bottom: 10px !important; */
 }
 
-/* .common-table-row tbody tr td button {
-  padding-left: 0px !important;
+.common-table-row tbody tr td button {
+  padding-left: 2px !important;
   padding-right: 5px !important;
-} */
+}
 
 .common-table-row tbody tr td:first-child {
   text-transform: none;
