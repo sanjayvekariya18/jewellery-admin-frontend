@@ -264,8 +264,8 @@ const DiamondMaster = () => {
     { value: 5, label: "I" },
     { value: 6, label: "K" },
     { value: 7, label: "L" },
-    { value: 8, label: "MN" },
-    { value: 9, label: "OP" },
+    { value: 8, label: "M" },
+    { value: 9, label: "N" },
   ];
   const handleChangeColor = (event, newValue) => {
     changeState("fromColor", marksColor[newValue[0]].value);

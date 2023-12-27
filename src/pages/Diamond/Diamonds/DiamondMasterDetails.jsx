@@ -148,8 +148,8 @@ const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
     { label: "J", value: 6 },
     { label: "K", value: 7 },
     { label: "L", value: 8 },
-    { label: "MN", value: 9 },
-    { label: "OP", value: 10 },
+    { label: "M", value: 9 },
+    { label: "N", value: 10 },
   ];
   let _sortOptionsDcolor = sortOptionDcolor.map((option) => ({
     label: option.label,
