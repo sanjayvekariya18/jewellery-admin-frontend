@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
   usePaginationTable,
 } from "../../components/UI/Pagination/PaginationTable";
-import { useNavigate, useParams } from "react-router-dom/dist";
+import { Link, useNavigate, useParams } from "react-router-dom/dist";
 import ScaleIcon from '@mui/icons-material/Scale';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
-import { apiConfig } from "../../config";
+import { apiConfig, appConfig } from "../../config";
 import { API, HELPER } from "../../services";
 import { Breadcrumb } from "../../components";
 import { pageRoutes } from "../../constants/routesList";
@@ -21,8 +21,6 @@ import {
   TableHead,
   TableRow,
   Icon,
-
-
 } from '@mui/material';
 
 
@@ -34,7 +32,7 @@ const FindProductVariantMoreDetail = () => {
 
   // paginate code
 
-  const { state, setState, changeState} =
+  const { state, setState, changeState } =
     usePaginationTable();
 
   useEffect(() => {
@@ -91,6 +89,7 @@ const FindProductVariantMoreDetail = () => {
   const totalGemstonePrice = (
     productData?.VariantSkuGemstoneLinks?.reduce((acc, gemstone) => acc + gemstone?.ProductVariantGemstone?.price, 0) || 0
   );
+  console.log(process.env.REACT_APP_FRONTEND_CUSTOMER, "efrg");
 
   return (
     <>
@@ -148,6 +147,15 @@ const FindProductVariantMoreDetail = () => {
                     </div>
                   </div>
                   <h4 style={{ paddingTop: "15px" }}>Total Price :  <span style={{ color: "#808080" }}>${productData.totalPrice}</span></h4>
+                  <div style={{
+                    paddingTop: "10px", paddingTop: "10px",
+                    textDecoration: "underline",
+                    textUnderlineOffset: "5px",
+                    color: "#0036ff",
+                    fontWeight: "500"
+                  }} >
+                    <Link to={`${process.env.REACT_APP_FRONTEND_CUSTOMER}/jewellery-detail/${productData.id}`} target="_blank">View on customer page</Link>
+                  </div>
                 </div>
                 <Card style={{ width: "40%", marginTop: 30, marginRight: 17, height: "50%" }}>
                   <CardContent>
@@ -391,9 +399,9 @@ const FindProductVariantMoreDetail = () => {
                   item.fileType === "image" ?
                     <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
                     :
-                    
+
                     <video autoPlay loop muted className="video_url" controls>
-                      <source src={HELPER.getImageUrl(item.fileUrl)} type="video/mp4"/>
+                      <source src={HELPER.getImageUrl(item.fileUrl)} type="video/mp4" />
                     </video>
                   // <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
                 ))
