@@ -47,21 +47,21 @@ const appConfig = {
     10: "I3",
   },
   D_Cut: {
-    0: "SUPER_IDEAL",
+    0: "SUPER IDEAL",
     1: "IDEAL",
-    2: "VERY_GOOD",
+    2: "VERY GOOD",
     3: "GOOD",
     4: "FAIR",
     5: "POOR",
   },
   D_Symmetry: {
     0: "EXCELLENT",
-    1: "VERY_GOOD",
+    1: "VERY GOOD",
     2: "GOOD",
   },
   D_Polish: {
     0: "EXCELLENT",
-    1: "VERY_GOOD",
+    1: "VERY GOOD",
     2: "GOOD",
   },
 
@@ -89,7 +89,7 @@ const appConfig = {
     1: "FAINT",
     2: "MEDIUM",
     3: "STRONG",
-    4: "VERY_STRONG",
+    4: "VERY STRONG",
   },
 };
 

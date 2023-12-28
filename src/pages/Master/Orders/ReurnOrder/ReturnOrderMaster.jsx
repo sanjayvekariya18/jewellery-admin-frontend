@@ -472,7 +472,6 @@ const ReturnOrderMaster = () => {
 
   const rows = useMemo(() => {
     return state.data.map((item) => {
-      console.log(item.OrderProduct, "item.OrderProduct");
       return {
         item: item,
         columns: [

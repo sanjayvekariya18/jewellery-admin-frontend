@@ -89,7 +89,6 @@ const FindProductVariantMoreDetail = () => {
   const totalGemstonePrice = (
     productData?.VariantSkuGemstoneLinks?.reduce((acc, gemstone) => acc + gemstone?.ProductVariantGemstone?.price, 0) || 0
   );
-  console.log(process.env.REACT_APP_FRONTEND_CUSTOMER, "efrg");
 
   return (
     <>

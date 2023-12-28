@@ -205,9 +205,7 @@ const FindOneOrderDetail = () => {
         // }
         if (!isEmpty(product?.engraving)) {
           const font = product?.engraving?.font; // Use Avenir Medium as the default font
-          console.log(font, "font");
           const engravingText = product?.engraving?.text; // Use 'Default Text' if none is specified
-          console.log(engravingText, "engravingText");
 
           engraving += `<div class="mb-2">
               <strong style="margin-left: -50px;">Engraving Detail</strong> <br /> 
@@ -617,7 +615,6 @@ const FindOneOrderDetail = () => {
                     <TableBody>
                       {productData &&
                         productData.map((product, index) => {
-                          console.log(product, "product")
                           return (
                             <TableRow key={index} className={classes.tableRow}>
                               <TableCell
