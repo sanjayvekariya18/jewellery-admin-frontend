@@ -295,7 +295,7 @@ const DiamondMaster = () => {
   const marksCut = [
     { value: 0, label: "Super Ideal " },
     { value: 1, label: "Ideal" },
-    { value: 2, label: "Very_Good " },
+    { value: 2, label: "Very Good " },
     { value: 3, label: "Good" },
     { value: 4, label: "Fair" },
     { value: 5, label: "Poor" },

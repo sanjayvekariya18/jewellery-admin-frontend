@@ -84,7 +84,6 @@ const UserMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
       setFormState({ ...initialValues });
     }
   }, [open]);
-  console.log(userData?.profile,"serData.profile");
 
   return (
     <>

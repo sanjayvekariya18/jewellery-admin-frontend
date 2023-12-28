@@ -69,19 +69,19 @@ const ProductMaster = () => {
 
   const hiddenVisibleProduct = (Id) => {
     API.put(apiConfig.visibility_product.replace(":id", Id))
-    .then((res) => {
-      HELPER.toaster.success(res.message);
-      paginate();
-      setLoading(false);
-    })
-    .catch(() => { })
+      .then((res) => {
+        HELPER.toaster.success(res.message);
+        paginate();
+        setLoading(false);
+      })
+      .catch(() => { })
   };
 
   // ------------------------------- Delete Category ---------------------------------
-  const onClickDelete = (category_id) => {
+  const onClickDelete = (id) => {
     Swal.fire({
       title: "Are You Sure",
-      text: "Are you sure you want to remove this Category ?",
+      text: "Are you sure you want to remove this Product ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "green",
@@ -91,12 +91,12 @@ const ProductMaster = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        // API.destroy(`${apiConfig.category}/${category_id}`)
-        // .then((res) => {
-        toaster.error("Pending Backed Side");
-        // paginate();
-        // })
-        // .catch((e) => HELPER.toaster.error(e.errors.message))
+        API.destroy(`${apiConfig.product}/${id}`)
+          .then((res) => {
+            HELPER.toaster.success(res.message)
+            paginate();
+          })
+          .catch((e) => HELPER.toaster.error(e.errors.message))
       }
     });
   };
@@ -229,10 +229,10 @@ const ProductMaster = () => {
   // useEffect in SubCategory in Select
   useEffect(() => {
     API.get(apiConfig.listSubCategory, { is_public_url: true })
-    .then((res) => {
-      setSubCategory(res);
-    })
-    .catch(() => { })
+      .then((res) => {
+        setSubCategory(res);
+      })
+      .catch(() => { })
   }, []);
   // --------------------SubCategory Filter----------------------------
   let _sortOptionsSubCategory = subCategory.map((option) => ({
@@ -308,7 +308,7 @@ const ProductMaster = () => {
                 type="text"
                 name="searchTxt"
                 label="Search Text"
-                autoFocus={true} 
+                autoFocus={true}
                 variant="outlined"
                 value={state?.searchTxt}
                 onChange={(e) => changeState("searchTxt", e.target.value)}
