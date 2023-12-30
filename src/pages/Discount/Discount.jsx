@@ -19,8 +19,8 @@ const Discount = () => {
   const COLUMNS = [
     { title: "High Size" },
     { title: "Low Size" },
-    { title: "Discount" },
-    { title: "Lab Discount" },
+    { title: "Natural" },
+    { title: "Lab Grown" },
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 

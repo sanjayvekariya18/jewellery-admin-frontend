@@ -18,7 +18,7 @@ const SideNavMobile = styled('div')(({ theme }) => ({
   bottom: 0,
   right: 0,
   width: '100vw',
-  background: 'rgba(0, 0, 0, 0.54)',
+  // background: 'rgba(0, 0, 0, 0.54)',
   zIndex: -1,
   [theme.breakpoints.up('lg')]: { display: 'none' }
 }));

@@ -11,7 +11,6 @@ import { Breadcrumb } from "../../components";
 import CustomerDashboard from "./DashboardCustomer";
 import TopSellingTable from "./shared/TopSellingTable";
 import RevenueChart from "./Charts/RevenueCharts";
-// import { useTheme } from "@emotion/react";
 import DeliveryStatusChart from "./Charts/DeliverdStatusCharts";
 import ProfitChart from "./Charts/ProfitCharts";
 import PendingShippment from "./PendingShipment";
@@ -39,7 +38,6 @@ const handleDateRangeChange = (selectedDates) => {
 };
 
 const Analytics = () => {
-  // const { palette } = useTheme();
   const navigate = useNavigate();
 
   const handleOnClick = () => {
@@ -79,7 +77,6 @@ const Analytics = () => {
                 marginBottom: "25px",
               }}
             >
-              {/* <div style={{ width: "40%" }}> */}
               <div>
                 <Grid item lg={12} md={12} sm={12} xs={12}>
                   <div
@@ -104,92 +101,40 @@ const Analytics = () => {
                       </IconButton>
                     </div>
                   </div>
-                  {/* <RowCards /> */}
                   <CustomerDashboard />
                 </Grid>
               </div>
-              {/* <CustomerDashboard /> */}
-              {/* </div> */}
-              {/* <div style={{ width: "60%" }}> */}
               <TopSellingTable />
-              {/* <SalesChart /> */}
-              {/* </div> */}
-              {/* <ProductDashboard /> */}
+              
             </div>
 
             <div
+            className="chart-container"
               style={{
                 display: "grid",
                 gridTemplateColumns: "59% 39.50%",
                 gap: "20px",
               }}
             >
-              {/* <CategoryDashboard /> */}
               <RevenueChart />
               <DeliveryStatusChart />
-              {/* <Card sx={{ px: 3, py: 2, mb: 3 }}>
-                <Title style={{ marginRight: "30px" }}>Total Orders</Title>
-                <SubTitle>Last 30 days</SubTitle>
-
-                <DoughnutChart
-                  height="300px"
-                  color={[
-                    palette.primary.dark,
-                    palette.primary.main,
-                    palette.primary.light,
-                  ]}
-                />
-              </Card> */}
-
-              {/* <ColoredDiamondDashboard /> */}
-              {/* <CategoryDashboard /> */}
+            
             </div>
             <div>
               <PendingShippment />
             </div>
             <div
+            className="profit_chart"
               style={{
                 display: "grid",
                 gridTemplateColumns: "70%",
                 gap: "20px",
               }}
             >
-              {/* <Card sx={{ px: 3, py: 2, mb: 3 }}>
-                <Title style={{ marginRight: "30px" }}>
-                  Top Traffic Source
-                </Title>
-                <DoughnutChart
-                  height="300px"
-                  color={[
-                    palette.primary.dark,
-                    palette.primary.main,
-                    palette.primary.light,
-                  ]}
-                />
-              </Card> */}
+            
               <ProfitChart />
-              {/* <DiamondDashboard /> */}
             </div>
           </Grid>
-
-          {/* <Grid item lg={4} md={4} sm={12} xs={12}>
-            <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Traffic Sources</Title>
-              <SubTitle>Last 30 days</SubTitle>
-
-              <DoughnutChart
-                height="300px"
-                color={[
-                  palette.primary.dark,
-                  palette.primary.main,
-                  palette.primary.light,
-                ]}
-              />
-            </Card>
-
-            <UpgradeCard />
-            <Campaigns />
-          </Grid> */}
         </Grid>
       </ContentBox>
     </Fragment>

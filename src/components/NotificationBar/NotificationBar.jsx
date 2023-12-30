@@ -78,11 +78,6 @@ const CardLeftContent = styled('div')(({ theme }) => ({
   }
 }));
 
-// const Heading = styled('span')(({ theme }) => ({
-//   fontWeight: '500',
-//   marginLeft: '16px',
-//   color: theme.palette.text.secondary
-// }));
 
 const NotificationBar = ({ container }) => {
   const { settings } = useSettings();
@@ -100,7 +95,6 @@ const NotificationBar = ({ container }) => {
   const [formState, setFormState] = useState({
     limit: 10,
   });
-  // const { deleteNotification, clearNotifications, notifications } = useNotification();
 
   const handleDrawerToggle = () => {
     setPanelOpen(!panelOpen);
@@ -160,7 +154,6 @@ const NotificationBar = ({ container }) => {
   const clearNotifications = () => {
     API.post(apiConfig.clearAllNotification)
       .then((res) => {
-        // HELPER.toaster.success("Deleted Successfully");
         getNotification(-1, false);
       })
       .catch((e) => HELPER.toaster.error(e.errors.message))
@@ -231,7 +224,6 @@ const NotificationBar = ({ container }) => {
           }}
         >
           <Box sx={{ width: sideNavWidth }}>
-            {/* <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}> */}
             <Notification style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Icon color="primary">notifications</Icon>
