@@ -185,20 +185,20 @@ export default function ProductSettings({ callback, homeProduct }) {
     const tooltipContent = (product) => {
         return (
             <>
-            <div className="main-thumb">
-                <div className="item-thumb">
-                    <Link to={`${pageRoutes.productVariantId}/${product?.id}`}>
-                        <img src={product?.product_img} />
-                    </Link>
-                </div>
-                <div className="content-lookbook-bottom">
-                    <div className="item-title">
-                        <a href="#!">{product?.title}</a>
+                <div className="main-thumb">
+                    <div className="item-thumb">
+                        <Link to={`${pageRoutes.productVariantId}/${product?.id}`}>
+                            <img src={product?.product_img} />
+                        </Link>
                     </div>
-                    <div className="price">
-                        <div className="total_price ribbon ribbon-top-right"><span>${product?.totalPrice}</span></div>
+                    <div className="content-lookbook-bottom">
+                        <div className="item-title">
+                            <a href="#!">{product?.title}</a>
+                        </div>
+                        <div className="price">
+                            <div className="total_price ribbon ribbon-top-right"><span>${product?.totalPrice}</span></div>
+                        </div>
                     </div>
-                </div>
                 </div>
             </>
         )
@@ -338,7 +338,7 @@ export default function ProductSettings({ callback, homeProduct }) {
                         </div>
                         <br />
 
-                        <div style={{ display: 'flex', alignContent: 'center', gap: '10px' }}>
+                        <div style={{ display: 'flex', gap: '10px', flexWrap: "wrap" }}>
                             {formState?.main_img && (
                                 <div style={{ position: 'relative', width: `${formState?.img_width}px` }}>
                                     {!HELPER.isEmpty(state?.products) && state?.products.map((product, i) => (
@@ -379,8 +379,8 @@ export default function ProductSettings({ callback, homeProduct }) {
                             )}
 
                             <div>
-                                <PinProductList 
-                                    products={state?.products} 
+                                <PinProductList
+                                    products={state?.products}
                                     selectedProduct={state?.selectedProduct}
                                     onSelectProduct={(sku) => {
                                         changeState({

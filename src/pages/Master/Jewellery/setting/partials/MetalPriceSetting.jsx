@@ -50,7 +50,7 @@ const MetalPriceSetting = ({ metalProduct, callback }) => {
                     <>
                         <Textinput
                             size="medium"
-                            label="Gold Price (per 10 gms)"
+                            label="Gold Price (Per Oz)"
                             value={formState?.gold_price || ""}
                             onChange={onChange}
                             type="text"
@@ -61,7 +61,7 @@ const MetalPriceSetting = ({ metalProduct, callback }) => {
                         />
                         <Textinput
                             size="medium"
-                            label="Platinum Price (per 10 gms)"
+                            label="Platinum Price (Per Oz)"
                             value={formState?.platinum_price || ""}
                             onChange={onChange}
                             type="text"
@@ -73,7 +73,7 @@ const MetalPriceSetting = ({ metalProduct, callback }) => {
 
                         <Textinput
                             size="medium"
-                            label="Silver Price (per 10 gms)"
+                            label="Silver Price (Per Oz)"
                             value={formState?.silver_price || ""}
                             onChange={onChange}
                             type="text"
@@ -97,8 +97,6 @@ const MetalPriceSetting = ({ metalProduct, callback }) => {
                 );
             }}
         </Validators>
-
     );
 }
-
 export default MetalPriceSetting;

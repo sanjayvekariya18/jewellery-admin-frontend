@@ -24,10 +24,10 @@ const BannerViewMaster = ({ open, togglePopup2, userData }) => {
     // ----Pagination code------
     const COLUMNS = [
         // { title: "Select", classNameWidth: "thead-second-width-discount" },
-        { title: "Banner Title", classNameWidth: "thead-second-width-title-answer" },
-        { title: "Sub Title", classNameWidth: "thead-second-width-title-answer" },
-        { title: "Image", classNameWidth: "thead-second-width-discount-85" },
-        { title: "Button Text", classNameWidth: "thead-second-width-stone" },
+        { title: "Banner Title", classNameWidth: "thead-second-width-title-email" },
+        { title: "Sub Title", classNameWidth: "thead-second-width-title-res" },
+        { title: "Image", classNameWidth: "thead-second-width-stock-no thead-second-width-stock-no-res" },
+        { title: "Button Text", classNameWidth: "common-width-apply-th-new" },
         { title: "Is Clickable", classNameWidth: "thead-second-width-discount-85" },
         { title: "Show Button", classNameWidth: "thead-second-width-discount-85" },
         {

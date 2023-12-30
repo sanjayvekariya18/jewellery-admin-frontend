@@ -407,7 +407,7 @@ return (
               height: "39px",
             }}
           >
-            <IconButton onClick={handleLogSelectedOption}>
+            <IconButton onClick={handleLogSelectedOption} className="icon_button">
               <Icon color="success">save</Icon>
             </IconButton>
           </div>

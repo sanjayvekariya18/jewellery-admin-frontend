@@ -72,7 +72,7 @@ const OrderMaster = () => {
     { title: "Total Products", order: false, field: "totalProducts" },
     filter.orderStatus === "delivered"
       ? {
-        title: "Total Return Products",
+        title: "Total Return Product",
         order: false,
         field: "totalReturnProducts",
       }
@@ -94,9 +94,9 @@ const OrderMaster = () => {
         field: "",
         classNameWidth: "thead-width-zero",
       },
-    { title: "Order Date", order: false, field: "orderDate" },
+    { title: "Order Date", order: false, field: "orderDate", classNameWidth: "order-date" },
     { title: "Payment Status", order: false, field: "paymentStatus" },
-    { title: "Actions", order: false, field: "Actions" },
+    { title: "Actions", order: false, field: "Actions", classNameWidth: "order-actions" },
   ];
 
   // --------------------------------------- paginate  the results-------------------------
@@ -352,9 +352,7 @@ const OrderMaster = () => {
           <span>
             {item.orderDate}
           </span>,
-          <div
-            style={item.paymentStatus === "success" ? successLabel : failLabel}
-          >
+          <div className="success_res" style={item.paymentStatus === "success" ? successLabel : failLabel}>
             <span>{item.paymentStatus}</span>
           </div>,
           <span>
@@ -395,10 +393,12 @@ const OrderMaster = () => {
     backgroundColor: "#1976d2", // You can set your desired background color here
     color: "white",
     margin: "0px 5px", // Change the text color when the button is active
+    // padding: "5px 42px",
   };
 
   const buttonStyle = {
     margin: "0px 5px",
+    // padding: "5px 42px",
   };
 
   // -------------Change the Oreder status --------------------
@@ -664,6 +664,7 @@ const OrderMaster = () => {
                     ? activeButtonStyle
                     : buttonStyle
                 }
+                className="p_color"
               >
                 Processing
               </Button>
@@ -803,7 +804,7 @@ const OrderMaster = () => {
             <div style={{ margin: "30px  auto", textAlign: "center" }}>
               <img
                 src="../../../../../../assets/loading.gif"
-                alt=""
+                alt="img"
                 srcSet=""
                 height={28}
                 width={28}
@@ -820,7 +821,7 @@ const OrderMaster = () => {
               selectedRows={state.selectedRows}
               enableOrder={true}
               isLoader={state.loader}
-              emptyTableImg={<img src={error400cover} width="400px" />}
+              emptyTableImg={<img src={error400cover} width="400px" alt="errorImage" />}
               {...otherTableActionProps}
               orderBy={state.orderby}
               order={state.order}
@@ -833,7 +834,7 @@ const OrderMaster = () => {
                 marginTop: "50px",
               }}
             >
-              <img src={error400cover} width="420px" />
+              <img src={error400cover} width="420px" alt="errorImage" />
             </div>
           )}
         </Container>

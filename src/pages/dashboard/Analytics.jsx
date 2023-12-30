@@ -71,6 +71,7 @@ const Analytics = () => {
             <StatCards />
 
             <div
+            className="grid_top_customer"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",

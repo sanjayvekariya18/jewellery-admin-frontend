@@ -93,13 +93,14 @@ const PendingShippment = () => {
   }));
 
   return (
-    <Card elevation={3} sx={{ pt: "20px", mb: 3 }}>
+    <Card elevation={2} sx={{ pt: "20px", mb: 3 }}>
       <CardHeader>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Title>Pending Shipments</Title>
           <SubTitle>Summary of pending shipments of November 2023</SubTitle>
         </div>
         <div
+          className="Pending_shipments"
           style={{ display: "grid", gridTemplateColumns: "400px 300px 1fr" }}
         >
           <div>
