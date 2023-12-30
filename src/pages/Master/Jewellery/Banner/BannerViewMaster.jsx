@@ -25,9 +25,9 @@ const BannerViewMaster = ({ open, togglePopup2, userData }) => {
     const COLUMNS = [
         // { title: "Select", classNameWidth: "thead-second-width-discount" },
         { title: "Banner Title", classNameWidth: "thead-second-width-title-email" },
-        { title: "Sub Title", classNameWidth: "thead-second-width-title-res" },
+        { title: "Sub Title", classNameWidth: "thead-second-width-title" },
         { title: "Image", classNameWidth: "thead-second-width-stock-no thead-second-width-stock-no-res" },
-        { title: "Button Text", classNameWidth: "common-width-apply-th-new" },
+        { title: "Button Text", classNameWidth: "thead-second-width-stone_res common-width-apply-th-new" },
         { title: "Is Clickable", classNameWidth: "thead-second-width-discount-85" },
         { title: "Show Button", classNameWidth: "thead-second-width-discount-85" },
         {
@@ -149,7 +149,7 @@ const BannerViewMaster = ({ open, togglePopup2, userData }) => {
                         <span>{item.title}</span>
                     </div>,
                     <div
-                        className="common-thead-second-width-title"
+                        className="common-thead-second-width-title res-title"
                         style={{ fontWeight: "500", cursor: "pointer" }}
                         onClick={() => showAddressInDialog(item)}
                     >
@@ -169,7 +169,7 @@ const BannerViewMaster = ({ open, togglePopup2, userData }) => {
                             />
                         )}
                     </span>,
-                    <span>{item.button_txt}</span>,
+                    <span className="common-thead-second-width-title">{item.button_txt}</span>,
                     <span>
                         {item.is_clickable === true ? (
                             <span className="badgeSuccess ">

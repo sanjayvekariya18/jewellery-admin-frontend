@@ -305,7 +305,7 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
 
 @media (max-width:1440px) {
   .thead-second-width-stock-no-res {
-    width: 41px !important;
+    width: 100px !important;
   }
 }
 
@@ -358,21 +358,15 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
   width: 78px !important;
 }
 
-@media (max-width: 1440px) {
-  .thead-second-width-title-price-78_res {
-    width: 92px !important;
-  }
-}
+/* responsive css in size 1440 */
+
 
 .thead-second-width-stone_res {
   width: 215px !important;
 }
 
-@media (max-width: 1440px) {
-  .thead-second-width-stone_res {
-    width: 215px !important;
-  }
-}
+
+
 
 
 .thead-second-width-title-subcategory {
@@ -1266,53 +1260,6 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   cursor: pointer;
 }
 
-@media (max-width: 1440px) {
-  .pin_box {
-    margin-left: 0px !important;
-  }
-}
-
-@media (max-width: 1440px) {
-  .p_color {
-    padding: 5px 41px !important;
-  }
-}
-
-@media (max-width: 1440px) {
-  .success_res {
-    margin: 0px 20px !important;
-  }
-}
-
-/* @media (max-width: 1440px) {
-  .order-date {
-    width: 134px !important;
-  }
-} */
-@media (max-width: 1440px) {
-  .order-actions {
-    width: 64px !important;
-  }
-}
-
-
-@media (max-width: 1440px) {
-  .grid_top_customer {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 20px;
-    margin-bottom: 25px;
-  }
-}
-
-@media (max-width: 1440px) {
-  .Pending_shipments {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr !important;
-    gap: 20px;
-    margin-bottom: 25px;
-  }
-}
 
 .video_url {
   height: 100%;
@@ -1334,4 +1281,48 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 
 .css-in6a7o-MuiPaper-root-MuiDrawer-paper {
   overflow-y: inherit;
+}
+
+@media (max-width: 1440px) {
+  .res-title {
+    width: 80%;
+  }
+
+  .thead-second-width-title-price-78_res {
+    width: 92px !important;
+  }
+
+  .thead-second-width-stone_res {
+    width: 215px !important;
+  }
+
+  .pin_box {
+    margin-left: 0px !important;
+  }
+
+  .p_color {
+    padding: 5px 41px !important;
+  }
+
+  .success_res {
+    margin: 0px 20px !important;
+  }
+
+  .order-actions {
+    width: 64px !important;
+  }
+
+  .grid_top_customer {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+    margin-bottom: 25px;
+  }
+
+  .Pending_shipments {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 20px;
+    margin-bottom: 25px;
+  }
 }
