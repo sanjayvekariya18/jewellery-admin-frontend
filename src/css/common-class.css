@@ -1357,3 +1357,13 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
     gap: 20px,
   }
 }
+
+.css-c3xndr-MuiPaper-root-MuiDialog-paper {
+  overflow-y: inherit !important;
+  z-index: 1 !important;
+}
+
+.css-ypiqx9-MuiDialogContent-root {
+  overflow-y: inherit !important;
+
+}

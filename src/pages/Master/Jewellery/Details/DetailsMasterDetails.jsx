@@ -23,7 +23,7 @@ const DetailsMasterDetails = ({
   togglePopup,
   userData,
   productDetailsGroupId,
-  callBack
+  callBack,
 }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [isLoader, setIsLoader] = useState(false);
@@ -64,7 +64,7 @@ const DetailsMasterDetails = ({
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          HELPER.toaster.error(err)
+          HELPER.toaster.error(err);
         }
       })
       .finally(() => {

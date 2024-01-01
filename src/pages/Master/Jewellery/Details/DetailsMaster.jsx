@@ -120,7 +120,7 @@ const DetailsMaster = () => {
             toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch((e) => HELPER.toaster.error(e.errors.message))
+          .catch((e) => HELPER.toaster.error(e.errors.message));
       }
     });
   };
@@ -202,7 +202,7 @@ const DetailsMaster = () => {
         setProductDetailsGroupId(res);
         paginate();
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   let _sortOptions = productDetailsGroupId.map((option) => ({
@@ -274,7 +274,7 @@ const DetailsMaster = () => {
         }}
         loader={loading}
       >
-        <div style={{ height: "200px" }}>
+        <div>
           {/* <ReactSelect
             label={"Product Details Group Name"}
             placeholder="Select Product Details Group Name"
