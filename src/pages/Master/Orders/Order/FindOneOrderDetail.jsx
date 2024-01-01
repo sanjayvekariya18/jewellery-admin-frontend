@@ -154,6 +154,28 @@ const FindOneOrderDetail = () => {
 
 
   const generateProductField = (product, type) => {
+    const getOtherDetailsHtml = (otherDetails) => {
+			let _details = ''
+			const __prepare = (type) => {
+				switch (type) {
+					case 'neckleces_chain_width':
+            return `<div><strong style="margin-left: 10px;">Neckleces chain width:-  </strong><span>${otherDetails?.neckleces_chain_width}</span></div><br />`
+	
+					case 'ring_size':
+            return `<div><strong style="margin-left: 10px;">Ring size:-  </strong><span>${otherDetails?.ring_size}</span></div><br />`
+				
+					default:
+						break;
+				}
+			}
+
+			Object.entries(otherDetails).forEach(([key]) => {
+				_details += __prepare(key);
+			})
+
+			return _details;
+		}
+
     switch (type) {
       case "type":
         let type = ''
@@ -175,6 +197,7 @@ const FindOneOrderDetail = () => {
         let diamondDetails = "";
         let gemstoneTitle = "";
         let engraving = ""
+        let meta = "";
 
         if (product.productVariant && product.diamond) {
           diamondDetails = `<div class="mb-2"><b>Diamond</b> :- (${product.diamond.carat} Carat ${product.diamond.ShapeMaster
@@ -207,15 +230,21 @@ const FindOneOrderDetail = () => {
           const font = product?.engraving?.font; // Use Avenir Medium as the default font
           const engravingText = product?.engraving?.text; // Use 'Default Text' if none is specified
 
-          engraving += `<div class="mb-2">
+          engraving += `<div>
               <strong style="margin-left: -50px;">Engraving Detail</strong> <br /> 
               <strong style="margin-left: -40px;">Text:-  </strong><span style="font-family: ${font === "Lucida Calligraphy W01" ? font : ""};">${engravingText}</span>
           </div>`;
         }
 
+        if (!isEmpty(product?.meta)) {
 
+					meta += ` <div>
+					<strong style="margin-left: -140px">Other Details</strong>
+					${getOtherDetailsHtml(product?.meta)}
+				</div>`;
+				}
 
-        return `${title}  ${gemstoneTitle}${diamondDetails}${engraving}`;
+        return `${title}  ${gemstoneTitle}${diamondDetails}${engraving}${meta}`;
 
       // case "price":
       //   let priceVariant = product.productVariant
