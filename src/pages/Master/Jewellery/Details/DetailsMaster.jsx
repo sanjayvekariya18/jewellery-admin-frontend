@@ -274,7 +274,7 @@ const DetailsMaster = () => {
         }}
         loader={loading}
       >
-        <div style={{ height: "200px" }}>
+        <div style={{maxHeight:"200px"}}>
           {/* <ReactSelect
             label={"Product Details Group Name"}
             placeholder="Select Product Details Group Name"
@@ -300,6 +300,7 @@ const DetailsMaster = () => {
               const selectedId = selectedSort.target.value;
               changeState("detailsGroupId", selectedId);
             }}
+            className="product-details-select"
             name="choices-multi-default"
           />
         </div>

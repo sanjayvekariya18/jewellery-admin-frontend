@@ -11,6 +11,7 @@ const ReactSelect = ({
   name,
   optionHeight,
   error,
+  styles,
   isDisabled
 }) => {
   // Ensure options is an array of objects with 'value' and 'label' properties
@@ -54,6 +55,7 @@ const ReactSelect = ({
         name={name}
         optionHeight={optionHeight}
         invalid={error ? true : false}
+        styles={styles}
       />
       <ValidationMessages errors={error} label={label} />
     </div>
