@@ -15,7 +15,6 @@ import {
   Tooltip,
   Typography,
   Grid,
-  
 } from "@mui/material";
 import ReactImageVideoLightbox from "react-image-video-lightbox";
 import 'lightbox.js-react/dist/index.css'
@@ -505,7 +504,8 @@ const ReturnOrderMaster = () => {
             dangerouslySetInnerHTML={{ __html: generateProductField(item.OrderProduct, "title") }}
           >
           </div>,
-          <span className="order_price" dangerouslySetInnerHTML={{ __html: generateProductField(item.OrderProduct, 'price') }}>
+          // <span className="order_price" dangerouslySetInnerHTML={{ __html: generateProductField(item.OrderProduct, 'price') }}>
+          <span dangerouslySetInnerHTML={{ __html: generateProductField(item.OrderProduct, 'price') }}>
           </span>,
           <div style={{ width: "80px" }}>
             <Button

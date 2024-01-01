@@ -7,6 +7,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import Select from "react-select";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
 import { API, HELPER } from "../../../../services";
@@ -20,16 +21,22 @@ import { toaster } from "../../../../services/helper";
 import Swal from "sweetalert2";
 import SubcategoryMasterDetails from "./SubcategoryMasterDetails";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 
 const SubcategoryMaster = () => {
   const [open, setOpen] = useState(false);
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [textModal, setTextModal] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
+  const [loading, setLoading] = useState();
+  const [shapMaster, setShapMaster] = useState([]);
   const [addressText, setAddressText] = useState("");
   const textModaltoggle = () => {
     setTextModal(!textModal);
   };
-
+  const togglePopupSearch = () => {
+    setOpenSearch(!openSearch);
+  };
   /* Pagination code */
   const COLUMNS = [
     { title: "Name", classNameWidth: "thead-second-width-title" },
@@ -46,7 +53,7 @@ const SubcategoryMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, changeState, getInitialStates, ...otherTableActionProps } =
     usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -58,26 +65,32 @@ const SubcategoryMaster = () => {
     let filter = {
       page: state.page,
       rowsPerPage: state.rowsPerPage,
+      categoryIds: state.categoryIds,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
 
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.categoryIds;
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
+
 
     // ----------Get Blog Api------------
     API.get(apiConfig.subCategory, filter)
       .then((res) => {
         setState({
-          ...state,
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
         });
       })
       .catch((err) => {
@@ -203,7 +216,24 @@ const SubcategoryMaster = () => {
       }
     });
   };
+  // ------------------Get Shap API --------------------------------
 
+  useEffect(() => {
+    API.get(apiConfig.category, { is_public_url: true })
+      .then((res) => {
+        console.log(res, "res");
+        setShapMaster(res.rows);
+      })
+      .catch(() => { });
+  }, []);
+
+  // ------------Shap List--------------------------------
+  let _sortOptionsShap = shapMaster && shapMaster.map((option) => ({
+    label: option.name,
+    value: option.id,
+  }));
+
+  console.log(shapMaster, "shapMasters")
   return (
     <Container>
       <Box
@@ -216,6 +246,16 @@ const SubcategoryMaster = () => {
             { name: "Sub Category" },
           ]}
         />
+        <Tooltip title="Filter">
+          <IconButton
+            color="inherit"
+            className="button"
+            aria-label="Filter"
+            onClick={togglePopupSearch}
+          >
+            <Icon>filter_list</Icon>
+          </IconButton>
+        </Tooltip>
       </Box>
 
       <PaginationTable
@@ -233,6 +273,50 @@ const SubcategoryMaster = () => {
         orderBy={state.orderby}
         order={state.order}
       ></PaginationTable>
+      <SearchFilterDialog
+        isOpen={openSearch}
+        maxWidth="sm"
+        onClose={() => setOpenSearch(false)}
+        reset={() => paginate(true)}
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
+        loader={loading}
+      >
+        {/* <Textinput
+          size="small"
+          focused={true}
+          type="text"
+          name="searchTxt"
+          label="Search Text"
+          autoFocus={true} 
+          variant="outlined"
+          value={state?.searchTxt}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
+          sx={{ mb: 0, mt: 1, width: "100%" }}
+        /> */}
+        <div>
+          <Select
+            label="Select Category Name"
+            placeholder="Select Category Name"
+            options={_sortOptionsShap}
+            isMulti
+            value={_sortOptionsShap.filter(
+              (option) =>
+                state.categoryIds && state.categoryIds.includes(option.value)
+            )}
+            onChange={(selectedSort) => {
+              const selectedIds = selectedSort && selectedSort.map(
+                (option) => option.value
+              );
+              changeState("categoryIds", selectedIds);
+            }}
+            name="choices-multi-default"
+            id="shape"
+          />
+        </div>
+      </SearchFilterDialog>
       <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"

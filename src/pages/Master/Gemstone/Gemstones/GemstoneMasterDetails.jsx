@@ -37,12 +37,11 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
     gemstoneType: "required",
     origin: "required",
     shape: "required",
-    color: "required", 
+    color: "required",
     price: "required|numeric|min:1",
     mDepth: "numeric|min:0",
     mLength: "numeric|min:0|required",
     mWidth: "numeric|min:0|required",
-
   };
 
   // ------------------Get Shape API --------------------------------
@@ -69,7 +68,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
     formateFields.forEach((field) => {
       _data[field] = parseFloat(_data[field]);
     });
-
     const apiUrl =
       data.id === "" ? apiConfig.gemstone : `${apiConfig.gemstone}/${data.id}`;
 
@@ -90,10 +88,20 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
         ) {
           HELPER.toaster.error(err.errors.message);
         } else if (err.status === 422) {
-          if (err.errors.carat && err.errors.carat.length > 0) {
-            HELPER.toaster.error(err.errors.carat[0]);
+          // if (err.errors.carat && err.errors.carat.length > 0) {
+          //   HELPER.toaster.error(err.errors.carat[0]);
+          // } else {
+          //   console.log(err.errors,"dgrth");
+          //   HELPER.toaster.error(err.errors);
+          // }
+          if (err.errors) {
+            Object.keys(err.errors).forEach(key => {
+              if (err.errors[key] && err.errors[key].length > 0) {
+                HELPER.toaster.error(`${key}: ${err.errors[key][0]}`);
+              }
+            });
           } else {
-            HELPER.toaster.error("An error occurred with the carat field.");
+            HELPER.toaster.error(err.errors);
           }
         } else {
           HELPER.toaster.error(err)
@@ -116,21 +124,21 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   // ----------------- Gemstonetype Options ----------------
 
   const sortOptionsGemstoneType = [
-    { label: "Moissanite", value: "Moissanite" },
-    { label: "Sapphire", value: "Sapphire" },
-    { label: "Emerald", value: "Emerald" },
-    { label: "Aquamarine", value: "Aquamarine" },
-    { label: "Morganite", value: "Morganite" },
-    { label: "Alexandrite", value: "Alexandrite" },
-    { label: "Ruby", value: "Ruby" },
-    { label: "Tanzanite", value: "Tanzanite" },
-    { label: "Tourmaline", value: "Tourmaline" },
-    { label: "Amethyst", value: "Amethyst" },
-    { label: "Garnet", value: "Garnet" },
-    { label: "Spinel", value: "Spinel" },
-    { label: "Peridot", value: "Peridot" },
-    { label: "Citrine", value: "Citrine" },
-    { label: "Other", value: "Other" },
+    { label: "Moissanite", value: "MOISSANITE" },
+    { label: "Sapphire", value: "SAPPHIRE" },
+    { label: "Emerald", value: "EMERALD" },
+    { label: "Aquamarine", value: "AQUAMARINE" },
+    { label: "Morganite", value: "MORGANITE" },
+    { label: "Alexandrite", value: "ALEXANDRITE" },
+    { label: "Ruby", value: "RUBY" },
+    { label: "Tanzanite", value: "TANZANITE" },
+    { label: "Tourmaline", value: "TOURMALINE" },
+    { label: "Amethyst", value: "AMETHYST" },
+    { label: "Garnet", value: "GARNET" },
+    { label: "Spinel", value: "SPINEL" },
+    { label: "Peridot", value: "PERIDOT" },
+    { label: "Citrine", value: "CITRINE" },
+    { label: "Other", value: "OTHER" },
   ];
 
   let _sortOptionsGemstoneType = sortOptionsGemstoneType.map((option) => ({
@@ -151,16 +159,16 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
 
   // ------------------- Color Options ----------------
   const sortOptionsColor = [
-    { label: "Blue", value: "Blue" },
-    { label: "White", value: "White" },
-    { label: "Green", value: "Green" },
-    { label: "Pink", value: "Pink" },
-    { label: "Teal", value: "Teal" },
-    { label: "Purple", value: "Purple" },
-    { label: "Peach", value: "Peach" },
-    { label: "Yellow", value: "Yellow" },
-    { label: "Orange", value: "Orange" },
-    { label: "Other", value: "Other" },
+    { label: "Blue", value: "BLUE" },
+    { label: "White", value: "WHITE" },
+    { label: "Green", value: "GREEN" },
+    { label: "Pink", value: "PINK" },
+    { label: "Teal", value: "TEAL" },
+    { label: "Purple", value: "PURPLE" },
+    { label: "Peach", value: "PEACH" },
+    { label: "Yellow", value: "YELLOW" },
+    { label: "Orange", value: "ORANGE" },
+    { label: "Other", value: "OTHER" },
   ];
 
   let _sortOptionsColor = sortOptionsColor.map((option) => ({
@@ -176,6 +184,8 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
     }
   }, [open, userData]);
 
+  console.log(formState.gemstoneType, "formState.gemstoneType")
+  
   return (
     <Validators formData={formState} rules={rules}>
       {({ onSubmit, errors, resetValidation }) => (

@@ -92,10 +92,14 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
         ) {
           HELPER.toaster.error(err.errors.message);
         } else if (err.status === 422) {
-          if (err.errors.carat && err.errors.carat.length > 0) {
-            HELPER.toaster.error(err.errors.carat[0]);
+          if (err.errors) {
+            Object.keys(err.errors).forEach(key => {
+              if (err.errors[key] && err.errors[key].length > 0) {
+                HELPER.toaster.error(`${key}: ${err.errors[key][0]}`);
+              }
+            });
           } else {
-            HELPER.toaster.error("An error occurred with the carat field.");
+            HELPER.toaster.error(err.errors);
           }
         } else {
           HELPER.toaster.error(err)
@@ -124,16 +128,16 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
 
   // ------------------Option Color---------------
   const sortOptionsColor = [
-    { label: "Blue", value: "Blue" },
-    { label: "White", value: "White" },
-    { label: "Green", value: "Green" },
-    { label: "Pink", value: "Pink" },
-    { label: "Teal", value: "Teal" },
-    { label: "Purple", value: "Purple" },
-    { label: "Peach", value: "Peach" },
-    { label: "Yellow", value: "Yellow" },
-    { label: "Orange", value: "Orange" },
-    { label: "Other", value: "Other" },
+    { label: "Blue", value: "BLUE" },
+    { label: "White", value: "WHITE" },
+    { label: "Green", value: "GREEN" },
+    { label: "Pink", value: "PINK" },
+    { label: "Teal", value: "TEAL" },
+    { label: "Purple", value: "PURPLE" },
+    { label: "Peach", value: "PEACH" },
+    { label: "Yellow", value: "YELLOW" },
+    { label: "Orange", value: "ORANGE" },
+    { label: "Other", value: "OTHER" },
   ];
 
   let _sortOptionsColor = sortOptionsColor.map((option) => ({
@@ -143,14 +147,14 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
 
   // ------------------Option Intensity---------------
   const sortOptionsIntensity = [
-    { label: "Faint", value: "Faint" },
-    { label: "Very Light", value: "Very Light" },
-    { label: "Light", value: "Light" },
-    { label: "Fancy", value: "Fancy" },
-    { label: "Intense", value: "Intense" },
-    { label: "Vivid", value: "Vivid" },
-    { label: "Deep", value: "Deep" },
-    { label: "Dark", value: "Dark" },
+    { label: "Faint", value: "FAINT" },
+    { label: "Very Light", value: "VERY LIGHT" },
+    { label: "Light", value: "LIGHT" },
+    { label: "Fancy", value: "FANCY" },
+    { label: "Intense", value: "INTENSE" },
+    { label: "Vivid", value: "VIVID" },
+    { label: "Deep", value: "DEEP" },
+    { label: "Dark", value: "DARK" },
   ];
 
   let _sortOptionsIntensity = sortOptionsIntensity.map((option) => ({

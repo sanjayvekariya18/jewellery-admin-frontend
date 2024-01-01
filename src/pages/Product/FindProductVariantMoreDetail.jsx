@@ -279,7 +279,7 @@ const FindProductVariantMoreDetail = () => {
                                   <TableCell>{item.ProductVariantDiamond.stockId}</TableCell>
                                   <TableCell style={{ padding: "2px" }}>{item.ProductVariantDiamond.shape}</TableCell>
                                   <TableCell style={{ paddingLeft: "15px" }}>{item.ProductVariantDiamond.carat}</TableCell>
-                                  <TableCell>{item.ProductVariantDiamond.color}</TableCell>
+                                  <TableCell style={{ textTransform: 'capitalize' }}>{item.ProductVariantDiamond.color}</TableCell>
                                   <TableCell>{item.ProductVariantDiamond.clarity}</TableCell>
 
                                   <TableCell>{item.noOfDiamond}</TableCell>

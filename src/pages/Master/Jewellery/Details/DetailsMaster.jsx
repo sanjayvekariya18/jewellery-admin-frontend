@@ -300,6 +300,7 @@ const DetailsMaster = () => {
               const selectedId = selectedSort.target.value;
               changeState("detailsGroupId", selectedId);
             }}
+            className="product-details-select"
             name="choices-multi-default"
           />
         </div>
