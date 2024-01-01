@@ -15,7 +15,7 @@ import SearchFilterDialog from "../../../components/UI/Dialog/SearchFilterDialog
 import DiamondMasterDetails from "./DiamondMasterDetails";
 import Textinput from "../../../components/UI/TextInput";
 import FindDiamondModal from "./findDiamondMoal";
-import _ from "lodash";
+import _, { words } from "lodash";
 const DiamondMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
   const [open, setOpen] = useState(false);
@@ -65,7 +65,7 @@ const DiamondMaster = () => {
       setDiamondData(res); // Update gemStoneData when fetching data
       setFindDiamond(true); // Open the modal when data is received
     })
-    .catch(() => { })
+      .catch(() => { })
   };
 
   const {
@@ -152,11 +152,11 @@ const DiamondMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -223,7 +223,7 @@ const DiamondMaster = () => {
       paginate();
       setLoading(false);
     })
-    .catch(() => { })
+      .catch(() => { })
   };
   //------------ Delete Diamond --------------
 
@@ -372,7 +372,9 @@ const DiamondMaster = () => {
     changeState("fromPrice", newValue[0]);
     changeState("toPrice", newValue[1]);
   };
+
   // ---------------Depth Filter----------------------
+
   useEffect(() => {
     API.get(apiConfig.diamondDepthRange, { is_public_url: true })
       .then((res) => {
@@ -393,10 +395,12 @@ const DiamondMaster = () => {
       })
       .catch(() => { });
   }, []);
+
   const handleChangeTable = (event, newValue) => {
     changeState("fromTable", newValue[0]);
     changeState("toTable", newValue[1]);
   };
+
   const rows = useMemo(() => {
     return state.data.map((item) => {
       return {
@@ -405,11 +409,16 @@ const DiamondMaster = () => {
           <span>{item.stockId}</span>,
           <span>{item.shapeName}</span>,
           <span>{item.carat}</span>,
-          <span>{appConfig.D_Cut[item.cut]}</span>,
+          // <span>{appConfig.D_Cut[item.cut].charAt(0).toUpperCase() + appConfig.D_Cut[item.cut].slice(1).toLowerCase()}</span>,
+          <span>
+            {appConfig.D_Cut[item.cut]
+              ? appConfig.D_Cut[item.cut].toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+              : ''}
+          </span>,
           <span>{appConfig.D_Color[item.color]}</span>,
           <span>{appConfig.D_Clarity[item.clarity]}</span>,
-          <span>{appConfig.D_Polish[item.polish]}</span>,
-          <span>{appConfig.D_Symmetry[item.symmetry]}</span>,
+          <span>{appConfig.D_Polish[item.polish] ? appConfig.D_Polish[item.polish].toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : ""}</span>,
+          <span>{appConfig.D_Symmetry[item.symmetry] ? appConfig.D_Symmetry[item.symmetry].toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : ""}</span>,
           <span>{item.origin}</span>,
           <span>{item.labName}</span>,
           <span>${item.price}</span>,

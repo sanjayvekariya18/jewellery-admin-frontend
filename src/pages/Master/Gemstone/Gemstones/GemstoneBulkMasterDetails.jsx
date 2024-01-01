@@ -121,7 +121,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                   togglePopup();
                 }}
                 title="Error"
-                maxWidth="sm"
+                maxWidth="md"
                 actionBtns={
                   <Button
                     variant="contained"
@@ -138,13 +138,17 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                 <div>
                   {Object.keys(errorState).length > 0 ? (
                     Object.keys(errorState).map((errorCode, index) => (
-                      <div key={index}>
-                        <h2
-                          className="text-error"
-                          style={{ fontSize: "18px", fontWeight: "500" }}
+                      <div key={index} style={{ border: "1px dashed #000" }}>
+                        <h4
+                          style={{ borderBottom: "1px dashed #000", fontSize: "18px", padding: "10px 10px 7px",margin:"0px" }}
                         >
-                          Stock No : {errorCode}
-                        </h2>
+                          STOCK NO :
+                          <span style={{color:"#D22B2B"}}>
+                            <>
+                              {errorCode}
+                            </>
+                          </span>
+                        </h4>
                         <ul>
                           {errorState[errorCode].map(
                             (errorMessageObj, index) => (
@@ -153,16 +157,20 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                                 style={{
                                   fontSize: "16px",
                                   fontWeight: "500",
-                                  color: "#ff0000e8",
+                                  color: "#D22B2B",
                                   marginBottom: "6px",
+                                  listStyleType: "square",
+                                  textTransform: "capitalize"
                                 }}
                               >
-                                {Object.keys(errorMessageObj)[0]} :{" "}
+                                {Object.keys(errorMessageObj)[0]}
+                                <br />
                                 <span
-                                  className="text-error"
                                   style={{
                                     fontSize: "14px",
                                     fontWeight: "400",
+                                    color: "#000",
+                                    listStyleType: "circle",
                                   }}
                                 >
                                   {Object.values(errorMessageObj)[0]}
