@@ -266,7 +266,7 @@ const DetailsMaster = () => {
       <SearchFilterDialog 
         isOpen={openSearch}
         maxWidth="sm"
-        onClose={() => setOpenSearch(false)}
+        onClose={() => setOpenSearch(false)} 
         reset={() => paginate(true)}
         search={() => {
           paginate(false, true);

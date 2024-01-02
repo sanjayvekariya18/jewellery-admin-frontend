@@ -6,6 +6,7 @@ import ThemeDialog from "../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../components/validations/Validator";
 import ReactSelect from "../../components/UI/ReactSelect";
 import FileDrop from "../../components/UI/FileDrop";
+import CommonButton from "../../components/UI/CommonButton";
 
 const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [errorModel, setErrorModel] = useState(false);
@@ -13,7 +14,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [errorState, setErrorState] = useState({});
   const [category, setCategory] = useState([]);
   const [store, setStore] = useState("");
-  // const [isLoader, setIsLoader] = useState(false);
+  const [isLoader, setIsLoader] = useState(false);
   const [formState, setFormState] = useState({ productData: null });
   const [selectedFile, setSelectedFile] = useState(null);
   const rules = {
@@ -63,6 +64,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
 
   // Handle file upload submit
   const handleSubmit = () => {
+    setIsLoader(true);
     if (selectedFile) {
       // setIsLoader(true);
       const formData = new FormData();
@@ -95,7 +97,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
           }
         })
         .finally(() => {
-          // setIsLoader(false);
+          setIsLoader(false);
         });
     }
   };
@@ -140,7 +142,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                 >
                   Cancel
                 </Button>
-                <Button
+                {/* <Button
                   disabled={selectedFile === null ? true : false}
                   style={{ marginLeft: "20px" }}
                   type="submit"
@@ -149,7 +151,18 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                   onClick={handleSubmit}
                 >
                   Save
-                </Button>
+                </Button> */}
+                <CommonButton
+                  disabled={selectedFile === null ? true : false}
+                  style={{ marginLeft: "20px" }}
+                  loader={isLoader}
+                  type="submit"
+                  variant="contained"
+                  color="success"
+                  onClick={handleSubmit}
+                >
+                  Save
+                </CommonButton>
               </Box>
               <ThemeDialog
                 isOpen={errorModel}

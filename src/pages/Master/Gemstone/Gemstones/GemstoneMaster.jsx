@@ -102,11 +102,11 @@ const GemstoneMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -156,7 +156,7 @@ const GemstoneMaster = () => {
       paginate();
       setLoading(false);
     })
-    .catch(() => { })
+      .catch(() => { })
   };
   //------------ Delete Gemstone --------------
 
@@ -268,7 +268,7 @@ const GemstoneMaster = () => {
       setGemstoneData(res); // Update gemStoneData when fetching data
       setFindGemstone(true); // Open the modal when data is received
     })
-    .catch(() => { })
+      .catch(() => { })
   };
 
   // ----------Get Gemstone List Api-------------
@@ -282,10 +282,10 @@ const GemstoneMaster = () => {
           <div className="common-thead-second-width-title">
             <span>{item.title}</span>
           </div>,
-          <span>{item.gemstoneType}</span>,
+          <span>{item.gemstoneType.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}</span>,
           <span>{item.shapeName}</span>,
           <span>{item.carat}</span>,
-          <span>{item.color}</span>,
+          <span>{item.color.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}</span>,
           <span>{item.clarity}</span>,
           <span>{item.origin}</span>,
           <span>${item.price}</span>,
@@ -578,7 +578,7 @@ const GemstoneMaster = () => {
                         }
                         style={
                           state.fromDimension === null &&
-                          state.toDimension === 6
+                            state.toDimension === 6
                             ? activeButtonStyle
                             : {}
                         }
@@ -651,7 +651,7 @@ const GemstoneMaster = () => {
                         }
                         style={
                           state.fromDimension === 10 &&
-                          state.toDimension === null
+                            state.toDimension === null
                             ? activeButtonStyle
                             : {}
                         }
@@ -703,7 +703,7 @@ const GemstoneMaster = () => {
               callBack={() => paginate()}
               userData={selectedUserData}
             />
-          )}      
+          )}
           {/* Gem Stone Bulk Details Modal */}
           <GemstoneBulkMasterDetails
             open={bulkOpen}

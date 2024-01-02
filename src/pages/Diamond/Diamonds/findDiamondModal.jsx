@@ -18,24 +18,37 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
       label: "Cut: ",
       key: gemDiamondData
         ? getDictionaryValue(appConfig.D_Cut, gemDiamondData.cut)
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ')
         : "",
     },
+    
     {
       label: "Color: ",
       key: gemDiamondData
         ? getDictionaryValue(appConfig.D_Color, gemDiamondData.color)
-        : "",
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ')
+    : "",
     },
     {
       label: "Clarity: ",
       key: gemDiamondData
         ? getDictionaryValue(appConfig.D_Clarity, gemDiamondData.clarity)
+       .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ')
         : "",
     },
     {
       label: "Polish: ",
       key: gemDiamondData
         ? getDictionaryValue(appConfig.D_Polish, gemDiamondData.polish)
+       .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ')
         : "",
     },
 
@@ -43,6 +56,9 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
       label: "Symmetry: ",
       key: gemDiamondData
         ? getDictionaryValue(appConfig.D_Symmetry, gemDiamondData.symmetry)
+       .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ')
         : "",
     },
     {
@@ -58,6 +74,9 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
           appConfig.D_Fluorescence,
           gemDiamondData.fluorescence
         )
+        .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ')
         : "",
     },
     { label: "M-Length : ", key: gemDiamondData ? gemDiamondData.mLength : "" },
@@ -69,6 +88,9 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
       label: "Girdle: ",
       key: gemDiamondData
         ? getDictionaryValue(appConfig.D_Girdle, gemDiamondData.girdle)
+        .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ')
         : "",
     },
     // { label: "Girdle : ", key: gemDiamondData ? gemDiamondData.girdle : "" },
@@ -77,6 +99,9 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
       label: "Culet: ",
       key: gemDiamondData
         ? getDictionaryValue(appConfig.D_Culet, gemDiamondData.culet)
+        .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ')
         : "",
     },
 

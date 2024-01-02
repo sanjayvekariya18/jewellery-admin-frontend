@@ -5,6 +5,7 @@ import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "../../../../components/validations/Validator";
 import { apiConfig, appConfig } from "../../../../config";
 import FileDrop from "../../../../components/UI/FileDrop";
+import CommonButton from "../../../../components/UI/CommonButton";
 
 // initialValues define
 const initialValues = {
@@ -17,11 +18,13 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [err, setErr] = useState();
   const [errorState, setErrorState] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
     gemstoneData: "required",
   };
   const handleSubmit = () => {
+    setIsLoader(true);
     if (selectedFile) {
       const formData = new FormData();
       formData.append("gemstoneData", selectedFile);
@@ -52,6 +55,9 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
             );
             setErrorModel(true);
           }
+        })
+        .finally(() => {
+          setIsLoader(false);
         });
     }
   };
@@ -102,16 +108,17 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                 >
                   Cancel
                 </Button>
-                <Button
+                <CommonButton
                   disabled={selectedFile === null ? true : false}
                   style={{ marginLeft: "20px" }}
+                  loader={isLoader}
                   type="submit"
                   variant="contained"
                   color="success"
                   onClick={handleSubmit}
                 >
                   Save
-                </Button>
+                </CommonButton>
               </Box>
 
               <ThemeDialog

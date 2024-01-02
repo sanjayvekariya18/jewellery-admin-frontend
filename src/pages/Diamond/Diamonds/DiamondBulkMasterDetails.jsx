@@ -5,6 +5,7 @@ import Validators from "../../../components/validations/Validator";
 import ThemeDialog from "../../../components/UI/Dialog/ThemeDialog";
 import { Box, Button } from "@mui/material";
 import FileDrop from "../../../components/UI/FileDrop";
+import CommonButton from "../../../components/UI/CommonButton";
 
 // intialValues define
 const initialValues = {
@@ -17,6 +18,7 @@ const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [err, setErr] = useState();
   const [errorState, setErrorState] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isLoader, setIsLoader] = useState(false);
 
   // validator Js 
   const rules = {
@@ -25,6 +27,7 @@ const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
 
   // handleSubmit function of a diamond
   const handleSubmit = () => {
+    setIsLoader(true);
     if (selectedFile) {
       const formData = new FormData();
       formData.append("diamondData", selectedFile);
@@ -55,6 +58,9 @@ const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
             );
             setErrorModel(true);
           }
+        })
+        .finally(() => {
+          setIsLoader(false);
         });
     }
   };
@@ -103,16 +109,18 @@ const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                 >
                   Cancel
                 </Button>
-                <Button
-                  disabled={selectedFile === null ? true : false}
+               
+                <CommonButton
+                   disabled={selectedFile === null ? true : false}
                   style={{ marginLeft: "20px" }}
+                  loader={isLoader}
                   type="submit"
                   variant="contained"
                   color="success"
                   onClick={handleSubmit}
                 >
                   Save
-                </Button>
+                </CommonButton>
               </Box>
 
               <ThemeDialog

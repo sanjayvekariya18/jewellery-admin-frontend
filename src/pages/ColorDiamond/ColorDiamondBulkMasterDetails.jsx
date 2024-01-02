@@ -5,6 +5,7 @@ import { Box, Button } from "@mui/material";
 import { API, HELPER } from "../../services";
 import { apiConfig, appConfig } from "../../config";
 import FileDrop from "../../components/UI/FileDrop";
+import CommonButton from "../../components/UI/CommonButton";
 // --------------- initialValues value-------------------
 const initialValues = {
   colorDiamond: "",
@@ -15,8 +16,8 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
   const [errorModel, setErrorModel] = useState(false);
   const [err, setErr] = useState();
   const [errorState, setErrorState] = useState({});
+  const [isLoader, setIsLoader] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  // const [isLoader, setIsLoader] = useState(false);
 
   // ---------Validator --------------------------------
   const rules = {
@@ -26,8 +27,8 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
 
   // ---------------handleSubmit-------------------------
   const handleSubmit = () => {
+    setIsLoader(true);
     if (selectedFile) {
-      // setIsLoader(true);
       const formData = new FormData();
       formData.append("colorDiamond", selectedFile);
 
@@ -59,7 +60,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
           }
         })
         .finally(() => {
-          // setIsLoader(false);
+          setIsLoader(false);
         });
     }
   };
@@ -112,16 +113,18 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                 >
                   Cancel
                 </Button>
-                <Button
+                
+                <CommonButton
                   disabled={selectedFile === null ? true : false}
                   style={{ marginLeft: "20px" }}
+                  loader={isLoader}
                   type="submit"
                   variant="contained"
                   color="success"
                   onClick={handleSubmit}
                 >
                   Save
-                </Button>
+                </CommonButton>
               </Box>
               <ThemeDialog
                 isOpen={errorModel}
@@ -148,9 +151,9 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                   {Object.keys(errorState).length > 0 ? (
                     Object.keys(errorState).map((errorCode, i) => {
                       return (
-                        <div key={i} style={{ border: "1px dashed #000" ,marginBottom:"10px"}}>
+                        <div key={i} style={{ border: "1px dashed #000", marginBottom: "10px" }}>
                           <p style={{ borderBottom: "1px dashed #000", fontSize: "16px", padding: "10px 10px 7px", margin: "0px", }}>
-                          Stock No:
+                            Stock No:
                             <span style={{ color: "#D22B2B" }}>
                               <>
                                 {errorCode}
@@ -167,9 +170,9 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                                   listStyleType: "square",
                                   textTransform: "capitalize"
                                 }}>
-                                 {Object.keys(errorMessageObj)[0]} 
+                                  {Object.keys(errorMessageObj)[0]}
                                   <br />
-                                  <span  style={{
+                                  <span style={{
                                     fontSize: "14px",
                                     fontWeight: "400",
                                     color: "#000",
@@ -184,7 +187,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                       );
                     })
                   ) : (
-                    <p style={{ fontSize: "18px", fontWeight: "500",color:"#D22B2B"}}>
+                    <p style={{ fontSize: "18px", fontWeight: "500", color: "#D22B2B" }}>
                       {err}
                     </p>
                   )}
