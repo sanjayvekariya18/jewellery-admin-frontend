@@ -164,6 +164,9 @@ const apiConfig = {
   popularEngagement: "popularEngagement/:id",
   allPopularEngagement: "popularEngagement",
 
+  // default value set in product
+  productDefault: "product/default/:id",
+
   // banner
   banner: "banner",
   bannerUpdate: "banner/:id",
@@ -205,10 +208,10 @@ const apiConfig = {
 
 
   // dashboard
-  dashboardOrder:"dashboard/totalOrders",
-  dashboardCustomer:"dashboard/totalCustomers",
-  dashboardProduct:"dashboard/totalProducts",
-  dashboardCategory:"dashboard/totalCategory"
+  dashboardOrder: "dashboard/totalOrders",
+  dashboardCustomer: "dashboard/totalCustomers",
+  dashboardProduct: "dashboard/totalProducts",
+  dashboardCategory: "dashboard/totalCategory"
 };
 
 export default apiConfig;

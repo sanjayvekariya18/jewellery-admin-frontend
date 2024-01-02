@@ -32,6 +32,12 @@ const appConfig = {
     8: "L",
     9: "M",
     10: "N",
+    11: "OP",
+    12: "QR",
+    13: "ST",
+    14: "UV",
+    15: "WX",
+    16: "YZ"
   },
   D_Clarity: {
     0: "FL",

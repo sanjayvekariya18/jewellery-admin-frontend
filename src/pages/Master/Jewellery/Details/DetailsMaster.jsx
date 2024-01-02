@@ -263,7 +263,7 @@ const DetailsMaster = () => {
         </StyledAddButton>
       </Tooltip>
 
-      <SearchFilterDialog
+      <SearchFilterDialog 
         isOpen={openSearch}
         maxWidth="sm"
         onClose={() => setOpenSearch(false)}
@@ -273,6 +273,7 @@ const DetailsMaster = () => {
           setOpenSearch(false); // Close the modal
         }}
         loader={loading}
+        className="product-details-select-box"
       >
         <div>
           {/* <ReactSelect
@@ -300,7 +301,6 @@ const DetailsMaster = () => {
               const selectedId = selectedSort.target.value;
               changeState("detailsGroupId", selectedId);
             }}
-            className="product-details-select"
             name="choices-multi-default"
           />
         </div>

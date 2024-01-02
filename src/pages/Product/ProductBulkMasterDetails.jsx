@@ -25,7 +25,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
     API.get(apiConfig.category).then((res) => {
       setCategory(res.rows);
     })
-    .catch(() => { })
+      .catch(() => { })
   }, []);
 
   // Map category data for ReactSelect component
@@ -174,18 +174,20 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                     {Object.entries(errorState).map(([key, value]) => {
                       if (Object.keys(value).length > 0) {
                         return (
-                          <li key={key}>
-                            <h2>{key}</h2>
+                          <li key={key} style={{ listStyleType: "none", textTransform: "capitalize", border: "1px dashed #000", marginBottom: "10px" }}>
+                            <h2 style={{ borderBottom: "1px dashed #000", padding: "10px 10px 7px", margin: "0px" }}>{key}</h2>
                             {Object.keys(value).map((errorKey, index) => (
-                              <ul key={index}>
+                              <ul key={index} style={{ paddingLeft: "50px" }}>
                                 {Array.isArray(value[errorKey]) && (
-                                  <li
-                                    className="text-error"
-                                    style={{
-                                      fontSize: "18px",
-                                      fontWeight: "500",
-                                    }}
-                                  >
+                                  <li key={index} style={{
+                                    fontSize: "16px",
+                                    fontWeight: "500",
+                                    color: "#D22B2B",
+                                    marginBottom: "6px",
+                                    listStyleType: "square",
+
+                                    textTransform: "capitalize"
+                                  }}>
                                     <b>Row No:- {errorKey}</b>
                                   </li>
                                 )}
@@ -193,7 +195,8 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                                   <ul>
                                     {value[errorKey].map((error, i) =>
                                       Object.entries(error).map(([k, v]) => (
-                                        <li key={i}>
+                                        <li key={i} style={{
+                                        }}>
                                           {k}: {v}
                                         </li>
                                       ))
@@ -211,11 +214,7 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                       }
                     })}
                   </ul>
-                  <p
-                    className="text-error"
-                    style={{ fontSize: "18px", fontWeight: "500" }}
-                  >
-                    {" "}
+                  <p style={{ fontSize: "18px", fontWeight: "500", color: "#D22B2B" }}>
                     {err}
                   </p>
                 </div>

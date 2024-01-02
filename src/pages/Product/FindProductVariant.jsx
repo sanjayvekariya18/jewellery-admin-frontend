@@ -7,7 +7,7 @@ import { API, HELPER } from "../../services";
 import { apiConfig } from "../../config";
 import { useParams } from "react-router-dom";
 import { Breadcrumb, Container } from "../../components";
-import { Box, IconButton, Icon } from "@mui/material";
+import { Box, IconButton, Icon, Radio } from "@mui/material";
 import { pageRoutes } from "../../constants/routesList";
 import { useNavigate } from "react-router-dom/dist";
 import MaxHeightMenu from "../../components/MaxHeightMenu";
@@ -16,6 +16,8 @@ import ThemeSwitch from "../../components/UI/ThemeSwitch";
 const FindProductVariant = () => {
   const { productId } = useParams();
   const [loading, setLoading] = useState(false);
+  const [checkBox, setCheckBox] = useState(null);
+  const [selectedItemId, setSelectedItemId] = useState(null);
   const { state, setState, changeState, ...otherTableActionProps } = usePaginationTable();
   const navigate = useNavigate();
   // paginate
@@ -111,22 +113,33 @@ const FindProductVariant = () => {
         HELPER.toaster.error(error.errors.productVariant[0])
       });
   };
-
+  const addToDefault = (item) => {
+    const productId = item.id;
+    API.put(`${apiConfig.productDefault.replace(':id', productId)}`)
+      .then((res) => {
+        setCheckBox(productId);
+        HELPER.toaster.success(res.message)
+      })
+      .catch((error) => {
+        HELPER.toaster.error(error.errors)
+      });
+  };
   const COLUMNS = [
     { title: "Index", classNameWidth: "thead-second-width-action-index" },
     { title: "Title", classNameWidth: "thead-second-width-title2" },
     { title: "SKU", classNameWidth: "thead-second-width-title-email" },
-    { title: "Total Carat", classNameWidth: "thead-second-width-address-100" },
-    { title: "Metal Weight", classNameWidth: "thead-second-width-address-100" },
-    { title: "Metal Price", classNameWidth: "thead-second-width-address-100" },
-    { title: "Making Price", classNameWidth: "thead-second-width-address-100" },
+    { title: "Total Carat", classNameWidth: "thead-second-width-action-index" },
+    { title: "Metal Weight", classNameWidth: "thead-second-width-action-index" },
+    { title: "Metal Price", classNameWidth: "thead-second-width-action-index" },
+    { title: "Making Price", classNameWidth: "thead-second-width-action-index" },
     {
       title: "Diamond Price",
       classNameWidth: "thead-second-width-address-100",
     },
-    { title: "Total Price", classNameWidth: "thead-second-width-address-100" },
-    { title: "Is Visible", classNameWidth: "thead-second-width-discount" },
-    { title: "Action", classNameWidth: "thead-second-width-discount" },
+    { title: "Total Price", classNameWidth: "thead-second-width-action-index" },
+    { title: "Default", classNameWidth: "thead-second-width-action-50" },
+    { title: "Visible", classNameWidth: "thead-second-width-action-carat" },
+    { title: "Action", classNameWidth: "thead-second-width-title-price" },
   ];
 
 
@@ -143,9 +156,9 @@ const FindProductVariant = () => {
         HELPER.toaster.error(err);
       })
   };
-
   const rows = useMemo(() => {
     return state.data.map((item, i) => {
+      const isSelected = item.id === checkBox;
       let optionsArray = [
         {
           key: "Add to Features",
@@ -187,8 +200,17 @@ const FindProductVariant = () => {
           iconSize: "14px",
           onClick: () => addToEngagement(item.id),
         },
+        // {
+        //   key: "Default",
+        //   color: "rgba(52, 49, 76, 1)",
+        //   icon: "control_point_icon",
+        //   fontSize: "12px",
+        //   iconSize: "14px",
+        //   onClick: () => addToDefault(item.id),
+        // },
       ];
       return {
+
         item: item,
         columns: [
           <span>{i + 1}</span>,
@@ -203,6 +225,17 @@ const FindProductVariant = () => {
           <span>${item.diamondPrice}</span>,
           <span>${item.totalPrice}</span>,
           <span>
+            <Radio
+              checked={checkBox === null ? item.isDefault : isSelected}
+              onChange={() => addToDefault(item)}
+              value={item.isDefault}
+              name="isDefault"
+              inputProps={{ 'aria-label': 'A' }}
+              id={item.id}
+              color="success"
+            />
+          </span>,
+          <span>
             <ThemeSwitch
               checked={item.isVisible}
               color="warning"
@@ -211,6 +244,7 @@ const FindProductVariant = () => {
               }}
             />
           </span>,
+
           <span style={{ display: "flex" }}>
             <IconButton onClick={(e) => handleButtonClick(item.id)}>
               <Icon color="primary">remove_red_eye</Icon>
@@ -221,7 +255,7 @@ const FindProductVariant = () => {
         ],
       };
     });
-  }, [state.data]);
+  }, [state.data, checkBox]);
 
   useEffect(() => {
     paginate();

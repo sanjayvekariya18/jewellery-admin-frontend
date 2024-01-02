@@ -14,7 +14,7 @@ import DiamondBulkMasterDetails from "./DiamondBulkMasterDetails";
 import SearchFilterDialog from "../../../components/UI/Dialog/SearchFilterDialog";
 import DiamondMasterDetails from "./DiamondMasterDetails";
 import Textinput from "../../../components/UI/TextInput";
-import FindDiamondModal from "./findDiamondMoal";
+import FindDiamondModal from "./findDiamondModal";
 import _, { words } from "lodash";
 const DiamondMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -262,10 +262,17 @@ const DiamondMaster = () => {
     { value: 3, label: "G" },
     { value: 4, label: "H" },
     { value: 5, label: "I" },
-    { value: 6, label: "K" },
-    { value: 7, label: "L" },
-    { value: 8, label: "M" },
-    { value: 9, label: "N" },
+    { value: 6, label: "J" },
+    { value: 7, label: "K" },
+    { value: 8, label: "L" },
+    { value: 9, label: "M" },
+    { value: 10, label: "N" },
+    { value: 11, label: "OP" },
+    { value: 12, label: "QR" },
+    { value: 13, label: "ST" },
+    { value: 14, label: "UV" },
+    { value: 15, label: "WX" },
+    { value: 16, label: "YZ" },
   ];
   const handleChangeColor = (event, newValue) => {
     changeState("fromColor", marksColor[newValue[0]].value);

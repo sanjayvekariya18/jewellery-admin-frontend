@@ -168,8 +168,6 @@ const FindDiamondModal = ({ open, togglePopup, gemDiamondData }) => {
                 )}
               </div>
             </div>
-
-
           )}
         </div>
       </Box>

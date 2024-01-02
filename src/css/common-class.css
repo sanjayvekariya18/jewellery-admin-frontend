@@ -1358,11 +1358,23 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   }
 }
 
-.css-c3xndr-MuiPaper-root-MuiDialog-paper {
+/* .product-details-select-box .css-c3xndr-MuiPaper-root-MuiDialog-paper {
   overflow-y: inherit !important;
   z-index: 1 !important;
 }
 
-.css-ypiqx9-MuiDialogContent-root {
+.product-details-select-box .css-ypiqx9-MuiDialogContent-root {
+  overflow-y: inherit !important;
+} */
+.product-details-select-box .MuiPaper-root {
+  overflow-y: inherit !important;
+  z-index: 1 !important;
+}
+
+.product-details-select-box .MuiDialogContent-root {
+  overflow-y: inherit !important;
+}
+
+.react-select-group {
   overflow-y: inherit !important;
 }

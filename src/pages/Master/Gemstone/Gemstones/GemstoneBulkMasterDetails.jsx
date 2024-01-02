@@ -138,12 +138,10 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                 <div>
                   {Object.keys(errorState).length > 0 ? (
                     Object.keys(errorState).map((errorCode, index) => (
-                      <div key={index} style={{ border: "1px dashed #000" }}>
-                        <h4
-                          style={{ borderBottom: "1px dashed #000", fontSize: "18px", padding: "10px 10px 7px",margin:"0px" }}
-                        >
+                      <div key={index} style={{ border: "1px dashed #000", marginBottom: "10px" }}>
+                        <h4 style={{ borderBottom: "1px dashed #000", fontSize: "18px", padding: "10px 10px 7px", margin: "0px" }}>
                           STOCK NO :
-                          <span style={{color:"#D22B2B"}}>
+                          <span style={{ color: "#D22B2B" }}>
                             <>
                               {errorCode}
                             </>
@@ -183,8 +181,7 @@ const GemstoneBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                     ))
                   ) : (
                     <p
-                      className="text-error"
-                      style={{ fontSize: "18px", fontWeight: "500" }}
+                      style={{ fontSize: "18px", fontWeight: "500", color: "#D22B2B" }}
                     >
                       {err}
                     </p>

@@ -148,19 +148,32 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                   {Object.keys(errorState).length > 0 ? (
                     Object.keys(errorState).map((errorCode, i) => {
                       return (
-                        <div key={i}>
-                          <h2
-                            className="text-error"
-                            style={{ fontSize: "18px", fontWeight: "500" }}
-                          >
-                            Stock No: {errorCode}
-                          </h2>
+                        <div key={i} style={{ border: "1px dashed #000" ,marginBottom:"10px"}}>
+                          <p style={{ borderBottom: "1px dashed #000", fontSize: "16px", padding: "10px 10px 7px", margin: "0px", }}>
+                          Stock No:
+                            <span style={{ color: "#D22B2B" }}>
+                              <>
+                                {errorCode}
+                              </>
+                            </span>
+                          </p>
                           <ul>
                             {errorState[errorCode].map(
                               (errorMessageObj, index) => (
-                                <li key={index}>
-                                  {Object.keys(errorMessageObj)[0]} :{" "}
-                                  <span>
+                                <li key={index} style={{
+                                  fontSize: "16px",
+                                  color: "#D22B2B",
+                                  marginBottom: "6px",
+                                  listStyleType: "square",
+                                  textTransform: "capitalize"
+                                }}>
+                                 {Object.keys(errorMessageObj)[0]} 
+                                  <br />
+                                  <span  style={{
+                                    fontSize: "14px",
+                                    fontWeight: "400",
+                                    color: "#000",
+                                  }}>
                                     {Object.values(errorMessageObj)[0]}
                                   </span>
                                 </li>
@@ -171,10 +184,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                       );
                     })
                   ) : (
-                    <p
-                      className="text-error"
-                      style={{ fontSize: "18px", fontWeight: "500" }}
-                    >
+                    <p style={{ fontSize: "18px", fontWeight: "500",color:"#D22B2B"}}>
                       {err}
                     </p>
                   )}
