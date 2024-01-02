@@ -34,13 +34,12 @@ const CategoryMasterDetails = () => {
 
   // -------------initialization
   const initialValues = {
-    id: "",
     name: "",
     details: "",
     imgUrl: "",
     logoUrl: "",
     attributes: [], // Initialize as an empty array
-    productDetails: [], // Initialize as an empty array
+    productDetailsGroup: [], // Initialize as an empty array
   };
 
   const [formState, setFormState] = useState({
@@ -50,7 +49,7 @@ const CategoryMasterDetails = () => {
   const rules = {
     name: "required",
     attributes: "required",
-    productDetails: "required",
+    productDetailsGroup: "required",
     imgUrl: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
     logoUrl: "mimes:png,jpg,jpeg,svg,webp|max_file_size:1048576",
   };
@@ -60,11 +59,11 @@ const CategoryMasterDetails = () => {
 
     const fd = new FormData();
     fd.append("attributes", JSON.stringify(formState.attributes));
-    fd.append("productDetails", JSON.stringify(formState.productDetails));
+    fd.append("productDetailsGroup", JSON.stringify(formState.productDetailsGroup));
 
     // Iterate through the other fields in data and append them to fd
     for (const field in data) {
-      if (field !== "attributes" && field !== "productDetails") {
+      if (field !== "attributes" && field !== "productDetailsGroup") {
         fd.append(field, data[field]);
       }
     }
@@ -107,29 +106,30 @@ const CategoryMasterDetails = () => {
 
   useEffect(() => {
     API.get(apiConfig.attributesList, { is_public_url: true })
-    .then((res) => {
-      const optionsFromApi = res.map((row) => ({
-        label: row.name,
-        value: row.id,
-      }))
+      .then((res) => {
+        const optionsFromApi = res.map((row) => ({
+          label: row.name,
+          value: row.id,
+        }))
+
+        setOptions(optionsFromApi);
+      })
       .catch(() => { })
-      setOptions(optionsFromApi);
-    });
   }, []);
 
   useEffect(() => {
-    API.get(apiConfig.productDetailsList, { is_public_url: true })
-    .then(
-      (res) => {
-        setProductDetails(res);
-        const selectOptions = res.map((row) => ({
-          label: row.detailName,
-          value: row.id,
-        }))
-        .catch(() => { })
-        setSelect(selectOptions);
-      }
-    );
+    API.get(apiConfig.listProductDetailGroup, { is_public_url: true })
+      .then(
+        (res) => {
+          setProductDetails(res);
+          const selectOptions = res.map((row) => ({
+            label: row.groupName,
+            value: row.id,
+          }))
+          setSelect(selectOptions);
+        }
+      )
+      .catch(() => { })
   }, []);
 
   const handleLogSelectedOption = () => {
@@ -152,12 +152,12 @@ const CategoryMasterDetails = () => {
     if (selected2.length > 0) {
       const selectedOption = selected2[0];
       const newProductDetail = {
-        productDetailsId: selectedOption.value,
-        sortNo: parseInt(formState.productDetails.length) + 1, // Parse to integer
+        productDetailsGroupId: selectedOption.value,
+        sortNo: parseInt(formState.productDetailsGroup.length) + 1, // Parse to integer
       };
       setFormState((prevFormState) => ({
         ...prevFormState,
-        productDetails: [...prevFormState.productDetails, newProductDetail],
+        productDetailsGroup: [...prevFormState.productDetailsGroup, newProductDetail],
       }));
       setSelected2([]);
     }
@@ -178,19 +178,19 @@ const CategoryMasterDetails = () => {
   };
   //----------------------------ProductDetails --------------------
 
-  const getProductDetailsLabel = (productDetailsId) => {
+  const getProductDetailsLabel = (productDetailsGroupId) => {
     const selectedOption = productDetails.find(
-      (option) => option.id === productDetailsId
+      (option) => option.id === productDetailsGroupId
     );
-    return selectedOption ? selectedOption.detailName : "";
+    return selectedOption ? selectedOption.groupName : "";
   };
   const handleRemoveProductDetails = (index) => {
-    const updatedProductDetails = [...formState.productDetails];
+    const updatedProductDetails = [...formState.productDetailsGroup];
     updatedProductDetails.splice(index, 1); // Remove the item at the specified index
     updateProductDetailsSortNo(updatedProductDetails);
     setFormState((prevFormState) => ({
       ...prevFormState,
-      productDetails: updatedProductDetails,
+      productDetailsGroup: updatedProductDetails,
     }));
   };
   const updateAttributesSortNo = (updatedAttributes) => {
@@ -227,11 +227,11 @@ const CategoryMasterDetails = () => {
   const handleProductDetailsDragEnd = (fromIndex, toIndex) => {
     if (
       fromIndex >= 0 &&
-      fromIndex < formState.productDetails.length &&
+      fromIndex < formState.productDetailsGroup.length &&
       toIndex >= 0 &&
-      toIndex < formState.productDetails.length
+      toIndex < formState.productDetailsGroup.length
     ) {
-      const updatedProductDetails = [...formState.productDetails];
+      const updatedProductDetails = [...formState.productDetailsGroup];
       const [draggedItem] = updatedProductDetails.splice(fromIndex, 1);
       updatedProductDetails.splice(toIndex, 0, draggedItem);
 
@@ -239,7 +239,7 @@ const CategoryMasterDetails = () => {
 
       setFormState((prevFormState) => ({
         ...prevFormState,
-        productDetails: updatedProductDetails,
+        productDetailsGroup: updatedProductDetails,
       }));
       HELPER.toaster.success("Row moved successfully");
     }
@@ -259,13 +259,12 @@ const CategoryMasterDetails = () => {
   const filteredSelect = select.filter((select) => {
     const selectValue = select.value;
     // Check if the option is already present in formState.attributes
-    const isSelectSelected = formState.productDetails.some(
-      (data) => data.productDetailsId === selectValue
+    const isSelectSelected = formState.productDetailsGroup.some(
+      (data) => data.productDetailsGroupId === selectValue
     );
     return !isSelectSelected;
   });
 
-  // console.log(formState, "---formState");
   return (
     <Container>
       <Validators formData={formState} rules={rules}>
@@ -420,7 +419,7 @@ const CategoryMasterDetails = () => {
                               </TableHead>
                               <TableBody>
                                 {formState.attributes &&
-                                formState.attributes.length > 0 ? (
+                                  formState.attributes.length > 0 ? (
                                   formState.attributes.map((data, index) => (
                                     <TableRow key={index}>
                                       <TableCell
@@ -497,7 +496,7 @@ const CategoryMasterDetails = () => {
                             fontWeight: "500",
                           }}
                         >
-                          Product Details
+                          Product Details Group
                         </label>
                       </div>
                       <div
@@ -512,12 +511,12 @@ const CategoryMasterDetails = () => {
                       >
                         <div>
                           <Select
-                            placeholder="Select Product Details"
+                            placeholder="Select Product Details Group"
                             options={filteredSelect}
                             isSearchable
                             value={selected2[0] || ""}
                             onChange={(option) => setSelected2([option])}
-                            // name="productDetails"
+                          // name="productDetails"
                           />
                         </div>
                         {/* <div>
@@ -596,13 +595,13 @@ const CategoryMasterDetails = () => {
                               </TableRow>
                             </TableHead>
                             <TableBody>
-                              {formState.productDetails &&
-                              formState.productDetails.length > 0 ? (
-                                formState.productDetails.map((data, index) => (
+                              {formState.productDetailsGroup &&
+                                formState.productDetailsGroup.length > 0 ? (
+                                formState.productDetailsGroup.map((data, index) => (
                                   <TableRow key={index}>
                                     <TableCell style={{ paddingLeft: "20px" }}>
                                       {getProductDetailsLabel(
-                                        data.productDetailsId
+                                        data.productDetailsGroupId
                                       )}
                                     </TableCell>
                                     <TableCell style={{ paddingLeft: "20px" }}>
@@ -649,7 +648,7 @@ const CategoryMasterDetails = () => {
                           </Table>
                         </TableContainer>
                       </ReactDragListView>
-                      {errors?.productDetails && (
+                      {errors?.productDetailsGroup && (
                         <p
                           className="text-error"
                           style={{ fontSize: "14px", marginTop: "5px" }}

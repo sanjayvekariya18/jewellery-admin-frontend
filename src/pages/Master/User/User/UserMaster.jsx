@@ -8,7 +8,7 @@ import UserMasterDetails from "./UserMasterDetails";
 import PaginationTable, {
   usePaginationTable,
 } from "../../../../components/UI/Pagination/PaginationTable";
-import { appConfig } from "./../../../../config";
+import { apiConfig, appConfig } from "./../../../../config";
 import _ from "lodash";
 import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 import error400cover from "../../../../assets/no-data-found-page.png";
@@ -16,7 +16,8 @@ import ImgBoxShow from "../../../../components/UI/ImgBoxShow";
 import ThemeRadioGroup from "../../../../components/UI/ThemeRadioGroup";
 import { toaster } from "../../../../services/helper";
 import Textinput from "../../../../components/UI/TextInput";
-
+import LockResetIcon from '@mui/icons-material/LockReset';
+import Swal from 'sweetalert2';
 const UserMaster = () => {
   const [open, setOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
@@ -34,6 +35,7 @@ const UserMaster = () => {
     { title: "Active", classNameWidth: "thead-second-width-action" },
     { title: "Action", classNameWidth: "thead-second-width-action" },
     { title: "Permission", classNameWidth: "thead-second-width-action-index" },
+    { title: "Reset Password", classNameWidth: "thead-second-width-action-index thead-second-width-action-index-responsive" },
   ];
 
   const {
@@ -76,11 +78,11 @@ const UserMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -147,14 +149,16 @@ const UserMaster = () => {
           <IconButton
             onClick={(e) =>
               navigate(
-                `${pageRoutes.master.user.userPermissions.split(":")[0]}${
-                  item.id
+                `${pageRoutes.master.user.userPermissions.split(":")[0]}${item.id
                 }`
               )
             }
           >
             <Icon color="warning">fingerprint</Icon>
           </IconButton>,
+          <IconButton onClick={() => resetPassword(item.id)}>
+            <LockResetIcon color="primary" style={{ fontSize: "28px" }} />
+          </IconButton>
         ],
       };
     });
@@ -197,6 +201,20 @@ const UserMaster = () => {
   //   });
   // };
 
+  // reset password in user
+  const resetPassword = (id) => {
+    API.put(`${apiConfig.resetPassword.replace(':id', id)}`)
+      .then((res) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: res.message,
+        });
+      })
+      .catch((error) => {
+        HELPER.toaster.error(error.errors);
+      });
+  };
   return (
     <Container>
       <Box
@@ -261,7 +279,7 @@ const UserMaster = () => {
           size="small"
           type="text"
           name="searchTxt"
-          autoFocus={true} 
+          autoFocus={true}
           label="Search Text"
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}

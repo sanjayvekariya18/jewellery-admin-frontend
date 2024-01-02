@@ -74,6 +74,9 @@ const apiConfig = {
 
   //userPermission
   userPermission: "userPermission",
+  
+  // reset password
+  resetPassword:"user/:id/resetPassword",
 
   //customer
   customer: "customer",
