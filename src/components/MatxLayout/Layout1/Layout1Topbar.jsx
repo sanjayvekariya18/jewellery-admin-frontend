@@ -190,7 +190,7 @@ const Layout1Topbar = () => {
                   (option) => option.value === selectedData
                 )}
                 onChange={handleSearchInputChange}
-                className="search-moal-header"
+                className="search-modal-header"
               ></Select>
             </div>
           </Box>

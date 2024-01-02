@@ -184,7 +184,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
     }
   }, [open, userData]);
 
-  console.log(formState.gemstoneType, "formState.gemstoneType")
   
   return (
     <Validators formData={formState} rules={rules}>

@@ -221,7 +221,6 @@ const SubcategoryMaster = () => {
   useEffect(() => {
     API.get(apiConfig.category, { is_public_url: true })
       .then((res) => {
-        console.log(res, "res");
         setShapMaster(res.rows);
       })
       .catch(() => { });
@@ -233,7 +232,6 @@ const SubcategoryMaster = () => {
     value: option.id,
   }));
 
-  console.log(shapMaster, "shapMasters")
   return (
     <Container>
       <Box
@@ -313,6 +311,7 @@ const SubcategoryMaster = () => {
               changeState("categoryIds", selectedIds);
             }}
             name="choices-multi-default"
+            className="product-details-select-box"
             id="shape"
           />
         </div>

@@ -10,6 +10,7 @@ export default function SearchFilterDialog({
   reset,
   loader,
   maxWidth = "md",
+  className,
 }) {
   return (
     <>
@@ -18,6 +19,7 @@ export default function SearchFilterDialog({
         isOpen={isOpen}
         onClose={onClose}
         maxWidth={maxWidth}
+        className={className}
         actionBtns={
           <>
             <Button variant="contained" color="secondary" onClick={reset}>

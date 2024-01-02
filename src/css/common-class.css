@@ -357,9 +357,11 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
 .thead-second-width-title-price {
   width: 70px !important;
 }
-.thead-second-width-action-index-responsive{
+
+.thead-second-width-action-index-responsive {
   width: 110px !important;
 }
+
 .thead-second-width-title-price-78 {
   width: 78px !important;
 }
@@ -1379,4 +1381,9 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 
 .react-select-group {
   overflow-y: inherit !important;
+}
+
+.search-modal-header .css-1xc3v61-indicatorContainer,
+.search-modal-header .css-15sz6c-indicatorContainer {
+  color: white !important;
 }
