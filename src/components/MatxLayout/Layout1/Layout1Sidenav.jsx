@@ -67,7 +67,7 @@ const Layout1Sidenav = () => {
   };
 
   return (
-    <SidebarNavRoot image={bgImgURL} bg={primaryRGB} width={getSidenavWidth()} className='abc'>
+    <SidebarNavRoot image={bgImgURL} bg={primaryRGB} width={getSidenavWidth()} className='scroll-remove'>
       <NavListBox>
         <Brand>
           <Hidden smDown>
