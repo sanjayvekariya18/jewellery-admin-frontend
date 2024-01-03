@@ -29,6 +29,7 @@ import ApproveCancelOrder from "./ApproveCancelOrder";
 import FindOneOrderDetail from "./FindOneOrderDetail";
 import { useNavigate } from "react-router-dom";
 import { downloadFile } from "../../../../services/helper";
+import moment from "moment-timezone";
 
 const OrderMaster = () => {
   const [selectedUserData, setSelectedUserData] = useState(null);
@@ -350,7 +351,7 @@ const OrderMaster = () => {
           </span>,
 
           <span>
-            {item.orderDate}
+            {moment(item.createdAt).format('Do MMMM YYYY')}
           </span>,
           <div className="success_res" style={item.paymentStatus === "success" ? successLabel : failLabel}>
             <span>{item.paymentStatus}</span>
