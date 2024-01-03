@@ -86,11 +86,20 @@ const [formState, setFormState] = useState({
     );
     fd.append("attributes", JSON.stringify(filteredAttributes));
     fd.append("productDetailsGroup", JSON.stringify(filteredProductDetails));
-    for (const field in data) {
-      if (field !== "attributes" && field !== "productDetailsGroup") {
-        fd.append(field, data[field]);
-      }
+
+    // Create an object with only the fields you want to update
+    const updatedFields = {
+      name: data.name,
+      details: data.details,
+      imgUrl: data.imgUrl,
+      logoUrl: data.logoUrl,
+    };
+
+    // Append the updated fields to FormData
+    for (const field in updatedFields) {
+      fd.append(field, updatedFields[field]);
     }
+    
     const apiUrl = apiConfig.categoryId.replace(":id", id);
 
     API.put(apiUrl, fd)

@@ -210,6 +210,17 @@ const DiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                 }`}
             />
           </Box>
+          <div>
+            {isLoader === true ? <div style={{ marginTop: "20px", textAlign: "center" }}>
+              <img
+                src="../../../../../../assets/loading.gif"
+                alt=""
+                srcSet=""
+                height={28}
+                width={28}
+              />
+            </div> : null}
+          </div>
         </ThemeDialog>
       )}
     </Validators>

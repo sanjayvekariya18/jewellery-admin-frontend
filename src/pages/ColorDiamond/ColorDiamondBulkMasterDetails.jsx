@@ -113,7 +113,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                 >
                   Cancel
                 </Button>
-                
+
                 <CommonButton
                   disabled={selectedFile === null ? true : false}
                   style={{ marginLeft: "20px" }}
@@ -209,6 +209,17 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
                 }`}
             />
           </Box>
+          <div>
+            {isLoader === true ? <div style={{ marginTop: "20px", textAlign: "center" }}>
+              <img
+                src="../../../../../../assets/loading.gif"
+                alt=""
+                srcSet=""
+                height={28}
+                width={28}
+              />
+            </div> : null}
+          </div>
         </ThemeDialog>
       )}
     </Validators>

@@ -199,7 +199,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                     </Box>
                 }
             >
-                <div>
+                <div className="background_color">
                     <PaginationTable
                         header={COLUMNS}
                         rows={rows}
