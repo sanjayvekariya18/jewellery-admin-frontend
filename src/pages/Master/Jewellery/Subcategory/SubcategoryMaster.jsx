@@ -29,7 +29,7 @@ const SubcategoryMaster = () => {
   const [textModal, setTextModal] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [loading, setLoading] = useState();
-  const [shapMaster, setShapMaster] = useState([]);
+  const [categoryMaster, setCategoryMaster] = useState([]);
   const [addressText, setAddressText] = useState("");
   const textModaltoggle = () => {
     setTextModal(!textModal);
@@ -221,13 +221,13 @@ const SubcategoryMaster = () => {
   useEffect(() => {
     API.get(apiConfig.category, { is_public_url: true })
       .then((res) => {
-        setShapMaster(res.rows);
+        setCategoryMaster(res.rows);
       })
       .catch(() => { });
   }, []);
 
   // ------------Shap List--------------------------------
-  let _sortOptionsShap = shapMaster && shapMaster.map((option) => ({
+  let _sortOptionsCategory = categoryMaster && categoryMaster.map((option) => ({
     label: option.name,
     value: option.id,
   }));
@@ -283,25 +283,13 @@ const SubcategoryMaster = () => {
         loader={loading}
         className="product-details-select-box"
       >
-        {/* <Textinput
-          size="small"
-          focused={true}
-          type="text"
-          name="searchTxt"
-          label="Search Text"
-          autoFocus={true} 
-          variant="outlined"
-          value={state?.searchTxt}
-          onChange={(e) => changeState("searchTxt", e.target.value)}
-          sx={{ mb: 0, mt: 1, width: "100%" }}
-        /> */}
         <div>
           <Select
             label="Select Category Name"
             placeholder="Select Category Name"
-            options={_sortOptionsShap}
+            options={_sortOptionsCategory}
             isMulti
-            value={_sortOptionsShap.filter(
+            value={_sortOptionsCategory.filter(
               (option) =>
                 state.categoryIds && state.categoryIds.includes(option.value)
             )}

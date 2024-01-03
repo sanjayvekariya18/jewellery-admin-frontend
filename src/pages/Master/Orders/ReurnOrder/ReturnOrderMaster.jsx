@@ -509,6 +509,7 @@ const ReturnOrderMaster = () => {
           </span>,
           <div style={{ width: "80px" }}>
             <Button
+              className="back_color"
               color="primary"
               variant="contained"
               onClick={() => showAddressInDialog(item)}
@@ -931,23 +932,22 @@ const ReturnOrderMaster = () => {
               />
             </div>
           ) : state.data?.length > 0 ? (
-            <div className="background_color ">
-              <PaginationTable
-                header={COLUMNS}
-                rows={rows}
-                totalItems={state.total_items || 0}
-                perPage={state.rowsPerPage}
-                activePage={state.page}
-                checkboxColumn={false}
-                selectedRows={state.selectedRows}
-                enableOrder={true}
-                isLoader={state.loader}
-                emptyTableImg={<img src={error400cover} width="400px" />}
-                orderBy={state.orderby}
-                order={state.order}
-                {...otherTableActionProps}
-              ></PaginationTable>
-            </div>
+
+            <PaginationTable
+              header={COLUMNS}
+              rows={rows}
+              totalItems={state.total_items || 0}
+              perPage={state.rowsPerPage}
+              activePage={state.page}
+              checkboxColumn={false}
+              selectedRows={state.selectedRows}
+              enableOrder={true}
+              isLoader={state.loader}
+              emptyTableImg={<img src={error400cover} width="400px" />}
+              orderBy={state.orderby}
+              order={state.order}
+              {...otherTableActionProps}
+            ></PaginationTable>
           ) : (
             <div
               style={{

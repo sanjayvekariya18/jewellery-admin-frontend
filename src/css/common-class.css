@@ -1388,7 +1388,10 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   color: white !important;
 }
 
-.background_color .common-table-row tbody tr td button:hover {
+/* .background_color .common-table-row tbody tr td button:hover {
+  background-color: rgb(17, 82, 147) !important;
+} */
+.common-table-row tbody tr td .back_color:hover {
   background-color: rgb(17, 82, 147) !important;
 }
 

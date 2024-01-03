@@ -124,7 +124,7 @@ const SliderMaster = () => {
                         <Button
                             style={{ width: "25%" }}
                             variant="contained"
-                            className="btn btn-success"
+                            className="btn btn-success back_color"
                             onClick={() => {
                                 setInitialState(item.slider_id);
                                 setSlider(item.SliderBanners)
@@ -192,7 +192,6 @@ const SliderMaster = () => {
 
                     </Box>
                     {/* pagination code  */}
-                    <div className="background_color">
                         <PaginationTable
                             header={COLUMNS}
                             rows={rows}
@@ -208,7 +207,6 @@ const SliderMaster = () => {
                             emptyTableImg={<img src={error400cover} width="350px" />}
                             {...otherTableActionProps}
                         ></PaginationTable>
-                    </div>
                     <SliderMasterDetail
                         open={open}
                         togglePopup={() => {
