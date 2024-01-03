@@ -1387,10 +1387,12 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 .search-modal-header .css-15sz6c-indicatorContainer {
   color: white !important;
 }
+
 .background_color .common-table-row tbody tr td button:hover {
   background-color: rgb(17, 82, 147) !important;
 }
-.MuiDialogContent-root .css-1ty026z
-{
+
+.MuiDialogContent-root,
+.css-1ty026z {
   z-index: 1 !important;
 }

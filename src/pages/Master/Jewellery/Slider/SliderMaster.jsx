@@ -192,21 +192,23 @@ const SliderMaster = () => {
 
                     </Box>
                     {/* pagination code  */}
-                    <PaginationTable
-                        header={COLUMNS}
-                        rows={rows}
-                        totalItems={state.total_items || 0}
-                        perPage={state.rowsPerPage}
-                        activePage={state.page}
-                        checkboxColumn={false}
-                        selectedRows={state.selectedRows}
-                        enableOrder={true}
-                        orderBy={state.orderby}
-                        order={state.order}
-                        isLoader={state.loader}
-                        emptyTableImg={<img src={error400cover} width="350px" />}
-                        {...otherTableActionProps}
-                    ></PaginationTable>
+                    <div className="background_color">
+                        <PaginationTable
+                            header={COLUMNS}
+                            rows={rows}
+                            totalItems={state.total_items || 0}
+                            perPage={state.rowsPerPage}
+                            activePage={state.page}
+                            checkboxColumn={false}
+                            selectedRows={state.selectedRows}
+                            enableOrder={true}
+                            orderBy={state.orderby}
+                            order={state.order}
+                            isLoader={state.loader}
+                            emptyTableImg={<img src={error400cover} width="350px" />}
+                            {...otherTableActionProps}
+                        ></PaginationTable>
+                    </div>
                     <SliderMasterDetail
                         open={open}
                         togglePopup={() => {
