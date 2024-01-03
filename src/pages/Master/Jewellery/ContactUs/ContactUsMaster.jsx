@@ -40,10 +40,8 @@ const ContactUsMaster = () => {
     const { state, setState, changeState, ...otherTableActionProps } =
         usePaginationTable({
             is_read: "false",
-            order: "",
-            orderBy: "",
         });
-
+    console.log(selectedCheckboxes, "selectedCheckboxes");
     // column define
     const COLUMNS = [
         { title: "Name" },
@@ -65,8 +63,6 @@ const ContactUsMaster = () => {
             is_read: is_read,
             page: clear ? clearStates.page : state.page,
             rowsPerPage: clear ? clearStates.rowsPerPage : state.rowsPerPage,
-            order: state.order,
-            orderBy: state.orderby,
         };
 
         let newFilterState = { ...appConfig.default_pagination_state };
@@ -179,13 +175,11 @@ const ContactUsMaster = () => {
     // selectAllCheckbox all select box
     const selectAllCheckbox = (
         <div className="checkBox">
-            {is_read === false ? (
+            {state.data.length > 0 && !is_read && (
                 <Checkbox
                     checked={selectedCheckboxes.length === state.data.length}
                     onChange={handleSelectAll}
                 />
-            ) : (
-                ""
             )}
         </div>
     );
