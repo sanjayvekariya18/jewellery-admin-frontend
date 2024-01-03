@@ -281,6 +281,7 @@ const SubcategoryMaster = () => {
           setOpenSearch(false); // Close the modal
         }}
         loader={loading}
+        className="product-details-select-box"
       >
         {/* <Textinput
           size="small"
@@ -311,7 +312,6 @@ const SubcategoryMaster = () => {
               changeState("categoryIds", selectedIds);
             }}
             name="choices-multi-default"
-            className="product-details-select-box"
             id="shape"
           />
         </div>
