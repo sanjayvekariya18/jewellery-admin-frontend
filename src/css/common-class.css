@@ -1399,3 +1399,15 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 .css-1ty026z {
   z-index: 1 !important;
 }
+
+/* .abc .ps__rail-y {
+ top: 0px !important;
+ height: 0px !important;
+ right: 0px !important;
+} */
+
+/* scroll remove in a navigation */
+.scroll-remove .ps--active-x>.ps__rail-x,
+.scroll-remove .ps--active-y>.ps__rail-y {
+  display: none !important;
+}
