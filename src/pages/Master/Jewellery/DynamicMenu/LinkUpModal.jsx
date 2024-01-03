@@ -120,6 +120,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                                 <Button
                                     style={{ width: "55%" }}
                                     variant="contained"
+                                    className="back_color"
                                     onClick={() => {
                                         togglePopupBanner();
                                         // setOpenBanner(true)  
@@ -162,6 +163,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                                 <Button
                                     style={{ cursor: "pointer", width: "50%" }}
                                     variant="contained"
+                                    className="back_color"
                                     onClick={() => { togglePopupSlider(); setSelectedLinkId(item); }}
                                 >
                                     Select Slider
@@ -199,7 +201,7 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                     </Box>
                 }
             >
-                <div className="background_color">
+                
                     <PaginationTable
                         header={COLUMNS}
                         rows={rows}
@@ -216,7 +218,6 @@ const LinkUpModal = ({ open, togglePopup, menuId }) => {
                         orderBy={state.orderby}
                         order={state.order}
                     ></PaginationTable>
-                </div>
             </ThemeDialog>
 
             {openBanner &&
