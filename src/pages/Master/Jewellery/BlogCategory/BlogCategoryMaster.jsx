@@ -37,7 +37,7 @@ const BlogCategoryMaster = () => {
   /* Pagination code */
   const COLUMNS = [
     { title: "Category Name", classNameWidth: "thead-second-width-title" },
-    { title: "Description", classNameWidth: "thead-second-width-title-option" },
+    { title: "Description", classNameWidth: "thead-second-width-title-option thead-second-width-title-option-responsive" },
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 

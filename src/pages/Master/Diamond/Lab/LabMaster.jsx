@@ -32,7 +32,7 @@ const LabMaster = () => {
   };
   /* Pagination code */
   const COLUMNS = [
-    { title: "Name", classNameWidth: "thead-second-width-title" },
+    { title: "Name", classNameWidth: "thead-second-width-title thead-second-width-title-responsive" },
     { title: "Details", classNameWidth: "thead-second-width-title-option" },
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];

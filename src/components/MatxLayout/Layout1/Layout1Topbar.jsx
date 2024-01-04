@@ -198,14 +198,15 @@ const Layout1Topbar = () => {
           <Box display="flex" alignItems="center">
             {/* <NotificationProvider> */}
             <NotificationBar />
-          {/* </NotificationProvider> */}
+            {/* </NotificationProvider> */}
             <MatxMenu
+              className="user-avatar"
               menuButton={
                 <div
                   className="main-active-button-menu"
                   style={{ display: "flex", alignItems: "center" }}
                 >
-                  <UserMenu>
+                  <UserMenu className="user-avatar"> 
                     <Avatar
                       src={
                         user && user.image
@@ -213,6 +214,7 @@ const Layout1Topbar = () => {
                           : "./assets/images/face-6.jpg"
                       }
                       sx={{ cursor: "pointer", width: "40px", height: "40px" }}
+                      className="user-avatar"
                     />
                   </UserMenu>
                   <div className="user-info user-name-div">
