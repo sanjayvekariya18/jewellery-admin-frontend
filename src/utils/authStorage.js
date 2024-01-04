@@ -3,9 +3,9 @@ import { appConfig } from "../config";
 class AuthStorage {
 	static STORAGEKEY = {
 		userData: "userData",
-		access_token: appConfig.localStorage.token,
 		user_id: "user_id",
 		name: "name",
+		access_token: appConfig.localStorage.token,
 	};
 
 	static setStorageData(key, data, keepMeLoggedIn) {
@@ -42,15 +42,16 @@ class AuthStorage {
 	}
 
 	static deauthenticateUser() {
-        Object.keys(this.STORAGEKEY).forEach(key=>{
-            this.deleteKey(key);
-        })
+		Object.keys(this.STORAGEKEY).forEach(key => {
+			this.deleteKey(key);
+		})
 	}
 
 	static deleteKey(key) {
-		localStorage.removeItem(key);
 		sessionStorage.removeItem(key);
+		sessionStorage.removeItem(appConfig.localStorage.token);
 	}
+
 }
 
 export default AuthStorage;

@@ -47,7 +47,6 @@ const StatCards = () => {
   const [totalProduct, setTotalProduct] = useState(0);
   const [totalCategory, setTotalCategory] = useState(0);
   const [totalOrder, setTotalOrder] = useState(0);
-  // const [totalDiamond, setTotalDiamond] = useState(0);
 
   //  Total Customer Count APi
   useEffect(() => {

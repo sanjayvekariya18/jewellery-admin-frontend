@@ -41,7 +41,6 @@ const ContactUsMaster = () => {
         usePaginationTable({
             is_read: "false",
         });
-    console.log(selectedCheckboxes, "selectedCheckboxes");
     // column define
     const COLUMNS = [
         { title: "Name" },
