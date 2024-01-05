@@ -93,10 +93,10 @@ const UserPermissionsMaster = () => {
 
   const getTableData = () => {
     API.get(`${apiConfig.userPermission}/${params.id}`)
-    .then((response) =>
-      setUserPermissions(response)
-    )
-    .catch(() => { })
+      .then((response) =>
+        setUserPermissions(response)
+      )
+      .catch(() => { })
   };
 
   useEffect(() => {

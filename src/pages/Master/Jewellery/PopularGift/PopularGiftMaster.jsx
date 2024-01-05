@@ -161,19 +161,20 @@ const PopularGiftMaster = () => {
                         { name: "Popular Gift" },
                     ]}
                 />
+                <div>
+                    <Button
+                        variant="contained"
+                        onClick={handleSaveButtonClick}
+                        disabled={!rowMoved}
+                    >
+                        Save
+                    </Button>
+                </div>
             </Box>
-            <div style={{ display: "flex", justifyContent: "flex-end", paddingBottom: "10px" }}>
-                <Button
-                    variant="contained"
-                    onClick={handleSaveButtonClick}
-                    disabled={!rowMoved}
-                >
-                    Save
-                </Button>
-            </div>
+
             {/* paginationTable and draggbale in inside  */}
             <ReactDragListView onDragEnd={handleDragEnd}>
-            <PaginationTable
+                <PaginationTable
                     header={COLUMNS}
                     rows={rows}
                     totalItems={state.total_items || 0}

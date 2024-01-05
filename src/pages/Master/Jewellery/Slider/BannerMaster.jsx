@@ -7,7 +7,7 @@ import { apiConfig, appConfig } from "../../../../config";
 import PaginationTable, { usePaginationTable } from "../../../../components/UI/Pagination/PaginationTable";
 import error400cover from "../../../../assets/no-data-found-page.png";
 import ReactDragListView from "react-drag-listview";
-import {Container } from "../../../../components";
+import { Container } from "../../../../components";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import BannerMaster2 from "../Banner/BannerMaster";
 
@@ -220,13 +220,13 @@ const BannerMaster = ({ model, setModal, togglePopupBanner, callBack, sliderId, 
                                 onClick={() => {
                                     togglePopupBanner();
                                 }}>
-                            
+
                                 Cancel
                             </Button>
                         </Box>
                     }
                 >
-                    <Container>
+                    <Container style={{ margin: "0px" }}>
                         <Box
                             sx={{
                                 display: "flex",
@@ -236,7 +236,6 @@ const BannerMaster = ({ model, setModal, togglePopupBanner, callBack, sliderId, 
                         >
                             <div>
                                 <div style={{ display: "flex" }}>
-
                                     <Button
                                         style={{ marginLeft: "20px" }}
                                         variant="contained"
@@ -277,7 +276,7 @@ const BannerMaster = ({ model, setModal, togglePopupBanner, callBack, sliderId, 
                                     ></PaginationTable>
                                 </div>
                             </ReactDragListView>
-                        </div>                                                                          
+                        </div>
                     </Container>
                 </ThemeDialog >
             </>

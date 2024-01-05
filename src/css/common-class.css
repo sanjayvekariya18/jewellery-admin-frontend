@@ -967,9 +967,11 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
 }
 
 .badgeSuccess {
-  background-color: #daf4f0;
-  color: #0ab39c;
-  padding: 2px 15px;
+  background-color: #d5f2ee;
+  color: #09af98;
+  padding: 5px 17px;
+  font-size: 14px;
+  font-weight: 500;
   width: max-content;
   text-transform: uppercase;
 }
@@ -978,6 +980,9 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
   background-color: #fde8e4;
   color: #e74c3c;
   padding: 2px 15px;
+  padding: 5px 17px;
+  font-size: 14px;
+  font-weight: 500;
   width: max-content;
   text-transform: uppercase;
 }
@@ -1308,6 +1313,14 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
     text-overflow: ellipsis;
   }
 
+  .thead-second-width-action-35-res {
+    width: 45px !important;
+  }
+
+  .product-name-responsive {
+    line-height: 20px;
+  }
+
   .thead-second-width-title-responsive {
     width: 380px !important;
   }
@@ -1377,6 +1390,27 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
     gap: 0px;
   }
 
+  .badgeSuccess {
+    background-color: #d5f2ee;
+    color: #09af98;
+    padding: 5px 17px;
+    font-size: 14px;
+    font-weight: 500;
+    width: max-content;
+    text-transform: uppercase;
+  }
+
+  .badgeFail {
+    background-color: #fde8e4;
+    color: #e74c3c;
+    padding: 2px 15px;
+    padding: 5px 17px;
+    font-size: 14px;
+    font-weight: 500;
+    width: max-content;
+    text-transform: uppercase;
+  }
+
   .chart-container {
     display: grid !important;
     grid-template-columns: 1fr !important;
@@ -1439,9 +1473,16 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 .scroll-remove .ps--active-y>.ps__rail-y {
   display: none !important;
 }
+
 .user-avatar div:hover {
   background-color: rgba(0, 0, 0, 0.09) !important;
 }
+
 .user-avatar:hover {
   background-color: rgba(0, 0, 0, 0.09) !important;
+}
+.permission_color{
+  background-color: #E0E2E8 !important;
+  padding-left: 10px !important;
+  font-size: 14px !important;
 }

@@ -155,26 +155,26 @@ const FindOneOrderDetail = () => {
 
   const generateProductField = (product, type) => {
     const getOtherDetailsHtml = (otherDetails) => {
-			let _details = ''
-			const __prepare = (type) => {
-				switch (type) {
-					case 'neckleces_chain_width':
+      let _details = ''
+      const __prepare = (type) => {
+        switch (type) {
+          case 'neckleces_chain_width':
             return `<div><strong style="margin-left: 10px;">Neckleces chain width:-  </strong><span>${otherDetails?.neckleces_chain_width}</span></div><br />`
-	
-					case 'ring_size':
+
+          case 'ring_size':
             return `<div><strong style="margin-left: 10px;">Ring size:-  </strong><span>${otherDetails?.ring_size}</span></div><br />`
-				
-					default:
-						break;
-				}
-			}
 
-			Object.entries(otherDetails).forEach(([key]) => {
-				_details += __prepare(key);
-			})
+          default:
+            break;
+        }
+      }
 
-			return _details;
-		}
+      Object.entries(otherDetails).forEach(([key]) => {
+        _details += __prepare(key);
+      })
+
+      return _details;
+    }
 
     switch (type) {
       case "type":
@@ -192,7 +192,7 @@ const FindOneOrderDetail = () => {
 
       case "title":
         let title = product.productVariant
-          ? `<div class="mb-2"><b>Product :-</b> ${product.productVariant.title}</div>`
+          ? `<div class="mb-2  product-name-responsive"><b>Product :-</b> ${product.productVariant.title}</div>`
           : "";
         let diamondDetails = "";
         let gemstoneTitle = "";
@@ -238,11 +238,11 @@ const FindOneOrderDetail = () => {
 
         if (!isEmpty(product?.meta)) {
 
-					meta += ` <div>
+          meta += ` <div>
 					<strong style="margin-left: -140px">Other Details</strong>
 					${getOtherDetailsHtml(product?.meta)}
 				</div>`;
-				}
+        }
 
         return `${title}  ${gemstoneTitle}${diamondDetails}${engraving}${meta}`;
 
@@ -630,7 +630,7 @@ const FindOneOrderDetail = () => {
                           Total
                         </TableCell>
                         <TableCell
-                          className={`${classes.tableHeader} ${classes.noUnderline} thead-second-width-action-35`}
+                          className={`${classes.tableHeader} ${classes.noUnderline} thead-second-width-action-35 thead-second-width-action-35-res`}
                           style={{
                             paddingLeft: "0",
                             paddingTop: "11px",

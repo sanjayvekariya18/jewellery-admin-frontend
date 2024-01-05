@@ -10,7 +10,7 @@ export default function SimpleTable({ headerColumns, data, extraData = {} }) {
                 <TableHead>
                     <TableRow>
                         {headerColumns.map((column, key) => (
-                            <TableCell key={key} align={column.align || 'center'}  {...(column.width && { width: column.width })}>
+                            <TableCell key={key} align={column.align || 'center'} className="permission_color" {...(column.width && { width: column.width })}>
                                 {typeof column.headerCell === 'string' ? column.headerCell : column.headerCell({ ...extraData })}
                             </TableCell>
                         ))}

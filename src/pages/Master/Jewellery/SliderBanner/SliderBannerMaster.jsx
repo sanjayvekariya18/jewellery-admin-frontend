@@ -7,6 +7,7 @@ import { apiConfig, appConfig } from "../../../../config";
 import error400cover from "../../../../assets/no-data-found-page.png"
 import { API, HELPER } from "../../../../services";
 import { Container } from "../../../../components";
+import _ from "lodash";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 
 const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }) => {
@@ -232,7 +233,6 @@ const SliderBannerMaster = ({ modal, setModal, togglePopup, callBack, sliderId }
 
                         <div>
                             <div style={{ display: "flex" }}>
-
                                 <Button
                                     style={{ marginLeft: "20px" }}
                                     variant="contained"

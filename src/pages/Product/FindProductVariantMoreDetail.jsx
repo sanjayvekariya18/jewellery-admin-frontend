@@ -396,10 +396,10 @@ const FindProductVariantMoreDetail = () => {
 
                 productData.images && productData.images.map((item, index) => (
                   item.fileType === "image" ?
-                    <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
+                    <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={"image"} className="product_img" />
                     :
 
-                    <video autoPlay loop muted className="video_url" controls>
+                    <video autoPlay loop muted className="video_url" controls key={index}>
                       <source src={HELPER.getImageUrl(item.fileUrl)} type="video/mp4" />
                     </video>
                   // <img key={index} src={HELPER.getImageUrl(item.fileUrl)} alt={`Image ${index}`} className="product_img" />
