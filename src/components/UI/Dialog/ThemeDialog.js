@@ -27,7 +27,7 @@ export default function ThemeDialog({
     >
       <DialogTitle id="form-dialog-title" className="model-title">{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
-      <DialogActions sx={{ px: 3, pb: 2 }}>{actionBtns}</DialogActions>
+      <DialogActions sx={{ px: 3, pb: 2 }} className="model-footer">{actionBtns}</DialogActions>
     </Dialog>
   );
 }

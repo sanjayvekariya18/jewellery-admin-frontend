@@ -637,6 +637,11 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
   padding-left: 20px;
 }
 
+.model-footer {
+  border-top: 1px solid #8080802c !important;
+  padding-top: 18px !important;
+}
+
 .main-icon-details-button button {
   padding: 0 !important;
 }
