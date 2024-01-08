@@ -633,9 +633,9 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
   padding-bottom: 5px !important;
 }
 
-/* .product-th-tag {
+.product-th-tag {
   padding-left: 10px;
-} */
+}
 
 .main-icon-details-button button {
   padding: 0 !important;
@@ -1238,6 +1238,15 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
   line-height: 0.9;
 }
 
+.model-title {
+  background: #424d7916 !important;
+  border-bottom: 1px solid #8080803b !important;
+  color: #222a44 !important;
+  font-size: 20px !important;
+  margin-bottom: 20px !important;
+  padding: 14px 0 12px 30px !important;
+}
+
 .product-title {
   line-height: 18px;
 }
@@ -1481,7 +1490,8 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 .user-avatar:hover {
   background-color: rgba(0, 0, 0, 0.09) !important;
 }
-.permission_color{
+
+.permission_color {
   background-color: #E0E2E8 !important;
   padding-left: 10px !important;
   font-size: 14px !important;

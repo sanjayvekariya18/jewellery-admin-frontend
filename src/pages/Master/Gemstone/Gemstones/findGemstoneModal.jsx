@@ -88,7 +88,8 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData, callBack }) => {
                       gap: "6px",
                     }}
                   >
-                    {gemstoneInfo.map((info) => (
+                    {gemstoneInfo.map((info) =>
+                    (
                       <div
                         key={info.key}
                         style={{
@@ -119,9 +120,9 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData, callBack }) => {
                               fontWeight: "400",
                             }}
                           >
-                            {gemStoneData[info.key] === 0
+                            {String(gemStoneData[info.key]).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') === 0
                               ? "0"
-                              : gemStoneData[info.key] || ""}
+                              : String(gemStoneData[info.key]).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') || ""}
                           </span>
                         </div>
                       </div>

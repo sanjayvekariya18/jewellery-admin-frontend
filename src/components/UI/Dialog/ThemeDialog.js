@@ -25,7 +25,7 @@ export default function ThemeDialog({
       className={className}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+      <DialogTitle id="form-dialog-title" className="model-title">{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>{actionBtns}</DialogActions>
     </Dialog>
