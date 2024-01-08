@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useMemo } from "react";
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import {
   usePaginationTable,
 } from "../../components/UI/Pagination/DashboardPaginationTable";
@@ -6,8 +6,11 @@ import { API, HELPER } from "../../services";
 import { apiConfig, appConfig } from "../../config";
 import error400cover from "../../assets/no-data-found-page.png";
 import { Box, Card, Grid, TablePagination } from "@mui/material";
+import error403cover from "../../assets/no-permission-user.png";
 
 const CustomerDashboard = () => {
+  const [error403, setError403] = useState("");
+
   const { state, setState, getInitialStates, changeState } = usePaginationTable(
     {}
   );
@@ -31,16 +34,17 @@ const CustomerDashboard = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
       })
       .catch((err) => {
+        setError403(err.status);
         if (
           err.status === 400 ||
           err.status === 401 ||
@@ -137,7 +141,16 @@ const CustomerDashboard = () => {
   const renderContent = () => {
     return state.data.length === 0 ? (
       <Box textAlign="center" mt={4}>
-        <img src={error400cover} width="350px" />
+        {/* <img src={error400cover} width="350px" /> */}
+
+        <div>
+          {error403 === 403 ? (
+            <img src={error403cover} width="270px" />
+          ) : (
+            <img src={error400cover} width="255px" />
+          )}
+        </div>
+
       </Box>
     ) : (
       <>

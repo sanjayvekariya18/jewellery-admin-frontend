@@ -80,6 +80,7 @@ const JwtLogin = () => {
           {({ onSubmit, errors }) => {
             return (
               <>
+
                 <div
                   style={{
                     background: "white",
@@ -128,57 +129,59 @@ const JwtLogin = () => {
                         Jewellery ! 👋
                       </h2>
                     </div>
-                    <div className="text-input-top main-login-text-input">
-                      <Textinput
-                        size="small"
-                        type="email"
-                        name="email"
-                        label="Email"
-                        value={formState.email}
-                        placeholder="Enter Email Address"
-                        onChange={onChange}
-                        error={errors?.email}
-                        sx={{ mb: 0, width: "500px" }}
-                        onKeyPress={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault(); // Prevent form submission
-                            onSubmit(handleSubmit);
-                          }
-                        }}
-                      />
-                    </div>
-                    <div className="text-input-top main-login-text-input">
-                      <Textinput
-                        size="small"
-                        type="password"
-                        name="password"
-                        label="Password"
-                        placeholder="******"
-                        value={formState.password}
-                        onChange={onChange}
-                        error={errors?.password}
-                        sx={{ mb: 0, width: "500px" }}
-                        onKeyPress={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault(); // Prevent form submission
-                            onSubmit(handleSubmit);
-                          }
-                        }}
-                      />
-                    </div>
-                    <div className="main-login-text-input">
-                      <Button
-                        type="submit"
-                        color="primary"
-                        variant="contained"
-                        disabled={loading}
-                        sx={{ my: 2 }}
-                        onClick={() => onSubmit(handleSubmit)}
-                        style={{ width: "500px" }}
-                      >
-                        {loading ? "Loading..." : "Login"}
-                      </Button>
-                    </div>
+                    <form>
+                      <div className="text-input-top main-login-text-input">
+                        <Textinput
+                          size="small"
+                          type="email"
+                          name="email"
+                          label="Email"
+                          value={formState.email}
+                          placeholder="Enter Email Address"
+                          onChange={onChange}
+                          error={errors?.email}
+                          sx={{ mb: 0, width: "500px" }}
+                          onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault(); // Prevent form submission
+                              onSubmit(handleSubmit);
+                            }
+                          }}
+                        />
+                      </div>
+                      <div className="text-input-top main-login-text-input">
+                        <Textinput
+                          size="small"
+                          type="password"
+                          name="password"
+                          label="Password"
+                          placeholder="******"
+                          value={formState.password}
+                          onChange={onChange}
+                          error={errors?.password}
+                          sx={{ mb: 0, width: "500px" }}
+                          onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault(); // Prevent form submission
+                              onSubmit(handleSubmit);
+                            }
+                          }}
+                        />
+                      </div>
+                      <div className="main-login-text-input">
+                        <Button
+                          type="submit"
+                          color="primary"
+                          variant="contained"
+                          disabled={loading}
+                          sx={{ my: 2 }}
+                          onClick={() => onSubmit(handleSubmit)}
+                          style={{ width: "500px" }}
+                        >
+                          {loading ? "Loading..." : "Login"}
+                        </Button>
+                      </div>
+                    </form>
                   </div>
                   <div
                     style={{
@@ -207,13 +210,14 @@ const JwtLogin = () => {
                       alt=""
                     /> */}
                   </div>
-                </div>
+                </div >
+
               </>
             );
           }}
         </Validators>
       </>
-    </JWTRoot>
+    </JWTRoot >
   );
 };
 
