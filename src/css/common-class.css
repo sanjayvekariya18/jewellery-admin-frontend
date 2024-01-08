@@ -1276,7 +1276,13 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 .position-relative {
   position: relative;
 }
-
+.align-center{
+  align-items: center;
+}
+.background-color{
+  background-color: #80808029;
+  padding: 12px;
+}
 .active-product {
   background: rgb(241, 238, 238);
   color: black;

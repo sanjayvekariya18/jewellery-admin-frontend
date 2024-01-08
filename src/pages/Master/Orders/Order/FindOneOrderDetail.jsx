@@ -282,7 +282,7 @@ const FindOneOrderDetail = () => {
         if (!isEmpty(product?.engraving)) {
           total += +product?.engraving?.price || 0;
         }
-        return `<div style="line-height: 2; position: absolute; top: 5px;">$${total}</div>`;
+        return `<div style="">$${total}</div>`;
 
 
       case "total_price":
@@ -658,7 +658,7 @@ const FindOneOrderDetail = () => {
                               >
                               </TableCell>
 
-                              <TableCell className={`${classes.noUnderline} inline-height-1 position-relative`} dangerouslySetInnerHTML={{ __html: generateProductField(product, "price") }}>
+                              <TableCell className={`${classes.noUnderline} inline-height-1 position-relative align-center`} dangerouslySetInnerHTML={{ __html: generateProductField(product, "price") }}>
                               </TableCell>
                               <TableCell className={`${classes.noUnderline} inline-height-1`}>
                                 {product.quantity}

@@ -281,7 +281,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                       Object.keys(rowsProductVariant[0]?.columns).length >
                       0 && (
                         <div align="center">
-                          <h3>Product Variant Details</h3>
+                          <h4 className="background-color">Product Variant Details</h4>
                         </div>
                       )}
                     {PRODUCTVARIANT.map((header, index) => (
@@ -295,7 +295,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                                 <TableCell style={{ fontWeight: "bold" }} >
                                   {header?.title}
                                 </TableCell>
-                                <TableCell style={{ fontWeight: "bold" }}>
+                                <TableCell style={{ fontWeight: "500" }}>
                                   {rowsProductVariant[0]?.columns[index]}
                                 </TableCell>
                                 {/* </div> */}
@@ -313,7 +313,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                     Object.keys(rowsProductVariant[0]?.columns).length >
                     0 && (
                       <div align="center">
-                        <h3>Gemstone Details</h3>
+                        <h4 className="background-color">Gemstone Details</h4>
                       </div>
                     )}
                   {GEMSTONE.map((header, index) => (
@@ -331,7 +331,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                                   `${GEMSTONE[index].title}:`} */}
                                 {header?.title}
                               </TableCell>
-                              <TableCell style={{ fontWeight: "bold" }}>
+                              <TableCell style={{ fontWeight: "500" }}>
                                 {rowsGemstone[0]?.columns[index]}
                               </TableCell>
                             </TableRow>
@@ -348,7 +348,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                     Object.keys(rowsProductVariant[0]?.columns).length >
                     0 && (
                       <div align="center">
-                        <h4>Diamond Details</h4>
+                        <h4 className="background-color">Diamond Details</h4>
                       </div>
                     )}
                   {DIAMOND.map((header, index) => (
@@ -366,7 +366,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                                   `${DIAMOND[index].title}:`} */}
                                 {header?.title}
                               </TableCell>
-                              <TableCell style={{ fontWeight: "bold" }}>
+                              <TableCell style={{ fontWeight: "500" }}>
                                 {rowsDiamond[0]?.columns[index]}
                               </TableCell>
                               {/* </div> */}
