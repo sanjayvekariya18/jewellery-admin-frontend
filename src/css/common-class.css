@@ -1471,6 +1471,10 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   z-index: 1 !important;
 }
 
+.checkBox-padding-remove {
+  padding: 0px !important;
+}
+
 /* .abc .ps__rail-y {
  top: 0px !important;
  height: 0px !important;

@@ -166,7 +166,7 @@ const ContactUsMaster = () => {
     const CustomCheckbox = ({ id, checked, onChange }) => {
         return (
             <div>
-                <Checkbox checked={checked} onChange={onChange} id={id} />
+                <Checkbox checked={checked} onChange={onChange} id={id} className="checkBox-padding-remove" />
             </div>
         );
     };
@@ -176,6 +176,7 @@ const ContactUsMaster = () => {
         <div className="checkBox">
             {state.data.length > 0 && !is_read && (
                 <Checkbox
+                    className="checkBox-padding-remove"
                     checked={selectedCheckboxes.length === state.data.length}
                     onChange={handleSelectAll}
                 />
@@ -248,42 +249,42 @@ const ContactUsMaster = () => {
                             { name: "Contact Us" },
                         ]}
                     />
+                    <div
+                        style={{
+                            marginBottom: "10px",
+                            display: "flex",
+                            justifyContent: "end"
+                        }}
+                    >
+                        <div style={{ marginRight: "25px", display: "flex", alignItems: "center" }}>
+                            <Checkbox
+                                type="checkbox"
+                                checked={is_read}
+                                onChange={handleCheckboxClick}
+                                style={{ fontSize: "15px" }}
+                                id="isVisible187"
+                            />
+                            <Typography
+                                htmlFor="isVisible187"
+                                style={{
+                                    fontSize: "15px",
+                                    fontWeight: 500,
+                                }}
+                            >
+                                Is Read
+                            </Typography>
+                        </div>
+                        <div style={{ marginBottom: "8px" }}>
+                            <Button
+                                variant="contained"
+                                onClick={onClickUpdateBulk}
+                                disabled={selectedCheckboxes.length === 0}
+                            >
+                                <i className="ri-eye-line align-bottom"></i> Read
+                            </Button>
+                        </div>
+                    </div>
                 </Box>
-                <div
-                    style={{
-                        marginBottom: "10px",
-                        display: "flex",
-                        justifyContent: "end"
-                    }}
-                >
-                    <div style={{ marginRight: "25px", display: "flex", alignItems: "center" }}>
-                        <Checkbox
-                            type="checkbox"
-                            checked={is_read}
-                            onChange={handleCheckboxClick}
-                            style={{ fontSize: "15px" }}
-                            id="isVisible187"
-                        />
-                        <Typography
-                            htmlFor="isVisible187"
-                            style={{
-                                fontSize: "15px",
-                                fontWeight: 500,
-                            }}
-                        >
-                            Is Read
-                        </Typography>
-                    </div>
-                    <div style={{ marginBottom: "8px" }}>
-                        <Button
-                            variant="contained"
-                            onClick={onClickUpdateBulk}
-                            disabled={selectedCheckboxes.length === 0}
-                        >
-                            <i className="ri-eye-line align-bottom"></i> Read
-                        </Button>
-                    </div>
-                </div>
                 {/* pagination code */}
                 <div className="contact_checkBox">
                     <PaginationTable
