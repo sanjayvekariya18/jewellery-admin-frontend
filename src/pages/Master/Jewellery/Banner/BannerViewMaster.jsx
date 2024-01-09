@@ -26,7 +26,7 @@ const BannerViewMaster = ({ open, togglePopup2, userData }) => {
         // { title: "Select", classNameWidth: "thead-second-width-discount" },
         { title: "Banner Title", classNameWidth: "thead-second-width-title-email" },
         { title: "Sub Title", classNameWidth: "thead-second-width-title" },
-        { title: "Image", classNameWidth: "thead-second-width-stock-no thead-second-width-stock-no-res" },
+        { title: "Image", classNameWidth: "thead-second-width-image thead-second-width-stock-no-res" },
         { title: "Button Text", classNameWidth: "thead-second-width-stone_res common-width-apply-th-new" },
         { title: "Is Clickable", classNameWidth: "thead-second-width-discount-85" },
         { title: "Show Button", classNameWidth: "thead-second-width-discount-85" },

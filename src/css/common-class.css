@@ -237,6 +237,10 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignCenter.MuiTableCell-siz
   width: 200px !important;
 }
 
+.thead-second-width-image {
+  width: 135px !important;
+}
+
 .thead-second-width-stock-no-order-date {
   width: 210px !important;
 }

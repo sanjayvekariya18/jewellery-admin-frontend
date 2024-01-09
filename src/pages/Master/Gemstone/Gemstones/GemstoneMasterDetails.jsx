@@ -88,12 +88,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
         ) {
           HELPER.toaster.error(err.errors.message);
         } else if (err.status === 422) {
-          // if (err.errors.carat && err.errors.carat.length > 0) {
-          //   HELPER.toaster.error(err.errors.carat[0]);
-          // } else {
-          //   console.log(err.errors,"dgrth");
-          //   HELPER.toaster.error(err.errors);
-          // }
           if (err.errors) {
             Object.keys(err.errors).forEach(key => {
               if (err.errors[key] && err.errors[key].length > 0) {
