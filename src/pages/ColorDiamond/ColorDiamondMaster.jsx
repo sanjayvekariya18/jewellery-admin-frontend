@@ -67,7 +67,7 @@ const ColorDiamondMaster = () => {
       .catch(() => { });
   }, []);
   const _intensityOptions = intensity.map((item) => ({
-    label: item,
+    label: item.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' '),
     value: item,
   }));
 
@@ -80,7 +80,7 @@ const ColorDiamondMaster = () => {
       .catch(() => { });
   }, []);
   const _colorOptions = color.map((item) => ({
-    label: item,
+    label: item.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' '),
     value: item,
   }));
 

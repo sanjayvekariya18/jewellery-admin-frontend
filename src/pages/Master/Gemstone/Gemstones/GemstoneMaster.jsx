@@ -215,16 +215,16 @@ const GemstoneMaster = () => {
 
   // ---------------------Color Filter----------------
   const sortOptionsColor = [
-    { label: "Blue", value: "Blue" },
-    { label: "White", value: "White" },
-    { label: "Green", value: "Green" },
-    { label: "Pink", value: "Pink" },
-    { label: "Teal", value: "Teal" },
-    { label: "Purple", value: "Purple" },
-    { label: "Peach", value: "Peach" },
-    { label: "Yellow", value: "Yellow" },
-    { label: "Orange", value: "Orange" },
-    { label: "Other", value: "Other" },
+    { label: "Blue", value: "BLUE" },
+    { label: "White", value: "WHITE" },
+    { label: "Green", value: "GREEN" },
+    { label: "Pink", value: "PINK" },
+    { label: "Teal", value: "TEAL" },
+    { label: "Purple", value: "PURPLE" },
+    { label: "Peach", value: "PEACH" },
+    { label: "Yellow", value: "YELLOW" },
+    { label: "Orange", value: "ORANGE" },
+    { label: "Other", value: "OTHER" },
   ];
 
   let _sortOptionsColor = sortOptionsColor.map((option) => ({
@@ -234,21 +234,21 @@ const GemstoneMaster = () => {
 
   // -------------------GemstonesType Filter --------------------------------
   const sortOptionsGemstoneType = [
-    { label: "Moissanite", value: "Moissanite" },
-    { label: "Sapphire", value: "Sapphire" },
-    { label: "Emerald", value: "Emerald" },
-    { label: "Aquamarine", value: "Aquamarine" },
-    { label: "Morganite", value: "Morganite" },
-    { label: "Alexandrite", value: "Alexandrite" },
-    { label: "Ruby", value: "Ruby" },
-    { label: "Tanzanite", value: "Tanzanite" },
-    { label: "Tourmaline", value: "Tourmaline" },
-    { label: "Amethyst", value: "Amethyst" },
-    { label: "Garnet", value: "Garnet" },
-    { label: "Spinel", value: "Spinel" },
-    { label: "Peridot", value: "Peridot" },
-    { label: "Citrine", value: "Citrine" },
-    { label: "Other", value: "Other" },
+    { label: "Moissanite", value: "MOISSANITE" },
+    { label: "Sapphire", value: "SAPPHIRE" },
+    { label: "Emerald", value: "EMERALD" },
+    { label: "Aquamarine", value: "AQUAMARINE" },
+    { label: "Morganite", value: "MORGANITE" },
+    { label: "Alexandrite", value: "ALEXANDRITE" },
+    { label: "Ruby", value: "RUBY" },
+    { label: "Tanzanite", value: "TANZANITE" },
+    { label: "Tourmaline", value: "TOURMALINE" },
+    { label: "Amethyst", value: "AMETHYST" },
+    { label: "Garnet", value: "GARNET" },
+    { label: "Spinel", value: "SPINEL" },
+    { label: "Peridot", value: "PERIDOT" },
+    { label: "Citrine", value: "CITRINE" },
+    { label: "Other", value: "OTHER" },
   ];
 
   let _sortOptionsGemstoneType = sortOptionsGemstoneType.map((option) => ({

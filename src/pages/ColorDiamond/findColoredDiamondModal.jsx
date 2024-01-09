@@ -7,30 +7,20 @@ import { HELPER } from "../../services";
 const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
   const gemstoneInfo = [
     // { label: "Title : ", key: gemStoneData ? gemStoneData.title : "" },
-    {
-      label: "Gemstone Type : ",
-      key: gemStoneData ? gemStoneData.gemstoneType : "",
-    },
+    { label: "Gemstone Type : ", key: gemStoneData ? gemStoneData.gemstoneType : "" },
     { label: "Shape Name : ", key: gemStoneData ? gemStoneData.shapeName : "" },
     { label: "Carat : ", key: gemStoneData ? gemStoneData.carat : "" },
-    { label: "Color : ", key: gemStoneData ? gemStoneData.color : "" },
+    { label: "Color : ", key: gemStoneData ? gemStoneData.color.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') : "" },
     { label: "Color Name : ", key: gemStoneData ? gemStoneData.colorName : "" },
-    // {
-    //   label: "Clarity: ",
-    //   key: gemStoneData
-    //     ? getDictionaryValue(appConfig.D_Clarity, gemStoneData.clarity)
-    //     : "",
-    // },
     { label: "Clarity : ", key: gemStoneData ? gemStoneData.clarity : "" },
-
     { label: "Origin : ", key: gemStoneData ? gemStoneData.origin : "" },
-    { label: "Intensity : ", key: gemStoneData ? gemStoneData.intensity : "" },
+    { label: "Intensity : ", key: gemStoneData ? gemStoneData.intensity.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') : "" },
     { label: "M-Length : ", key: gemStoneData ? gemStoneData.mLength : "" },
     { label: "M-Width : ", key: gemStoneData ? gemStoneData.mWidth : "" },
     { label: "M-Depth : ", key: gemStoneData ? gemStoneData.mDepth : "" },
     { label: "Price : ", key: gemStoneData ? gemStoneData.price : "" },
   ];
-
+  
   return (
     <ThemeDialog
       title={`Colored Diamond Stock Id : ${gemStoneData !== null && gemStoneData.stockId

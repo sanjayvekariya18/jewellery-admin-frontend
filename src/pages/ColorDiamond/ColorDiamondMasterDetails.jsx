@@ -51,14 +51,14 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
 
 
   // Onchange define
-    const onChange = useCallback((e) => {
-      setFormState((prevProps) => {
-        return {
-          ...prevProps,
-          [e.target.name]: e.target.value,
-        };
-      });
-    }, []);
+  const onChange = useCallback((e) => {
+    setFormState((prevProps) => {
+      return {
+        ...prevProps,
+        [e.target.name]: e.target.value,
+      };
+    });
+  }, []);
 
 
   // -------- handleSubmit-------------
@@ -163,24 +163,24 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
   }));
   // ------------------Option clarity---------------
 
-  const sortOptionDclarity = [
-    { label: "FL", value: "0" },
-    { label: "IF", value: "1" },
-    { label: "VVS1", value: "2" },
-    { label: "VVS2", value: "3" },
-    { label: "VS1", value: "4" },
-    { label: "VS2", value: "5" },
-    { label: "SI1", value: "6" },
-    { label: "SI2", value: "7" },
-    { label: "I1", value: "8" },
-    { label: "I2", value: "9" },
-    { label: "I3", value: "10" },
-  ];
+  // const sortOptionDclarity = [
+  //   { label: "FL", value: "0" },
+  //   { label: "IF", value: "1" },
+  //   { label: "VVS1", value: "2" },
+  //   { label: "VVS2", value: "3" },
+  //   { label: "VS1", value: "4" },
+  //   { label: "VS2", value: "5" },
+  //   { label: "SI1", value: "6" },
+  //   { label: "SI2", value: "7" },
+  //   { label: "I1", value: "8" },
+  //   { label: "I2", value: "9" },
+  //   { label: "I3", value: "10" },
+  // ];
 
-  let _sortOptionsDclarity = sortOptionDclarity.map((option) => ({
-    label: option.label,
-    value: option.value,
-  }));
+  // let _sortOptionsDclarity = sortOptionDclarity.map((option) => ({
+  //   label: option.label,
+  //   value: option.value,
+  // }));
 
 
   // --------------------Option Origin
@@ -327,6 +327,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: "12px",
+              alignItems: "end"
             }}
             className="text-input-top"
           >
@@ -340,7 +341,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               id="idStatus"
               error={errors?.intensity}
             />
-            <ReactSelect
+            {/* <ReactSelect
               label={"Clarity"}
               placeholder="Select Clarity"
               options={_sortOptionsDclarity}
@@ -349,6 +350,17 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="clarity"
               id="idStatus"
               error={errors?.clarity}
+            /> */}
+            <Textinput
+              size="small"
+              type="text"
+              name="clarity"
+              label="Clarity"
+              placeholder="Enter Clarity"
+              value={formState.clarity}
+              onChange={onChange}
+              error={errors?.clarity}
+              sx={{ mb: 0, width: "100%" }}
             />
           </div>
           <div
