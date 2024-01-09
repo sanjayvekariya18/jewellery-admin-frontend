@@ -173,11 +173,11 @@ const ColorDiamondMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -260,11 +260,11 @@ const ColorDiamondMaster = () => {
 
   const getDataGemstone = (id) => {
     API.get(apiConfig.findGemstone.replace(":id", id))
-    .then((res) => {
-      setGemstoneData(res); // Update gemStoneData when fetching data
-      setFindGemstone(true); // Open the modal when data is received
-    })
-    .catch(() => { })
+      .then((res) => {
+        setGemstoneData(res); // Update gemStoneData when fetching data
+        setFindGemstone(true); // Open the modal when data is received
+      })
+      .catch(() => { })
   };
 
   // useEffect(() => {
@@ -286,10 +286,10 @@ const ColorDiamondMaster = () => {
           </div>,
           <span>{item.shapeName}</span>,
           <span>{item.carat}</span>,
-          <span>{item.color}</span>,
+          <span>{item.color?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}</span>,
           <span>{item.clarity}</span>,
           <span>{item.origin}</span>,
-          <span>{item.intensity}</span>,
+          <span>{item.intensity?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}</span>,
           <span>${item.price}</span>,
           <span>
             <ThemeSwitch
@@ -699,7 +699,7 @@ const ColorDiamondMaster = () => {
             />
           )}
 
-            {/* add coloredDiamond Bulk Details added form */}
+          {/* add coloredDiamond Bulk Details added form */}
           <ColorDiamondBulkMasterDetails
             open={bulkOpen}
             togglePopup={() => {
@@ -707,7 +707,7 @@ const ColorDiamondMaster = () => {
               // paginate();
             }}
             callBack={() => paginate(true)}
-            //   userData={selectedUserData}
+          //   userData={selectedUserData}
           />
 
           {/*  Find One colored dimaond model open*/}
