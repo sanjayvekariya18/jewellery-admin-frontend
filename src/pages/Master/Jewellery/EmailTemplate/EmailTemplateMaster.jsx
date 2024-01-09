@@ -80,11 +80,11 @@ const EmailTemplateMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -227,7 +227,10 @@ const EmailTemplateMaster = () => {
         isOpen={openSearch}
         maxWidth="sm"
         onClose={() => setOpenSearch(false)}
-        reset={() => paginate(true)}
+        reset={() => {
+          changeState("searchTxt", ""); // Clear the search text
+          paginate(true);
+        }}
         search={() => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal
@@ -240,7 +243,7 @@ const EmailTemplateMaster = () => {
           name="searchTxt"
           label="Search Text"
           variant="outlined"
-          autoFocus={true} 
+          autoFocus={true}
           value={state?.searchTxt}
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}

@@ -228,7 +228,10 @@ const BlogCategoryMaster = () => {
         isOpen={openSearch}
         maxWidth="sm"
         onClose={() => setOpenSearch(false)}
-        reset={() => paginate(true)}
+        reset={() => {
+          changeState("searchTxt", ""); // Clear the search text
+          paginate(true);
+        }}
         search={() => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal

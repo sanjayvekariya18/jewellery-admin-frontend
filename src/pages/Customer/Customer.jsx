@@ -60,7 +60,8 @@ const Customer = () => {
 
     let filter = {
       page: state.page,
-      searchTxt: state.searchTxt,
+      searchTxt: clear ? clearStates.searchTxt : state.searchTxt,
+      // searchTxt: state.searchTxt,
       isActive: state.isActive,
       rowsPerPage: state.rowsPerPage,
     };
@@ -82,11 +83,11 @@ const Customer = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-                ...state,
-                ...(clear && clearStates),
-                ...(isNewFilter && newFilterState),
-                loader: false,
-              }),
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
         });
@@ -132,9 +133,8 @@ const Customer = () => {
     });
   };
   const showAddressInDialog = (item) => {
-    const address = `${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
-      item.addressLine3 || ""
-    }`;
+    const address = `${item.addressLine1 || ""} ${item.addressLine2 || ""} ${item.addressLine3 || ""
+      }`;
     setAddressText(address); // Set the address text
     textModaltoggle(); // Show the dialog
   };
@@ -159,9 +159,8 @@ const Customer = () => {
             style={{ fontWeight: "500", cursor: "pointer" }}
             onClick={() => showAddressInDialog(item)}
           >
-            {`${item.addressLine1 || ""} ${item.addressLine2 || ""} ${
-              item.addressLine3 || ""
-            }`}
+            {`${item.addressLine1 || ""} ${item.addressLine2 || ""} ${item.addressLine3 || ""
+              }`}
           </span>,
           <span>
             <IconButton onClick={() => handleToggle(item.id)}>
@@ -246,7 +245,11 @@ const Customer = () => {
         isOpen={openSearch}
         maxWidth="sm"
         onClose={() => setOpenSearch(false)}
-        reset={() => paginate(true)}
+        reset={() => {
+          changeState("searchTxt", ""); // Clear the search text
+          paginate(true);
+        }}
+        
         search={() => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal
@@ -276,32 +279,34 @@ const Customer = () => {
         userData={selectedUserData}
       />
 
-      {textModal && (
-        <ThemeDialog
-          title="Address"
-          id="showModal"
-          isOpen={textModal}
-          toggle={textModaltoggle}
-          centered
-          maxWidth="sm"
-          actionBtns={
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={textModaltoggle}
-            >
-              Close
-            </Button>
-          }
-        >
-          <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
-            <Typography variant="body1" style={{ lineHeight: "22px" }}>
-              {addressText}
-            </Typography>
-          </div>
-        </ThemeDialog>
-      )}
-    </Container>
+      {
+    textModal && (
+      <ThemeDialog
+        title="Address"
+        id="showModal"
+        isOpen={textModal}
+        toggle={textModaltoggle}
+        centered
+        maxWidth="sm"
+        actionBtns={
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={textModaltoggle}
+          >
+            Close
+          </Button>
+        }
+      >
+        <div style={{ padding: "0px", margin: "0px", lineBreak: "anywhere" }}>
+          <Typography variant="body1" style={{ lineHeight: "22px" }}>
+            {addressText}
+          </Typography>
+        </div>
+      </ThemeDialog>
+    )
+  }
+    </Container >
   );
 };
 
