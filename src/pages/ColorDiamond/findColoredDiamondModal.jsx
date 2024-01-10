@@ -7,7 +7,7 @@ import { HELPER } from "../../services";
 const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
   const gemstoneInfo = [
     // { label: "Title : ", key: gemStoneData ? gemStoneData.title : "" },
-    { label: "Gemstone Type : ", key: gemStoneData ? gemStoneData.gemstoneType : "" },
+    { label: "Gemstone Type : ", key: gemStoneData ? gemStoneData.gemstoneType?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') : "" },
     { label: "Shape Name : ", key: gemStoneData ? gemStoneData.shapeName : "" },
     { label: "Carat : ", key: gemStoneData ? gemStoneData.carat : "" },
     { label: "Color : ", key: gemStoneData ? gemStoneData.color.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') : "" },
@@ -20,7 +20,7 @@ const FindColoredModal = ({ open, togglePopup, gemStoneData }) => {
     { label: "M-Depth : ", key: gemStoneData ? gemStoneData.mDepth : "" },
     { label: "Price : ", key: gemStoneData ? gemStoneData.price : "" },
   ];
-  
+
   return (
     <ThemeDialog
       title={`Colored Diamond Stock Id : ${gemStoneData !== null && gemStoneData.stockId
