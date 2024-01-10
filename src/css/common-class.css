@@ -1280,13 +1280,16 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 .position-relative {
   position: relative;
 }
-.align-center{
+
+.align-center {
   align-items: center;
 }
-.background-color{
+
+.background-color {
   background-color: #80808029;
   padding: 12px;
 }
+
 .active-product {
   background: rgb(241, 238, 238);
   color: black;
@@ -1514,4 +1517,18 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   background-color: #E0E2E8 !important;
   padding-left: 10px !important;
   font-size: 14px !important;
+}
+
+.tax_heading {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0px !important;
+}
+.d-flex{
+  display: flex ;
+  justify-content: start;
+}
+.d-flex2{
+  display: flex ;
+  justify-content: start;
 }

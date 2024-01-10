@@ -19,6 +19,8 @@ import error400cover from "../../../../assets/no-data-found-page.png";
 import { toaster } from "../../../../services/helper";
 import AttributesMasterDetails from "./AttributesMasterDetails";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Textinput from "../../../../components/UI/TextInput";
+import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
 
 const AttributesMaster = () => {
   const [open, setOpen] = useState(false);
@@ -27,6 +29,8 @@ const AttributesMaster = () => {
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
   const [loading, setLoading] = useState();
+  const [openSearch, setOpenSearch] = useState(false);
+
 
   const textModaltoggle = () => {
     setTextModal(!textModal);
@@ -40,7 +44,7 @@ const AttributesMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, changeState, getInitialStates, ...otherTableActionProps } =
     usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -50,17 +54,18 @@ const AttributesMaster = () => {
     };
 
     let filter = {
+      searchTxt: clear ? clearStates.searchTxt : state.searchTxt,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
     };
 
     let newFilterState = { ...appConfig.default_pagination_state };
-
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.searchTxt;
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
+
 
     // ----------Get Attributes Api------------
     setLoading(true);
@@ -68,12 +73,16 @@ const AttributesMaster = () => {
       .then((res) => {
         setLoading(false);
         setState({
-          ...state,
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
         });
       })
       .catch((err) => {
@@ -105,6 +114,9 @@ const AttributesMaster = () => {
     const address = item.details;
     setAddressText(address);
     textModaltoggle();
+  };
+  const togglePopupSearch = () => {
+    setOpenSearch(!openSearch);
   };
 
   const rows = useMemo(() => {
@@ -235,6 +247,16 @@ const AttributesMaster = () => {
             { name: "Attributes" },
           ]}
         />
+        <Tooltip title="Filter">
+          <IconButton
+            color="inherit"
+            className="button"
+            aria-label="Filter"
+            onClick={togglePopupSearch}
+          >
+            <Icon>filter_list</Icon>
+          </IconButton>
+        </Tooltip>
       </Box>
       <PaginationTable
         header={COLUMNS}
@@ -251,6 +273,34 @@ const AttributesMaster = () => {
         orderBy={state.orderby}
         order={state.order}
       ></PaginationTable>
+      <SearchFilterDialog
+        isOpen={openSearch}
+        maxWidth="sm"
+        onClose={() => setOpenSearch(false)}
+        reset={() => {
+          changeState("searchTxt", ""); // Clear the search text
+          paginate(true);
+        }}
+
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
+        loader={loading}
+      >
+        <Textinput
+          size="small"
+          focused={true}
+          type="text"
+          name="searchTxt"
+          label="Search Text"
+          autoFocus={true}
+          variant="outlined"
+          value={state?.searchTxt}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
+          sx={{ mb: 0, mt: 1, width: "100%" }}
+        />
+      </SearchFilterDialog>
       <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"

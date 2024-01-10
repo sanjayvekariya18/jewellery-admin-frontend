@@ -321,7 +321,16 @@ const BlogMaster = () => {
           />
         </div>
         <div style={{ height: "200px" }} className="text-input-top">
-          <ReactSelect
+        <ReactSelect
+              placeholder="Select Category Name"
+              options={_sortOptions}
+              value={state.category_id}
+              onChange={(e) => {
+                changeState("category_id", e.target.value || "");
+              }}
+              name="category_id"
+            />
+          {/* <ReactSelect
             placeholder={
               _sortOptions.find((option) => option.value === state.category_id)
                 ?.label || "Select Category Name"
@@ -335,7 +344,7 @@ const BlogMaster = () => {
               changeState("category_id", selectedId);
             }}
             name="choices-multi-default"
-          />
+          /> */}
         </div>
       </SearchFilterDialog>
 

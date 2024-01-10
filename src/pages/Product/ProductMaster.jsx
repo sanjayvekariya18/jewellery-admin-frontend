@@ -338,23 +338,15 @@ const ProductMaster = () => {
                 />
               </div>
               <div className="text-input-top">
-                <ReactSelect
-                  // label="Select Sort by Price"
-                  placeholder={
-                    _sortOptionsGender.find(
-                      (option) => option.value === state.gender
-                    )?.label || "Select Gender"
-                  }
-                  options={_sortOptionsGender}
-                  value={_sortOptionsGender.find(
-                    (option) => option.value === state.gender
-                  )}
-                  onChange={(selectedSort) => {
-                    const selectedId = selectedSort.target.value;
-                    changeState("gender", selectedId);
-                  }}
-                  name="choices-multi-default"
-                />
+              <ReactSelect
+              placeholder="Select Gender"
+              options={_sortOptionsGender}
+              value={state.gender}
+              onChange={(e) => {
+                changeState("gender", e.target.value || "");
+              }}
+              name="gender"
+            />
               </div>
             </div>
           </SearchFilterDialog>

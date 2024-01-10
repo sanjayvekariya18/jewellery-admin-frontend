@@ -22,6 +22,8 @@ import { toaster } from "../../../../services/helper";
 import DetailsMasterDetails from "./DetailsMasterDetails";
 import ReactSelect from "../../../../components/UI/ReactSelect";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import Textinput from "../../../../components/UI/TextInput";
+import { Select } from "react-select-virtualized";
 
 const DetailsMaster = () => {
   const [open, setOpen] = useState(false);
@@ -202,7 +204,7 @@ const DetailsMaster = () => {
         setProductDetailsGroupId(res);
         paginate();
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   let _sortOptions = productDetailsGroupId.map((option) => ({
@@ -263,11 +265,14 @@ const DetailsMaster = () => {
         </StyledAddButton>
       </Tooltip>
 
-      <SearchFilterDialog 
+      <SearchFilterDialog
         isOpen={openSearch}
         maxWidth="sm"
-        onClose={() => setOpenSearch(false)} 
-        reset={() => paginate(true)}
+        onClose={() => setOpenSearch(false)}
+        reset={() => {
+          changeState("searchTxt", ""); // Clear the search text
+          paginate(true);
+        }}
         search={() => {
           paginate(false, true);
           setOpenSearch(false); // Close the modal
@@ -276,33 +281,29 @@ const DetailsMaster = () => {
         className="product-details-select-box"
       >
         <div>
-          {/* <ReactSelect
-            label={"Product Details Group Name"}
-            placeholder="Select Product Details Group Name"
-            options={_sortOptions}
-            onChange={(e) => {
-              changeState("detailsGroupId", e?.target.value || "");
-            }}
-            name="detailsGroupId"
-          /> */}
-
-          <ReactSelect
-            // label="Select Sort by Price"
-            placeholder={
-              _sortOptions.find(
-                (option) => option.value === state.detailsGroupId
-              )?.label || "Select Product Details Group Name"
-            }
-            options={_sortOptions}
-            value={_sortOptions.find(
-              (option) => option.value === state.detailsGroupId
-            )}
-            onChange={(selectedSort) => {
-              const selectedId = selectedSort.target.value;
-              changeState("detailsGroupId", selectedId);
-            }}
-            name="choices-multi-default"
+          <Textinput
+            size="small"
+            focused={true}
+            type="text"
+            name="searchTxt"
+            label="Search Text"
+            autoFocus={true}
+            variant="outlined"
+            value={state?.searchTxt}
+            onChange={(e) => changeState("searchTxt", e.target.value)}
+            sx={{ mb: 0, mt: 1, width: "100%" }}
           />
+          <div style={{ marginTop: "20px" }}>
+            <ReactSelect
+              placeholder="Select Product Details Group Name"
+              options={_sortOptions}
+              value={state.detailsGroupId}
+              onChange={(e) => {
+                changeState("detailsGroupId", e.target.value || "");
+              }}
+              name="detailsGroupId"
+            />
+          </div>
         </div>
       </SearchFilterDialog>
 

@@ -16,6 +16,8 @@ import ProductSettings from './partials/ProductSettings';
 import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 import MetalPriceSetting from './partials/MetalPriceSetting';
 import DataSaverOnIcon from '@mui/icons-material/DataSaverOn';
+import TaxPriceSetting from './partials/TaxPriceSetting';
+import TaxiAlertIcon from '@mui/icons-material/TaxiAlert';
 
 const useStyles = makeStyles({
     horizontalIconLabel: {
@@ -142,7 +144,7 @@ const SettingMaster = () => {
                     onChange={handleChange}
                 >
                     <Tab
-                    className='tab_master'
+                        className='tab_master'
                         value={'general'}
                         label={
                             <div className={classes.horizontalIconLabel}>
@@ -152,7 +154,7 @@ const SettingMaster = () => {
                         }
                     />
                     <Tab
-                      className='tab_master'
+                        className='tab_master'
                         value={'social_link'}
                         label={
                             <div className={classes.horizontalIconLabel}>
@@ -162,7 +164,7 @@ const SettingMaster = () => {
                         }
                     />
                     <Tab
-                      className='tab_master'
+                        className='tab_master'
                         value={'fixed_price'}
                         label={
                             <div className={classes.horizontalIconLabel}>
@@ -172,7 +174,7 @@ const SettingMaster = () => {
                         }
                     />
                     <Tab
-                      className='tab_master'
+                        className='tab_master'
                         value={'home_products'}
                         label={
                             <div className={classes.horizontalIconLabel}>
@@ -182,12 +184,22 @@ const SettingMaster = () => {
                         }
                     />
                     <Tab
-                      className='tab_master'
+                        className='tab_master'
                         value={'metal_price'}
                         label={
                             <div className={classes.horizontalIconLabel}>
                                 <DataSaverOnIcon />
                                 <span>Metal Price</span>
+                            </div>
+                        }
+                    />
+                    <Tab
+                        className='tab_master'
+                        value={'tax'}
+                        label={
+                            <div className={classes.horizontalIconLabel}>
+                                 <TaxiAlertIcon/>
+                                <span>Tax</span>
                             </div>
                         }
                     />
@@ -354,12 +366,16 @@ const SettingMaster = () => {
                         {formOpen && value === 'metal_price' && (
                             <MetalPriceSetting metalProduct={settingMetal} callback={() => getAllAppSettingsMetal()} />
                         )}
+                        {/* tax page open */}
+                        {formOpen && value === 'tax' && (
+                            <TaxPriceSetting metalProduct={settingMetal} callback={() => getAllAppSettingsMetal()} />
+                        )}
 
                         {formOpen && value === 'home_products' && (
                             <ProductSettings homeProduct={setting?.meta?.home_product || {}} callback={() => getAllAppSettings()} />
                         )}
 
-                        {!['home_products', 'metal_price'].includes(value) && (
+                        {!['home_products', 'metal_price', 'tax'].includes(value) && (
                             <>
                                 <Button type="button" variant="contained" color="primary" onClick={() => {
                                     if (formState?.logo && typeof formState?.logo != 'string') {

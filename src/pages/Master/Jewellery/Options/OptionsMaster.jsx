@@ -20,6 +20,8 @@ import { toaster } from "../../../../services/helper";
 import Swal from "sweetalert2";
 import OptionsMasterDetails from "./OptionsMasterDetails";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
+import SearchFilterDialog from "../../../../components/UI/Dialog/SearchFilterDialog";
+import Textinput from "../../../../components/UI/TextInput";
 // import OptionsAttributeTable from "./OptionAttributeTable";
 
 const OptionMaster = () => {
@@ -30,6 +32,7 @@ const OptionMaster = () => {
   const [textModal, setTextModal] = useState(false);
   const [addressText, setAddressText] = useState("");
   const [loading, setLoading] = useState();
+  const [openSearch, setOpenSearch] = useState(false);
 
   const textModaltoggle = () => {
     setTextModal(!textModal);
@@ -43,7 +46,7 @@ const OptionMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
+  const { state, setState, changeState, getInitialStates, ...otherTableActionProps } =
     usePaginationTable({});
 
   const paginate = (clear = false, isNewFilter = false) => {
@@ -53,17 +56,17 @@ const OptionMaster = () => {
     };
 
     let filter = {
+      searchTxt: clear ? clearStates.searchTxt : state.searchTxt,
       page: state.page,
       rowsPerPage: state.rowsPerPage,
     };
-
     let newFilterState = { ...appConfig.default_pagination_state };
-
     if (clear) {
-      filter = _.merge(filter, clearStates);
+      delete filter.searchTxt;
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
+
 
     // ----------Get Blog Api------------
     setLoading(true);
@@ -71,12 +74,16 @@ const OptionMaster = () => {
       .then((res) => {
         setLoading(false);
         setState({
-          ...state,
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res.rows,
-          ...(clear && clearStates),
-          ...(isNewFilter && newFilterState),
-          loader: false,
         });
       })
       .catch((err) => {
@@ -121,6 +128,11 @@ const OptionMaster = () => {
     setSelectedUserData(data);
     setOpen(true);
   };
+
+  const togglePopupSearch = () => {
+    setOpenSearch(!openSearch);
+  };
+
 
   const showAddressInDialog = (item) => {
     const address = item.details;
@@ -201,28 +213,28 @@ const OptionMaster = () => {
       confirmButtonText: "Yes",
       reverseButtons: true,
     })
-    .then((result) => {
-      if (result.isConfirmed) {
-        API.destroy(`${apiConfig.options}/${id}`)
-          .then((res) => {
-            toaster.success("Deleted Successfully");
-            paginate();
-          })
-          .catch((err) => {
-            if (
-              err.status === 400 ||
-              err.status === 401 ||
-              err.status === 409 ||
-              err.status === 422 ||
-              err.status === 403
-            ) {
-              HELPER.toaster.error(err.errors.message);
-            } else {
-              HELPER.toaster.error(err)
-            }
-          });
-      }
-    });
+      .then((result) => {
+        if (result.isConfirmed) {
+          API.destroy(`${apiConfig.options}/${id}`)
+            .then((res) => {
+              toaster.success("Deleted Successfully");
+              paginate();
+            })
+            .catch((err) => {
+              if (
+                err.status === 400 ||
+                err.status === 401 ||
+                err.status === 409 ||
+                err.status === 422 ||
+                err.status === 403
+              ) {
+                HELPER.toaster.error(err.errors.message);
+              } else {
+                HELPER.toaster.error(err)
+              }
+            });
+        }
+      });
   };
 
   return (
@@ -237,6 +249,16 @@ const OptionMaster = () => {
             { name: "Options" },
           ]}
         />
+        <Tooltip title="Filter">
+          <IconButton
+            color="inherit"
+            className="button"
+            aria-label="Filter"
+            onClick={togglePopupSearch}
+          >
+            <Icon>filter_list</Icon>
+          </IconButton>
+        </Tooltip>
       </Box>
 
       <PaginationTable
@@ -254,6 +276,34 @@ const OptionMaster = () => {
         orderBy={state.orderby}
         order={state.order}
       ></PaginationTable>
+      <SearchFilterDialog
+        isOpen={openSearch}
+        maxWidth="sm"
+        onClose={() => setOpenSearch(false)}
+        reset={() => {
+          changeState("searchTxt", ""); // Clear the search text
+          paginate(true);
+        }}
+
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
+        loader={loading}
+      >
+        <Textinput
+          size="small"
+          focused={true}
+          type="text"
+          name="searchTxt"
+          label="Search Text"
+          autoFocus={true}
+          variant="outlined"
+          value={state?.searchTxt}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
+          sx={{ mb: 0, mt: 1, width: "100%" }}
+        />
+      </SearchFilterDialog>
       <Tooltip title="Create" placement="top">
         <StyledAddButton
           color="secondary"

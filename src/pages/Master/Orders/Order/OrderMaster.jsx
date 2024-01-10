@@ -526,21 +526,13 @@ const OrderMaster = () => {
 
                 <div className="text-input-top">
                   <ReactSelect
-                    // label="Select Sort by Price"
-                    placeholder={
-                      _sortOptionPayment.find(
-                        (option) => option.value === state.paymentStatus
-                      )?.label || "Select Payment Status"
-                    }
+                    placeholder="Select Payment Status"
                     options={_sortOptionPayment}
-                    value={_sortOptionPayment.find(
-                      (option) => option.value === state.paymentStatus
-                    )}
-                    onChange={(selectedSort) => {
-                      const selectedId = selectedSort.target.value;
-                      changeState("paymentStatus", selectedId);
+                    value={state.paymentStatus}
+                    onChange={(e) => {
+                      changeState("paymentStatus", e.target.value || "");
                     }}
-                    name="choices-multi-default"
+                    name="paymentStatus"
                   />
                 </div>
 

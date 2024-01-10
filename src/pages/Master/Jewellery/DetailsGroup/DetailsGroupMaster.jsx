@@ -21,6 +21,7 @@ import Swal from "sweetalert2";
 import { toaster } from "../../../../services/helper";
 import DetailsGroupMasterDetails from "./DetailsGroupMasterDetails";
 import Textinput from "../../../../components/UI/TextInput";
+import _ from "lodash"
 
 const DetailsGroupMaster = () => {
   const [open, setOpen] = useState(false);
@@ -35,45 +36,68 @@ const DetailsGroupMaster = () => {
     { title: "Action", classNameWidth: "thead-second-width-action-index" },
   ];
 
-  const { state, setState, changeState, ...otherTableActionProps } =
-    usePaginationTable({
-      searchTxt: "",
-      isActive: "",
-      order: "",
-      orderby: "",
-    });
+  const { state, setState, changeState, getInitialStates, ...otherTableActionProps } =
+    usePaginationTable({});
+
 
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      searchTxt: "",
-      isActive: "",
       ...appConfig.default_pagination_state,
     };
 
- 
-   
+    let filter = {
+      searchTxt: clear ? clearStates.searchTxt : state.searchTxt,
+      page: state.page,
+      rowsPerPage: state.rowsPerPage,
+    };
 
-   
+    let newFilterState = { ...appConfig.default_pagination_state };
+    if (clear) {
+      delete filter.searchTxt;
+    } else if (isNewFilter) {
+      filter = _.merge(filter, newFilterState);
+    }
+
+
+
+
+
 
     // ----------Get Product Details Group Api------------
     setLoading(true);
-    API.get(apiConfig.productDetailGroup)
+    API.get(apiConfig.productDetailGroup, filter)
       .then((res) => {
         setLoading(false);
         setState({
-          ...state,
+          ...(clear
+            ? { ...getInitialStates() }
+            : {
+              ...state,
+              ...(clear && clearStates),
+              ...(isNewFilter && newFilterState),
+              loader: false,
+            }),
           total_items: res.count,
           data: res,
-         
-          loader: false,
         });
       })
-      .catch(() => {
+      .catch((err) => {
         setLoading(false);
+        if (
+          err.status === 400 ||
+          err.status === 401 ||
+          err.status === 409 ||
+          err.status === 403
+        ) {
+          toaster.error(err.errors.message);
+        } else {
+          HELPER.toaster.error(err)
+        }
         setState({
           ...state,
-    
+          ...(clear && clearStates),
+          ...(isNewFilter && newFilterState),
           loader: false,
         });
       });
@@ -156,7 +180,8 @@ const DetailsGroupMaster = () => {
             { name: "Product Details Group" },
           ]}
         />
-        {/* <Tooltip title="Filter">
+
+        <Tooltip title="Filter">
           <IconButton
             color="inherit"
             className="button"
@@ -165,7 +190,7 @@ const DetailsGroupMaster = () => {
           >
             <Icon>filter_list</Icon>
           </IconButton>
-        </Tooltip> */}
+        </Tooltip>
       </Box>
       <PaginationTable
         header={COLUMNS}
@@ -183,6 +208,34 @@ const DetailsGroupMaster = () => {
         order={state.order}
         footerVisibility={false}
       ></PaginationTable>
+      <SearchFilterDialog
+        isOpen={openSearch}
+        maxWidth="sm"
+        onClose={() => setOpenSearch(false)}
+        reset={() => {
+          changeState("searchTxt", ""); // Clear the search text
+          paginate(true);
+        }}
+
+        search={() => {
+          paginate(false, true);
+          setOpenSearch(false); // Close the modal
+        }}
+        loader={loading}
+      >
+        <Textinput
+          size="small"
+          focused={true}
+          type="text"
+          name="searchTxt"
+          label="Search Text"
+          autoFocus={true}
+          variant="outlined"
+          value={state?.searchTxt}
+          onChange={(e) => changeState("searchTxt", e.target.value)}
+          sx={{ mb: 0, mt: 1, width: "100%" }}
+        />
+      </SearchFilterDialog>
 
       <Tooltip title="Create" placement="top">
         <StyledAddButton
@@ -194,55 +247,6 @@ const DetailsGroupMaster = () => {
           <Icon>add</Icon>
         </StyledAddButton>
       </Tooltip>
-
-      <SearchFilterDialog
-        isOpen={openSearch}
-        onClose={() => setOpenSearch(false)}
-        reset={() => paginate(true)}
-        search={() => {
-          paginate(false, true);
-          setOpenSearch(false); // Close the modal
-        }}
-        loader={loading}
-      >
-        <Textinput
-          size="small"
-          type="text"
-          name="searchTxt"
-          label="Search Text"
-          value={state?.searchTxt}
-          autoFocus={true} 
-          onChange={(e) => changeState("searchTxt", e.target.value)}
-          sx={{ mb: 2, mt: 1 }}
-        />
-        <RadioGroup
-          row
-          aria-label="position"
-          name="isActive"
-          value={state?.isActive}
-          onChange={(e) => changeState("isActive", e.target.value)}
-        >
-          <FormControlLabel
-            value=""
-            label="All"
-            labelPlacement="start"
-            control={<Radio color="default" />}
-          />
-          <FormControlLabel
-            value="1"
-            label="Active"
-            labelPlacement="start"
-            control={<Radio color="success" />}
-          />
-          <FormControlLabel
-            value="0"
-            label="Inactive"
-            labelPlacement="start"
-            control={<Radio color="error" />}
-          />
-        </RadioGroup>
-      </SearchFilterDialog>
-
       <DetailsGroupMasterDetails
         open={open}
         togglePopup={() => {

@@ -25,7 +25,7 @@ const ReactSelect = ({
     return option;
   });
 
-  const selectedOption = options.find((option) => option.value === value);
+  const selectedOption = options.find((option) => option.value === value) || null;
 
   return (
     <div>
