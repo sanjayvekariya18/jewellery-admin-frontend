@@ -79,7 +79,7 @@ const DetailsGroupMaster = () => {
               loader: false,
             }),
           total_items: res.count,
-          data: res,
+          data: res.rows,
         });
       })
       .catch((err) => {
@@ -193,21 +193,20 @@ const DetailsGroupMaster = () => {
         </Tooltip>
       </Box>
       <PaginationTable
-        header={COLUMNS}
-        rows={rows}
-        totalItems={state.total_items || 0}
-        perPage={state.rowsPerPage}
-        activePage={state.page}
-        checkboxColumn={false}
-        selectedRows={state.selectedRows}
-        enableOrder={true}
-        isLoader={loading}
-        emptyTableImg={<img src={error400cover} width="400px" />}
-        {...otherTableActionProps}
-        orderBy={state.orderby}
-        order={state.order}
-        footerVisibility={false}
-      ></PaginationTable>
+            header={COLUMNS}
+            rows={rows}
+            totalItems={state.total_items || 0}
+            perPage={state.rowsPerPage}
+            activePage={state.page}
+            checkboxColumn={false}
+            selectedRows={state.selectedRows}
+            enableOrder={true}
+            isLoader={loading}
+            emptyTableImg={<img src={error400cover} width="400px" />}
+            {...otherTableActionProps}
+            orderBy={state.orderby}
+            order={state.order}
+          ></PaginationTable>
       <SearchFilterDialog
         isOpen={openSearch}
         maxWidth="sm"
