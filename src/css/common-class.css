@@ -1523,8 +1523,9 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   font-size: 16px;
   font-weight: 400;
   border: #95959575 1px dashed;
-  padding: 10px;
-  text-transform: uppercase;
+  padding: 0px 10px 0px 13px;
+  margin-bottom: 10px;
+  /* text-transform: uppercase; */
   /* letter-spacing: 1px; */
 }
 
@@ -1556,7 +1557,7 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   box-shadow: none !important;
 }
 
-.tax-select-design .css-t3ipsp-control:focus-visible,
+.tax-select-design .css-t3ipsp-control:focus-visible,                      
 .tax-select-design .css-t3ipsp-control:focus {
   border-color: transparent !important;
 }

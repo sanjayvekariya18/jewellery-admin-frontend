@@ -40,7 +40,7 @@ const ReactSelect = ({
         </div>
       )}
       <VirtualizedSelect
-        className={error ? "select-border-handle" : ""}
+        className={error ? "select-border-handle " + className : className}
         label={label}
         placeholder={placeholder}
         options={options}
@@ -59,7 +59,7 @@ const ReactSelect = ({
         invalid={error ? true : false}
         styles={styles}
         variant={variant}
-        className={className}
+      // className={className}
       />
       <ValidationMessages errors={error} label={label} />
     </div>

@@ -357,7 +357,7 @@ const CategoryMasterDetails = () => {
                         <div
                           style={{
                             border: "1px solid #cccccc",
-                            padding: "0px 0px 4px 4px",
+                            padding: "0px 0px 4px 0px",
                             borderRadius: "5px",
                             width: "39px",
                             height: "39px",
@@ -534,7 +534,7 @@ const CategoryMasterDetails = () => {
                         <div
                           style={{
                             border: "1px solid #cccccc",
-                            padding: "0px 0px 4px 4px",
+                            padding: "0px 0px 4px 0px",
                             borderRadius: "5px",
                             width: "39px",
                             height: "39px",

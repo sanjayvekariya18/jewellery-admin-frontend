@@ -4,7 +4,6 @@ import {
     Radio,
     RadioGroup,
     Button
-
 } from "@mui/material";
 import Textinput from '../../../../../components/UI/TextInput';
 import ReactSelect from '../../../../../components/UI/ReactSelect';
@@ -49,42 +48,47 @@ const TaxPriceSetting = () => {
         label: option.shape,
         value: option.id,
     }));
-    const customStyles = {
-        control: (provided, state) => ({
-            ...provided,
-            border: 'none',
-            //   borderRadius: '5px', // Adjust the border-radius as needed
-        }),
-    };
     // -------------------Lab options --------------------------------
 
     return (
         <>
-            <div>
-                <p className='tax_heading'>Create Tax</p>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} className='tax_heading'>
+                <div>
+                    <p>Create Tax</p>
+                </div>
+                <div>
+                    <Button
+                        color='primary'
+                        variant='outlined'
+                    >
+                        View Tax
+                    </Button>
+                </div>
             </div>
-            <div className='d-flex'>
-                <p style={{ marginBottom: "20px", color: "gray", fontSize: "14px" }}>Select Tax Type</p>
-                <RadioGroup
-                    row
-                    aria-label="position"
-                    name="isActive"
-                    value={selectedOption}
-                    onChange={handleChange}
-                >
-                    <FormControlLabel
-                        value="state"
-                        labelPlacement="end"
-                        control={<Radio color="primary" style={{ marginLeft: '40px' }} />}
-                        label="State"
-                    />
-                    <FormControlLabel
-                        value="zipcode"
-                        label="ZipCode"
-                        labelPlacement="end"
-                        control={<Radio color="primary" style={{ marginLeft: '40px' }} />}
-                    />
-                </RadioGroup>
+            <div className='d-flex' style={{ marginBottom: "15px" }}>
+                <div style={{ marginTop: "15px", display: "flex" }}>
+                    <p style={{ marginBottom: "20px", color: "gray", fontSize: "14px" }}>Select Tax Type</p>
+                    <RadioGroup
+                        row
+                        aria-label="position"
+                        name="isActive"
+                        value={selectedOption}
+                        onChange={handleChange}
+                    >
+                        <FormControlLabel
+                            value="state"
+                            labelPlacement="end"
+                            control={<Radio color="primary" style={{ marginLeft: '40px' }} />}
+                            label="State"
+                        />
+                        <FormControlLabel
+                            value="zipcode"
+                            label="ZipCode"
+                            labelPlacement="end"
+                            control={<Radio color="primary" style={{ marginLeft: '40px' }} />}
+                        />
+                    </RadioGroup>
+                </div>
             </div>
             <div>
                 {selectedOption === 'state' && (
@@ -93,13 +97,13 @@ const TaxPriceSetting = () => {
                         <ReactSelect
                             className="tax-select-design"
                             label={"State"}
-                            placeholder="Select State"
+                            placeholder={"Select State"}
                             options={_sortOptionsShap}
                             value={formState.shape}
                             onChange={onChange}
                             name="shape"
                             id="idStatus"
-                            styles={{ width: "50%", customStyles }}
+                            styles={{ width: "50%" }}
                         // error={errors?.shape}
                         />
                         <div style={{ marginTop: "15px" }}>
@@ -109,14 +113,12 @@ const TaxPriceSetting = () => {
                                 type="number"
                                 name="rate"
                                 label="Rate"
-                                placeholder="Enter Rate"
                                 value={formState.rate}
                                 onChange={onChange}
                                 // error={errors?.rate}
                                 sx={{ mb: 0, mt: 1, width: "100%" }}
                             />
                         </div>
-                        {/* <TextField label="State Field 2" /> */}
                     </div>
                 )}
             </div>
@@ -159,7 +161,7 @@ const TaxPriceSetting = () => {
                                 name="zipcode"
                                 variant="standard"
                                 label="ZipCode"
-                                placeholder="Enter ZipCode"
+
                                 value={formState.rate}
                                 onChange={onChange}
                                 // error={errors?.rate}
@@ -173,7 +175,6 @@ const TaxPriceSetting = () => {
                                 type="number"
                                 name="rate"
                                 label="Rate"
-                                placeholder="Enter Rate"
                                 value={formState.rate}
                                 onChange={onChange}
                                 // error={errors?.rate}
@@ -193,7 +194,7 @@ const TaxPriceSetting = () => {
                             name="zipcode"
                             variant="standard"
                             label="ZipCode"
-                            placeholder="Enter ZipCode"
+
                             value={formState.rate}
                             onChange={onChange}
                             // error={errors?.rate}
@@ -207,7 +208,7 @@ const TaxPriceSetting = () => {
                             type="number"
                             name="rate"
                             label="Rate"
-                            placeholder="Enter Rate"
+
                             value={formState.rate}
                             onChange={onChange}
                             // error={errors?.rate}
@@ -227,7 +228,7 @@ const TaxPriceSetting = () => {
                                     variant="standard"
                                     name="zipcode"
                                     label="From ZipCode"
-                                    placeholder="Enter From ZipCode"
+
                                     value={formState.rate}
                                     onChange={onChange}
                                     // error={errors?.rate}
@@ -241,7 +242,7 @@ const TaxPriceSetting = () => {
                                     type="number"
                                     name="rate"
                                     label="To ZipCode"
-                                    placeholder="Enter To ZipCode"
+
                                     value={formState.rate}
                                     onChange={onChange}
                                     // error={errors?.rate}
@@ -256,7 +257,7 @@ const TaxPriceSetting = () => {
                                 variant="standard"
                                 name="rate"
                                 label="Rate"
-                                placeholder="Enter Rate"
+
                                 value={formState.rate}
                                 onChange={onChange}
                                 // error={errors?.rate}
@@ -267,7 +268,7 @@ const TaxPriceSetting = () => {
                 )}
             </div>
 
-            <div style={{ marginTop: "20px" }}>
+            <div style={{ marginTop: "40px" }}>
                 <Button
                     type="button"
                     variant="contained"
