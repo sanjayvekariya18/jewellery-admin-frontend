@@ -21,7 +21,6 @@ const OptionsAttributeTable = ({ open, togglePopup, initialState }) => {
 
   const { state, setState, changeState, ...otherTableActionProps } =
     usePaginationTable({
-      searchTxt: "",
       isActive: "",
       order: "",
       orderby: "",
@@ -30,7 +29,6 @@ const OptionsAttributeTable = ({ open, togglePopup, initialState }) => {
   const paginate = (clear = false, isNewFilter = false) => {
     changeState("loader", true);
     let clearStates = {
-      searchTxt: "",
       isActive: "",
       ...appConfig.default_pagination_state,
     };

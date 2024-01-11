@@ -299,7 +299,7 @@ const OptionMaster = () => {
           label="Search Text"
           autoFocus={true}
           variant="outlined"
-          value={state?.searchTxt}
+          value={state?.searchTxt || ""}
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}
         />

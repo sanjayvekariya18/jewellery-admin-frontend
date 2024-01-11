@@ -114,33 +114,45 @@ const CategoryMaster = () => {
         columns: [
           <span>{item.name}</span>,
 
-          <span>
-            {item.logoUrl && item.logoUrl !== null && (
-              <Box
-                component="img"
-                sx={{
-                  height: 40,
-                  width: 40,
-                  maxHeight: { xs: 25, md: 50 },
-                  maxWidth: { xs: 25, md: 50 },
-                }}
-                src={HELPER.getImageUrl(item.logoUrl)}
-              />
-            )}
+          // <span>
+          //   {item.logoUrl && item.logoUrl !== null && (
+          //     <Box
+          //       component="img"
+          //       sx={{
+          //         height: 40,
+          //         width: 40,
+          //         maxHeight: { xs: 25, md: 50 },
+          //         maxWidth: { xs: 25, md: 50 },
+          //       }}
+          //       src={HELPER.getImageUrl(item.logoUrl)}
+          //     />
+          //   )}
+          // </span>,
+          <span className="main-image-box-user">
+            <img
+              src={HELPER.getImageUrl(item.logoUrl)}
+              alt=""
+            />
           </span>,
-          <span>
-            {item.imgUrl && item.imgUrl !== null && (
-              <Box
-                component="img"
-                sx={{
-                  height: 40,
-                  width: 40,
-                  maxHeight: { xs: 25, md: 50 },
-                  maxWidth: { xs: 25, md: 50 },
-                }}
-                src={HELPER.getImageUrl(item.imgUrl)}
-              />
-            )}
+          // <span>
+          //   {item.imgUrl && item.imgUrl !== null && (
+          //     <Box
+          //       component="img"
+          //       sx={{
+          //         height: 40,
+          //         width: 40,
+          //         maxHeight: { xs: 25, md: 50 },
+          //         maxWidth: { xs: 25, md: 50 },
+          //       }}
+          //       src={HELPER.getImageUrl(item.imgUrl)}
+          //     />
+          //   )}
+          // </span>,
+          <span className="main-image-box-user">
+            <img
+              src={HELPER.getImageUrl(item.imgUrl)}
+              alt=""
+            />
           </span>,
           <div>
             <span

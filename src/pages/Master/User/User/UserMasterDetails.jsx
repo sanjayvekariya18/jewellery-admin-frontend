@@ -1,12 +1,12 @@
 import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { API, HELPER } from "../../../../services";
-import { apiEndPoint } from "../../../../constants/routesList";
 import ThemeDialog from "../../../../components/UI/Dialog/ThemeDialog";
 import Validators from "./../../../../components/validations/Validator";
 import Textinput from "../../../../components/UI/TextInput";
 import ImgUploadBoxInput from "../../../../components/UI/ImgUploadBoxInput";
 import CommonButton from "../../../../components/UI/CommonButton";
+import { apiConfig } from "../../../../config";
 
 // inital data
 const initialValues = {
@@ -17,10 +17,9 @@ const initialValues = {
   profile: "",
 };
 
-const UserMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
+const UserMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [isLoader, setIsLoader] = useState(false);
 
-  const url = apiEndPoint.user;
 
   //  -------------formState --------------
   const [formState, setFormState] = useState({
@@ -39,34 +38,26 @@ const UserMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
     setIsLoader(true);
 
     const fd = new FormData();
-
     for (const field in data) {
       fd.append(field, data[field]);
     }
-    if (data.id === "") {
-      API.post(url, fd)
-        .then(() => {
-          HELPER.toaster.success("Record created");
-          togglePopup();
-          callBack();
-        })
-        .catch((e) => HELPER.toaster.error(e.errors.message))
-        .finally(() => {
-          setIsLoader(false);
-        });
-    } else {
-      API.put(`${url}/${data.id}`, fd)
-        .then(() => {
-          HELPER.toaster.success("Record saved");
-          togglePopup();
-        })
-        .catch((e) => {
-          HELPER.toaster.error(e.errors.message);
-        })
-        .finally(() => {
-          setIsLoader(false);
-        });
-    }
+    const apiUrl =
+      data.id === ""
+        ? apiConfig.user
+        : `${apiConfig.user}/${data.id}`;
+
+    API[data.id === "" ? "post" : "put"](apiUrl, fd)
+      .then(() => {
+        HELPER.toaster.success(
+          data.id === "" ? "Record created" : "Record saved"
+        );
+        togglePopup();
+        callBack();
+      })
+      .catch((e) => HELPER.toaster.error(e.errors))
+      .finally(() => {
+        setIsLoader(false);
+      });
   };
 
   const onChange = ({ target: { value, name } }) => {
@@ -206,11 +197,11 @@ const UserMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
                     onChange={onChange}
                     error={errors?.email}
                     sx={{ mb: 0 }}
-                    // InputProps={{
-                    //   startAdornment: (
-                    //     <InputAdornment position="start">@</InputAdornment>
-                    //   ),
-                    // }}
+                  // InputProps={{
+                  //   startAdornment: (
+                  //     <InputAdornment position="start">@</InputAdornment>
+                  //   ),
+                  // }}
                   />
                 </div>
               </>

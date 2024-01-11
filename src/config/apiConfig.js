@@ -12,6 +12,8 @@ const apiConfig = {
 
   publicURL: (appConfig.host + "/").replace(/([^:]\/)\/+/g, "$1"),
 
+
+  user:"user",
   // auth apis
   login: "login", // admin login
 

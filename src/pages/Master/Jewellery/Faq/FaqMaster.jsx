@@ -244,7 +244,7 @@ const FaqMaster = () => {
           name="searchTxt"
           label="Search Text Question"
           variant="outlined"
-          value={state?.searchTxt}
+          value={state?.searchTxt || ""}
           autoFocus={true} 
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}

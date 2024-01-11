@@ -1561,3 +1561,10 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 .tax-select-design .css-t3ipsp-control:focus {
   border-color: transparent !important;
 }
+.header-profile-user {
+  height: 32px;
+  width: 32px;
+}
+.rounded-circle {
+  border-radius: 50% !important;
+}

@@ -245,7 +245,7 @@ const BlogCategoryMaster = () => {
           label="Search Text"
           variant="outlined"
           autoFocus={true}
-          value={state?.searchTxt}
+          value={state?.searchTxt || ""}
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}
         />

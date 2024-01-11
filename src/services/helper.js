@@ -2,6 +2,8 @@ import { isArray } from "lodash";
 import moment from "moment";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
+import noImage from "../assets/noimag.jpg";
+
 
 import "sweetalert2/dist/sweetalert2.css";
 // import "react-toastify/dist/ReactToastify.css";
@@ -143,7 +145,7 @@ export const prepateSelectDropdown = (array, field1 = null, field2) => {
 
 export const getImageUrl = (url) => {
   if (isEmpty(url)) {
-    return url;
+    return noImage;
   }
   const isAbsoluteUrl = /^(?:\w+:)\/\//.test(url);
   if (isAbsoluteUrl) {

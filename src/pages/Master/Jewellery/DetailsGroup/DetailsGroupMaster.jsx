@@ -65,6 +65,7 @@ const DetailsGroupMaster = () => {
     setLoading(true);
     API.get(apiConfig.productDetailGroup, filter)
       .then((res) => {
+        console.log(res,"res");
         setLoading(false);
         setState({
           ...(clear
@@ -130,7 +131,8 @@ const DetailsGroupMaster = () => {
   }, [state.page, state.rowsPerPage]);                                                     
 
   const rows = useMemo(() => {
-    return state?.data?.map((item) => {
+    return state.data.map((item) => {
+      console.log(item,"hello");
       return {
         item: item,
         columns: [
@@ -227,7 +229,7 @@ const DetailsGroupMaster = () => {
           label="Search Text"
           autoFocus={true}
           variant="outlined"
-          value={state?.searchTxt}
+          value={state?.searchTxt || ""}
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 0, mt: 1, width: "100%" }}
         />

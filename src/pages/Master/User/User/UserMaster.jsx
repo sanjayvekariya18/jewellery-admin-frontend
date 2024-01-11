@@ -25,7 +25,6 @@ const UserMaster = () => {
   const [loading, setLoading] = useState();
 
   const navigate = useNavigate();
-  const url = apiEndPoint.user;
 
   /* Pagination code */
   const COLUMNS = [
@@ -118,7 +117,11 @@ const UserMaster = () => {
         item: item,
         columns: [
           <span className="main-image-box-user">
-            <ImgBoxShow src={item.image} />
+             <img
+              className="rounded-circle header-profile-user"
+              src={HELPER.getImageUrl(item.image)}
+              alt=""
+            />
           </span>,
           <span>
             {item.firstName} {item.lastName}
@@ -177,7 +180,7 @@ const UserMaster = () => {
   };
 
   const handleToggle = (id) => {
-    API.put(`${url}/${id}/toggle`)
+    API.put(`${apiConfig.user}/${id}/toggle`)
       .then((response) => {
         HELPER.toaster.success(response.message);
         paginate();
@@ -189,19 +192,6 @@ const UserMaster = () => {
     setSelectedUserData(data);
     setOpen(true);
   };
-
-  // const handleDelete = (id) => {
-  //   HELPER.sweetAlert.delete().then(() => {
-  //     API.destroy(`${url}/${id}`)
-  //       .then(() => {
-  //         HELPER.toaster.success("Record Deleted");
-  //         paginate();
-  //       })
-  //       .catch((e) => HELPER.toaster.error("Error " + e));
-  //   });
-  // };
-
-  // reset password in user
   const resetPassword = (id) => {
     API.put(`${apiConfig.resetPassword.replace(':id', id)}`)
       .then((res) => {
@@ -241,14 +231,14 @@ const UserMaster = () => {
       <PaginationTable
         header={COLUMNS}
         rows={rows}
-        totalItems={state.total_items}
+        totalItems={state.total_items || 0}
         perPage={state.rowsPerPage}
         activePage={state.page}
         checkboxColumn={false}
         selectedRows={state.selectedRows}
         enableOrder={true}
-        isLoader={state.loader}
-        emptyTableImg={<img src={error400cover} width="350px" />}
+        isLoader={loading}
+        emptyTableImg={<img src={error400cover} width="400px" />}
         {...otherTableActionProps}
         orderBy={state.orderby}
         order={state.order}
@@ -284,7 +274,7 @@ const UserMaster = () => {
           name="searchTxt"
           autoFocus={true}
           label="Search Text"
-          value={state?.searchTxt}
+          value={state?.searchTxt || ''}
           onChange={(e) => changeState("searchTxt", e.target.value)}
           sx={{ mb: 2, mt: 1, width: "100%" }}
         />
@@ -320,6 +310,7 @@ const UserMaster = () => {
           // paginate();
         }}
         userData={selectedUserData}
+        callBack={() => paginate()}
       />
     </Container>
   );
