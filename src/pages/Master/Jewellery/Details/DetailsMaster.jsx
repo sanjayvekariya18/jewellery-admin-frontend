@@ -267,7 +267,7 @@ const DetailsMaster = () => {
 
       <SearchFilterDialog
         isOpen={openSearch}
-        maxWidth="sm"
+        maxWidth="xs"
         onClose={() => setOpenSearch(false)}
         reset={() => {
           changeState("searchTxt", ""); // Clear the search text
@@ -280,7 +280,7 @@ const DetailsMaster = () => {
         loader={loading}
         className="product-details-select-box"
       >
-        <div>
+         <div style={{width:"400px" }}>
           <Textinput
             size="small"
             focused={true}
@@ -293,7 +293,7 @@ const DetailsMaster = () => {
             onChange={(e) => changeState("searchTxt", e.target.value)}
             sx={{ mb: 0, mt: 1, width: "100%" }}
           />
-          <div style={{ marginTop: "20px" }}>
+          <div style={{ marginTop: "20px",width:"400px" }}>
             <ReactSelect
               placeholder="Select Product Details Group Name"
               options={_sortOptions}

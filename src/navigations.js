@@ -185,7 +185,7 @@ export const navigations = [
   },
   {
     name: "Pages",
-    icon: "chat",
+    icon: "auto_stories_icon",
     children: [
       {
         name: "Slider",

@@ -65,7 +65,7 @@ const TaxPriceSetting = () => {
                     </Button>
                 </div>
             </div>
-            <div className='d-flex' style={{ marginBottom: "15px" }}>
+            <div className='d-flex' style={{ marginBottom: "10px" }}>
                 <div style={{ marginTop: "15px", display: "flex" }}>
                     <p style={{ marginBottom: "20px", color: "gray", fontSize: "14px" }}>Select Tax Type</p>
                     <RadioGroup

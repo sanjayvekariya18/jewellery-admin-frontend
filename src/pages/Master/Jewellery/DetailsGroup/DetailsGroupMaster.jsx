@@ -1,11 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
-  FormControlLabel,
   Icon,
   IconButton,
-  Radio,
-  RadioGroup,
   Tooltip,
 } from "@mui/material";
 import { Breadcrumb, Container, StyledAddButton } from "../../../../components";
@@ -130,10 +127,10 @@ const DetailsGroupMaster = () => {
 
   useEffect(() => {
     paginate();
-  }, [state.page, state.rowsPerPage]);
+  }, [state.page, state.rowsPerPage]);                                                     
 
   const rows = useMemo(() => {
-    return state.data.map((item) => {
+    return state?.data?.map((item) => {
       return {
         item: item,
         columns: [
