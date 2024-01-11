@@ -20,6 +20,7 @@ const Textinput = ({
   focused,
   multiline = false,
   selectedfile,
+  variant,
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -51,6 +52,7 @@ const handleKeyPress = (e) => {
         readOnly={readonly}
         value={value} // Display the value directly
         disabled={disabled}
+        variant={variant}
         multiline={multiline}
         onKeyPress={handleKeyPress}
         inputProps={{

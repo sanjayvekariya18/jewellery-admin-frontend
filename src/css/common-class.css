@@ -1520,15 +1520,43 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 }
 
 .tax_heading {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
-  margin: 0px !important;
+  border: #95959575 1px dashed;
+  padding: 10px;
+  text-transform: uppercase;
+  /* letter-spacing: 1px; */
 }
-.d-flex{
-  display: flex ;
+
+.d-flex {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.d-flex2 {
+  display: flex;
   justify-content: start;
 }
-.d-flex2{
-  display: flex ;
-  justify-content: start;
+
+.tax-select-design .css-1fdsijx-ValueContainer:focus-visible {
+  outline: none !important;
+}
+
+.tax-select-design .css-13cymwt-control,
+.tax-select-design .css-t3ipsp-control {
+  border-bottom: gray 1px solid !important;
+  border-radius: 0px !important;
+  border-width: 0px !important;
+  border-bottom-width: 1px !important;
+  box-shadow: none !important;
+}
+
+.tax-select-design .css-t3ipsp-control {
+  box-shadow: none !important;
+}
+
+.tax-select-design .css-t3ipsp-control:focus-visible,
+.tax-select-design .css-t3ipsp-control:focus {
+  border-color: transparent !important;
 }

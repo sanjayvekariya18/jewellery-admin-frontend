@@ -13,7 +13,7 @@ import { apiConfig } from '../../../../../config';
 
 const initialValues = {
     shape: "",
-    rate:"",
+    rate: "",
 };
 const TaxPriceSetting = () => {
     const [formState, setFormState] = useState({ ...initialValues });
@@ -49,6 +49,13 @@ const TaxPriceSetting = () => {
         label: option.shape,
         value: option.id,
     }));
+    const customStyles = {
+        control: (provided, state) => ({
+            ...provided,
+            border: 'none',
+            //   borderRadius: '5px', // Adjust the border-radius as needed
+        }),
+    };
     // -------------------Lab options --------------------------------
 
     return (
@@ -84,6 +91,7 @@ const TaxPriceSetting = () => {
                     <div style={{ width: "50%" }}>
                         {/* Render text boxes for state */}
                         <ReactSelect
+                            className="tax-select-design"
                             label={"State"}
                             placeholder="Select State"
                             options={_sortOptionsShap}
@@ -91,11 +99,12 @@ const TaxPriceSetting = () => {
                             onChange={onChange}
                             name="shape"
                             id="idStatus"
-                            styles={{ width: "50%" }}
+                            styles={{ width: "50%", customStyles }}
                         // error={errors?.shape}
                         />
                         <div style={{ marginTop: "15px" }}>
                             <Textinput
+                                variant="standard"
                                 size="small"
                                 type="number"
                                 name="rate"
@@ -148,6 +157,7 @@ const TaxPriceSetting = () => {
                                 size="small"
                                 type="number"
                                 name="zipcode"
+                                variant="standard"
                                 label="ZipCode"
                                 placeholder="Enter ZipCode"
                                 value={formState.rate}
@@ -158,6 +168,7 @@ const TaxPriceSetting = () => {
                         </div>
                         <div style={{ marginTop: "15px" }}>
                             <Textinput
+                                variant="standard"
                                 size="small"
                                 type="number"
                                 name="rate"
@@ -180,6 +191,7 @@ const TaxPriceSetting = () => {
                             size="small"
                             type="number"
                             name="zipcode"
+                            variant="standard"
                             label="ZipCode"
                             placeholder="Enter ZipCode"
                             value={formState.rate}
@@ -191,6 +203,7 @@ const TaxPriceSetting = () => {
                     <div style={{ marginTop: "15px" }}>
                         <Textinput
                             size="small"
+                            variant="standard"
                             type="number"
                             name="rate"
                             label="Rate"
@@ -211,6 +224,7 @@ const TaxPriceSetting = () => {
                                 <Textinput
                                     size="small"
                                     type="number"
+                                    variant="standard"
                                     name="zipcode"
                                     label="From ZipCode"
                                     placeholder="Enter From ZipCode"
@@ -223,6 +237,7 @@ const TaxPriceSetting = () => {
                             <div style={{ marginTop: "15px", marginLeft: "25px" }}>
                                 <Textinput
                                     size="small"
+                                    variant="standard"
                                     type="number"
                                     name="rate"
                                     label="To ZipCode"
@@ -238,6 +253,7 @@ const TaxPriceSetting = () => {
                             <Textinput
                                 size="small"
                                 type="number"
+                                variant="standard"
                                 name="rate"
                                 label="Rate"
                                 placeholder="Enter Rate"
