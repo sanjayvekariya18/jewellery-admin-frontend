@@ -17,7 +17,6 @@ const Tooltip = ({
     maxWidth = 300,
     duration = 200,
 }) => {
-    console.log('theme', theme);
     return (
         <div className="custom-tippy">
             <Tippy

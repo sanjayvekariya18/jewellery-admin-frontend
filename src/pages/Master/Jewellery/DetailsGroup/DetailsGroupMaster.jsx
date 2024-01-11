@@ -55,17 +55,10 @@ const DetailsGroupMaster = () => {
     } else if (isNewFilter) {
       filter = _.merge(filter, newFilterState);
     }
-
-
-
-
-
-
     // ----------Get Product Details Group Api------------
     setLoading(true);
     API.get(apiConfig.productDetailGroup, filter)
       .then((res) => {
-        console.log(res,"res");
         setLoading(false);
         setState({
           ...(clear
@@ -132,7 +125,6 @@ const DetailsGroupMaster = () => {
 
   const rows = useMemo(() => {
     return state.data.map((item) => {
-      console.log(item,"hello");
       return {
         item: item,
         columns: [
