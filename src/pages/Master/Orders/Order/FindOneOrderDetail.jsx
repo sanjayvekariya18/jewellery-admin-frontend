@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.black,
     letterSpacing: 2,
     paddingTop: 10,
-    paddingBottom: 10,
+    // paddingBottom: 10,
     paddingLeft: 10,
   },
   tableRow: {
@@ -682,7 +682,7 @@ const FindOneOrderDetail = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <div
+                {/* <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -825,8 +825,96 @@ const FindOneOrderDetail = () => {
                         : orderDetail.order?.payableAmount}
                     </Typography>
                   </div>
-                </div>
+                </div> */}
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <div>
+                    <Typography
+                      className={classes.billing}
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        color: "#000000d9",
+                        paddingBottom: "0",
+                      }}
+                    >
+                      Sub Total :
+                    </Typography>
+                    <Typography
+                      className={classes.billing}
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        color: "#000000d9",
+                        paddingBottom: "0",
+                        borderBottom: "1px solid #80808078"
+                      }}
+                    >
+                      Tax :
+                    </Typography>
+                    <Typography
+                      className={classes.billing}
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        color: "#000000d9",
+                      }}
+                    >
+                      Estimate Total *:
+                    </Typography>
 
+                  </div>
+                  <div>
+                    <Typography
+                      className={classes.billing}
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        paddingBottom: "0",
+                      }}
+                    >
+                      ${orderDetail.order?.payableAmount}
+                    </Typography>
+                    {isReturned && (
+                      <div>
+                        <Typography
+                          className={classes.billing}
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            paddingTop: "3px",
+                            borderBottom: "1px solid #a3a3a3",
+                          }}
+                        >
+                          - ${refundAmount}
+                        </Typography>
+                      </div>
+                    )}
+                    <Typography
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        width: "76px",
+                        paddingBottom: "0 !important",
+                        borderBottom: "1px solid #80808078"
+                      }}
+                      className={classes.billing}
+                    >
+                      ${orderDetail.order?.tax}
+                    </Typography>
+                    <Typography
+                      className={classes.billing}
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        paddingTop: "3px",
+                      }}
+                    >
+                      ${isReturned
+                        ? orderDetail.order?.payableAmount - refundAmount
+                        : orderDetail.order?.payableAmount}
+                    </Typography>
+                  </div>
+                </div>
 
                 {orderTracking && orderTracking.length > 0 ? (
                   <Box>
