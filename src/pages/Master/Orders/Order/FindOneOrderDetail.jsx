@@ -711,6 +711,7 @@ const FindOneOrderDetail = () => {
                     >
                       Sub Total :
                     </Typography>
+
                     <Typography></Typography>
                     <Typography
                       className={classes.billing}
@@ -758,7 +759,38 @@ const FindOneOrderDetail = () => {
                       </Typography>
                     </div>
                   )}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingTop: "6px",
+                      width: "250px",
+                      borderBottom: "1px solid #80808063",
+                    }}
+                  >
+                    <Typography
+                      className={classes.billing}
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        color: "#000000d9",
 
+                      }}
+                    >
+                      Tax :
+                    </Typography>
+                    <Typography
+                      className={classes.billing}
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        width: "76px"
+                      }}
+                    >
+                      ${orderDetail.order?.tax}
+                    </Typography>
+                  </div>
                   <div
                     style={{
                       display: "flex",

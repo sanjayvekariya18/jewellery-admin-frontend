@@ -1531,13 +1531,13 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
 
 .d-flex {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .d-flex2 {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .tax-select-design .css-1fdsijx-ValueContainer:focus-visible {
@@ -1557,14 +1557,23 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   box-shadow: none !important;
 }
 
-.tax-select-design .css-t3ipsp-control:focus-visible,                      
+.tax-select-design .css-t3ipsp-control:focus-visible,
 .tax-select-design .css-t3ipsp-control:focus {
   border-color: transparent !important;
 }
+
 .header-profile-user {
   height: 32px;
   width: 32px;
 }
+
 .rounded-circle {
   border-radius: 50% !important;
 }
+
+.tax_first_row .common-table-row tbody tr td:first-child {
+  text-transform: none !important;
+  padding-left: 20px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+} 

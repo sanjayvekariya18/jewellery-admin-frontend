@@ -201,12 +201,23 @@ export const navigations = [
         name: "Menu",
         iconText: "MN",
         path: pageRoutes.master.pages.dynamicMenu,
-      },
+      }
+    ],
+  },
+  {
+    name: "System Setup",
+    icon: "settings_suggest_icon",
+    children: [
       {
         name: "Settings",
         iconText: "ST",
-        path: pageRoutes.master.pages.setting,
-      }
+        path: pageRoutes.master.systemSetup.setting,
+      },
+      {
+        name: "Taxes",
+        iconText: "ST",
+        path: pageRoutes.master.systemSetup.tax,
+      },
     ],
   },
 ];

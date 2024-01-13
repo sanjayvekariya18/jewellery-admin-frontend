@@ -33,8 +33,8 @@ const JWTRoot = styled(JustifyBox)(() => ({
 
 // Initial login credentials
 const initialValues = {
-  email: "admin@admin.com",
-  password: "admin@123",
+  email: "",
+  password: "",
 };
 
 const JwtLogin = () => {

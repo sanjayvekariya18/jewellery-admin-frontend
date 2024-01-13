@@ -77,12 +77,12 @@ export const AuthProvider = ({ children }) => {
     AuthStorage.setStorageData(
       AuthStorage.STORAGEKEY.access_token,
       token,
-      remember
+      true
     );
     AuthStorage.setStorageJsonData(
       AuthStorage.STORAGEKEY.userData,
       user,
-      remember
+      true
     );
 
     dispatch({ type: "LOGIN", payload: { user } });

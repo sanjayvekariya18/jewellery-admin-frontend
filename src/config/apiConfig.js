@@ -13,7 +13,7 @@ const apiConfig = {
   publicURL: (appConfig.host + "/").replace(/([^:]\/)\/+/g, "$1"),
 
 
-  user:"user",
+  user: "user",
   // auth apis
   login: "login", // admin login
 
@@ -76,9 +76,9 @@ const apiConfig = {
 
   //userPermission
   userPermission: "userPermission",
-  
+
   // reset password
-  resetPassword:"user/:id/resetPassword",
+  resetPassword: "user/:id/resetPassword",
 
   //customer
   customer: "customer",
@@ -216,7 +216,13 @@ const apiConfig = {
   dashboardOrder: "dashboard/totalOrders",
   dashboardCustomer: "dashboard/totalCustomers",
   dashboardProduct: "dashboard/totalProducts",
-  dashboardCategory: "dashboard/totalCategory"
+  dashboardCategory: "dashboard/totalCategory",
+
+  // setting in tax 
+  taxes: "taxes",
+  listStates: "list/states",
+  listCountry:"list/countries",
+  visibility_tax:"taxes/toggle/:id"
 };
 
 export default apiConfig;

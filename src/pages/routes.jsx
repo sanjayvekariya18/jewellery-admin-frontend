@@ -128,6 +128,9 @@ const PopularWeddingMaster = Loadable(
 const PopularEngagement = Loadable(
   lazy(() => import("./Master/Jewellery/PopularEngagement/PopularEngagement"))
 );
+const TaxMaster = Loadable(
+  lazy(() => import("./SystemSetupTax/TaxMaster"))
+);
 
 
 // echart page
@@ -261,8 +264,12 @@ const routes = [
         element: <DynamicMenuMaster />,
       },
       {
-        path: pageRoutes.master.pages.setting,
+        path: pageRoutes.master.systemSetup.setting,
         element: <SettingMaster />,
+      },
+      {
+        path: pageRoutes.master.systemSetup.tax,
+        element: <TaxMaster />,
       },
       { path: pageRoutes.master.jewellery.details, element: <DetailsMaster /> },
       // {

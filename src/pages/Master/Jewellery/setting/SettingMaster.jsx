@@ -193,7 +193,7 @@ const SettingMaster = () => {
                             </div>
                         }
                     />
-                    <Tab
+                    {/* <Tab
                         className='tab_master'
                         value={'tax'}
                         label={
@@ -202,7 +202,7 @@ const SettingMaster = () => {
                                 <span>Tax</span>
                             </div>
                         }
-                    />
+                    /> */}
                 </Tabs>
             </Box>
 
@@ -367,9 +367,9 @@ const SettingMaster = () => {
                             <MetalPriceSetting metalProduct={settingMetal} callback={() => getAllAppSettingsMetal()} />
                         )}
                         {/* tax page open */}
-                        {formOpen && value === 'tax' && (
+                        {/* {formOpen && value === 'tax' && (
                             <TaxPriceSetting metalProduct={settingMetal} callback={() => getAllAppSettingsMetal()} />
-                        )}
+                        )} */}
 
                         {formOpen && value === 'home_products' && (
                             <ProductSettings homeProduct={setting?.meta?.home_product || {}} callback={() => getAllAppSettings()} />
