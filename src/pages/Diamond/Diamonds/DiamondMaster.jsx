@@ -220,7 +220,13 @@ const DiamondMaster = () => {
   const hiddenVisibleDiamond = (Id) => {
     API.put(apiConfig.visibility_diamond.replace(":id", Id)).then((res) => {
       HELPER.toaster.success(res.message);
-      paginate();
+      // paginate();
+      setState((prevState) => ({
+        ...prevState,
+        data: prevState.data.map((item) =>
+            item.id === Id ? { ...item, isVisible: !item.isVisible } : item
+        ),
+    }));
       setLoading(false);
     })
       .catch(() => { })

@@ -15,7 +15,6 @@ import error400cover from "../../assets/no-data-found-page.png"
 import TaxMaterDetails from './TaxMaterDetails';
 import SearchFilterDialog from "../../components/UI/Dialog/SearchFilterDialog";
 import ThemeSwitch from '../../components/UI/ThemeSwitch';
-import Textinput from '../../components/UI/TextInput';
 import ReactSelect from '../../components/UI/ReactSelect';
 const TaxMaster = () => {
 
@@ -31,25 +30,30 @@ const TaxMaster = () => {
         { title: "Visible", classNameWidth: "thead-second-width-action-index" },
         { title: "Action", classNameWidth: "thead-second-width-action-index" },
     ];
-    const [paragraphs, setParagraphs] = useState([]);
     const [open, setOpen] = useState(false);
     const [openSearch, setOpenSearch] = useState(false);
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [loading, setLoading] = useState();
     const [countryMaster, setCountryMaster] = useState([]);
     const [stateMaster, setStateMaster] = useState([]);
+
     const hiddenVisibleTax = (Id) => {
         API.put(apiConfig.visibility_tax.replace(":id", Id))
             .then((res) => {
                 HELPER.toaster.success(res.message);
-                paginate();
                 setLoading(false);
+                setState((prevState) => ({
+                    ...prevState,
+                    data: prevState.data.map((item) =>
+                        item.id === Id ? { ...item, status: !item.status } : item
+                    ),
+                }));
             })
             .catch((err) => {
                 HELPER.toaster.error(err);
             })
-    };
-
+    }
+    
     const handleEdit = (data) => {
         setSelectedUserData(data);
         setOpen(true);
@@ -61,19 +65,12 @@ const TaxMaster = () => {
             })
             .catch(() => { });
     }, []);
+
     // ------------------- Shap options --------------------------------
     let _sortOptionsCountry = countryMaster.map((option) => ({
         label: option.name,
         value: option.id,
     }));
-
-    // useEffect(() => {
-    //     const paragraphElements = countryMaster.map(item => (
-    //         <p key={item.id}>{item.id}</p>
-    //     ));
-    //     console.log(paragraphElements,"paragraphElements");
-    //     setParagraphs(paragraphElements);
-    // }, [countryMaster]);
 
     useEffect(() => {
         API.get(`${apiConfig.listStates}?countryId=`, { is_public_url: true })
@@ -146,9 +143,11 @@ const TaxMaster = () => {
                 });
             });
     };
+    // useEffects add to page and rowsPerPage
     useEffect(() => {
         paginate();
     }, [state.page, state.rowsPerPage]);
+
     const rows = useMemo(() => {
         return state.data.map((item) => {
             return {
@@ -176,16 +175,17 @@ const TaxMaster = () => {
         });
     }, [state.data]);
 
+    // togglePopup the add data 
     const togglePopup = () => {
         if (open) {
             setSelectedUserData(null);
         }
         setOpen(!open);
     };
+    // togglePopup the search data
     const togglePopupSearch = () => {
         setOpenSearch(!openSearch);
     };
-    console.log(selectedUserData, "select")
 
     return (
         <Container>

@@ -15,21 +15,12 @@ const initialValues = {
     country_name: "",
     state_id: "",
     state_name: "",
-    // zipcode_type: "",
-    // from_zipcode: "",
-    // to_zipcode: "",
     tax_rate: "",
 };
-const TaxOptions = {
-    STATE: "STATE",
-    ZIPCODE: "ZIPCODE",
-    SPECIFIC: "SPECIFIC",
-    RANGE: "RANGE",
-};
+
 const TaxMaterDetails = ({ open,
     togglePopup,
     userData,
-    productDetailsGroupId,
     callBack }) => {
     const rules = {
         tax_type: "required",
@@ -38,7 +29,6 @@ const TaxMaterDetails = ({ open,
 
     const [formState, setFormState] = useState({ ...initialValues });
     const [isLoader, setIsLoader] = useState(false);
-    // const [zipCodeOption, setZipcodeOption] = useState(TaxOptions.SPECIFIC);
     const [stateMaster, setStateMaster] = useState([]);
     const [countryMaster, setCountryMaster] = useState([]);
     const onChange = useCallback((e) => {
@@ -59,7 +49,7 @@ const TaxMaterDetails = ({ open,
     }, [formState.country_id]);
 
 
-    // ------------------- Shap options --------------------------------
+    // ------------------- State  options find --------------------------------
     let _sortOptionsState = stateMaster.map((option) => ({
         label: option.name,
         value: option.id,
@@ -72,7 +62,7 @@ const TaxMaterDetails = ({ open,
             })
             .catch(() => { });
     }, []);
-    // ------------------- Shap options --------------------------------
+    // ------------------- State  options find --------------------------------
     let _sortOptionsCountry = countryMaster.map((option) => ({
         label: option.name,
         value: option.id,
@@ -83,7 +73,6 @@ const TaxMaterDetails = ({ open,
         setIsLoader(true);
 
         const _data = new FormData();
-        console.log(_data, "data");
 
         for (const field in data) {
             // Check if the field value is null
@@ -133,7 +122,6 @@ const TaxMaterDetails = ({ open,
             setFormState({ ...initialValues });
         }
     }, [open, userData]);
-    console.log(userData, "userData");
     return (
         <>
             <Validators formData={formState} rules={rules}>
