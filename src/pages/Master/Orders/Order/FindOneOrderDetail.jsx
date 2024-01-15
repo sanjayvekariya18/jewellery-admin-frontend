@@ -682,7 +682,7 @@ const FindOneOrderDetail = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "15px", marginRight: "5px" }}>
                   <div>
                     <Typography
                       className={classes.billing}
