@@ -16,8 +16,6 @@ import ProductSettings from './partials/ProductSettings';
 import AddHomeWorkIcon from '@mui/icons-material/AddHomeWork';
 import MetalPriceSetting from './partials/MetalPriceSetting';
 import DataSaverOnIcon from '@mui/icons-material/DataSaverOn';
-import TaxPriceSetting from './partials/TaxPriceSetting';
-import TaxiAlertIcon from '@mui/icons-material/TaxiAlert';
 
 const useStyles = makeStyles({
     horizontalIconLabel: {

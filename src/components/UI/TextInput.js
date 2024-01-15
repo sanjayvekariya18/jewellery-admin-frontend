@@ -31,12 +31,14 @@ const Textinput = ({
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  
-const handleKeyPress = (e) => {
-  if (type === "number" && !/^\d*\.?\d*$/.test(e.key)) {
-    e.preventDefault();
-  }
-};
+
+  const handleKeyPress = (e) => {
+    if (type === "number" &&
+      (!/^\d$|\./.test(e.key) ||
+        (e.target.value.includes(".") && e.target.value.split(".")[1].length >= 2))) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <div className="mb-3">
@@ -85,7 +87,7 @@ const handleKeyPress = (e) => {
             </InputAdornment>
           ),
         }}
-        
+
       />
       <ValidationMessages errors={error} label={label} />
     </div>
