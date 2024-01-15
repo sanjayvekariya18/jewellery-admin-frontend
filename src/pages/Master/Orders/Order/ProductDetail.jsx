@@ -285,8 +285,8 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                         </div>
                       )}
                     {PRODUCTVARIANT.map((header, index) => (
-                      <>
-                        <TableContainer key={index}>
+                      <div  key={index}>
+                        <TableContainer>
                           <Table>
                             <TableBody>
                               {header?.title !== false && <TableRow>
@@ -303,7 +303,7 @@ const ProductDetail = ({ open, togglePopup, productDetailData }) => {
                             </TableBody>
                           </Table>
                         </TableContainer>
-                      </>
+                      </div>
                     ))}
                   </div>)}
 

@@ -8,8 +8,6 @@ import Textinput from "../../../../components/UI/TextInput";
 import { Button } from "@mui/material";
 
 const ChangePassword = ({ open, togglePopup }) => {
-  const [isLoader, setIsLoader] = useState(false);
-
   // Form state
   const [formState, setFormState] = useState({
     oldPassword: "",
@@ -24,7 +22,6 @@ const ChangePassword = ({ open, togglePopup }) => {
 
   // Handle Change Password
   const handleSubmit = (data) => {
-    setIsLoader(true);
     API.put(apiConfig.changePassword, data)
       .then((res) => {
         toaster.success("Change Password successfully");
@@ -40,7 +37,6 @@ const ChangePassword = ({ open, togglePopup }) => {
         }
       })
       .finally(() => {
-        setIsLoader(false);
       });
   };
 
