@@ -682,150 +682,6 @@ const FindOneOrderDetail = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                {/* <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "end",
-                    paddingTop: "15px",
-                    marginRight: "5px",
-                  }}
-                  className="pricing-main-div"
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      width: "250px",
-                    }}
-                  >
-                    <Typography
-                      className={classes.billing}
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        color: "#000000d9",
-                        paddingBottom: "0",
-                      }}
-                    >
-                      Sub Total :
-                    </Typography>
-
-                    <Typography></Typography>
-                    <Typography
-                      className={classes.billing}
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        paddingBottom: "0",
-                      }}
-                    >
-                      ${orderDetail.order?.payableAmount}
-                    </Typography>
-                  </div>
-
-                  {isReturned && (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        paddingBottom: "0",
-                        width: "250px",
-                      }}
-                    >
-                      <Typography
-                        className={classes.billing}
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          color: "#000000d9",
-                          paddingTop: "3px",
-                        }}
-                      >
-                        Refund amount:
-                      </Typography>
-                      <Typography
-                        className={classes.billing}
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: "500",
-                          paddingTop: "3px",
-                          borderBottom: "1px solid #a3a3a3",
-                        }}
-                      >
-                        - ${refundAmount}
-                      </Typography>
-                    </div>
-                  )}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      paddingTop: "6px",
-                      width: "250px",
-                      borderBottom: "1px solid #80808063",
-                    }}
-                  >
-                    <Typography
-                      className={classes.billing}
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        color: "#000000d9",
-
-                      }}
-                    >
-                      Tax :
-                    </Typography>
-                    <Typography
-                      className={classes.billing}
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        width: "76px"
-                      }}
-                    >
-                      ${orderDetail.order?.tax}
-                    </Typography>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      paddingTop: "6px",
-                      width: "250px",
-
-                    }}
-                  >
-                    <Typography
-                      className={classes.billing}
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        color: "#000000d9",
-                        paddingTop: "3px",
-                      }}
-                    >
-                      Estimate Total *:
-                    </Typography>
-                    <Typography
-                      className={classes.billing}
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        paddingTop: "3px",
-                      }}
-                    >
-                      ${isReturned
-                        ? orderDetail.order?.payableAmount - refundAmount
-                        : orderDetail.order?.payableAmount}
-                    </Typography>
-                  </div>
-                </div> */}
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
                   <div>
                     <Typography
@@ -845,7 +701,7 @@ const FindOneOrderDetail = () => {
                         fontSize: "14px",
                         fontWeight: "500",
                         color: "#000000d9",
-                        paddingBottom: "0",
+                        paddingBottom: "6px",
                         borderBottom: "1px solid #80808078"
                       }}
                     >
@@ -892,10 +748,10 @@ const FindOneOrderDetail = () => {
                     <Typography
                       style={{
                         fontSize: "14px",
-                        fontWeight: "500",
+                        fontWeight: "500 ",
                         width: "76px",
-                        paddingBottom: "0 !important",
-                        borderBottom: "1px solid #80808078"
+                        paddingBottom: "6px",
+                        borderBottom: "1px solid #80808078",
                       }}
                       className={classes.billing}
                     >
@@ -906,7 +762,7 @@ const FindOneOrderDetail = () => {
                       style={{
                         fontSize: "14px",
                         fontWeight: "500",
-                        paddingTop: "3px",
+                        paddingTop: "10px",
                       }}
                     >
                       ${isReturned
