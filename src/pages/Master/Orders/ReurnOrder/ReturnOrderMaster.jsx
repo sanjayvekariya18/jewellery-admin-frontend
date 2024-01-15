@@ -932,22 +932,23 @@ const ReturnOrderMaster = () => {
               />
             </div>
           ) : state.data?.length > 0 ? (
-
-            <PaginationTable
-              header={COLUMNS}
-              rows={rows}
-              totalItems={state.total_items || 0}
-              perPage={state.rowsPerPage}
-              activePage={state.page}
-              checkboxColumn={false}
-              selectedRows={state.selectedRows}
-              enableOrder={true}
-              isLoader={state.loader}
-              emptyTableImg={<img src={error400cover} width="400px" />}
-              orderBy={state.orderby}
-              order={state.order}
-              {...otherTableActionProps}
-            ></PaginationTable>
+            <div className="row-pagination-last-child">
+              <PaginationTable
+                header={COLUMNS}
+                rows={rows}
+                totalItems={state.total_items || 0}
+                perPage={state.rowsPerPage}
+                activePage={state.page}
+                checkboxColumn={false}
+                selectedRows={state.selectedRows}
+                enableOrder={true}
+                isLoader={state.loader}
+                emptyTableImg={<img src={error400cover} width="400px" />}
+                orderBy={state.orderby}
+                order={state.order}
+                {...otherTableActionProps}
+              ></PaginationTable>
+            </div>
           ) : (
             <div
               style={{

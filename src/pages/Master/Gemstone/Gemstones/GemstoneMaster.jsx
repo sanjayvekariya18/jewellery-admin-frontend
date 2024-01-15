@@ -48,7 +48,7 @@ const GemstoneMaster = () => {
     { title: "Is Visible", classNameWidth: "thead-second-width-action-carat" },
     {
       title: "Action",
-      classNameWidth: "thead-second-width-action-index-95 action-center",
+      classNameWidth: "action-center thead-second-width-action-index-95",
     },
   ];
 
@@ -159,7 +159,7 @@ const GemstoneMaster = () => {
         data: prevState.data.map((item) =>
           item.id === Id ? { ...item, isVisible: !item.isVisible } : item
         ),
-      }));
+      }));  
       setLoading(false);
     })
       .catch(() => { })

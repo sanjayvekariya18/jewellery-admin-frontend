@@ -29,9 +29,6 @@
 
 /* --------------------------------------  common component css --------------- */
 
-.action-center {
-  text-align: center !important;
-}
 
 .three-dot-text {
   display: block;
@@ -59,6 +56,19 @@
   /* padding-top: 10px !important;
     padding-bottom: 10px !important; */
 }
+
+.row-pagination-last-child .common-table-row thead tr th:last-child {
+  text-align: start !important;
+}
+
+.common-table-row thead tr th:last-child {
+  text-align: center !important;
+}
+
+.common-table-row tbody tr td:last-child {
+  text-align: center !important;
+}
+
 
 .common-table-row tbody tr td button {
   padding-left: 2px !important;
@@ -1576,4 +1586,4 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   padding-left: 20px !important;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
-} 
+}
