@@ -265,10 +265,12 @@ const ContactUsMaster = () => {
                                 id="isVisible187"
                             />
                             <Typography
+                                onClick={handleCheckboxClick}
                                 htmlFor="isVisible187"
                                 style={{
                                     fontSize: "15px",
                                     fontWeight: 500,
+                                    cursor: "pointer"
                                 }}
                             >
                                 Is Read
