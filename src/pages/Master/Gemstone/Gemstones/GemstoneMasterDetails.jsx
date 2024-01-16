@@ -12,7 +12,7 @@ import CommonButton from "../../../../components/UI/CommonButton";
 // ----------initialValues-------------------------
 const initialValues = {
   id: "",
-  stockId: "",
+  stockId: "", // Ensure that stockId is not null
   gemstoneType: "",
   title: "",
   description: "",
@@ -26,6 +26,7 @@ const initialValues = {
   mDepth: "",
   price: "",
 };
+
 
 const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
@@ -62,7 +63,6 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   // ----------------- handle Submitted ------------------------
   const handleSubmit = (data) => {
     setIsLoader(true);
-
     let formateFields = ["carat", "mDepth", "mLength", "mWidth"];
     let _data = { ...data };
     formateFields.forEach((field) => {
@@ -221,7 +221,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
             name="stockId"
             label="Stock Number"
             placeholder="Enter Stock Number"
-            value={formState.stockId}
+            value={formState?.stockId || ''}
             onChange={onChange}
             error={errors?.stockId}
             sx={{ mb: 0, mt: 1, width: "100%" }}
@@ -241,7 +241,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 name="title"
                 label="Title"
                 placeholder="Enter Title"
-                value={formState.title}
+                value={formState?.title || ''}
                 onChange={onChange}
                 error={errors?.title}
                 sx={{ mb: 0, width: "100%" }}
@@ -254,7 +254,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 name="carat"
                 label="Carat"
                 placeholder="Enter Carat"
-                value={formState.carat}
+                value={formState?.carat || ''}
                 onChange={onChange}
                 error={errors?.carat}
                 sx={{ mb: 0, width: "100%" }}
@@ -276,7 +276,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 label={"Select Gemstone Type"}
                 placeholder="Gemstone Type"
                 options={_sortOptionsGemstoneType}
-                value={formState.gemstoneType}
+                value={formState?.gemstoneType || ''}
                 onChange={onChange}
                 name="gemstoneType"
                 id="idStatus"
@@ -288,7 +288,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 label={"Select Shape Name"}
                 placeholder="Shape Name"
                 options={_sortOptionsShap}
-                value={formState.shape}
+                value={formState?.shape || ''}
                 onChange={onChange}
                 name="shape"
                 id="idStatus"
@@ -309,7 +309,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 label={"Select Color"}
                 placeholder="Color Name"
                 options={_sortOptionsColor}
-                value={formState.color}
+                value={formState?.color || ''}
                 onChange={onChange}
                 name="color"
                 id="idStatus"
@@ -321,7 +321,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 label={"Select Origin"}
                 placeholder="Origin Name"
                 options={_sortOptionsOrigin}
-                value={formState.origin}
+                value={formState?.origin || ''}
                 onChange={onChange}
                 name="origin"
                 id="idStatus"
@@ -344,7 +344,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 name="clarity"
                 label="Clarity"
                 placeholder="Enter Clarity"
-                value={formState.clarity}
+                value={formState?.clarity || ''}
                 onChange={onChange}
                 error={errors?.clarity}
                 sx={{ mb: 0, width: "100%" }}
@@ -357,7 +357,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 name="price"
                 label="Price"
                 placeholder="Enter Price"
-                value={formState.price}
+                value={formState?.price || ''}
                 onChange={onChange}
                 error={errors?.price}
                 sx={{ mb: 0, width: "100%" }}
@@ -378,7 +378,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 name="mLength"
                 label="mLength"
                 placeholder="Enter mLength"
-                value={formState.mLength}
+                value={formState?.mLength || ''}
                 onChange={onChange}
                 error={errors?.mLength}
                 sx={{ mb: 0, width: "100%" }}
@@ -391,7 +391,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 name="mWidth"
                 label="mWidth"
                 placeholder="Enter mWidth"
-                value={formState.mWidth}
+                value={formState?.mWidth || ''}
                 onChange={onChange}
                 error={errors?.mWidth}
                 sx={{ mb: 0, width: "100%" }}
@@ -404,7 +404,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
                 name="mDepth"
                 label="mDepth"
                 placeholder="Enter mDepth"
-                value={formState.mDepth}
+                value={formState?.mDepth || ''}
                 onChange={onChange}
                 error={errors?.mDepth}
                 sx={{ mb: 0, width: "100%" }}
@@ -420,7 +420,7 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
               minRows={3}
               maxRows={3}
               placeholder="Enter Gem Stone Details"
-              value={formState.description}
+              value={formState?.description || ''}
               onChange={onChange}
               sx={{ mb: 1.5 }}
             />

@@ -206,9 +206,9 @@ const SettingMaster = () => {
 
             <Card style={{ margin: "30px", width: "100%" }}>
                 <Box sx={{ flexGrow: 1, padding: 2 }}>
-                    <form>
+                    <>
                         {formOpen && value === 'general' && (
-                            <>
+                            <form>
                                 <Textinput
                                     size="medium"
                                     label="Contact Number"
@@ -290,7 +290,7 @@ const SettingMaster = () => {
                                     value={HELPER.getImageUrl(formState?.logo) || ''}
                                     label={"Profile Image"}
                                 />
-                            </>
+                            </form>
                         )}
 
                         {formOpen && value === 'social_link' && (
@@ -394,7 +394,7 @@ const SettingMaster = () => {
 
                             </>
                         )}
-                    </form>
+                    </>
 
                 </Box>
             </Card >

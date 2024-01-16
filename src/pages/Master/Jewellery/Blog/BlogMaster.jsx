@@ -359,7 +359,6 @@ const BlogMaster = () => {
           <Icon>add</Icon>
         </StyledAddButton>
       </Tooltip>
-
       {/* Blog Master details */}
       <BlogMasterDetails
         open={open}
@@ -370,9 +369,7 @@ const BlogMaster = () => {
         userData={selectedUserData}
         blogCategoryData={blogCategoryData}
         callBack={() => paginate()}
-
       />
-
       {textModal && (
         <ThemeDialog
           title="Description"

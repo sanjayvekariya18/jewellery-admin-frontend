@@ -173,7 +173,7 @@ const Customer = () => {
             </IconButton>
           </span>,
           <div>
-            <IconButton onClick={(e) => onClickDelete(item.id)}>
+          <IconButton onClick={(e) => onClickDelete(item.id)}>
               <Icon color="error">delete</Icon>
             </IconButton>
           </div>,

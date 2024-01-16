@@ -53,7 +53,7 @@ const TaxMaster = () => {
                 HELPER.toaster.error(err);
             })
     }
-    
+
     const handleEdit = (data) => {
         setSelectedUserData(data);
         setOpen(true);
@@ -267,7 +267,7 @@ const TaxMaster = () => {
                     }}
                     name="country_id"
                 />
-                <div style={{ marginTop: "20px"}}>
+                <div style={{ marginTop: "20px" }}>
                     <ReactSelect
                         placeholder="Select State"
                         options={_sortOptionsState}
@@ -279,16 +279,16 @@ const TaxMaster = () => {
                     />
                 </div>
             </SearchFilterDialog>
-
-            <TaxMaterDetails
-                open={open}
-                togglePopup={() => {
-                    togglePopup();
-                    // paginate();
-                }}
-                userData={selectedUserData}
-                callBack={() => paginate()}
-            />
+            {open && (
+                <TaxMaterDetails
+                    open={open}
+                    togglePopup={() => {
+                        togglePopup();
+                        // paginate();
+                    }}
+                    callBack={() => paginate()}
+                    userData={selectedUserData}
+                />)}
         </Container>
     );
 }

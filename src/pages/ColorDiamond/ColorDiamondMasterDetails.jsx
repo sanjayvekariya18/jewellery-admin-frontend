@@ -252,7 +252,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="stockId"
               label="Stock Number"
               placeholder="Enter Stock Number"
-              value={formState.stockId}
+              value={formState.stockId || ''}
               onChange={onChange}
               error={errors?.stockId}
               sx={{ mb: 0, mt: 1, width: "100%" }}
@@ -263,7 +263,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="carat"
               label="Carat"
               placeholder="Enter Carat"
-              value={formState.carat}
+              value={formState.carat || ''}
               onChange={onChange}
               error={errors?.carat}
               sx={{ mb: 0, mt: 1, width: "100%" }}
@@ -277,7 +277,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="title"
               label="Title"
               placeholder="Enter Title"
-              value={formState.title}
+              value={formState.title || ''}
               onChange={onChange}
               error={errors?.title}
               sx={{ mb: 0, width: "100%" }}
@@ -295,7 +295,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               label={"Enter Shape"}
               placeholder="Select Shape"
               options={_sortOptionsShap}
-              value={formState.shape}
+              value={formState.shape || ''}
               onChange={onChange}
               name="shape"
               id="idStatus"
@@ -305,7 +305,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               label={"Enter Color"}
               placeholder="Select Color"
               options={_sortOptionsColor}
-              value={formState.color}
+              value={formState.color || ''}
               onChange={onChange}
               name="color"
               id="idStatus"
@@ -315,7 +315,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               label={"Enter Origin"}
               placeholder="Select Origin"
               options={_sortOptionsOrigin}
-              value={formState.origin}
+              value={formState.origin || ''}
               onChange={onChange}
               name="origin"
               id="idStatus"
@@ -335,7 +335,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               label={"Enter Intensity"}
               placeholder="Select Intensity"
               options={_sortOptionsIntensity}
-              value={formState.intensity}
+              value={formState.intensity || ''}
               onChange={onChange}
               name="intensity"
               id="idStatus"
@@ -345,7 +345,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               label={"Clarity"}
               placeholder="Select Clarity"
               options={_sortOptionsDclarity}
-              value={formState.clarity}
+              value={formState.clarity || ''}
               onChange={onChange}
               name="clarity"
               id="idStatus"
@@ -357,7 +357,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="clarity"
               label="Clarity"
               placeholder="Enter Clarity"
-              value={formState.clarity}
+              value={formState.clarity || ''}
               onChange={onChange}
               error={errors?.clarity}
               sx={{ mb: 0, width: "100%" }}
@@ -377,7 +377,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="colorName"
               label="Color Name"
               placeholder="Enter Color Name"
-              value={formState.colorName}
+              value={formState.colorName || ''}
               onChange={onChange}
               onKeyPress={(event) => {
                 const pattern = /^[a-zA-Z]+$/;
@@ -395,7 +395,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="mLength"
               label="M-Length"
               placeholder="Enter M-Length"
-              value={formState.mLength}
+              value={formState.mLength || ''}
               onChange={onChange}
               error={errors?.mLength}
               sx={{ mb: 0, width: "100%" }}
@@ -407,7 +407,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="mWidth"
               label="M-Width"
               placeholder="Enter M-Width"
-              value={formState.mWidth}
+              value={formState.mWidth || ''}
               onChange={onChange}
               error={errors?.mWidth}
               sx={{ mb: 0, width: "100%" }}
@@ -419,7 +419,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="mDepth"
               label="M-Depth"
               placeholder="Enter M-Depth"
-              value={formState.mDepth}
+              value={formState.mDepth || ''}
               onChange={onChange}
               error={errors?.mDepth}
               sx={{ mb: 0, width: "100%" }}
@@ -432,7 +432,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               name="price"
               label="Price"
               placeholder="Enter Price"
-              value={formState.price}
+              value={formState.price || ''}
               onChange={onChange}
               // error={errors?.price ? true : false}
               error={errors?.price}
@@ -449,7 +449,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
               minRows={3}
               maxRows={3}
               placeholder="Enter Colored Diamond Details"
-              value={formState.description}
+              value={formState.description || ''}
               onChange={onChange}
               sx={{ mb: 1.5 }}
             />

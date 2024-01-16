@@ -31,6 +31,7 @@ const TaxMaterDetails = ({ open,
     const [isLoader, setIsLoader] = useState(false);
     const [stateMaster, setStateMaster] = useState([]);
     const [countryMaster, setCountryMaster] = useState([]);
+
     const onChange = useCallback((e) => {
         setFormState((prevProps) => {
             return {
@@ -163,50 +164,47 @@ const TaxMaterDetails = ({ open,
                         }
                     >
                         <div>
-                          
-                                <div>
-                                    <div style={{ marginTop: "10px" }}>
-                                        <ReactSelect
-                                            className="tax-select-design"
-                                            label={"Country"}
-                                            placeholder={"Select Country"}
-                                            options={_sortOptionsCountry}
-                                            value={formState.country_id}
-                                            onChange={onChange}
-                                            name="country_id"
-                                            id="idStatus"
-                                            styles={{ width: "50%" }}
-                                            error={errors?.country_id}
-                                        />
-                                    </div>
-                                    <div style={{ marginTop: "10px" }}>
-                                        <ReactSelect
-                                            className="tax-select-design"
-                                            label={"State"}
-                                            placeholder={"Select State"}
-                                            options={_sortOptionsState}
-                                            value={formState.state_id}
-                                            onChange={onChange}
-                                            name="state_id"
-                                            id="idStatus"
-                                            styles={{ width: "50%" }}
-                                            error={errors?.state_id}
-                                        />
-                                    </div>
-                                    <div style={{ marginTop: "5px" }}>
-                                        <Textinput
-                                            variant="standard"
-                                            size="small"
-                                            type="number"
-                                            name="tax_rate"
-                                            label="Rate"
-                                            value={formState.tax_rate}
-                                            onChange={onChange}
-                                            sx={{ mb: 0, mt: 1, width: "100%" }}
-                                            error={errors?.tax_rate}
-                                        />
-                                    </div>
-                                </div>
+                            <div style={{ marginTop: "10px" }}>
+                                <ReactSelect
+                                    className="tax-select-design"
+                                    label={"Country"}
+                                    placeholder={"Select Country"}
+                                    options={_sortOptionsCountry}
+                                    value={formState.country_id || ''}
+                                    onChange={onChange}
+                                    name="country_id"
+                                    id="idStatus"
+                                    styles={{ width: "50%" }}
+                                    error={errors?.country_id}
+                                />
+                            </div>
+                            <div style={{ marginTop: "10px" }}>
+                                <ReactSelect
+                                    className="tax-select-design"
+                                    label={"State"}
+                                    placeholder={"Select State"}
+                                    options={_sortOptionsState}
+                                    value={formState.state_id || ''}
+                                    onChange={onChange}
+                                    name="state_id"
+                                    id="idStatus"
+                                    styles={{ width: "50%" }}
+                                    error={errors?.state_id}
+                                />
+                            </div>
+                            <div style={{ marginTop: "5px" }}>
+                                <Textinput
+                                    variant="standard"
+                                    size="small"
+                                    type="number"
+                                    name="tax_rate"
+                                    label="Rate"
+                                    value={formState.tax_rate || ''}
+                                    onChange={onChange}
+                                    sx={{ mb: 0, mt: 1, width: "100%" }}
+                                    error={errors?.tax_rate}
+                                />
+                            </div>
                         </div>
                     </ThemeDialog>
                 )}
