@@ -247,7 +247,7 @@ const UserMaster = () => {
         <StyledAddButton
           color="secondary"
           aria-label="Add"
-          className="button"
+          className="button sub-category-tooltip"
           onClick={togglePopup}
         >
           <Icon>add</Icon>

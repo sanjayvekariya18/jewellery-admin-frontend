@@ -231,7 +231,7 @@ const ShapeMaster = () => {
         <StyledAddButton
           color="secondary"
           aria-label="Add"
-          className="button"
+          className="button sub-category-tooltip-shape"
           onClick={togglePopup}
         >
           <Icon>add</Icon>

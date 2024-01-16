@@ -1587,3 +1587,12 @@ td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.makeStyles-noUnde
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
+
+.sub-category-tooltip {
+  bottom: 55px !important;
+}
+
+.sub-category-tooltip-shape {
+  bottom: 78px !important;
+
+}
