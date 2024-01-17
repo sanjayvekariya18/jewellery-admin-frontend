@@ -33,7 +33,7 @@ const initialValues = {
   price: "",
 };
 
-const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
+const DiamondMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
   const [shapMaster, setShapMaster] = useState([]);
   const [labMaster, setLabMaster] = useState([]);
@@ -298,6 +298,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData ,callBack}) => {
             togglePopup();
             resetValidation();
           }}
+          className="product-details-select-box"
           actionBtns={
             <Box>
               <Button

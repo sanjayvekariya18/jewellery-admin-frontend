@@ -212,6 +212,7 @@ const ColorDiamondMasterDetails = ({ open, togglePopup, userData, callBack }) =>
             togglePopup();
             resetValidation();
           }}
+          className="product-details-select-box"
           actionBtns={
             <Box>
               <Button

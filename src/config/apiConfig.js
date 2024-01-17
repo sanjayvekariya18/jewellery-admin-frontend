@@ -117,112 +117,112 @@ const apiConfig = {
   colorRange: "coloredDiamond/colorRange", // color Range Filter
 
   // Product Details
-  product: "product",
-  productBulk: "product/bulk",
-  findProduct: "product/productVariant/:productId",
-  findProductVariant: "product/productVariant/moreDetail/:productVariantId",
-  productDownload: "product/template/:id",
-  visibility_product: "product/visibility/:id",
-  visibility_productVariant: "product/variant/visibility/:id",
-  productBySku: 'product/by-skus',
+  product: "product", // product details display
+  productBulk: "product/bulk", // product bulk
+  findProduct: "product/productVariant/:productId", // product variant
+  findProductVariant: "product/productVariant/moreDetail/:productVariantId",  // product variant more detail
+  productDownload: "product/template/:id", // product download
+  visibility_product: "product/visibility/:id", //visibility product
+  visibility_productVariant: "product/variant/visibility/:id", // visibility product variant
+  productBySku: 'product/by-skus', //product variant by sku
 
   // orders 
   orders: "orders",
-  changeOrderStatus: "orders/change-status",
-  orderFilterDropDown: "orders/dropdowns",
-  cancelOrder: "orders/cancel-order",
-  approveOrRejectCancelOrder: "orders/cancel-order-request/approve-or-reject",
-  findOrder: "orders/:Id",
-  findProductDetail: "orders/order-product/:id",
-  downloadInvoice: "orders/download-invoice",
+  changeOrderStatus: "orders/change-status", // order status change
+  orderFilterDropDown: "orders/dropdowns", //order filter drop down
+  cancelOrder: "orders/cancel-order", // cancel order
+  approveOrRejectCancelOrder: "orders/cancel-order-request/approve-or-reject", //approve or reject order
+  findOrder: "orders/:Id", //find order
+  findProductDetail: "orders/order-product/:id", // find product detail
+  downloadInvoice: "orders/download-invoice", // download invoice
 
   // return order
-  returnOrder: "return-orders",
-  changeReturnOrderStatus: "return-orders/change-status",
-  refundReturnOrder: "return-orders/refund-amount",
+  returnOrder: "return-orders", // return order
+  changeReturnOrderStatus: "return-orders/change-status",// change order status
+  refundReturnOrder: "return-orders/refund-amount",// refund return order
 
 
   // add to a featured product
-  featureProduct: "featureProduct/:id",
-  allFeaturesProduct: "featureProduct",
-  updateFeatureProduct: "featureProduct",
+  featureProduct: "featureProduct/:id", //feature product
+  allFeaturesProduct: "featureProduct", //all feature product
+  updateFeatureProduct: "featureProduct", //update feature product
 
 
   // Our Product Details
-  ourProduct: "ourProduct/:id",
-  allOurProduct: "ourProduct",
+  ourProduct: "ourProduct/:id", // our product
+  allOurProduct: "ourProduct", // all our product
   // updateOurProduct: "ourProduct",
 
 
   // popular wedding
-  popularWedding: "popularWedding/:id",
-  allPopularWedding: "popularWedding",
+  popularWedding: "popularWedding/:id", // popular wedding
+  allPopularWedding: "popularWedding", // all popular weddings
 
 
   // gift
-  popularGift: "popularGift/:id",
-  allPopularGift: "popularGift",
+  popularGift: "popularGift/:id", // popular gift
+  allPopularGift: "popularGift", // all popular gift
   // updatePopularGift: "popularGift",
 
 
   // addToEngagement
-  popularEngagement: "popularEngagement/:id",
-  allPopularEngagement: "popularEngagement",
+  popularEngagement: "popularEngagement/:id", // popular Engagement
+  allPopularEngagement: "popularEngagement", // all Popular Engagement
 
   // default value set in product
-  productDefault: "product/default/:id",
+  productDefault: "product/default/:id", // product default
 
   // banner
-  banner: "banner",
-  bannerUpdate: "banner/:id",
+  banner: "banner", //banner
+  bannerUpdate: "banner/:id", //banner update
 
   // Slider Master
-  sliderMaster: "slide_master",
-  UpdatesliderMaster: "slide_master/:id",
-  sliderBanner: "slide_banner/bulk",
-  SlideBanner: "slide_banner",
+  sliderMaster: "slide_master", //slider master
+  // UpdatesliderMaster: "slide_master/:id", //
+  sliderBanner: "slide_banner/bulk", // slider banner bulk 
+  SlideBanner: "slide_banner", // slider banner
 
   // Slider
-  slider: "slider",
-  sliderUpdate: "slider/:id",
+  slider: "slider", // slider
+  sliderUpdate: "slider/:id", // slider update
 
   // setting api call
-  appSettings: "app-settings",
-  appSettingsEdit: "app-settings/update",
-  appSettingsUploadFile: "app-settings/upload-file",
-  saveAppSettingsHomeProduct: "app-settings/home-product",
+  appSettings: "app-settings", // app settings
+  appSettingsEdit: "app-settings/update", // app settings edit
+  appSettingsUploadFile: "app-settings/upload-file", // app settings upload file
+  saveAppSettingsHomeProduct: "app-settings/home-product", // save app settings
 
   // dymanic menu
-  dynamicMenuList: "page",
-  visibility_menu: "page/toggle/:id",
-  linkUp: "link_up",
-  deleteLinkUp: "link_up/delete",
-  updateLinkUp: "link_up/:id",
+  dynamicMenuList: "page", // dynamic menu list
+  visibility_menu: "page/toggle/:id", // visibility menu
+  linkUp: "link_up", //link up
+  deleteLinkUp: "link_up/delete", // delete link up
+  updateLinkUp: "link_up/:id", // update link up
 
 
   // notifications
-  notifications: "notifications",
-  clearAllNotification: "notifications/clear-all",
-  readNotification: "notifications/read",
-  unRead: "notifications/unread-notifications",
+  notifications: "notifications", // notification
+  clearAllNotification: "notifications/clear-all", // clear all notification
+  readNotification: "notifications/read", // read notification
+  unRead: "notifications/unread-notifications", // unRead notification
 
 
   //Contact us
-  contactUs: "contact-us",
-  contactUsBulk: "contact-us/bulk",
+  contactUs: "contact-us", // contact us
+  contactUsBulk: "contact-us/bulk", // contact us bulk
 
 
   // dashboard
-  dashboardOrder: "dashboard/totalOrders",
-  dashboardCustomer: "dashboard/totalCustomers",
-  dashboardProduct: "dashboard/totalProducts",
-  dashboardCategory: "dashboard/totalCategory",
+  dashboardOrder: "dashboard/totalOrders", // dashboard order
+  dashboardCustomer: "dashboard/totalCustomers", // dashboard customer
+  dashboardProduct: "dashboard/totalProducts", // dashboard product
+  dashboardCategory: "dashboard/totalCategory",// dashboard category
 
   // setting in tax 
-  taxes: "taxes",
-  listStates: "list/states",
-  listCountry:"list/countries",
-  visibility_tax:"taxes/toggle/:id"
+  taxes: "taxes", // taxes 
+  listStates: "list/states", // list states 
+  listCountry:"list/countries", // list country
+  visibility_tax:"taxes/toggle/:id" // visibility tax
 };
 
 export default apiConfig;

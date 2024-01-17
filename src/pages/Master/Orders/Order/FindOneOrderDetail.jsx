@@ -16,11 +16,10 @@ import {
 import { makeStyles } from "@mui/styles";
 import moment from "moment";
 import { API } from "../../../../services";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { apiConfig, appConfig } from "../../../../config";
 import { Breadcrumb, Container } from "../../../../components";
 import { pageRoutes } from "../../../../constants/routesList";
-import ProductDetail from "./ProductDetail";
 import { downloadFile, isEmpty } from "../../../../services/helper";
 
 const useStyles = makeStyles((theme) => ({
@@ -454,11 +453,11 @@ const FindOneOrderDetail = () => {
                   }}
                 >
                   {orderDetail.order?.customer.billing_city +
-                    "," +
+                    " , " +
                     orderDetail.order?.customer.billing_state +
-                    "," +
+                    " , " +
                     orderDetail.order?.customer.billing_country +
-                    "," +
+                    " - " +
                     orderDetail.order?.customer.billing_pincode}
                 </Typography>
 
@@ -534,6 +533,7 @@ const FindOneOrderDetail = () => {
                   >
                     Order Status :
                   </span>
+                  {` `}
                   {orderDetail.order?.status ? orderDetail.order.status.charAt(0).toUpperCase() + orderDetail.order.status.slice(1) : ''}
                 </Typography>
 
@@ -644,6 +644,7 @@ const FindOneOrderDetail = () => {
                     <TableBody>
                       {productData &&
                         productData.map((product, index) => {
+                          console.log(product.id,"orderDetail?.orderProducts?.id");
                           return (
                             <TableRow key={index} className={classes.tableRow}>
                               <TableCell
@@ -670,11 +671,16 @@ const FindOneOrderDetail = () => {
                               <TableCell className={`${classes.noUnderline} inline-height-1`} dangerouslySetInnerHTML={{ __html: generateProductField(product, "total_price") }}>
                               </TableCell>
                               <TableCell className="main-icon-details-button thead-second-width-action-35">
-                                <IconButton
+                                {/* <IconButton
                                   onClick={(e) => getProductDetail(product.id)}
                                 >
                                   <Icon color="primary">remove_red_eye</Icon>
-                                </IconButton>
+                                </IconButton> */}
+                                  <Link to={`${process.env.REACT_APP_FRONTEND_CUSTOMER}/jewellery-detail/${product?.productVariantId}`} target="_blank">
+                                  <IconButton>
+                                    <Icon color="primary">remove_red_eye</Icon>
+                                  </IconButton>
+                                </Link>
                               </TableCell>
                             </TableRow>
                           );
@@ -888,7 +894,7 @@ const FindOneOrderDetail = () => {
       }
 
       {/*ProductDetail in model open  */}
-      {
+      {/* {
         findProduct && (
           <ProductDetail
             open={findProduct}
@@ -898,7 +904,7 @@ const FindOneOrderDetail = () => {
             productDetailData={productDetail}
           />
         )
-      }
+      } */}
     </Container >
   );
 };

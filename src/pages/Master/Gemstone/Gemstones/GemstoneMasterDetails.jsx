@@ -12,7 +12,7 @@ import CommonButton from "../../../../components/UI/CommonButton";
 // ----------initialValues-------------------------
 const initialValues = {
   id: "",
-  stockId: "", // Ensure that stockId is not null
+  stockId: "",
   gemstoneType: "",
   title: "",
   description: "",
@@ -30,7 +30,7 @@ const initialValues = {
 
 const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   const [formState, setFormState] = useState({ ...initialValues });
-  const [shapMaster, setShapMaster] = useState([]);
+  const [shapeMaster, setShapeMaster] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
 
   const rules = {
@@ -49,13 +49,13 @@ const GemstoneMasterDetails = ({ open, togglePopup, userData, callBack }) => {
   useEffect(() => {
     API.get(apiConfig.shapeList, { is_public_url: true })
       .then((res) => {
-        setShapMaster(res);
+        setShapeMaster(res);
       })
       .catch(() => { });
   }, []);
 
   // ------------------------Shape Options --------------------------------
-  let _sortOptionsShap = shapMaster.map((option) => ({
+  let _sortOptionsShap = shapeMaster.map((option) => ({
     label: option.shape,
     value: option.id,
   }));
