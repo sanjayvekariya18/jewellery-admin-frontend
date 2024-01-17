@@ -8,6 +8,7 @@ import noImage from "../assets/noimag.jpg";
 import "sweetalert2/dist/sweetalert2.css";
 // import "react-toastify/dist/ReactToastify.css";
 import { apiConfig, appConfig } from "../config";
+import AuthStorage from "../utils/authStorage";
 
 export const isEmpty = (value) => {
   if (value === null || value === "null") {
@@ -225,7 +226,7 @@ export const downloadFile = (url, data = {}) => {
     xhr.responseType = "arraybuffer";
     xhr.setRequestHeader(
       "Authorization",
-      "Bearer " + sessionStorage.getItem(appConfig.localStorage.token)
+      "Bearer " + AuthStorage.getToken()
     );
     xhr.onload = function (e) {
       if (this.status === 200) {
