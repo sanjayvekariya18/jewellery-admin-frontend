@@ -644,7 +644,6 @@ const FindOneOrderDetail = () => {
                     <TableBody>
                       {productData &&
                         productData.map((product, index) => {
-                          console.log(product.id,"orderDetail?.orderProducts?.id");
                           return (
                             <TableRow key={index} className={classes.tableRow}>
                               <TableCell
