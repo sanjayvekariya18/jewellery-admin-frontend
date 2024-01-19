@@ -17,7 +17,6 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData, callBack }) => {
     { label: "M-Depth : ", key: "mDepth" },
     { label: "Price : ", key: "price" },
   ];
-
   return (
     <ThemeDialog
       title={`Gem Stone Stock Id : ${gemStoneData !== null && gemStoneData.stockId
@@ -88,45 +87,52 @@ const FindGemstoneModal = ({ open, togglePopup, gemStoneData, callBack }) => {
                       gap: "6px",
                     }}
                   >
-                    {gemstoneInfo.map((info) =>
-                    (
-                      <div
-                        key={info.key}
-                        style={{
-                          display: "flex",
-                          alignItems: "baseline",
-                          justifyContent: "flex-start",
-                          border: "1px solid #3736363b",
-                        }}
-                      >
-                        <div style={{ marginRight: "10px" }}>
-                          <h3
+                    {
+                      gemstoneInfo.map((info) => {
+                        return (
+                          <div
+                            key={info.key}
                             style={{
-                              fontSize: "17px",
-                              fontWeight: "500",
-                              color: "#373636de",
-                              padding: "9px 0px 9px 8px",
-                              margin: 0,
-                              maxWidth: "140px",
+                              display: "flex",
+                              alignItems: "baseline",
+                              justifyContent: "flex-start",
+                              border: "1px solid #3736363b",
                             }}
                           >
-                            {info.label}
-                          </h3>
-                        </div>
-                        <div>
-                          <span
-                            style={{
-                              fontSize: "16px",
-                              fontWeight: "400",
-                            }}
-                          >
-                            {String(gemStoneData[info.key]).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') === 0
-                              ? "0"
-                              : String(gemStoneData[info.key]).split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') || ""}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
+                            <div style={{ marginRight: "10px" }}>
+                              <h3
+                                style={{
+                                  fontSize: "17px",
+                                  fontWeight: "500",
+                                  color: "#373636de",
+                                  padding: "9px 0px 9px 8px",
+                                  margin: 0,
+                                  maxWidth: "140px",
+                                }}
+                              >
+                                {info.label}
+                              </h3>
+                            </div>
+                            <div>
+                              <span
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: "400",
+                                }}
+                              >
+                                {
+                                  gemStoneData[info.key] !== undefined
+                                    ? typeof gemStoneData[info.key] === 'string'
+                                      ? gemStoneData[info.key].split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
+                                      : gemStoneData[info.key]?.toString()
+                                    : ""
+                                }
+                              </span>
+                            </div>
+                          </div>
+                        )
+                      })
+                    }
                   </div>
                   <div
                     style={{
