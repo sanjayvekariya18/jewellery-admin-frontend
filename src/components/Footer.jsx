@@ -47,13 +47,13 @@ const Footer = () => {
                 Get MatX Pro
               </Button>
             </a> */}
-						<Span sx={{ m: "auto" }}></Span>
+						{/* <Span sx={{ m: "auto" }}></Span>
 						<Paragraph sx={{ m: 0 }}>
 							Design and Developed by{" "}
 							<a href="http://karmadhi.com" target="_blank" rel="noreferrer">
 								Karmadhi
 							</a>
-						</Paragraph>
+						</Paragraph> */}
 					</FooterContent>
 				</AppFooter>
 			</AppBar>
