@@ -37,7 +37,7 @@ const appConfig = {
     13: "ST",
     14: "UV",
     15: "WX",
-    16: "YZ"
+    16: "YZ",
   },
   D_Clarity: {
     0: "FL",
@@ -53,8 +53,7 @@ const appConfig = {
     10: "I3",
   },
   D_Cut: {
-    0: "SUPER IDEAL",
-    1: "IDEAL",
+    0: "EXCELLENT",
     2: "VERY GOOD",
     3: "GOOD",
     4: "FAIR",

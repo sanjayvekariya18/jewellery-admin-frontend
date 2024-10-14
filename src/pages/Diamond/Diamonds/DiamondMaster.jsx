@@ -61,11 +61,12 @@ const DiamondMaster = () => {
 
   // diamond detail get by single
   const getDataDiamond = (id) => {
-    API.get(apiConfig.findDiamond.replace(":id", id)).then((res) => {
-      setDiamondData(res); // Update gemStoneData when fetching data
-      setFindDiamond(true); // Open the modal when data is received
-    })
-      .catch(() => { })
+    API.get(apiConfig.findDiamond.replace(":id", id))
+      .then((res) => {
+        setDiamondData(res); // Update gemStoneData when fetching data
+        setFindDiamond(true); // Open the modal when data is received
+      })
+      .catch(() => {});
   };
 
   const {
@@ -152,11 +153,11 @@ const DiamondMaster = () => {
           ...(clear
             ? { ...getInitialStates() }
             : {
-              ...state,
-              ...(clear && clearStates),
-              ...(isNewFilter && newFilterState),
-              loader: false,
-            }),
+                ...state,
+                ...(clear && clearStates),
+                ...(isNewFilter && newFilterState),
+                loader: false,
+              }),
           total_items: res.count,
           data: res.rows,
         });
@@ -171,7 +172,7 @@ const DiamondMaster = () => {
         ) {
           HELPER.toaster.error(err.errors.message);
         } else {
-          HELPER.toaster.error(err)
+          HELPER.toaster.error(err);
         }
         setState({
           ...state,
@@ -189,7 +190,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setShapMaster(res);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   // --------------------Shap Filter----------------------------
@@ -205,7 +206,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setLabMaster(res);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   // ------------------ Lab Filter --------------------------------
@@ -218,18 +219,19 @@ const DiamondMaster = () => {
   // ---------------Visiblility Diamond Api----------------------
 
   const hiddenVisibleDiamond = (Id) => {
-    API.put(apiConfig.visibility_diamond.replace(":id", Id)).then((res) => {
-      HELPER.toaster.success(res.message);
-      // paginate();
-      setState((prevState) => ({
-        ...prevState,
-        data: prevState.data.map((item) =>
+    API.put(apiConfig.visibility_diamond.replace(":id", Id))
+      .then((res) => {
+        HELPER.toaster.success(res.message);
+        // paginate();
+        setState((prevState) => ({
+          ...prevState,
+          data: prevState.data.map((item) =>
             item.id === Id ? { ...item, isVisible: !item.isVisible } : item
-        ),
-    }));
-      setLoading(false);
-    })
-      .catch(() => { })
+          ),
+        }));
+        setLoading(false);
+      })
+      .catch(() => {});
   };
   //------------ Delete Diamond --------------
 
@@ -251,7 +253,7 @@ const DiamondMaster = () => {
             HELPER.toaster.success("Deleted Successfully");
             paginate();
           })
-          .catch((e) => HELPER.toaster.error(e.errors.message))
+          .catch((e) => HELPER.toaster.error(e.errors.message));
       }
     });
   };
@@ -306,9 +308,8 @@ const DiamondMaster = () => {
 
   // ---------------Cut Filter----------------------
   const marksCut = [
-    { value: 0, label: "Super Ideal " },
-    { value: 1, label: "Ideal" },
-    { value: 2, label: "Very Good " },
+    { value: 0, label: "Excellent" },
+    { value: 2, label: "Very Good" },
     { value: 3, label: "Good" },
     { value: 4, label: "Fair" },
     { value: 5, label: "Poor" },
@@ -363,7 +364,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setCarat(res);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
   // ---------------Carat Filter----------------------
   const handleChangeCarat = (event, newValue) => {
@@ -377,7 +378,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setPrice(res);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   // ---------------Price Filter----------------------
@@ -393,7 +394,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setDepth(res);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
   const handleChangeDepth = (event, newValue) => {
     changeState("fromDepth", newValue[0]);
@@ -406,7 +407,7 @@ const DiamondMaster = () => {
       .then((res) => {
         setTable(res);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   const handleChangeTable = (event, newValue) => {
@@ -425,13 +426,33 @@ const DiamondMaster = () => {
           // <span>{appConfig.D_Cut[item.cut].charAt(0).toUpperCase() + appConfig.D_Cut[item.cut].slice(1).toLowerCase()}</span>,
           <span>
             {appConfig.D_Cut[item.cut]
-              ? appConfig.D_Cut[item.cut].toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-              : ''}
+              ? appConfig.D_Cut[item.cut]
+                  .toLowerCase()
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")
+              : ""}
           </span>,
           <span>{appConfig.D_Color[item.color]}</span>,
           <span>{appConfig.D_Clarity[item.clarity]}</span>,
-          <span>{appConfig.D_Polish[item.polish] ? appConfig.D_Polish[item.polish].toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : ""}</span>,
-          <span>{appConfig.D_Symmetry[item.symmetry] ? appConfig.D_Symmetry[item.symmetry].toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : ""}</span>,
+          <span>
+            {appConfig.D_Polish[item.polish]
+              ? appConfig.D_Polish[item.polish]
+                  .toLowerCase()
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")
+              : ""}
+          </span>,
+          <span>
+            {appConfig.D_Symmetry[item.symmetry]
+              ? appConfig.D_Symmetry[item.symmetry]
+                  .toLowerCase()
+                  .split(" ")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")
+              : ""}
+          </span>,
           <span>{item.origin}</span>,
           <span>{item.labName}</span>,
           <span>${item.price}</span>,

@@ -60,7 +60,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData, callBack }) => {
       .then((res) => {
         setShapMaster(res);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   // ------------------- Shap options --------------------------------
@@ -76,7 +76,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData, callBack }) => {
       .then((res) => {
         setLabMaster(res);
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   // -------------------Lab options --------------------------------
@@ -115,7 +115,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData, callBack }) => {
           HELPER.toaster.error(err.errors.message);
         } else if (err.status === 422) {
           if (err.errors) {
-            Object.keys(err.errors).forEach(key => {
+            Object.keys(err.errors).forEach((key) => {
               if (err.errors[key] && err.errors[key].length > 0) {
                 HELPER.toaster.error(`${key}: ${err.errors[key][0]}`);
               }
@@ -124,7 +124,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData, callBack }) => {
             HELPER.toaster.error(err.errors);
           }
         } else {
-          HELPER.toaster.error(err)
+          HELPER.toaster.error(err);
         }
       })
       .finally(() => {
@@ -189,8 +189,7 @@ const DiamondMasterDetails = ({ open, togglePopup, userData, callBack }) => {
 
   // ------------------Option Cut---------------
   const sortOptionsDcut = [
-    { label: "Super Ideal", value: 0 },
-    { label: "Ideal", value: 1 },
+    { label: "Excellent", value: 0 },
     { label: "Very Good", value: 2 },
     { label: "Good", value: 3 },
     { label: "Fair", value: 4 },
