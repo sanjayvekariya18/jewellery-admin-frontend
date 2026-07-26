@@ -10,8 +10,10 @@ const apiConfig = {
     "/"
   ).replace(/([^:]\/)\/+/g, "$1"),
 
+  // Site origin for sockets / static media (https://evaanta.com/)
   publicURL: (appConfig.host + "/").replace(/([^:]\/)\/+/g, "$1"),
-
+  // Public storefront API routes are mounted under /api (not /api/v1)
+  publicApiURL: (appConfig.host + "/api/").replace(/([^:]\/)\/+/g, "$1"),
 
   user: "user",
   // auth apis

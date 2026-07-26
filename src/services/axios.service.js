@@ -54,7 +54,7 @@ const requestMiddleware = (config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
   if (config?.data?.is_public_url || config?.params?.is_public_url) {
-    config.baseURL = apiConfig.publicURL;
+    config.baseURL = apiConfig.publicApiURL;
     delete config?.data?.is_public_url;
     delete config?.params?.is_public_url;
   }
