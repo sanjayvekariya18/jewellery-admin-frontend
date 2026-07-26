@@ -43,9 +43,12 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
         const categoryName = foundCategory.name;
         API.getExcel(apiConfig.productDownload.replace(":id", store))
           .then((res) => {
-            const blob = new Blob([res.data], {
-              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            });
+            const blob =
+              res instanceof Blob
+                ? res
+                : new Blob([res], {
+                    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  });
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
@@ -54,9 +57,13 @@ const ProductBulkMasterDetails = ({ open, togglePopup, callBack }) => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
           })
           .catch((error) => {
             console.error("Error downloading file:", error);
+            HELPER.toaster.error(
+              error?.errors?.message || "Failed to download template."
+            );
           });
       }
     }

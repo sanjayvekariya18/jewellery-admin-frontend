@@ -151,12 +151,16 @@ excelInstance.interceptors.request.use(
 );
 
 const successHandler = (response) => {
-  if (response.config.url.includes(apiConfig.downloadInvoice)) {
-    numberOfAjaxCAllPending--;
+  numberOfAjaxCAllPending--;
+
+  // Blob downloads (Excel templates, invoices) are raw binary, not API JSON envelopes.
+  if (
+    response.config.responseType === "blob" ||
+    response.config.url?.includes(apiConfig.downloadInvoice)
+  ) {
     return response.data;
   }
 
-  numberOfAjaxCAllPending--;
   return response.data.success ? response.data.data : response.error;
 };
 
