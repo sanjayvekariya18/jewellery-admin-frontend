@@ -33,6 +33,7 @@ const SettingMaster = () => {
     const [setting, setSetting] = useState({});
     const [settingMetal, setSettingMetal] = useState({});
     const [formState, setFormState] = useState({});
+    const [logoPreviewKey, setLogoPreviewKey] = useState(0);
     // const [formStateMetal, setFormStateMetal] = useState({});
 
     const handleChange = (event, batch) => {
@@ -81,6 +82,12 @@ const SettingMaster = () => {
         // Continue with the API call if engraving_price is not null
         API.put(apiConfig.appSettingsEdit, formData)
             .then((res) => {
+                // Update local preview immediately so the new logo shows without a full page refresh.
+                setFormState((prev) => ({
+                    ...prev,
+                    ...formData,
+                }));
+                setLogoPreviewKey((key) => key + 1);
                 getAllAppSettings();
                 HELPER.toaster.success('Setting updated successfully!');
             })
@@ -290,9 +297,14 @@ const SettingMaster = () => {
 
                                 <label className="label-class">Logo</label>
                                 <ImgUploadBoxInput
+                                    key={`logo-preview-${logoPreviewKey}-${typeof formState?.logo === 'string' ? formState.logo : formState?.logo?.name || 'empty'}`}
                                     name="logo"
                                     onChange={onChange}
-                                    value={HELPER.getImageUrl(formState?.logo) || ''}
+                                    value={
+                                        formState?.logo instanceof File
+                                            ? formState.logo
+                                            : HELPER.getImageUrl(formState?.logo) || ''
+                                    }
                                     label={"Profile Image"}
                                 />
                             </form>

@@ -145,6 +145,13 @@ export const prepateSelectDropdown = (array, field1 = null, field2) => {
 };
 
 export const getImageUrl = (url) => {
+  // Selected files must preview via object URL (File has no enumerable keys, so isEmpty(File) is true).
+  if (typeof File !== "undefined" && url instanceof File) {
+    return URL.createObjectURL(url);
+  }
+  if (typeof Blob !== "undefined" && url instanceof Blob) {
+    return URL.createObjectURL(url);
+  }
   if (isEmpty(url)) {
     return noImage;
   }

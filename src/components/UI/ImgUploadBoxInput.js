@@ -38,30 +38,29 @@ export default function ImgUploadBoxInput({
             aria-label="Upload picture"
             disableRipple={true}
           >
-            {value !== null ? (
+            {value !== null && value !== undefined && value !== "" ? (
               <Box
-                id={`image_${randomStr()}`}
                 component="img"
                 sx={{
                   height: 40,
                   width: 40,
                   maxHeight: { xs: 25, md: 50 },
                   maxWidth: { xs: 25, md: 50 },
+                  objectFit: "contain",
                   ...(Boolean(error) && {
                     border: "2px solid #FF3D57",
                   }),
                 }}
-                // src={
-                //   typeof value == "string" ? value : URL.createObjectURL(value)
-                // }
                 src={
                   typeof value === "string"
                     ? value
-                    : value instanceof File
+                    : value instanceof File || value instanceof Blob
                     ? URL.createObjectURL(value)
                     : "/assets/camera.svg"
                 }
                 onError={(e) => {
+                  if (e.target.dataset.fallbackApplied === "1") return;
+                  e.target.dataset.fallbackApplied = "1";
                   e.target.src = "/assets/camera.svg";
                 }}
               />
