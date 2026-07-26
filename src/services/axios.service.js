@@ -61,7 +61,8 @@ const requestMiddleware = (config) => {
 
   if (config.method === "post" || config.method === "put") {
     if (config.data instanceof FormData) {
-      config.headers["Content-Type"] = "multipart/form-data";
+      // Let the browser set multipart boundary; a bare multipart Content-Type breaks uploads.
+      delete config.headers["Content-Type"];
     }
   }
 

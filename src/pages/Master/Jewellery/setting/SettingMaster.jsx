@@ -62,9 +62,12 @@ const SettingMaster = () => {
                 .then((res) => {
                     if (res?.upload_path) {
                         callback(res.upload_path)
+                    } else {
+                        HELPER.toaster.error('Logo upload failed. Please try again.');
                     }
                 })
                 .catch((error) => {
+                    HELPER.toaster.error(error?.errors?.message || 'Logo upload failed. Please try again.');
                 });
         }
     };
@@ -81,7 +84,9 @@ const SettingMaster = () => {
                 getAllAppSettings();
                 HELPER.toaster.success('Setting updated successfully!');
             })
-            .catch(() => { })
+            .catch((error) => {
+                HELPER.toaster.error(error?.errors?.message || 'Failed to update settings.');
+            })
     };
 
     const onChange = useCallback((e) => {
