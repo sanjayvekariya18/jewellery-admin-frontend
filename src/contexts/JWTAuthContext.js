@@ -73,12 +73,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, remember) => {
     const response = await API.post(apiEndPoint.login, { email, password });
-    const { token, user } = response;
-    AuthStorage.setStorageData(
-      AuthStorage.STORAGEKEY.access_token,
-      token,
-      true
-    );
+    const { token, refreshToken, user } = response;
+    AuthStorage.setAuthTokens(token, refreshToken, true);
     AuthStorage.setStorageJsonData(
       AuthStorage.STORAGEKEY.userData,
       user,

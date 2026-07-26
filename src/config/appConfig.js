@@ -9,6 +9,7 @@ const appConfig = {
   defaultPerPage: 9999999,
   localStorage: {
     token: "jewellery-bearer-token", // for saving bearer token
+    refreshToken: "jewellery-refresh-token",
   },
 
   persistKey: {

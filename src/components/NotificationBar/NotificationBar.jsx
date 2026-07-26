@@ -132,7 +132,11 @@ const NotificationBar = ({ container }) => {
 
   useEffect(() => {
     if (userData?.id) {
-      const socket = io(apiConfig.publicURL);
+      const socket = io(apiConfig.publicURL, {
+        path: "/socket.io/",
+        transports: ["websocket", "polling"],
+        withCredentials: true,
+      });
       socket.emit("room", `admin-notifications-${userData?.id}`);
       socket.on("notification", (data) => {
         setNotificationsArray(prevNotifications => {

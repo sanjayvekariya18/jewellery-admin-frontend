@@ -1,5 +1,6 @@
 export const apiEndPoint = {
   login: "login",
+  refreshToken: "refresh-token",
   lab: "lab",
   shape: "shape",
   productDetailsGroup: "productDetailsGroup",

@@ -6,6 +6,7 @@ class AuthStorage {
 		user_id: "user_id",
 		name: "name",
 		access_token: appConfig.localStorage.token,
+		refresh_token: appConfig.localStorage.refreshToken,
 	};
 
 	static setStorageData(key, data, keepMeLoggedIn) {
@@ -31,6 +32,19 @@ class AuthStorage {
 			: sessionStorage.getItem(this.STORAGEKEY.access_token);
 	}
 
+	static getRefreshToken() {
+		return localStorage.getItem(this.STORAGEKEY.refresh_token)
+			? localStorage.getItem(this.STORAGEKEY.refresh_token)
+			: sessionStorage.getItem(this.STORAGEKEY.refresh_token);
+	}
+
+	static setAuthTokens(token, refreshToken, keepMeLoggedIn = true) {
+		this.setStorageData(this.STORAGEKEY.access_token, token, keepMeLoggedIn);
+		if (refreshToken) {
+			this.setStorageData(this.STORAGEKEY.refresh_token, refreshToken, keepMeLoggedIn);
+		}
+	}
+
 	static getUserId() {
 		return localStorage.getItem(this.STORAGEKEY.user_id)
 			? localStorage.getItem(this.STORAGEKEY.user_id)
@@ -42,16 +56,15 @@ class AuthStorage {
 	}
 
 	static deauthenticateUser() {
-		Object.keys(this.STORAGEKEY).forEach(key => {
-			this.deleteKey(key);
-		})
+		Object.values(this.STORAGEKEY).forEach((storageKey) => {
+			this.deleteKey(storageKey);
+		});
 	}
 
 	static deleteKey(key) {
+		localStorage.removeItem(key);
 		sessionStorage.removeItem(key);
-		sessionStorage.removeItem(appConfig.localStorage.token);
 	}
-
 }
 
 export default AuthStorage;

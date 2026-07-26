@@ -23,7 +23,6 @@ import { Select } from "react-select-virtualized";
 import ChangePassword from "../../../pages/Master/User/User/ChangePassword";
 import { HELPER } from "../../../services";
 import NotificationBar from "../../NotificationBar/NotificationBar";
-import { appConfig } from "../../../config";
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -113,7 +112,6 @@ const Layout1Topbar = () => {
 
   const handleLogout = () => {
     logout();
-    window.localStorage.removeItem(appConfig.localStorage.token);
   };
 
   // -------- Search Bar --------------------

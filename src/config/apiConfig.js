@@ -16,6 +16,7 @@ const apiConfig = {
   user: "user",
   // auth apis
   login: "login", // admin login
+  refreshToken: "refresh-token",
 
   // Categories Api
   category: "category",
