@@ -34,6 +34,7 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
 
       API.post(apiConfig.ColoredBulk, formData, {
         headers: { "Content-Type": "multipart/form-data" },
+        skipErrorToaster: true,
       })
         .then((res) => {
           HELPER.toaster.success("ColoredBulk Bulk added successfully");
@@ -42,19 +43,21 @@ const ColorDiamondBulkMasterDetails = ({ open, togglePopup, callBack }) => {
           callBack();
         })
         .catch((error) => {
-          HELPER.toaster.error("Please Check your Excel sheet...");
+          // Show bulk validation/duplicate errors only in the existing error modal.
           if (
             error.errors &&
             error.errors.message &&
             typeof error.errors.message === "object"
           ) {
             setErrorState(error.errors.message);
+            setErr("");
             setErrorModel(true);
           } else {
+            setErrorState({});
             setErr(
               error.errors && error.errors.message
                 ? error.errors.message
-                : error
+                : "Please check your Excel sheet."
             );
             setErrorModel(true);
           }

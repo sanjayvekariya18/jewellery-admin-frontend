@@ -202,8 +202,13 @@ const errorHandler = async (error) => {
         : 501,
   };
 
-  if ([400, 403].includes(_obj.status)) {
-    HELPER.toaster.error(_obj.errors?.message);
+  // Pages that show their own error UI (e.g. bulk Excel modal) can set skipErrorToaster.
+  if (
+    [400, 403, 409].includes(_obj.status) &&
+    !error?.config?.skipErrorToaster &&
+    typeof _obj.errors?.message === "string"
+  ) {
+    HELPER.toaster.error(_obj.errors.message);
   }
 
   return Promise.reject(_obj);
